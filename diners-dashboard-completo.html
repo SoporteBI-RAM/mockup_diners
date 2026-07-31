@@ -469,6 +469,12 @@
   [data-page="social"] .obj-filter-btn[data-active="true"] { background: #4F52E5; border-color: #4F52E5; color: #fff; }
   [data-page="social"] .sm-net-icon { width: 15px; height: 15px; flex: none; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; }
   [data-page="social"] .sm-net-icon svg { width: 100%; height: 100%; display: block; }
+  [data-page="social"] .sm-city-row { cursor: pointer; }
+  [data-page="social"] .sm-city-row:hover { background: #FAFAFB; }
+  [data-page="social"] .sm-city-expand-icon { display: inline-block; width: 13px; color: #8b8b8b; font-size: 9px; }
+  [data-page="social"] .sm-network-subrow td:first-child { padding-left: 26px; }
+  [data-page="social"] .sm-network-subrow { background: #FAFAFB; }
+  [data-page="social"] .sm-network-subrow .network-name-cell { color: #6b6b6b; font-weight: 500; }
   [data-page="social"] .sm-kpi-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
   [data-page="social"] .sm-mini-kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
   [data-page="social"] .sm-mini-kpi-value { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
@@ -1338,7 +1344,7 @@
 
         <div class="zone zone-pad" style="margin-top:14px;">
           <div class="zone-title" style="margin-bottom:2px;">Comunidad por ciudad</div>
-          <div class="hero-caption" style="margin-top:0;margin-bottom:10px;">Distribución geográfica de la comunidad total (agregado de todas las marcas y redes), corte del mes seleccionado.</div>
+          <div class="hero-caption" style="margin-top:0;margin-bottom:10px;">Distribución geográfica de la comunidad total (agregado de todas las marcas), corte del mes seleccionado. Clic en una ciudad para ver su desglose por red social — usa el mismo mix agregado de red en todas las ciudades (no hay dato real de red por ciudad).</div>
           <table class="network-table">
             <thead><tr><th>Ciudad</th><th>Seguidores</th><th>% de la comunidad</th></tr></thead>
             <tbody id="sm-cityTableBody"></tbody>
@@ -1375,7 +1381,7 @@
         <div class="caveat-box"><span>⚠️</span><span>TITANIUM tiene la menor base de seguidores, pero el mayor engagement rate y el mayor crecimiento relativo: segmento pequeño pero muy activo.</span></div>
 
         <div class="zone zone-pad" style="margin-top:14px;">
-          <div class="zone-title" style="margin-bottom:10px;">Desempeño por red social</div>
+          <div class="zone-title fx" id="sm-networkTableTitle" style="margin-bottom:10px;">Desempeño por red social</div>
           <table class="network-table">
             <thead><tr><th>Red</th><th>Seguidores</th><th>Engagement rate</th><th>Crecimiento</th><th>vs. año anterior</th></tr></thead>
             <tbody id="sm-networkTableBody">
@@ -1387,7 +1393,7 @@
         <div class="sm-section-divider"></div>
         <div class="section-note" style="margin-bottom:10px;">Comunicación orgánica — corte del periodo actual (no varía con el filtro de mes).</div>
         <div class="zone-label">Comunicación orgánica</div>
-        <div class="zone-title" style="margin-bottom:12px;">Piezas de comunicación — desempeño</div>
+        <div class="zone-title fx" id="sm-pieceTitle" style="margin-bottom:12px;">Piezas de comunicación — desempeño</div>
         <div class="sm-mini-kpi-row">
           <div class="zone zone-pad">
             <div class="sm-mini-kpi-value" id="sm-pieceViews">284,500</div>
@@ -3534,13 +3540,16 @@
 
   /* ================= PIEZAS DE COMUNICACIÓN — corte del periodo actual, no reactivo a mes ================= */
   const SM_PIECES = [
-    { name: 'Reel lanzamiento trivia', red: 'Instagram', views: 92400, reach: 78200, clicks: 1840 },
-    { name: 'Video Modo Fútbol', red: 'TikTok', views: 74300, reach: 60100, clicks: 490 },
-    { name: 'Post restaurantes', red: 'Facebook', views: 41200, reach: 36100, clicks: 620 },
-    { name: 'Story CTA registro', red: 'Instagram', views: 38700, reach: 34500, clicks: 980 },
-    { name: 'Carrusel premios', red: 'Instagram', views: 37900, reach: 28400, clicks: 234 },
+    { name: 'Reel lanzamiento trivia', red: 'Instagram', brand: 'Diners', views: 92400, reach: 78200, clicks: 1840 },
+    { name: 'Post restaurantes', red: 'Facebook', brand: 'Diners', views: 41200, reach: 36100, clicks: 620 },
+    { name: 'Carrusel premios', red: 'Instagram', brand: 'Diners', views: 37900, reach: 28400, clicks: 234 },
+    { name: 'Video Modo Fútbol', red: 'TikTok', brand: 'TITANIUM', views: 74300, reach: 60100, clicks: 490 },
+    { name: 'Story Beneficios Viajero', red: 'Instagram', brand: 'TITANIUM', views: 18500, reach: 15200, clicks: 612 },
+    { name: 'Story CTA registro', red: 'Instagram', brand: 'Discover', views: 38700, reach: 34500, clicks: 980 },
+    { name: 'Post Cashback Discover', red: 'Facebook', brand: 'Discover', views: 9800, reach: 8100, clicks: 145 },
   ];
-  const SM_PIECES_REACH_TOTAL = 198300; // alcance único deduplicado — no es la suma de las piezas (hay solape de audiencia)
+  // Ratio de alcance único (deduplicado) sobre la suma de alcances individuales — hay solape de audiencia entre piezas
+  const SM_PIECES_REACH_OVERLAP = 198300 / (78200 + 60100 + 36100 + 34500 + 28400);
 
   /* ================= INFLUENCER MARKETING — corte del periodo actual, no reactivo a mes ================= */
   const SM_INFLUENCERS = [
@@ -3616,40 +3625,84 @@
   function SM_renderCityTable(vd) {
     const body = document.getElementById('sm-cityTableBody');
     const ranked = [...SM_CITY_SHARE].sort((a, b) => b.pct - a.pct);
+    const netOrder = ['Instagram', 'Facebook', 'TikTok', 'LinkedIn', 'X'];
     body.innerHTML = ranked.map(c => {
       const now = Math.round(vd.total * (c.pct / 100));
-      return `<tr><td>${c.name}${c.prov !== '—' ? ` <span style="color:#8b8b8b;font-weight:400;">(${c.prov})</span>` : ''}</td>` +
+      const key = 'city-' + c.name.replace(/[^a-zA-Z]/g, '');
+      const mainRow = `<tr class="sm-city-row" data-expand-target="${key}"><td><span class="sm-city-expand-icon">▸</span>${c.name}${c.prov !== '—' ? ` <span style="color:#8b8b8b;font-weight:400;">(${c.prov})</span>` : ''}</td>` +
         `<td class="metric">${now.toLocaleString('en-US')}</td>` +
         `<td class="metric">${c.pct}%</td></tr>`;
+      const subRows = netOrder.map(k => {
+        const netNow = Math.round(now * (vd.networkShare[k] / 100));
+        return `<tr class="sm-network-subrow" data-parent="${key}" style="display:none;"><td><div class="network-name-cell"><span class="sm-net-icon">${SM_NETWORK_ICON[k]}</span>${k}</div></td>` +
+          `<td class="metric">${netNow.toLocaleString('en-US')}</td>` +
+          `<td class="metric">${vd.networkShare[k]}%</td></tr>`;
+      }).join('');
+      return mainRow + subRows;
     }).join('');
+    body.querySelectorAll('.sm-city-row').forEach(row => {
+      row.addEventListener('click', () => {
+        const key = row.getAttribute('data-expand-target');
+        const icon = row.querySelector('.sm-city-expand-icon');
+        const children = [...body.querySelectorAll(`[data-parent="${key}"]`)];
+        const willShow = children[0].style.display === 'none';
+        children.forEach(ch => { ch.style.display = willShow ? '' : 'none'; });
+        icon.textContent = willShow ? '▾' : '▸';
+      });
+    });
   }
 
-  function SM_renderNetworkTable(vd, cd, yd) {
-    const order = ['Instagram', 'Facebook', 'TikTok', 'LinkedIn', 'X'];
+  // Afinidad relativa de cada marca por red — TITANIUM (segmento premium) sobre-indexa LinkedIn/X,
+  // Discover (co-branded, audiencia joven) sobre-indexa TikTok/Facebook. Diners Club queda cerca del agregado.
+  const SM_BRAND_NETWORK_INDEX = {
+    Diners: { Instagram: 1.0, Facebook: 1.1, TikTok: 0.8, LinkedIn: 0.9, X: 1.0 },
+    TITANIUM: { Instagram: 1.15, Facebook: 0.55, TikTok: 0.45, LinkedIn: 2.0, X: 1.3 },
+    Discover: { Instagram: 0.9, Facebook: 1.35, TikTok: 1.45, LinkedIn: 0.35, X: 0.65 },
+  };
+  const SM_NET_ORDER = ['Instagram', 'Facebook', 'TikTok', 'LinkedIn', 'X'];
+  function SM_brandNetworkFollowers(brand, key, vd) {
+    let sum = 0;
+    const raw = {};
+    SM_NET_ORDER.forEach(n => { raw[n] = vd.networkShare[n] * SM_BRAND_NETWORK_INDEX[brand][n]; sum += raw[n]; });
+    return vd.brands[brand].followers * (raw[key] / sum);
+  }
+
+  function SM_renderNetworkTable(vd, cd, yd, activeBrand) {
+    const titleEl = document.getElementById('sm-networkTableTitle');
+    if (titleEl) titleEl.textContent = activeBrand ? `Desempeño por red social — ${SM_BRAND_LABEL[activeBrand]}` : 'Desempeño por red social';
     const body = document.getElementById('sm-networkTableBody');
-    body.innerHTML = order.map(k => {
-      const n = vd.networks[k], c = cd.networks[k];
-      const growth = relDelta(n.followers, c.followers);
-      const growthYoy = yd ? relDelta(n.followers, yd.networks[k].followers) : null;
+    body.innerHTML = SM_NET_ORDER.map(k => {
+      const now = activeBrand ? SM_brandNetworkFollowers(activeBrand, k, vd) : vd.networks[k].followers;
+      const cmp = activeBrand ? SM_brandNetworkFollowers(activeBrand, k, cd) : cd.networks[k].followers;
+      const growth = relDelta(now, cmp);
+      const yoyBase = yd ? (activeBrand ? SM_brandNetworkFollowers(activeBrand, k, yd) : yd.networks[k].followers) : null;
+      const growthYoy = yoyBase !== null ? relDelta(now, yoyBase) : null;
       return `<tr><td><div class="network-name-cell"><span class="sm-net-icon">${SM_NETWORK_ICON[k]}</span>${k}</div></td>` +
-        `<td class="metric">${n.followers.toLocaleString('en-US')}</td>` +
-        `<td class="metric">${n.engagement}%</td>` +
+        `<td class="metric">${Math.round(now).toLocaleString('en-US')}</td>` +
+        `<td class="metric">${vd.networks[k].engagement}%</td>` +
         `<td class="metric">${deltaText(growth)}</td>` +
         `<td class="metric">${growthYoy !== null ? deltaText(growthYoy) : 'Sin histórico'}</td></tr>`;
     }).join('');
   }
 
-  function SM_renderPieces() {
-    const totalViews = SM_PIECES.reduce((s, p) => s + p.views, 0);
-    const totalClicks = SM_PIECES.reduce((s, p) => s + p.clicks, 0);
-    const ctrTotal = (totalClicks / SM_PIECES_REACH_TOTAL) * 100;
+  function SM_renderPieces(activeBrand) {
+    const pieces = activeBrand ? SM_PIECES.filter(p => p.brand === activeBrand) : SM_PIECES;
+    const titleEl = document.getElementById('sm-pieceTitle');
+    if (titleEl) titleEl.textContent = activeBrand ? `Piezas de comunicación — ${SM_BRAND_LABEL[activeBrand]}` : 'Piezas de comunicación — desempeño';
+
+    const totalViews = pieces.reduce((s, p) => s + p.views, 0);
+    const totalClicks = pieces.reduce((s, p) => s + p.clicks, 0);
+    const totalReach = Math.round(pieces.reduce((s, p) => s + p.reach, 0) * SM_PIECES_REACH_OVERLAP);
+    const ctrTotal = totalReach ? (totalClicks / totalReach) * 100 : 0;
     document.getElementById('sm-pieceViews').textContent = totalViews.toLocaleString('en-US');
-    document.getElementById('sm-pieceReach').textContent = SM_PIECES_REACH_TOTAL.toLocaleString('en-US');
+    document.getElementById('sm-pieceReach').textContent = totalReach.toLocaleString('en-US');
     document.getElementById('sm-pieceCtr').textContent = ctrTotal.toFixed(1) + '%';
     document.getElementById('sm-pieceClicks').textContent = totalClicks.toLocaleString('en-US');
 
-    const ranked = [...SM_PIECES].sort((a, b) => (b.clicks / b.reach) - (a.clicks / a.reach));
-    document.getElementById('sm-piecesTableBody').innerHTML = ranked.map(p => {
+    const body = document.getElementById('sm-piecesTableBody');
+    if (!pieces.length) { body.innerHTML = `<tr><td colspan="6" style="text-align:center;color:#8b8b8b;">Sin piezas registradas para ${SM_BRAND_LABEL[activeBrand]} en este periodo.</td></tr>`; return; }
+    const ranked = [...pieces].sort((a, b) => (b.clicks / b.reach) - (a.clicks / a.reach));
+    body.innerHTML = ranked.map(p => {
       const ctr = (p.clicks / p.reach) * 100;
       return `<tr><td>${p.name}</td><td><div class="network-name-cell"><span class="sm-net-icon">${SM_NETWORK_ICON[p.red]}</span>${p.red}</div></td>` +
         `<td class="metric">${p.views.toLocaleString('en-US')}</td>` +
@@ -3818,13 +3871,13 @@
     SM_renderBrandRace(vd, cd, yd);
     SM_applyXf(); // las filas de la carrera se recrean en cada render — reaplicar resaltado de la marca activa
     SM_renderCityTable(vd);
-    SM_renderNetworkTable(vd, cd, yd);
+    SM_renderNetworkTable(vd, cd, yd, activeBrand);
+    SM_renderPieces(activeBrand);
     SM_renderT1Summary(vd, cd, yd, cmpMonth, yoyMonth, activeBrand);
   }
   SM_viewSel.addEventListener('change', () => { ensureMonthsDiffer(SM_viewSel, SM_cmpSel); SM_updateComparison(); });
   SM_cmpSel.addEventListener('change', () => { ensureMonthsDiffer(SM_cmpSel, SM_viewSel); SM_updateComparison(); });
   SM_updateComparison();
-  SM_renderPieces();
   SM_renderInfluencers();
 
   })();
