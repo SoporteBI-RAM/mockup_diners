@@ -977,7 +977,7 @@
         <div class="insight-box fx" id="pm-perfInsight" style="margin-bottom:12px;"><span>💡</span><span></span></div>
         <div class="hero-caption" style="margin-bottom:8px;">Clic en una plataforma para ver sus campañas por tipo de objetivo, y en un tipo para ver cada campaña.</div>
         <table class="perf-table">
-          <thead><tr><th>Plataforma</th><th>CTR</th><th>VTR</th><th>CVR</th><th>Alcance</th></tr></thead>
+          <thead><tr><th>Plataforma</th><th>Gasto</th><th>CTR</th><th>VTR</th><th>CVR</th><th>Alcance</th></tr></thead>
           <tbody id="pm-perfTableBody"></tbody>
         </table>
       </div>
@@ -2124,10 +2124,16 @@
     const bestByMetric = {};
     metrics.forEach(m => { bestByMetric[m] = platforms.reduce((a, b) => values[a][m] >= values[b][m] ? a : b); });
 
+    // Real $ spend per platform (vd.mix[p] × total Paid Media invested) — the same anchor already
+    // used everywhere else on this tab, so Gasto is never a separate invented number.
+    const spendOf = (p, vd_) => vd_.invested * (vd_.mix[p] / 100);
     let html = '';
     platforms.forEach(p => {
       const types = PM_TIMELINE_TYPES.filter(t => PM_CAMPAIGN_GROUPS[t].channels.includes(p));
       const fmt = (m, v) => m === 'alcance' ? v.toFixed(0) + '%' : v.toFixed(2) + '%';
+      const spendV = spendOf(p, vd), spendC = spendOf(p, cd), spendY = yd ? spendOf(p, yd) : null;
+      const spendD = relDelta(spendV, spendC), spendDy = spendY !== null ? relDelta(spendV, spendY) : null;
+      const spendCell = `<td class="metric">${PM_fmtCompactUSD(spendV)}<div class="perf-metric-delta"><span class="${spendD >= 0 ? 'good' : 'bad'}">${deltaText(spendD)}</span><span class="yoy ${spendDy !== null ? (spendDy >= 0 ? 'good' : 'bad') : ''}">${spendDy !== null ? deltaText(spendDy) + ' AA' : 'Sin histórico'}</span></div></td>`;
       const cells = metrics.map(m => {
         const v = values[p][m];
         const c = PM_computePerfMetric(p, m, cd);
@@ -2138,18 +2144,22 @@
       }).join('');
       html += `<tr class="perf-row" data-platform="${p}" data-expand-target="platform-${p}">
         <td><div class="perf-platform"><span class="perf-expand-icon">▸</span>${PM_platformIcon(p, PM_PLATFORM_COLOR[p])}${p}</div></td>
+        ${spendCell}
         ${cells}
       </tr>`;
       types.forEach(t => {
         const group = PM_CAMPAIGN_GROUPS[t];
         const activeCount = group.campaigns.filter(c => c.status === 'active').length;
         const closedCount = group.campaigns.filter(c => c.status === 'finished').length;
+        const totalMediaVd = vd.invested / (vd.channels.Paid / 100);
+        const typeSpend = (t === 'Season' ? totalMediaVd : vd.invested) * PM_OBJ_SPEND_SHARE[t];
+        const typeSpendOnPlatform = typeSpend * ((PM_GOAL_CONTRIB[t].view[p] || 0) / 100);
         html += `<tr class="perf-type-row" data-parent="platform-${p}" data-expand-target="type-${p}-${t}" style="display:none;">
-          <td colspan="5"><div class="perf-type-cell"><span class="perf-expand-icon">▸</span><span class="campaign-badge" style="background:${PM_OBJ_COLOR[t]}22;color:${PM_OBJ_COLOR[t]};">${t}</span><span class="perf-type-summary">${group.campaigns.length} campañas · ${activeCount} activas · ${closedCount} cerradas</span></div></td>
+          <td colspan="6"><div class="perf-type-cell"><span class="perf-expand-icon">▸</span><span class="campaign-badge" style="background:${PM_OBJ_COLOR[t]}22;color:${PM_OBJ_COLOR[t]};">${t}</span><span class="perf-type-summary">${group.campaigns.length} campañas · ${activeCount} activas · ${closedCount} cerradas · ${PM_fmtCompactUSD(typeSpendOnPlatform)} invertido en ${p}</span></div></td>
         </tr>`;
         group.campaigns.forEach(camp => {
           html += `<tr class="perf-campaign-row" data-parent="type-${p}-${t}" style="display:none;">
-            <td colspan="5"><div class="perf-campaign-cell">
+            <td colspan="6"><div class="perf-campaign-cell">
               <span class="perf-campaign-name">${camp.name}</span>
               <span class="perf-campaign-period">${camp.period}</span>
               <span class="perf-campaign-spend">${camp.spend}</span>
@@ -3021,6 +3031,19 @@
     if (share === undefined) return null;
     return PM_timelineTypeSeries(type).map(v => v * (share / 100));
   }
+  // "objetivo" here means the objective's own KPI metric (Alcance/Transacciones/Cuentas), not a
+  // budget target — real per-month values already on the tab (vd.goals[type]), so this is the actual
+  // "invertí más en enero, tuve más alcance" evolution, not a flat reference line.
+  const PM_TIMELINE_METRIC_LABEL = { Season: 'Alcance', Establecimientos: 'Transacciones', Onboarding: 'Cuentas abiertas' };
+  const PM_TIMELINE_METRIC_FMT = { Season: v => PM_fmtCompactNum(v), Establecimientos: v => Math.round(v).toLocaleString('en-US'), Onboarding: v => Math.round(v).toLocaleString('en-US') };
+  function PM_timelineMetricSeries(type) {
+    return PM_TIMELINE_MONTHS.map(m => PM_MONTH_DATA[m].goals[type]);
+  }
+  function PM_timelineMedioMetricSeries(type, medioKey) {
+    const share = PM_GOAL_CONTRIB[type] && PM_GOAL_CONTRIB[type].view[medioKey];
+    if (share === undefined) return null;
+    return PM_timelineMetricSeries(type).map(v => v * (share / 100));
+  }
   let PM_timelineType = 'ALL';
   let PM_timelineMedio = 'ALL';
   function PM_populateTimelineMedioOptions(type) {
@@ -3038,18 +3061,17 @@
     const peakFlagEl = document.getElementById('pm-timelinePeakFlag');
     const peakAnnotEl = document.getElementById('pm-timelinePeakAnnotation');
     if (!svg) return;
-    const W = 1080, H = 140, padL = 44, padR = 10, padT = 8, padB = 22;
-    const plotW = W - padL - padR, plotH = H - padT - padB;
-    const stepX = plotW / (PM_TIMELINE_MONTHS.length - 1);
-    const targetMonthly = 850000 / 12; // annual Paid Media budget already shown at the top of this tab
+    const W = 1080, padL = 50, padR = 10;
+    const stepX = (W - padL - padR) / (PM_TIMELINE_MONTHS.length - 1);
     let out = '';
-    let seriesForTooltip; // [{label, color, values}]
 
     if (PM_timelineType === 'ALL') {
       legendEl.style.display = '';
+      const H = 140, padT = 8, padB = 22, plotH = H - padT - padB;
+      svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
       const seriesVals = PM_TIMELINE_TYPES.map(t => PM_timelineTypeSeries(t));
       const totals = PM_TIMELINE_MONTHS.map((_, i) => seriesVals.reduce((a, s) => a + s[i], 0));
-      const maxTotal = Math.max(Math.max(...totals), targetMonthly) * 1.15;
+      const maxTotal = Math.max(...totals) * 1.15;
       for (let g = 0; g <= 3; g++) { const y = padT + (plotH / 3) * g; out += `<line x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}" stroke="#eef1f3" stroke-width="1"></line>`; }
       PM_TIMELINE_TYPES.forEach((t, s) => {
         const color = PM_OBJ_COLOR[t];
@@ -3064,40 +3086,53 @@
         const d = 'M' + topPts.map(p => p.join(',')).join(' L') + ' L' + basePts.slice().reverse().map(p => p.join(',')).join(' L') + ' Z';
         out += `<path d="${d}" fill="${color}" opacity="0.85"></path>`;
       });
-      const targetY = padT + plotH - (targetMonthly / maxTotal) * plotH;
-      out += `<line x1="${padL}" y1="${targetY}" x2="${W - padR}" y2="${targetY}" stroke="#EE0000" stroke-width="1.5" stroke-dasharray="5,4"></line>`;
-      seriesForTooltip = { totals, maxTotal };
       const peakIdx = totals.indexOf(Math.max(...totals));
       peakFlagEl.textContent = `Pico de inversión: ${PM_TIMELINE_MONTH_SHORT[peakIdx]} 2026 (${PM_fmtCompactUSD(totals[peakIdx])})`;
       peakAnnotEl.style.left = (5 + (peakIdx / (PM_TIMELINE_MONTHS.length - 1)) * 88) + '%';
+      PM_TIMELINE_MONTHS.forEach((m, i) => {
+        const x = padL + i * stepX;
+        out += `<text x="${x}" y="${H - 6}" text-anchor="middle" font-size="10.5" fill="#8b8b8b">${PM_TIMELINE_MONTH_SHORT[i]}</text>`;
+        const detail = PM_TIMELINE_TYPES.map(t => t + ': ' + PM_fmtCompactUSD(seriesVals[PM_TIMELINE_TYPES.indexOf(t)][i])).join(' · ');
+        out += `<rect data-tt="${m} · Inversión ${PM_fmtCompactUSD(totals[i])}" data-ttv="${detail}" x="${x - stepX / 2}" y="0" width="${stepX}" height="${H}" fill="transparent"></rect>`;
+      });
     } else {
+      // "Inversión vs. objetivo" = two aligned mini time series sharing the same months, NOT one
+      // dual-axis chart (different units — $ vs. Alcance/Transacciones/Cuentas — can never share an
+      // axis honestly) — this is exactly the "two charts, small multiples" case the dataviz skill
+      // calls for instead of a second y-axis.
       legendEl.style.display = 'none';
-      const values = PM_timelineMedio !== 'ALL' ? PM_timelineMedioSeries(PM_timelineType, PM_timelineMedio) : PM_timelineTypeSeries(PM_timelineType);
+      const invValues = PM_timelineMedio !== 'ALL' ? PM_timelineMedioSeries(PM_timelineType, PM_timelineMedio) : PM_timelineTypeSeries(PM_timelineType);
+      const metricValues = PM_timelineMedio !== 'ALL' ? PM_timelineMedioMetricSeries(PM_timelineType, PM_timelineMedio) : PM_timelineMetricSeries(PM_timelineType);
       const color = PM_timelineMedio !== 'ALL' ? (PM_GOAL_CONTRIB_COLOR[PM_timelineMedio] || PM_OBJ_COLOR[PM_timelineType]) : PM_OBJ_COLOR[PM_timelineType];
-      const maxV = Math.max(Math.max(...values), targetMonthly) * 1.15;
-      for (let g = 0; g <= 3; g++) { const y = padT + (plotH / 3) * g; out += `<line x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}" stroke="#eef1f3" stroke-width="1"></line>`; }
-      const areaPts = PM_TIMELINE_MONTHS.map((_, i) => [padL + i * stepX, padT + plotH - (values[i] / maxV) * plotH]);
-      const areaD = 'M' + areaPts.map(p => p.join(',')).join(' L') + ` L${W - padR},${padT + plotH} L${padL},${padT + plotH} Z`;
-      out += `<path d="${areaD}" fill="${color}" opacity="0.18"></path>`;
-      out += `<path d="M${areaPts.map(p => p.join(',')).join(' L')}" fill="none" stroke="${color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path>`;
-      areaPts.forEach(([x, y]) => { out += `<circle cx="${x}" cy="${y}" r="3.5" fill="${color}"></circle>`; });
-      const targetY = padT + plotH - (targetMonthly / maxV) * plotH;
-      out += `<line x1="${padL}" y1="${targetY}" x2="${W - padR}" y2="${targetY}" stroke="#EE0000" stroke-width="1.5" stroke-dasharray="5,4"></line>`;
-      seriesForTooltip = { values, maxV };
-      const peakIdx = values.indexOf(Math.max(...values));
+      const metricLabel = PM_TIMELINE_METRIC_LABEL[PM_timelineType];
+      const metricFmt = PM_TIMELINE_METRIC_FMT[PM_timelineType];
+      const H = 216, padT = 20, bandH = 62, bandGap = 24, padB = 22;
+      const band1Y0 = padT, band1Y1 = padT + bandH;
+      const band2Y0 = band1Y1 + bandGap, band2Y1 = band2Y0 + bandH;
+      svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+      const drawBand = (values, y0, y1, fillColor, label, fmt) => {
+        const maxV = Math.max(...values) * 1.2 || 1;
+        for (let g = 0; g <= 2; g++) { const y = y0 + ((y1 - y0) / 2) * g; out += `<line x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}" stroke="#eef1f3" stroke-width="1"></line>`; }
+        const pts = PM_TIMELINE_MONTHS.map((_, i) => [padL + i * stepX, y1 - (values[i] / maxV) * (y1 - y0)]);
+        const areaD = 'M' + pts.map(p => p.join(',')).join(' L') + ` L${pts[pts.length - 1][0]},${y1} L${pts[0][0]},${y1} Z`;
+        out += `<path d="${areaD}" fill="${fillColor}" opacity="0.16"></path>`;
+        out += `<path d="M${pts.map(p => p.join(',')).join(' L')}" fill="none" stroke="${fillColor}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>`;
+        pts.forEach(([x, y]) => { out += `<circle cx="${x}" cy="${y}" r="3" fill="${fillColor}"></circle>`; });
+        out += `<text x="${padL}" y="${y0 - 7}" font-size="10" font-weight="700" fill="#262626">${label}</text>`;
+        return pts;
+      };
+      drawBand(invValues, band1Y0, band1Y1, color, 'Inversión', PM_fmtCompactUSD);
+      drawBand(metricValues, band2Y0, band2Y1, color, metricLabel, metricFmt);
+      const peakIdx = invValues.indexOf(Math.max(...invValues));
       const label = PM_timelineMedio !== 'ALL' ? (PM_MEDIO_LABEL[PM_timelineMedio] || PM_timelineMedio) : PM_timelineType;
-      peakFlagEl.textContent = `Pico de ${label}: ${PM_TIMELINE_MONTH_SHORT[peakIdx]} 2026 (${PM_fmtCompactUSD(values[peakIdx])})`;
+      peakFlagEl.textContent = `${PM_TIMELINE_MONTH_SHORT[peakIdx]}: mayor inversión en ${label} (${PM_fmtCompactUSD(invValues[peakIdx])}) → ${metricLabel.toLowerCase()} ${metricFmt(metricValues[peakIdx])}`;
       peakAnnotEl.style.left = (5 + (peakIdx / (PM_TIMELINE_MONTHS.length - 1)) * 88) + '%';
+      PM_TIMELINE_MONTHS.forEach((m, i) => {
+        const x = padL + i * stepX;
+        out += `<text x="${x}" y="${H - 6}" text-anchor="middle" font-size="10.5" fill="#8b8b8b">${PM_TIMELINE_MONTH_SHORT[i]}</text>`;
+        out += `<rect data-tt="${m} · Inversión ${PM_fmtCompactUSD(invValues[i])}" data-ttv="${metricLabel}: ${metricFmt(metricValues[i])}" x="${x - stepX / 2}" y="0" width="${stepX}" height="${H}" fill="transparent"></rect>`;
+      });
     }
-
-    PM_TIMELINE_MONTHS.forEach((m, i) => {
-      const x = padL + i * stepX;
-      out += `<text x="${x}" y="${H - 6}" text-anchor="middle" font-size="10.5" fill="#8b8b8b">${PM_TIMELINE_MONTH_SHORT[i]}</text>`;
-      const total = PM_timelineType === 'ALL' ? seriesForTooltip.totals[i] : seriesForTooltip.values[i];
-      const detail = PM_timelineType === 'ALL' ? PM_TIMELINE_TYPES.map(t => t + ': ' + PM_fmtCompactUSD(PM_timelineTypeSeries(t)[i])).join(' · ') : `Objetivo mensual: ${PM_fmtCompactUSD(targetMonthly)}`;
-      out += `<rect data-tt="${m} · Inversión ${PM_fmtCompactUSD(total)}" data-ttv="${detail}" x="${x - stepX / 2}" y="0" width="${stepX}" height="${H}" fill="transparent"></rect>`;
-    });
-    out += `<text x="${W - padR}" y="${padT + plotH - (targetMonthly / (PM_timelineType === 'ALL' ? seriesForTooltip.maxTotal : seriesForTooltip.maxV)) * plotH - 4}" text-anchor="end" font-size="9" fill="#EE0000">Objetivo mensual: ${PM_fmtCompactUSD(targetMonthly)}</text>`;
     svg.innerHTML = out;
   }
   PM_renderTimeline();
