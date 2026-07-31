@@ -174,15 +174,20 @@
   .rse-semester-arrow { font-size: 18px; color: #8b8b8b; }
 
   /* ================= ACTIVOS DIGITALES ================= */
-  .ad-kpi-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 14px; }
-  .ad-kpi-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
-  .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-  .product-card-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
-  .events-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-  .events-table th { text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: 0.04em; color: #8b8b8b; font-weight: 700; padding: 5px 7px; border-bottom: 1px solid #e6e5ea; }
-  .events-table td { padding: 8px 7px; border-bottom: 1px solid #eef1f3; }
-  .events-table tbody tr:hover { background: #F8F7FC; }
-  .events-table td.metric { font-variant-numeric: tabular-nums; font-weight: 600; }
+  [data-page="digital"] .ad-mini-kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 14px; }
+  [data-page="digital"] .ad-mini-kpi-value { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+  [data-page="digital"] .ad-tag { display: inline-block; font-size: 8.5px; font-weight: 700; padding: 2px 6px; border-radius: 999px; margin-left: 6px; text-transform: uppercase; letter-spacing: 0.02em; vertical-align: middle; }
+  [data-page="digital"] .ad-tag.real { background: rgba(0,128,56,0.1); color: #008038; }
+  [data-page="digital"] .ad-tag.ilustrativo { background: #F3F3F6; color: #6b6b6b; }
+  [data-page="digital"] .ad-meta-track { height: 8px; border-radius: 4px; background: #eef1f3; overflow: hidden; min-width: 70px; }
+  [data-page="digital"] .ad-meta-fill { height: 100%; border-radius: 4px; transition: transform 0.5s ease; transform-origin: left; }
+  [data-page="digital"] .ad-donut-row { display: flex; gap: 22px; flex-wrap: wrap; align-items: center; }
+  [data-page="digital"] .ad-donut-row .pie-wrap { flex: 1; min-width: 200px; }
+  [data-page="digital"] .ad-mini-gauge-row { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+  [data-page="digital"] .ad-mini-gauge-item { text-align: center; flex: 1; min-width: 78px; }
+  [data-page="digital"] .ad-mini-gauge-item svg { width: 66px; height: auto; }
+  [data-page="digital"] .ad-mini-gauge-label { font-size: 10px; color: #6b6b6b; margin-top: 2px; }
+  [data-page="digital"] .ad-mini-gauge-value { font-size: 12.5px; font-weight: 700; }
 
   /* ================= SHARED ACROSS SUB-ÁREA PAGES (Paid/Own/Social/RSE/Digital) ================= */
   .contrib-seg { transition: width 1s cubic-bezier(.16,.84,.32,1); }
@@ -649,8 +654,8 @@
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#55637A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 9h.01M15 9h.01M8 13a4 4 0 0 0 8 0"></path><circle cx="12" cy="12" r="10"></circle></svg>
           </div>
           <div class="portada-card-title">Activos Digitales</div>
-          <div class="portada-card-desc">Tráfico, engagement de la app y productos clave (Ahorros, Avances en Efectivo).</div>
-          <div class="portada-card-kpi"><span class="portada-card-kpi-value">112%</span><span class="portada-card-kpi-label">Cumplimiento Ahorros</span></div>
+          <div class="portada-card-desc">APP BLU y Portal Público Diners — usuarios, engagement y cumplimiento de metas.</div>
+          <div class="portada-card-kpi"><span class="portada-card-kpi-value">142,850</span><span class="portada-card-kpi-label">Usuarios Activos (MAU)</span></div>
           <div class="portada-card-arrow">Ver tablero →</div>
         </div>
       </div>
@@ -1288,7 +1293,7 @@
         <span class="vs-label">vs.</span>
         <span class="filter-label">Comparar contra</span>
         <select class="month-select is-compare" id="sm-compareMonthSelect"></select>
-        <span class="filter-hint">↑ recalcula comunidad total, composición y desempeño por marca/red en tiempo real</span>
+        <span class="filter-hint">↑ recalcula comunidad total, composición y desempeño por marca/red</span>
       </div>
 
       <div class="panel" data-panel="t1" data-visible="true">
@@ -1564,7 +1569,7 @@
       <div class="page-head">
         <div>
           <div class="page-title">Activos Digitales</div>
-          <div class="page-sub">Tráfico de la app, engagement y productos clave (Ahorros, Avances en Efectivo)</div>
+          <div class="page-sub">APP BLU (banca móvil) y Portal Público Diners — tráfico, engagement y cumplimiento de metas</div>
         </div>
       </div>
       <div class="filter-row">
@@ -1573,101 +1578,248 @@
         <span class="vs-label">vs.</span>
         <span class="filter-label">Comparar contra</span>
         <select class="month-select is-compare" id="ad-compareMonthSelect"></select>
-        <span class="filter-hint">↑ recalcula tráfico, eventos y desempeño en tiempo real</span>
+        <span class="filter-hint">↑ recalcula usuarios, eventos y cumplimiento de metas — con comparación vs. mes y vs. año anterior</span>
       </div>
 
       <div class="tab-rail" id="ad-tabRail">
-        <button class="tab" data-tab="t1" data-active="true"><span class="tab-num">1</span>Tráfico y Adquisición</button>
-        <button class="tab" data-tab="t2"><span class="tab-num">2</span>Engagement</button>
-        <button class="tab" data-tab="t3"><span class="tab-num">3</span>Productos</button>
+        <button class="tab" data-tab="t1" data-active="true"><span class="tab-num">1</span>APP BLU</button>
+        <button class="tab" data-tab="t2"><span class="tab-num">2</span>Portal Público Diners</button>
       </div>
 
-      <!-- ============ TAB 1 — TRÁFICO Y ADQUISICIÓN ============ -->
+      <!-- ============ TAB 1 — APP BLU ============ -->
       <div class="panel" data-panel="t1" data-visible="true">
-        <div class="ad-kpi-row">
+        <div class="ad-mini-kpi-row">
           <div class="zone zone-pad">
-            <div class="zone-label">Tráfico</div>
-            <div class="zone-title">Visitas a la app</div>
-            <div class="hero-number fx" id="ad-heroVisitas">282,000</div>
-            <div class="hero-caption">vs. mes de comparación <span class="delta-chip fx" id="ad-deltaVisitas">▲ +6.0%</span></div>
+            <div class="zone-label">Usuarios<span class="ad-tag ilustrativo">Ilustrativo</span></div>
+            <div class="zone-title" style="margin-bottom:4px;">Usuarios Activos (MAU)</div>
+            <div class="ad-mini-kpi-value fx" id="ad-heroMau">142,850</div>
+            <div class="hero-caption" style="margin-top:4px;">vs. mes de comparación <span class="delta-chip fx" id="ad-deltaMau">▲ +4.6%</span></div>
+            <div class="sm-yoy-caption fx" id="ad-yoyMau">vs. año anterior: Sin histórico</div>
           </div>
           <div class="zone zone-pad">
-            <div class="zone-label">Adquisición</div>
-            <div class="zone-title">Usuarios nuevos</div>
-            <div class="hero-number fx" id="ad-heroUsuarios">10,800</div>
-            <div class="hero-caption">vs. mes de comparación <span class="delta-chip fx" id="ad-deltaUsuarios">▲ +6.9%</span></div>
+            <div class="zone-label">Usuarios<span class="ad-tag real">Dato real</span></div>
+            <div class="zone-title" style="margin-bottom:4px;">Usuarios Leales</div>
+            <div class="ad-mini-kpi-value fx" id="ad-heroLeales">50,337</div>
+            <div class="hero-caption" style="margin-top:4px;">vs. mes de comparación <span class="delta-chip fx" id="ad-deltaLeales">▼ -1.8%</span></div>
+            <div class="sm-yoy-caption fx" id="ad-yoyLeales">vs. año anterior: Sin histórico</div>
           </div>
           <div class="zone zone-pad">
-            <div class="zone-label">Calidad</div>
-            <div class="zone-title">Sesiones de calidad</div>
-            <div class="hero-number fx" id="ad-heroCalidad">65.0%</div>
-            <div class="hero-caption">vs. mes de comparación <span class="delta-chip fx" id="ad-deltaCalidad">▲ +0.9pp</span></div>
+            <div class="zone-label">Engagement<span class="ad-tag ilustrativo">Ilustrativo</span></div>
+            <div class="zone-title" style="margin-bottom:4px;">Re-engagement mensual</div>
+            <div class="ad-mini-kpi-value fx" id="ad-heroReeng">41.5%</div>
+            <div class="hero-caption" style="margin-top:4px;">vs. mes de comparación <span class="delta-chip fx" id="ad-deltaReeng">▲ +0.9pp</span></div>
+            <div class="sm-yoy-caption fx" id="ad-yoyReeng">vs. año anterior: Sin histórico</div>
+          </div>
+          <div class="zone zone-pad">
+            <div class="zone-label">Engagement<span class="ad-tag ilustrativo">Ilustrativo</span></div>
+            <div class="zone-title" style="margin-bottom:4px;">Eventos totales</div>
+            <div class="ad-mini-kpi-value fx" id="ad-heroEventosApp">64,712</div>
+            <div class="hero-caption" style="margin-top:4px;">vs. mes de comparación <span class="delta-chip fx" id="ad-deltaEventosApp">▲ +6.1%</span></div>
+            <div class="sm-yoy-caption fx" id="ad-yoyEventosApp">vs. año anterior: Sin histórico</div>
+          </div>
+          <div class="zone zone-pad">
+            <div class="zone-label">Engagement<span class="ad-tag ilustrativo">Ilustrativo</span></div>
+            <div class="zone-title" style="margin-bottom:4px;">Sesiones / usuario</div>
+            <div class="ad-mini-kpi-value fx" id="ad-heroSesionesApp">2.9</div>
+            <div class="hero-caption" style="margin-top:4px;">vs. mes de comparación <span class="delta-chip fx" id="ad-deltaSesionesApp">▲ +0.1</span></div>
+            <div class="sm-yoy-caption fx" id="ad-yoySesionesApp">vs. año anterior: Sin histórico</div>
           </div>
         </div>
-        <div class="zone zone-pad">
-          <div class="zone-title" style="margin-bottom:8px;">Origen de usuarios nuevos (AppsFlyer)</div>
-          <div class="pie-wrap">
-            <svg width="120" height="120" viewBox="0 0 120 120" id="ad-sourcePieSvg"></svg>
-            <div style="flex:1;">
-              <div class="mix-legend-row"><span class="mix-dot" style="background:#55637A"></span><span class="mix-name">Orgánico</span><span class="mix-pct fx" id="ad-srcPctOrganic">43%</span></div>
-              <div class="mix-legend-row"><span class="mix-dot" style="background:#4F52E5"></span><span class="mix-name">Paid Social</span><span class="mix-pct fx" id="ad-srcPctPaidSocial">29%</span></div>
-              <div class="mix-legend-row"><span class="mix-dot" style="background:#6E93B0"></span><span class="mix-name">Google Ads (UAC)</span><span class="mix-pct fx" id="ad-srcPctGoogleAds">18%</span></div>
-              <div class="mix-legend-row"><span class="mix-dot" style="background:#2563EB"></span><span class="mix-name">Referidos</span><span class="mix-pct fx" id="ad-srcPctReferral">10%</span></div>
-            </div>
-          </div>
-          <div class="insight-box" style="margin-top:10px;"><span>💡</span><span>Paid Social pasó de 22% a 29% del origen de usuarios nuevos en 6 meses: la inversión en Paid Media está acelerando adquisición dentro del canal digital.</span></div>
-        </div>
-      </div>
 
-      <!-- ============ TAB 2 — ENGAGEMENT ============ -->
-      <div class="panel" data-panel="t2">
-        <div class="ad-kpi-row-2">
-          <div class="zone zone-pad">
-            <div class="zone-label">Engagement</div>
-            <div class="zone-title">Eventos totales</div>
-            <div class="hero-number fx" id="ad-heroEventos" style="font-size:32px;">192,000</div>
-            <div class="hero-caption">vs. mes de comparación <span class="delta-chip fx" id="ad-deltaEventos">▲ +6.1%</span></div>
-          </div>
-          <div class="zone zone-pad">
-            <div class="zone-label">Engagement</div>
-            <div class="zone-title">Duración promedio de sesión</div>
-            <div class="hero-number fx" id="ad-heroDuracion" style="font-size:32px;">4.8 min</div>
-            <div class="hero-caption">vs. mes de comparación <span class="delta-chip fx" id="ad-deltaDuracion">▲ +0.2 min</span></div>
-          </div>
-        </div>
         <div class="zone zone-pad">
-          <div class="zone-title" style="margin-bottom:10px;">Eventos principales</div>
-          <table class="events-table">
-            <thead><tr><th>Evento</th><th>Ocurrencias</th><th>% del total</th><th>Crecimiento</th></tr></thead>
-            <tbody id="ad-eventsTableBody"></tbody>
+          <div class="zone-title" style="margin-bottom:2px;">Evolución de Usuarios Activos por día</div>
+          <div class="hero-caption" style="margin-top:0;margin-bottom:8px;">Forma diaria ilustrativa, escalada al MAU real del mes seleccionado.</div>
+          <svg width="100%" height="140" viewBox="0 0 1080 140" id="ad-dailyMauSvg" preserveAspectRatio="none"></svg>
+        </div>
+
+        <div class="zone zone-pad" style="margin-top:14px;">
+          <div class="zone-title" style="margin-bottom:2px;">Eventos in-app — cumplimiento vs. meta</div>
+          <div class="hero-caption" style="margin-top:0;margin-bottom:10px;">Valor del mes seleccionado vs. meta mensual.<span class="ad-tag ilustrativo">Ilustrativo</span></div>
+          <table class="network-table">
+            <thead><tr><th>Evento</th><th>Valor</th><th>Meta</th><th>Cumplimiento</th><th>Estado</th></tr></thead>
+            <tbody id="ad-eventsMetaBody"></tbody>
           </table>
         </div>
+
+        <div class="zone zone-pad" style="margin-top:14px;">
+          <div class="zone-title" style="margin-bottom:2px;">Uso semanal por tipo de evento</div>
+          <div class="hero-caption" style="margin-top:0;margin-bottom:10px;">Corte del período actual — no varía con el filtro de mes.<span class="ad-tag ilustrativo">Ilustrativo</span></div>
+          <table class="network-table">
+            <thead><tr><th>Evento</th><th>Sem 1</th><th>Sem 2</th><th>Sem 3</th><th>Sem 4</th><th>Total</th></tr></thead>
+            <tbody id="ad-weeklyEventsBody"></tbody>
+          </table>
+        </div>
+
+        <div class="zone zone-pad" style="margin-top:14px;">
+          <div class="zone-title" style="margin-bottom:2px;">Composición de usuarios</div>
+          <div class="hero-caption" style="margin-top:0;margin-bottom:10px;">Corte del período actual.<span class="ad-tag ilustrativo">Ilustrativo</span></div>
+          <div class="ad-donut-row">
+            <div class="pie-wrap">
+              <svg width="110" height="110" viewBox="0 0 120 120" id="ad-osPieSvg"></svg>
+              <div style="flex:1;">
+                <div class="mix-legend-row"><span class="mix-dot" style="background:#4F52E5"></span><span class="mix-name">Android</span><span class="mix-pct">64%</span></div>
+                <div class="mix-legend-row"><span class="mix-dot" style="background:#6E93B0"></span><span class="mix-name">iOS</span><span class="mix-pct">36%</span></div>
+              </div>
+            </div>
+            <div class="sm-combo-divider"></div>
+            <div class="pie-wrap">
+              <svg width="110" height="110" viewBox="0 0 120 120" id="ad-newRecPieSvg"></svg>
+              <div style="flex:1;">
+                <div class="mix-legend-row"><span class="mix-dot" style="background:#E9B52D"></span><span class="mix-name">Nuevos</span><span class="mix-pct">44%</span></div>
+                <div class="mix-legend-row"><span class="mix-dot" style="background:#141414"></span><span class="mix-name">Recurrentes</span><span class="mix-pct">56%</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="zone zone-pad" style="margin-top:14px;">
+          <div class="zone-title" style="margin-bottom:2px;">Usuarios activos y re-engagement por rango de edad</div>
+          <div class="hero-caption" style="margin-top:0;margin-bottom:10px;">Corte del período actual.<span class="ad-tag ilustrativo">Ilustrativo</span></div>
+          <svg width="100%" height="130" viewBox="0 0 1080 130" id="ad-ageBarSvg"></svg>
+          <div class="ad-mini-gauge-row" id="ad-ageGaugeRow" style="margin-top:12px;"></div>
+        </div>
+
+        <div class="zone zone-pad" style="margin-top:14px;">
+          <div class="zone-title" style="margin-bottom:2px;">¿Cuándo se registran los eventos?</div>
+          <div class="hero-caption" style="margin-top:0;margin-bottom:8px;">Antigüedad de la sesión al momento del evento. Corte del período actual.<span class="ad-tag ilustrativo">Ilustrativo</span></div>
+          <svg width="100%" height="110" viewBox="0 0 1080 110" id="ad-recencySvg"></svg>
+        </div>
+
+        <div class="ad-donut-row" style="margin-top:14px;align-items:stretch;">
+          <div class="zone zone-pad" style="flex:1;min-width:280px;">
+            <div class="zone-title" style="margin-bottom:2px;">Categorías de Blu Benefits más canjeadas</div>
+            <div class="hero-caption" style="margin-top:0;margin-bottom:8px;">Corte del período actual.<span class="ad-tag ilustrativo">Ilustrativo</span></div>
+            <svg width="100%" height="150" viewBox="0 0 500 150" id="ad-categoriasSvg"></svg>
+          </div>
+          <div class="zone zone-pad" style="flex:1;min-width:280px;">
+            <div class="zone-title" style="margin-bottom:2px;">Canal de adquisición de usuarios</div>
+            <div class="hero-caption" style="margin-top:0;margin-bottom:8px;">Corte del período actual.<span class="ad-tag ilustrativo">Ilustrativo</span></div>
+            <svg width="100%" height="150" viewBox="0 0 500 150" id="ad-canalSvg"></svg>
+          </div>
+        </div>
+
+        <div class="zone zone-pad" style="margin-top:14px;">
+          <div class="zone-label">Análisis</div>
+          <div class="zone-title" style="margin-bottom:8px;">Análisis resumen — APP BLU</div>
+          <div class="fx" id="ad-appSummary" style="font-size:12.5px;line-height:1.65;color:#3d3d3d;"></div>
+        </div>
       </div>
 
-      <!-- ============ TAB 3 — PRODUCTOS ============ -->
-      <div class="panel" data-panel="t3">
-        <div class="section-note">Corte a junio 2026 — cumplimiento acumulado del año contra la meta de cada producto.</div>
-        <div class="product-grid">
+      <!-- ============ TAB 2 — PORTAL PÚBLICO DINERS ============ -->
+      <div class="panel" data-panel="t2">
+        <div class="ad-mini-kpi-row">
           <div class="zone zone-pad">
-            <div class="product-card-head">
-              <div class="zone-title" style="margin-bottom:0;">Ahorros digitales</div>
-              <span class="status-pill" style="background:rgba(0,128,56,0.1);color:#008038;">Meta superada</span>
-            </div>
-            <div class="gauge-center-wrap"><svg viewBox="-12 -14 144 84" id="ad-gaugeAhorros"></svg></div>
-            <div class="hero-number" style="font-size:26px;text-align:center;">112%</div>
-            <div class="hero-caption" style="text-align:center;">Cumplimiento de la meta anual de aperturas</div>
-            <div class="caveat-box" style="margin-top:12px;"><span>💡</span><span>Ratio de conversión visita → apertura de cuenta: <b>4.1%</b></span></div>
+            <div class="zone-label">Tráfico<span class="ad-tag real">Dato real</span></div>
+            <div class="zone-title" style="margin-bottom:4px;">Visitas al portal</div>
+            <div class="ad-mini-kpi-value fx" id="ad-heroVisitasPortal">599,984</div>
+            <div class="hero-caption" style="margin-top:4px;">vs. mes de comparación <span class="delta-chip fx" id="ad-deltaVisitasPortal">▲ +6.1%</span></div>
+            <div class="sm-yoy-caption fx" id="ad-yoyVisitasPortal">vs. año anterior: Sin histórico</div>
           </div>
           <div class="zone zone-pad">
-            <div class="product-card-head">
-              <div class="zone-title" style="margin-bottom:0;">Avances en Efectivo</div>
-              <span class="status-pill" style="background:rgba(233,181,45,0.16);color:#8a6d1f;">En curso</span>
-            </div>
-            <div class="gauge-center-wrap"><svg viewBox="-12 -14 144 84" id="ad-gaugeAvances"></svg></div>
-            <div class="hero-number" style="font-size:26px;text-align:center;">86%</div>
-            <div class="hero-caption" style="text-align:center;">Cumplimiento de la meta anual de colocación</div>
-            <div class="caveat-box" style="margin-top:12px;"><span>💡</span><span>Ratio de uso sobre cupo disponible: <b>58%</b></span></div>
+            <div class="zone-label">Adquisición<span class="ad-tag ilustrativo">Ilustrativo</span></div>
+            <div class="zone-title" style="margin-bottom:4px;">Usuarios nuevos</div>
+            <div class="ad-mini-kpi-value fx" id="ad-heroNuevosPortal">324,402</div>
+            <div class="hero-caption" style="margin-top:4px;">vs. mes de comparación <span class="delta-chip fx" id="ad-deltaNuevosPortal">▲ +6.1%</span></div>
+            <div class="sm-yoy-caption fx" id="ad-yoyNuevosPortal">vs. año anterior: Sin histórico</div>
           </div>
+          <div class="zone zone-pad">
+            <div class="zone-label">Engagement<span class="ad-tag real">Dato real</span></div>
+            <div class="zone-title" style="margin-bottom:4px;">% Engagement (interacciones)</div>
+            <div class="ad-mini-kpi-value fx" id="ad-heroEngPortal">35.79%</div>
+            <div class="hero-caption" style="margin-top:4px;">vs. mes de comparación <span class="delta-chip fx" id="ad-deltaEngPortal">▼ -2.3pp</span></div>
+            <div class="sm-yoy-caption fx" id="ad-yoyEngPortal">vs. año anterior: Sin histórico</div>
+          </div>
+          <div class="zone zone-pad">
+            <div class="zone-label">Engagement<span class="ad-tag ilustrativo">Ilustrativo</span></div>
+            <div class="zone-title" style="margin-bottom:4px;">Sesiones</div>
+            <div class="ad-mini-kpi-value fx" id="ad-heroSesionesPortal">879,400</div>
+            <div class="hero-caption" style="margin-top:4px;">vs. mes de comparación <span class="delta-chip fx" id="ad-deltaSesionesPortal">▲ +6.1%</span></div>
+            <div class="sm-yoy-caption fx" id="ad-yoySesionesPortal">vs. año anterior: Sin histórico</div>
+          </div>
+          <div class="zone zone-pad">
+            <div class="zone-label">Engagement<span class="ad-tag ilustrativo">Ilustrativo</span></div>
+            <div class="zone-title" style="margin-bottom:4px;">Eventos / sesión</div>
+            <div class="ad-mini-kpi-value fx" id="ad-heroEventosSesion">4.8</div>
+            <div class="hero-caption" style="margin-top:4px;">vs. mes de comparación <span class="delta-chip fx" id="ad-deltaEventosSesion">▲ +0.1</span></div>
+            <div class="sm-yoy-caption fx" id="ad-yoyEventosSesion">vs. año anterior: Sin histórico</div>
+          </div>
+        </div>
+
+        <div class="zone zone-pad">
+          <div class="zone-title" style="margin-bottom:2px;">Evolución de usuarios — Total vs. Nuevos</div>
+          <div class="hero-caption" style="margin-top:0;margin-bottom:8px;">Forma diaria ilustrativa, escalada a las visitas reales del mes seleccionado.</div>
+          <svg width="100%" height="140" viewBox="0 0 1080 140" id="ad-dailyPortalSvg" preserveAspectRatio="none"></svg>
+        </div>
+
+        <div class="zone zone-pad" style="margin-top:14px;">
+          <div class="zone-title" style="margin-bottom:2px;">Rutas más visitadas — cumplimiento vs. meta</div>
+          <div class="hero-caption" style="margin-top:0;margin-bottom:10px;">Valor del mes seleccionado vs. meta mensual.<span class="ad-tag ilustrativo">Ilustrativo</span></div>
+          <table class="network-table">
+            <thead><tr><th>Ruta</th><th>Visitas</th><th>Meta</th><th>Cumplimiento</th><th>Estado</th></tr></thead>
+            <tbody id="ad-routesMetaBody"></tbody>
+          </table>
+        </div>
+
+        <div class="zone zone-pad" style="margin-top:14px;">
+          <div class="zone-title" style="margin-bottom:2px;">Sesiones semanales por ruta</div>
+          <div class="hero-caption" style="margin-top:0;margin-bottom:10px;">Corte del período actual — no varía con el filtro de mes.<span class="ad-tag ilustrativo">Ilustrativo</span></div>
+          <table class="network-table">
+            <thead><tr><th>Ruta</th><th>Sem 1</th><th>Sem 2</th><th>Sem 3</th><th>Sem 4</th><th>Total</th></tr></thead>
+            <tbody id="ad-weeklyRoutesBody"></tbody>
+          </table>
+        </div>
+
+        <div class="zone zone-pad" style="margin-top:14px;">
+          <div class="zone-title" style="margin-bottom:2px;">Fuente de sesión</div>
+          <div class="hero-caption" style="margin-top:0;margin-bottom:10px;">Top fuentes reales + resto agrupado en "Otras".<span class="ad-tag real">Dato real</span></div>
+          <table class="network-table">
+            <thead><tr><th>Fuente</th><th>Sesiones</th><th>% del total</th></tr></thead>
+            <tbody id="ad-fuenteSesionBody"></tbody>
+          </table>
+        </div>
+
+        <div class="ad-donut-row" style="margin-top:14px;align-items:stretch;">
+          <div class="zone zone-pad" style="flex:1;min-width:280px;">
+            <div class="zone-title" style="margin-bottom:2px;">Fuente de tráfico</div>
+            <div class="hero-caption" style="margin-top:0;margin-bottom:8px;">Corte del período actual.<span class="ad-tag ilustrativo">Ilustrativo</span></div>
+            <div class="pie-wrap">
+              <svg width="110" height="110" viewBox="0 0 120 120" id="ad-trafficPieSvg"></svg>
+              <div style="flex:1;">
+                <div class="mix-legend-row"><span class="mix-dot" style="background:#4F52E5"></span><span class="mix-name">Google</span><span class="mix-pct">45%</span></div>
+                <div class="mix-legend-row"><span class="mix-dot" style="background:#6E93B0"></span><span class="mix-name">Meta / CPA</span><span class="mix-pct">30%</span></div>
+                <div class="mix-legend-row"><span class="mix-dot" style="background:#55637A"></span><span class="mix-name">Directo / otros</span><span class="mix-pct">25%</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="zone zone-pad" style="flex:1;min-width:280px;">
+            <div class="zone-title" style="margin-bottom:2px;">Usuarios por dispositivo</div>
+            <div class="hero-caption" style="margin-top:0;margin-bottom:8px;">Corte del período actual.<span class="ad-tag ilustrativo">Ilustrativo</span></div>
+            <svg width="100%" height="110" viewBox="0 0 500 110" id="ad-deviceSvg"></svg>
+          </div>
+        </div>
+
+        <div class="zone zone-pad" style="margin-top:14px;">
+          <div class="zone-title" style="margin-bottom:2px;">¿Cuánto tiempo permanecen en el sitio?</div>
+          <div class="hero-caption" style="margin-top:0;margin-bottom:8px;">Corte del período actual.<span class="ad-tag ilustrativo">Ilustrativo</span></div>
+          <svg width="100%" height="110" viewBox="0 0 1080 110" id="ad-dwellSvg"></svg>
+        </div>
+
+        <div class="zone zone-pad" style="margin-top:14px;">
+          <div class="zone-title" style="margin-bottom:2px;">Rutas con mayor % de interacción</div>
+          <div class="hero-caption" style="margin-top:0;margin-bottom:8px;">Corte del período actual.<span class="ad-tag ilustrativo">Ilustrativo</span></div>
+          <svg width="100%" height="150" viewBox="0 0 1080 150" id="ad-rutasInteraccionSvg"></svg>
+        </div>
+
+        <div class="zone zone-pad" style="margin-top:14px;">
+          <div class="zone-title" style="margin-bottom:8px;">% Interacción por fuente</div>
+          <div class="hero-caption" style="margin-top:-6px;margin-bottom:10px;">Corte del período actual.<span class="ad-tag ilustrativo">Ilustrativo</span></div>
+          <div class="ad-mini-gauge-row" id="ad-interaccionFuenteRow"></div>
+        </div>
+
+        <div class="zone zone-pad" style="margin-top:14px;">
+          <div class="zone-label">Análisis</div>
+          <div class="zone-title" style="margin-bottom:8px;">Análisis resumen — Portal Público Diners</div>
+          <div class="fx" id="ad-portalSummary" style="font-size:12.5px;line-height:1.65;color:#3d3d3d;"></div>
         </div>
       </div>
     </div>
@@ -3999,37 +4151,84 @@
     }
     PAGE_ROOT.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => AD_showTab(t.dataset.tab)));
 
-  /* ================= PRODUCTOS — gauges estáticos, corte junio 2026 ================= */
-  document.getElementById('ad-gaugeAhorros').innerHTML = gaugeMarkup(112);
-  document.getElementById('ad-gaugeAvances').innerHTML = gaugeMarkup(86);
-
-  const AD_SOURCE_COLOR = { Organic: '#55637A', PaidSocial: '#4F52E5', GoogleAds: '#6E93B0', Referral: '#2563EB' };
-  const AD_EVENT_LABEL = { Login: 'Login', ConsultaSaldo: 'Consulta de saldo', PagoTarjeta: 'Pago de tarjeta', SolicitudAvance: 'Solicitud de avance', Transferencia: 'Transferencia' };
-
   const AD_MONTHS = ['Enero 2026', 'Febrero 2026', 'Marzo 2026', 'Abril 2026', 'Mayo 2026', 'Junio 2026', 'Junio 2025'];
-  const AD_MONTH_DATA = {
-    'Enero 2026':   { visitas: 210000, usuariosNuevos: 8200, calidad: 61.2, eventosTotales: 145000, duracion: 4.2,
-      source: { Organic: 48, PaidSocial: 22, GoogleAds: 20, Referral: 10 },
-      events: { Login: 50750, ConsultaSaldo: 40600, PagoTarjeta: 26100, SolicitudAvance: 13050, Transferencia: 14500 } },
-    'Febrero 2026': { visitas: 224000, usuariosNuevos: 8700, calidad: 62.0, eventosTotales: 154000, duracion: 4.3,
-      source: { Organic: 47, PaidSocial: 23, GoogleAds: 20, Referral: 10 },
-      events: { Login: 53900, ConsultaSaldo: 43120, PagoTarjeta: 27720, SolicitudAvance: 13860, Transferencia: 15400 } },
-    'Marzo 2026':   { visitas: 238000, usuariosNuevos: 9100, calidad: 62.8, eventosTotales: 162000, duracion: 4.4,
-      source: { Organic: 46, PaidSocial: 25, GoogleAds: 19, Referral: 10 },
-      events: { Login: 56700, ConsultaSaldo: 45360, PagoTarjeta: 29160, SolicitudAvance: 14580, Transferencia: 16200 } },
-    'Abril 2026':   { visitas: 251000, usuariosNuevos: 9500, calidad: 63.5, eventosTotales: 171000, duracion: 4.5,
-      source: { Organic: 45, PaidSocial: 26, GoogleAds: 19, Referral: 10 },
-      events: { Login: 59850, ConsultaSaldo: 47880, PagoTarjeta: 30780, SolicitudAvance: 15390, Transferencia: 17100 } },
-    'Mayo 2026':    { visitas: 266000, usuariosNuevos: 10100, calidad: 64.1, eventosTotales: 181000, duracion: 4.6,
-      source: { Organic: 44, PaidSocial: 28, GoogleAds: 18, Referral: 10 },
-      events: { Login: 63350, ConsultaSaldo: 50680, PagoTarjeta: 32580, SolicitudAvance: 16290, Transferencia: 18100 } },
-    'Junio 2026':   { visitas: 282000, usuariosNuevos: 10800, calidad: 65.0, eventosTotales: 192000, duracion: 4.8,
-      source: { Organic: 43, PaidSocial: 29, GoogleAds: 18, Referral: 10 },
-      events: { Login: 67200, ConsultaSaldo: 53760, PagoTarjeta: 34560, SolicitudAvance: 17280, Transferencia: 19200 } },
-    'Junio 2025':   { visitas: 198000, usuariosNuevos: 7600, calidad: 57.4, eventosTotales: 132000, duracion: 3.9,
-      source: { Organic: 52, PaidSocial: 16, GoogleAds: 22, Referral: 10 },
-      events: { Login: 46200, ConsultaSaldo: 36960, PagoTarjeta: 23760, SolicitudAvance: 11880, Transferencia: 13200 } },
-  };
+  const AD_DAYS_IN_MONTH = { 'Enero 2026': 31, 'Febrero 2026': 28, 'Marzo 2026': 31, 'Abril 2026': 30, 'Mayo 2026': 31, 'Junio 2026': 30, 'Junio 2025': 30 };
+  const AD_yoyMonth = m => m.includes('2026') ? m.replace('2026', '2025') : null;
+
+  /* ================= APP BLU — series mensuales base (Junio 2026 = corte real/ilustrativo del tablero fuente) ================= */
+  const AD_MAU_SERIES = { 'Enero 2026': 118000, 'Febrero 2026': 123500, 'Marzo 2026': 129000, 'Abril 2026': 134200, 'Mayo 2026': 138800, 'Junio 2026': 142850, 'Junio 2025': 108000 };
+  const AD_REENG_SERIES = { 'Enero 2026': 36.8, 'Febrero 2026': 37.9, 'Marzo 2026': 38.9, 'Abril 2026': 39.8, 'Mayo 2026': 40.6, 'Junio 2026': 41.5, 'Junio 2025': 33.1 };
+  const AD_SESAPP_SERIES = { 'Enero 2026': 2.6, 'Febrero 2026': 2.7, 'Marzo 2026': 2.7, 'Abril 2026': 2.8, 'Mayo 2026': 2.8, 'Junio 2026': 2.9, 'Junio 2025': 2.3 };
+  const AD_LEALES_RATIO = 50337 / 142850; // Usuarios Leales / MAU — dato real de junio 2026, aplicado como ratio constante al resto de meses
+  const AD_DAU_MAU_RATIO = 4055 / 142850; // proxy de usuarios activos diarios, derivado del promedio de la curva de referencia
+
+  const AD_EVENT_ORDER = ['blueBenefits', 'aperturaAhorro', 'avanceEfectivo', 'consultaSaldo', 'pagoTarjeta'];
+  const AD_EVENT_LABEL = { blueBenefits: 'Blu Benefits', aperturaAhorro: 'Apertura cta. ahorro', avanceEfectivo: 'Avance en efectivo', consultaSaldo: 'Consulta de saldo', pagoTarjeta: 'Pago de tarjeta' };
+  const AD_EVENTS_JUN = { blueBenefits: 18204, aperturaAhorro: 3412, avanceEfectivo: 2187, consultaSaldo: 31842, pagoTarjeta: 9065 };
+  const AD_EVENT_META = { blueBenefits: 16500, aperturaAhorro: 4000, avanceEfectivo: 2000, consultaSaldo: 28000, pagoTarjeta: 9500 };
+  const AD_EVENT_WEEKLY = { blueBenefits: [4120, 4530, 4680, 4874], aperturaAhorro: [780, 845, 890, 897], avanceEfectivo: [510, 528, 560, 589], consultaSaldo: [7400, 7910, 8100, 8432] };
+
+  const AD_OS_SHARE = [{ label: 'Android', pct: 64, color: '#4F52E5' }, { label: 'iOS', pct: 36, color: '#6E93B0' }];
+  const AD_NEWREC_SHARE = [{ label: 'Nuevos', pct: 44, color: '#E9B52D' }, { label: 'Recurrentes', pct: 56, color: '#141414' }];
+  const AD_EDAD_ORDER = ['18-24', '25-34', '35-44', '45-54', '55+'];
+  const AD_EDAD_USERS = { '18-24': 21400, '25-34': 48200, '35-44': 39750, '45-54': 22300, '55+': 11200 }; // suma = 142,850 = MAU de junio 2026
+  const AD_EDAD_REENG = { '18-24': 38, '25-34': 52, '35-44': 47, '45-54': 35, '55+': 22 };
+  const AD_RECENCY_ORDER = ['<7 días', '7-30 días', '30-90 días', '90-180 días', '180+ días'];
+  const AD_RECENCY_VALUES = [62, 145, 210, 98, 54];
+  const AD_CATEGORIAS_ORDER = ['Restaurantes', 'Compras online', 'Viajes', 'Entretenimiento', 'Salud y bienestar', 'Otros'];
+  const AD_CATEGORIAS_VALUES = [118, 96, 71, 58, 33, 19];
+  const AD_CANAL_ORDER = ['Google Ads', 'Meta Ads', 'Orgánico App Store', 'Referidos', 'Email', 'Otros'];
+  const AD_CANAL_VALUES = [118, 96, 84, 58, 33, 19];
+
+  /* ================= PORTAL PÚBLICO DINERS — series mensuales base ================= */
+  const AD_VISITAS_PORTAL_SERIES = { 'Enero 2026': 469715, 'Febrero 2026': 488504, 'Marzo 2026': 510486, 'Abril 2026': 536010, 'Mayo 2026': 565489, 'Junio 2026': 599984, 'Junio 2025': 428560 };
+  const AD_ENG_PORTAL_SERIES = { 'Enero 2026': 33.2, 'Febrero 2026': 33.8, 'Marzo 2026': 34.3, 'Abril 2026': 34.9, 'Mayo 2026': 35.3, 'Junio 2026': 35.79, 'Junio 2025': 30.1 };
+  const AD_EVSESION_PORTAL_SERIES = { 'Enero 2026': 4.3, 'Febrero 2026': 4.4, 'Marzo 2026': 4.5, 'Abril 2026': 4.6, 'Mayo 2026': 4.7, 'Junio 2026': 4.8, 'Junio 2025': 3.9 };
+  const AD_NUEVOS_PORTAL_RATIO = 324402 / 599984;
+  const AD_SESIONES_PORTAL_RATIO = 879400 / 599984;
+
+  const AD_RUTA_ORDER = ['home', 'descargaApp', 'titaniumVisa', 'modoFutbol', 'callCenter'];
+  const AD_RUTA_LABEL = { home: '/ (home)', descargaApp: '/descarga-app-blu-personas', titaniumVisa: '/solicitud-titanium-visa', modoFutbol: '/solicitud-modo-futbol', callCenter: '/centro-de-soporte/call-center' };
+  const AD_RUTAS_JUN = { home: 136595, descargaApp: 140438, titaniumVisa: 68173, modoFutbol: 60003, callCenter: 29101 };
+  const AD_RUTAS_META = { home: 120000, descargaApp: 130000, titaniumVisa: 75000, modoFutbol: 55000, callCenter: 32000 };
+  const AD_RUTA_WEEKLY = { home: [31200, 33800, 34900, 36800], descargaApp: [31900, 34200, 36100, 38238], titaniumVisa: [15800, 16900, 17400, 18073], modoFutbol: [13900, 14800, 15300, 16003] };
+
+  // Fuente de sesión — dato real (top 4) + resto agrupado en "Otras" para sumar el 100% de las visitas del portal
+  const AD_FUENTE_SESION_ORDER = ['GoogleCPC', 'GoogleOrganic', 'DirectNone', 'Otras', 'MetaCPA'];
+  const AD_FUENTE_SESION_LABEL = { GoogleOrganic: 'google / organic', GoogleCPC: 'google / cpc', DirectNone: 'direct / none', MetaCPA: 'META / CPA', Otras: 'Otras' };
+  const AD_FUENTE_SESION_SHARE = { GoogleOrganic: 26.81, GoogleCPC: 27.36, DirectNone: 15.67, MetaCPA: 4.21, Otras: 25.95 };
+
+  const AD_TRAFFIC_SHARE = [{ label: 'Google', pct: 45, color: '#4F52E5' }, { label: 'Meta / CPA', pct: 30, color: '#6E93B0' }, { label: 'Directo / otros', pct: 25, color: '#55637A' }];
+  const AD_DEVICE_ORDER = ['Móvil', 'Escritorio', 'Tablet'];
+  const AD_DEVICE_VALUES = [408200, 162300, 29484]; // suma = 599,984 = visitas al portal de junio 2026
+  const AD_DWELL_ORDER = ['<30 seg', '30-60 seg', '1-3 min', '3-10 min', '10+ min'];
+  const AD_DWELL_VALUES = [88, 132, 187, 76, 41];
+  const AD_RUTAS_INTERACCION_ORDER = ['/responsys-email', '/solicitud-vacaciones', '/app-blupersonas', '/modo-futbol', '/titanium-visa', '/call-center'];
+  const AD_RUTAS_INTERACCION_VALUES = [118, 96, 84, 71, 58, 33];
+  const AD_INTERACCION_FUENTE = { 'Google CPC': 34, 'Google Org': 45, 'Directo': 30, 'META': 38, 'Email': 51 };
+
+  /* ================= MODELO MENSUAL DERIVADO ================= */
+  const AD_MONTH_DATA = {};
+  AD_MONTHS.forEach(m => {
+    const mau = AD_MAU_SERIES[m];
+    const eventFactor = mau / AD_MAU_SERIES['Junio 2026'];
+    const events = {};
+    AD_EVENT_ORDER.forEach(k => { events[k] = Math.round(AD_EVENTS_JUN[k] * eventFactor); });
+    const eventosTotales = AD_EVENT_ORDER.reduce((s, k) => s + events[k], 0);
+
+    const visitasPortal = AD_VISITAS_PORTAL_SERIES[m];
+    const rutaFactor = visitasPortal / AD_VISITAS_PORTAL_SERIES['Junio 2026'];
+    const rutas = {};
+    AD_RUTA_ORDER.forEach(k => { rutas[k] = Math.round(AD_RUTAS_JUN[k] * rutaFactor); });
+
+    AD_MONTH_DATA[m] = {
+      mau, leales: Math.round(mau * AD_LEALES_RATIO), reengagement: AD_REENG_SERIES[m], sesionesApp: AD_SESAPP_SERIES[m],
+      events, eventosTotales,
+      visitasPortal, engagementPortal: AD_ENG_PORTAL_SERIES[m], eventosPorSesionPortal: AD_EVSESION_PORTAL_SERIES[m],
+      nuevosPortal: Math.round(visitasPortal * AD_NUEVOS_PORTAL_RATIO), sesionesPortal: Math.round(visitasPortal * AD_SESIONES_PORTAL_RATIO),
+      rutas,
+    };
+  });
 
   const AD_viewSel = document.getElementById('ad-viewMonthSelect');
   const AD_cmpSel = document.getElementById('ad-compareMonthSelect');
@@ -4037,67 +4236,206 @@
   AD_viewSel.value = 'Junio 2026';
   AD_cmpSel.value = 'Mayo 2026';
 
-  function AD_drawSourcePie(vd) {
-    const order = ['Organic', 'PaidSocial', 'GoogleAds', 'Referral'];
-    const svg = document.getElementById('ad-sourcePieSvg');
-    svg.innerHTML = pieMarkup(order.map(k => ({ label: k, pct: vd.source[k], color: AD_SOURCE_COLOR[k] })), 120);
+  /* ================= HELPERS DE RENDER ================= */
+  function AD_updateKpiAbs(heroId, deltaId, yoyId, now, cmp, yoyBase, yoyMonth, fmt) {
+    const heroEl = document.getElementById(heroId), deltaEl = document.getElementById(deltaId), yoyEl = document.getElementById(yoyId);
+    crossfade(heroEl, () => { heroEl.textContent = fmt(now); });
+    const d = relDelta(now, cmp);
+    crossfade(deltaEl, () => { deltaEl.textContent = deltaText(d); deltaStyle(deltaEl, d); });
+    const dy = (yoyBase !== null && yoyBase !== undefined) ? relDelta(now, yoyBase) : null;
+    crossfade(yoyEl, () => { yoyEl.textContent = dy !== null ? `vs. año anterior (${yoyMonth}): ${deltaText(dy)}` : 'vs. año anterior: Sin histórico'; });
+  }
+  function AD_updateKpiRate(heroId, deltaId, yoyId, now, cmp, yoyBase, yoyMonth, fmt, unit) {
+    const heroEl = document.getElementById(heroId), deltaEl = document.getElementById(deltaId), yoyEl = document.getElementById(yoyId);
+    crossfade(heroEl, () => { heroEl.textContent = fmt(now); });
+    const d = now - cmp;
+    crossfade(deltaEl, () => { deltaEl.textContent = (d >= 0 ? '▲ +' : '▼ ') + Math.abs(Math.round(d * 10) / 10) + unit; deltaStyle(deltaEl, d); });
+    const dy = (yoyBase !== null && yoyBase !== undefined) ? (now - yoyBase) : null;
+    crossfade(yoyEl, () => { yoyEl.textContent = dy !== null ? `vs. año anterior (${yoyMonth}): ${(dy >= 0 ? '▲ +' : '▼ ') + Math.abs(Math.round(dy * 10) / 10) + unit}` : 'vs. año anterior: Sin histórico'; });
   }
 
-  function AD_renderEventsTable(vd, cd) {
-    const order = ['Login', 'ConsultaSaldo', 'PagoTarjeta', 'SolicitudAvance', 'Transferencia'];
-    const body = document.getElementById('ad-eventsTableBody');
-    body.innerHTML = order.map(k => {
-      const n = vd.events[k], c = cd.events[k];
-      const growth = relDelta(n, c);
-      const pctTotal = (n / vd.eventosTotales) * 100;
-      return `<tr><td>${AD_EVENT_LABEL[k]}</td>` +
-        `<td class="metric">${n.toLocaleString('en-US')}</td>` +
-        `<td class="metric">${pctTotal.toFixed(0)}%</td>` +
-        `<td class="metric">${deltaText(growth)}</td></tr>`;
+  function AD_metaRow(label, value, meta) {
+    const pct = (value / meta) * 100;
+    const cumple = pct >= 100;
+    const trackPct = Math.min(pct, 130);
+    const color = cumple ? '#008038' : '#E9B52D';
+    const pill = cumple
+      ? '<span class="status-pill" style="background:rgba(0,128,56,0.1);color:#008038;">✅ Cumple meta</span>'
+      : '<span class="status-pill" style="background:rgba(233,181,45,0.16);color:#8a6d1f;">⚠️ Bajo meta</span>';
+    return `<tr><td>${label}</td>` +
+      `<td class="metric">${value.toLocaleString('en-US')}</td>` +
+      `<td class="metric" style="color:#8b8b8b;">${meta.toLocaleString('en-US')}</td>` +
+      `<td><div class="ad-meta-track"><div class="ad-meta-fill" style="background:${color};transform:scaleX(${trackPct / 130})"></div></div><div style="font-size:10px;color:#8b8b8b;margin-top:2px;">${pct.toFixed(0)}%</div></td>` +
+      `<td>${pill}</td></tr>`;
+  }
+  function AD_renderMetaTable(bodyId, order, labelMap, valueMap, metaMap) {
+    document.getElementById(bodyId).innerHTML = order.map(k => AD_metaRow(labelMap[k], valueMap[k], metaMap[k])).join('');
+  }
+  function AD_renderWeeklyTable(bodyId, order, labelMap, weeklyMap) {
+    document.getElementById(bodyId).innerHTML = order.map(k => {
+      const w = weeklyMap[k];
+      const total = w.reduce((s, v) => s + v, 0);
+      return `<tr><td>${labelMap[k]}</td>` + w.map(v => `<td class="metric">${v.toLocaleString('en-US')}</td>`).join('') + `<td class="metric" style="font-weight:700;">${total.toLocaleString('en-US')}</td></tr>`;
     }).join('');
   }
+  function AD_renderMiniGaugeRow(containerId, dataObj) {
+    document.getElementById(containerId).innerHTML = Object.entries(dataObj).map(([label, val]) => {
+      return `<div class="ad-mini-gauge-item"><svg viewBox="-12 -14 144 84">${gaugeMarkup(val)}</svg><div class="ad-mini-gauge-value">${val}%</div><div class="ad-mini-gauge-label">${label}</div></div>`;
+    }).join('');
+  }
+  function AD_vBarChart(svgId, categories, values, color, W, H) {
+    const padL = 8, padR = 8, padT = 22, padB = 20;
+    const plotW = W - padL - padR, plotH = H - padT - padB;
+    const maxV = Math.max(...values) * 1.18;
+    const bw = plotW / values.length;
+    let out = '';
+    categories.forEach((cat, i) => {
+      const v = values[i];
+      const barH = (v / maxV) * plotH;
+      const x = padL + i * bw + bw * 0.16, bw2 = bw * 0.68;
+      const y = padT + plotH - barH;
+      out += `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${bw2.toFixed(1)}" height="${barH.toFixed(1)}" rx="4" fill="${color}" data-tt="${cat}" data-ttv="${v.toLocaleString('en-US')}"></rect>`;
+      out += `<text x="${(x + bw2 / 2).toFixed(1)}" y="${(y - 5).toFixed(1)}" text-anchor="middle" font-size="10" font-weight="700" fill="#262626">${v.toLocaleString('en-US')}</text>`;
+      out += `<text x="${(x + bw2 / 2).toFixed(1)}" y="${H - 4}" text-anchor="middle" font-size="9.5" fill="#8b8b8b">${cat}</text>`;
+    });
+    document.getElementById(svgId).innerHTML = out;
+  }
+  function AD_hBarChart(svgId, categories, values, color, W, H, padL) {
+    padL = padL || 130;
+    const padR = 46, padT = 4, padB = 4;
+    const plotW = W - padL - padR;
+    const rowH = (H - padT - padB) / categories.length;
+    const maxV = Math.max(...values) * 1.18;
+    let out = '';
+    categories.forEach((cat, i) => {
+      const v = values[i];
+      const barW = (v / maxV) * plotW;
+      const y = padT + i * rowH + rowH * 0.22, bh = rowH * 0.56;
+      out += `<text x="${padL - 8}" y="${(y + bh / 2 + 3.5).toFixed(1)}" text-anchor="end" font-size="10.5" fill="#262626">${cat}</text>`;
+      out += `<rect x="${padL}" y="${y.toFixed(1)}" width="${barW.toFixed(1)}" height="${bh.toFixed(1)}" rx="4" fill="${color}" data-tt="${cat}" data-ttv="${v.toLocaleString('en-US')}"></rect>`;
+      out += `<text x="${(padL + barW + 7).toFixed(1)}" y="${(y + bh / 2 + 3.5).toFixed(1)}" font-size="10.5" font-weight="700" fill="#262626">${v.toLocaleString('en-US')}</text>`;
+    });
+    document.getElementById(svgId).innerHTML = out;
+  }
+  function AD_dailyWave(days, avg, amplitude, phase) {
+    const arr = [];
+    for (let d = 0; d < days; d++) { arr.push(Math.max(0, avg * (1 + amplitude * Math.sin((2 * Math.PI * d / 6.5) + phase)))); }
+    return arr;
+  }
+  function AD_drawDailyLine(svgId, seriesArr, W, H) {
+    const days = seriesArr[0].values.length;
+    const padL = 50, padR = 10, padT = 16, padB = 22;
+    const plotW = W - padL - padR, plotH = H - padT - padB;
+    const maxV = Math.max(...seriesArr.flatMap(s => s.values)) * 1.1 || 1;
+    const stepX = plotW / (days - 1);
+    let out = '';
+    for (let g = 0; g <= 3; g++) {
+      const y = padT + (plotH / 3) * g;
+      out += `<line x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}" stroke="#eef1f3" stroke-width="1"></line>`;
+      out += `<text x="${padL - 6}" y="${y + 3}" text-anchor="end" font-size="9" fill="#8b8b8b">${Math.round(maxV * (1 - g / 3)).toLocaleString('en-US')}</text>`;
+    }
+    seriesArr.forEach(s => {
+      const pts = s.values.map((v, i) => [padL + i * stepX, padT + plotH - (v / maxV) * plotH]);
+      if (seriesArr.length === 1) {
+        const areaPath = 'M' + pts.map(p => p.join(',')).join(' L') + ` L${pts[pts.length - 1][0]},${padT + plotH} L${pts[0][0]},${padT + plotH} Z`;
+        out += `<path d="${areaPath}" fill="${s.color}" opacity="0.12"></path>`;
+      }
+      out += `<path d="M${pts.map(p => p.join(',')).join(' L')}" fill="none" stroke="${s.color}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>`;
+      pts.forEach(([x, y], i) => { out += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="2.6" fill="${s.color}" data-tt="Día ${i + 1}" data-ttv="${s.label}: ${Math.round(s.values[i]).toLocaleString('en-US')}"></circle>`; });
+    });
+    const labelStep = Math.max(1, Math.ceil(days / 8));
+    for (let i = 0; i < days; i += labelStep) {
+      const x = padL + i * stepX;
+      out += `<text x="${x}" y="${H - 6}" text-anchor="middle" font-size="9.5" fill="#8b8b8b">${i + 1}</text>`;
+    }
+    if (seriesArr.length > 1) {
+      let lx = padL;
+      seriesArr.forEach(s => {
+        out += `<circle cx="${lx}" cy="${padT - 8}" r="3.5" fill="${s.color}"></circle><text x="${lx + 8}" y="${padT - 4.5}" font-size="9.5" font-weight="700" fill="${s.color}">${s.label}</text>`;
+        lx += 18 + s.label.length * 6.3;
+      });
+    }
+    document.getElementById(svgId).innerHTML = out;
+  }
 
+  /* ================= RENDERS ESTÁTICOS (corte del período actual, no reactivos a mes) ================= */
+  document.getElementById('ad-osPieSvg').innerHTML = pieMarkup(AD_OS_SHARE, 120);
+  document.getElementById('ad-newRecPieSvg').innerHTML = pieMarkup(AD_NEWREC_SHARE, 120);
+  document.getElementById('ad-trafficPieSvg').innerHTML = pieMarkup(AD_TRAFFIC_SHARE, 120);
+  AD_vBarChart('ad-ageBarSvg', AD_EDAD_ORDER, AD_EDAD_ORDER.map(k => AD_EDAD_USERS[k]), '#4F52E5', 1080, 130);
+  AD_renderMiniGaugeRow('ad-ageGaugeRow', AD_EDAD_REENG);
+  AD_vBarChart('ad-recencySvg', AD_RECENCY_ORDER, AD_RECENCY_VALUES, '#6E93B0', 1080, 110);
+  AD_hBarChart('ad-categoriasSvg', AD_CATEGORIAS_ORDER, AD_CATEGORIAS_VALUES, '#4F52E5', 500, 150, 118);
+  AD_hBarChart('ad-canalSvg', AD_CANAL_ORDER, AD_CANAL_VALUES, '#2563EB', 500, 150, 136);
+  AD_renderWeeklyTable('ad-weeklyEventsBody', ['blueBenefits', 'aperturaAhorro', 'avanceEfectivo', 'consultaSaldo'], AD_EVENT_LABEL, AD_EVENT_WEEKLY);
+  AD_renderWeeklyTable('ad-weeklyRoutesBody', ['home', 'descargaApp', 'titaniumVisa', 'modoFutbol'], AD_RUTA_LABEL, AD_RUTA_WEEKLY);
+  AD_vBarChart('ad-deviceSvg', AD_DEVICE_ORDER, AD_DEVICE_VALUES, '#4F52E5', 500, 110);
+  AD_vBarChart('ad-dwellSvg', AD_DWELL_ORDER, AD_DWELL_VALUES, '#55637A', 1080, 110);
+  AD_hBarChart('ad-rutasInteraccionSvg', AD_RUTAS_INTERACCION_ORDER, AD_RUTAS_INTERACCION_VALUES, '#2563EB', 1080, 150, 190);
+  AD_renderMiniGaugeRow('ad-interaccionFuenteRow', AD_INTERACCION_FUENTE);
+
+  /* ================= ANÁLISIS RESUMEN ================= */
+  function AD_renderAppSummary(vd, cd, yd, cmpMonth, yoyMonth) {
+    const parts = [];
+    const mauDelta = relDelta(vd.mau, cd.mau);
+    const mauYoy = yd ? relDelta(vd.mau, yd.mau) : null;
+    parts.push(`Los <b>Usuarios Activos (MAU)</b> llegan a ${vd.mau.toLocaleString('en-US')} (${deltaText(mauDelta)} vs. ${cmpMonth.split(' ')[0]}${mauYoy !== null ? ` · ${deltaText(mauYoy)} vs. ${yoyMonth} AA` : ''}), con ${vd.leales.toLocaleString('en-US')} usuarios leales (${(vd.leales / vd.mau * 100).toFixed(1)}% del MAU).`);
+    const bestEvent = AD_EVENT_ORDER.reduce((a, b) => (vd.events[b] / AD_EVENT_META[b]) > (vd.events[a] / AD_EVENT_META[a]) ? b : a);
+    const worstEvent = AD_EVENT_ORDER.reduce((a, b) => (vd.events[b] / AD_EVENT_META[b]) < (vd.events[a] / AD_EVENT_META[a]) ? b : a);
+    parts.push(`<b>${AD_EVENT_LABEL[bestEvent]}</b> es el evento con mejor cumplimiento de meta (${(vd.events[bestEvent] / AD_EVENT_META[bestEvent] * 100).toFixed(0)}%), mientras <b>${AD_EVENT_LABEL[worstEvent]}</b> queda más rezagado (${(vd.events[worstEvent] / AD_EVENT_META[worstEvent] * 100).toFixed(0)}%).`);
+    parts.push(`Android concentra el 64% de los usuarios; el segmento de 25-34 años es el más numeroso (48,200 usuarios) y el de mayor re-engagement (52%).`);
+    document.getElementById('ad-appSummary').innerHTML = parts.join(' ');
+  }
+  function AD_renderPortalSummary(vd, cd, yd, cmpMonth, yoyMonth) {
+    const parts = [];
+    const visDelta = relDelta(vd.visitasPortal, cd.visitasPortal);
+    const visYoy = yd ? relDelta(vd.visitasPortal, yd.visitasPortal) : null;
+    parts.push(`Las <b>visitas al portal</b> llegan a ${vd.visitasPortal.toLocaleString('en-US')} (${deltaText(visDelta)} vs. ${cmpMonth.split(' ')[0]}${visYoy !== null ? ` · ${deltaText(visYoy)} vs. ${yoyMonth} AA` : ''}), con un engagement del ${vd.engagementPortal.toFixed(1)}%.`);
+    const bestRuta = AD_RUTA_ORDER.reduce((a, b) => (vd.rutas[b] / AD_RUTAS_META[b]) > (vd.rutas[a] / AD_RUTAS_META[a]) ? b : a);
+    const worstRuta = AD_RUTA_ORDER.reduce((a, b) => (vd.rutas[b] / AD_RUTAS_META[b]) < (vd.rutas[a] / AD_RUTAS_META[a]) ? b : a);
+    parts.push(`<b>${AD_RUTA_LABEL[bestRuta]}</b> es la ruta con mejor cumplimiento de meta (${(vd.rutas[bestRuta] / AD_RUTAS_META[bestRuta] * 100).toFixed(0)}%), mientras <b>${AD_RUTA_LABEL[worstRuta]}</b> queda por debajo (${(vd.rutas[worstRuta] / AD_RUTAS_META[worstRuta] * 100).toFixed(0)}%).`);
+    parts.push(`Google concentra el 45% del tráfico y el 68% de las visitas llegan desde dispositivos móviles.`);
+    document.getElementById('ad-portalSummary').innerHTML = parts.join(' ');
+  }
+
+  /* ================= ACTUALIZACIÓN REACTIVA AL FILTRO DE MES ================= */
   function AD_updateComparison() {
     const viewMonth = AD_viewSel.value, cmpMonth = AD_cmpSel.value;
     const vd = AD_MONTH_DATA[viewMonth], cd = AD_MONTH_DATA[cmpMonth];
+    const yoyMonth = AD_yoyMonth(cmpMonth);
+    const yd = yoyMonth ? AD_MONTH_DATA[yoyMonth] : null;
 
-    const heroVisitas = document.getElementById('ad-heroVisitas');
-    const deltaVisitas = document.getElementById('ad-deltaVisitas');
-    crossfade(heroVisitas, () => { heroVisitas.textContent = vd.visitas.toLocaleString('en-US'); });
-    const visitasDelta = relDelta(vd.visitas, cd.visitas);
-    crossfade(deltaVisitas, () => { deltaVisitas.textContent = deltaText(visitasDelta); deltaStyle(deltaVisitas, visitasDelta); });
+    AD_updateKpiAbs('ad-heroMau', 'ad-deltaMau', 'ad-yoyMau', vd.mau, cd.mau, yd ? yd.mau : null, yoyMonth, v => v.toLocaleString('en-US'));
+    AD_updateKpiAbs('ad-heroLeales', 'ad-deltaLeales', 'ad-yoyLeales', vd.leales, cd.leales, yd ? yd.leales : null, yoyMonth, v => v.toLocaleString('en-US'));
+    AD_updateKpiRate('ad-heroReeng', 'ad-deltaReeng', 'ad-yoyReeng', vd.reengagement, cd.reengagement, yd ? yd.reengagement : null, yoyMonth, v => v.toFixed(1) + '%', 'pp');
+    AD_updateKpiAbs('ad-heroEventosApp', 'ad-deltaEventosApp', 'ad-yoyEventosApp', vd.eventosTotales, cd.eventosTotales, yd ? yd.eventosTotales : null, yoyMonth, v => v.toLocaleString('en-US'));
+    AD_updateKpiRate('ad-heroSesionesApp', 'ad-deltaSesionesApp', 'ad-yoySesionesApp', vd.sesionesApp, cd.sesionesApp, yd ? yd.sesionesApp : null, yoyMonth, v => v.toFixed(1), '');
 
-    const heroUsuarios = document.getElementById('ad-heroUsuarios');
-    const deltaUsuarios = document.getElementById('ad-deltaUsuarios');
-    crossfade(heroUsuarios, () => { heroUsuarios.textContent = vd.usuariosNuevos.toLocaleString('en-US'); });
-    const usuariosDelta = relDelta(vd.usuariosNuevos, cd.usuariosNuevos);
-    crossfade(deltaUsuarios, () => { deltaUsuarios.textContent = deltaText(usuariosDelta); deltaStyle(deltaUsuarios, usuariosDelta); });
+    AD_updateKpiAbs('ad-heroVisitasPortal', 'ad-deltaVisitasPortal', 'ad-yoyVisitasPortal', vd.visitasPortal, cd.visitasPortal, yd ? yd.visitasPortal : null, yoyMonth, v => v.toLocaleString('en-US'));
+    AD_updateKpiAbs('ad-heroNuevosPortal', 'ad-deltaNuevosPortal', 'ad-yoyNuevosPortal', vd.nuevosPortal, cd.nuevosPortal, yd ? yd.nuevosPortal : null, yoyMonth, v => v.toLocaleString('en-US'));
+    AD_updateKpiRate('ad-heroEngPortal', 'ad-deltaEngPortal', 'ad-yoyEngPortal', vd.engagementPortal, cd.engagementPortal, yd ? yd.engagementPortal : null, yoyMonth, v => v.toFixed(2) + '%', 'pp');
+    AD_updateKpiAbs('ad-heroSesionesPortal', 'ad-deltaSesionesPortal', 'ad-yoySesionesPortal', vd.sesionesPortal, cd.sesionesPortal, yd ? yd.sesionesPortal : null, yoyMonth, v => v.toLocaleString('en-US'));
+    AD_updateKpiRate('ad-heroEventosSesion', 'ad-deltaEventosSesion', 'ad-yoyEventosSesion', vd.eventosPorSesionPortal, cd.eventosPorSesionPortal, yd ? yd.eventosPorSesionPortal : null, yoyMonth, v => v.toFixed(1), '');
 
-    const heroCalidad = document.getElementById('ad-heroCalidad');
-    const deltaCalidad = document.getElementById('ad-deltaCalidad');
-    crossfade(heroCalidad, () => { heroCalidad.textContent = vd.calidad + '%'; });
-    const calidadDelta = vd.calidad - cd.calidad;
-    crossfade(deltaCalidad, () => { deltaCalidad.textContent = (calidadDelta >= 0 ? '▲ +' : '▼ ') + Math.abs(Math.round(calidadDelta * 10) / 10) + 'pp'; deltaStyle(deltaCalidad, calidadDelta); });
+    AD_renderMetaTable('ad-eventsMetaBody', AD_EVENT_ORDER, AD_EVENT_LABEL, vd.events, AD_EVENT_META);
+    AD_renderMetaTable('ad-routesMetaBody', AD_RUTA_ORDER, AD_RUTA_LABEL, vd.rutas, AD_RUTAS_META);
 
-    ['Organic', 'PaidSocial', 'GoogleAds', 'Referral'].forEach(k => {
-      const el = document.getElementById('ad-srcPct' + k);
-      crossfade(el, () => { el.textContent = vd.source[k] + '%'; });
-    });
-    AD_drawSourcePie(vd);
+    const fuenteBody = document.getElementById('ad-fuenteSesionBody');
+    fuenteBody.innerHTML = AD_FUENTE_SESION_ORDER.map(k => {
+      const pct = AD_FUENTE_SESION_SHARE[k];
+      const val = Math.round(vd.visitasPortal * (pct / 100));
+      return `<tr><td>${AD_FUENTE_SESION_LABEL[k]}</td><td class="metric">${val.toLocaleString('en-US')}</td><td class="metric">${pct.toFixed(1)}%</td></tr>`;
+    }).join('');
 
-    const heroEventos = document.getElementById('ad-heroEventos');
-    const deltaEventos = document.getElementById('ad-deltaEventos');
-    crossfade(heroEventos, () => { heroEventos.textContent = vd.eventosTotales.toLocaleString('en-US'); });
-    const eventosDelta = relDelta(vd.eventosTotales, cd.eventosTotales);
-    crossfade(deltaEventos, () => { deltaEventos.textContent = deltaText(eventosDelta); deltaStyle(deltaEventos, eventosDelta); });
+    const days = AD_DAYS_IN_MONTH[viewMonth];
+    const dauSeries = AD_dailyWave(days, vd.mau * AD_DAU_MAU_RATIO, 0.5, 0);
+    AD_drawDailyLine('ad-dailyMauSvg', [{ values: dauSeries, color: '#4F52E5', label: 'Usuarios activos' }], 1080, 140);
+    const totalSeries = AD_dailyWave(days, vd.visitasPortal / days, 0.75, 0);
+    const nuevosSeries = AD_dailyWave(days, vd.nuevosPortal / days, 0.65, 0.35);
+    AD_drawDailyLine('ad-dailyPortalSvg', [{ values: totalSeries, color: '#141414', label: 'Total de usuarios' }, { values: nuevosSeries, color: '#2E9560', label: 'Usuarios nuevos' }], 1080, 140);
 
-    const heroDuracion = document.getElementById('ad-heroDuracion');
-    const deltaDuracion = document.getElementById('ad-deltaDuracion');
-    crossfade(heroDuracion, () => { heroDuracion.textContent = vd.duracion + ' min'; });
-    const duracionDelta = vd.duracion - cd.duracion;
-    crossfade(deltaDuracion, () => { deltaDuracion.textContent = (duracionDelta >= 0 ? '▲ +' : '▼ ') + Math.abs(Math.round(duracionDelta * 10) / 10) + ' min'; deltaStyle(deltaDuracion, duracionDelta); });
-
-    AD_renderEventsTable(vd, cd);
+    AD_renderAppSummary(vd, cd, yd, cmpMonth, yoyMonth);
+    AD_renderPortalSummary(vd, cd, yd, cmpMonth, yoyMonth);
   }
   AD_viewSel.addEventListener('change', () => { ensureMonthsDiffer(AD_viewSel, AD_cmpSel); AD_updateComparison(); });
   AD_cmpSel.addEventListener('change', () => { ensureMonthsDiffer(AD_cmpSel, AD_viewSel); AD_updateComparison(); });
