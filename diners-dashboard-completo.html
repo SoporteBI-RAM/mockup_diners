@@ -464,7 +464,14 @@
 
   /* ================= SOCIAL MEDIA (page-specific) ================= */
   [data-page="social"] .sm-kpi-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
-  [data-page="social"] .sm-pie-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+  [data-page="social"] .sm-combo-row { display: flex; align-items: center; gap: 22px; flex-wrap: wrap; }
+  [data-page="social"] .sm-combo-row .pie-wrap { flex: 1; min-width: 220px; }
+  [data-page="social"] .sm-combo-divider { width: 1px; align-self: stretch; background: #e6e5ea; flex: none; }
+  [data-page="social"] .sm-yoy-caption { font-size: 10.5px; color: #8b8b8b; margin-top: 4px; }
+  [data-page="social"] .sm-metric-yoy-wrap { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; }
+  [data-page="social"] .sm-metric-yoy { font-size: 9px; font-weight: 500; color: #8b8b8b; white-space: nowrap; }
+  [data-page="social"] .sm-metric-yoy.good { color: #2E9560; }
+  [data-page="social"] .sm-metric-yoy.bad { color: #DE5850; }
   [data-page="social"] .brand-race-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
   [data-page="social"] .brand-race-row:last-child { margin-bottom: 0; }
   [data-page="social"] .brand-race-rank { width: 22px; height: 22px; border-radius: 50%; background: #F3F3F6; color: #6b6b6b; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex: none; }
@@ -473,6 +480,7 @@
   [data-page="social"] .brand-race-track { flex: 1; height: 20px; background: #F3F3F6; border-radius: 6px; overflow: hidden; }
   [data-page="social"] .brand-race-fill { height: 100%; border-radius: 6px; transition: transform 0.7s cubic-bezier(0.16,1,0.3,1); transform-origin: left; }
   [data-page="social"] .brand-race-value { width: 58px; flex: none; text-align: right; font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  [data-page="social"] .brand-race-value-yoy { width: 74px; flex: none; text-align: right; font-size: 9px; color: #8b8b8b; }
 
   /* ================= OWN MEDIA (page-specific) ================= */
   [data-page="own"] .channel-icon-badge { width: 30px; height: 30px; border-radius: 9px; display: flex; align-items: center; justify-content: center; flex: none; }
@@ -541,13 +549,13 @@
         <span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l18-6v14L3 15v-4z"></path><path d="M11.5 17a3 3 0 1 1-5.8-1.5"></path></svg></span>
         Paid Media
       </button>
-      <button class="nav-item" data-page="own">
-        <span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="M2 6l10 7L22 6"></path></svg></span>
-        Own Media
-      </button>
       <button class="nav-item" data-page="social">
         <span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.6" y1="10.6" x2="15.4" y2="6.4"></line><line x1="8.6" y1="13.4" x2="15.4" y2="17.6"></line></svg></span>
         Social Media
+      </button>
+      <button class="nav-item" data-page="own">
+        <span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="M2 6l10 7L22 6"></path></svg></span>
+        Own Media
       </button>
       <button class="nav-item" data-page="rse">
         <span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"></path></svg></span>
@@ -597,15 +605,6 @@
           <div class="portada-card-kpi"><span class="portada-card-kpi-value">103%</span><span class="portada-card-kpi-label">Cumplimiento Season</span></div>
           <div class="portada-card-arrow">Ver tablero →</div>
         </div>
-        <div class="zone portada-card" data-goto-page="own">
-          <div class="portada-card-icon" style="background:rgba(110,147,176,0.12);">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6E93B0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="M2 6l10 7L22 6"></path></svg>
-          </div>
-          <div class="portada-card-title">Own Media</div>
-          <div class="portada-card-desc">Email, SMS, Push y WhatsApp — desempeño, salud de canal y ranking de campañas.</div>
-          <div class="portada-card-kpi"><span class="portada-card-kpi-value">45,200</span><span class="portada-card-kpi-label">Aperturas de email</span></div>
-          <div class="portada-card-arrow">Ver tablero →</div>
-        </div>
         <div class="zone portada-card" data-goto-page="social">
           <div class="portada-card-icon" style="background:rgba(0,97,140,0.12);">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00618C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.6" y1="10.6" x2="15.4" y2="6.4"></line><line x1="8.6" y1="13.4" x2="15.4" y2="17.6"></line></svg>
@@ -613,6 +612,15 @@
           <div class="portada-card-title">Social Media</div>
           <div class="portada-card-desc">Crecimiento de comunidad y engagement por marca (Diners, TITANIUM, Discover) y red.</div>
           <div class="portada-card-kpi"><span class="portada-card-kpi-value">6.8%</span><span class="portada-card-kpi-label">Engagement rate</span></div>
+          <div class="portada-card-arrow">Ver tablero →</div>
+        </div>
+        <div class="zone portada-card" data-goto-page="own">
+          <div class="portada-card-icon" style="background:rgba(110,147,176,0.12);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6E93B0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="M2 6l10 7L22 6"></path></svg>
+          </div>
+          <div class="portada-card-title">Own Media</div>
+          <div class="portada-card-desc">Email, SMS, Push y WhatsApp — desempeño, salud de canal y ranking de campañas.</div>
+          <div class="portada-card-kpi"><span class="portada-card-kpi-value">45,200</span><span class="portada-card-kpi-label">Aperturas de email</span></div>
           <div class="portada-card-arrow">Ver tablero →</div>
         </div>
         <div class="zone portada-card" data-goto-page="rse">
@@ -1285,17 +1293,20 @@
             <div class="zone-title">Seguidores totales — todas las marcas y redes</div>
             <div class="hero-number fx" id="sm-heroTotal">285,000</div>
             <div class="hero-caption">vs. mes de comparación seleccionado <span class="delta-chip fx" id="sm-deltaTotal">▲ +2.9%</span></div>
+            <div class="sm-yoy-caption fx" id="sm-yoyTotal">vs. año anterior: Sin histórico</div>
           </div>
           <div class="zone zone-pad">
             <div class="zone-label">Desempeño</div>
             <div class="zone-title">Engagement rate agregado</div>
             <div class="hero-number fx" id="sm-heroEngagement">6.8%</div>
             <div class="hero-caption">vs. mes de comparación seleccionado <span class="delta-chip fx" id="sm-deltaEngagement">▲ +0.3pp</span></div>
+            <div class="sm-yoy-caption fx" id="sm-yoyEngagement">vs. año anterior: Sin histórico</div>
           </div>
         </div>
-        <div class="sm-pie-row">
-          <div class="zone zone-pad">
-            <div class="zone-title" style="margin-bottom:8px;">Composición por marca</div>
+        <div class="zone zone-pad">
+          <div class="zone-title" style="margin-bottom:2px;">Resumen por marca y por red social</div>
+          <div class="hero-caption" style="margin-top:0;margin-bottom:10px;">Composición de la comunidad total, corte del mes seleccionado.</div>
+          <div class="sm-combo-row">
             <div class="pie-wrap">
               <svg width="120" height="120" viewBox="0 0 120 120" id="sm-brandPieSvg"></svg>
               <div style="flex:1;">
@@ -1304,9 +1315,7 @@
                 <div class="mix-legend-row"><span class="mix-dot" style="background:#6E93B0"></span><span class="mix-name">Discover</span><span class="mix-pct fx" id="sm-brandPctDiscover">13%</span></div>
               </div>
             </div>
-          </div>
-          <div class="zone zone-pad">
-            <div class="zone-title" style="margin-bottom:8px;">Composición por red social</div>
+            <div class="sm-combo-divider"></div>
             <div class="pie-wrap">
               <svg width="120" height="120" viewBox="0 0 120 120" id="sm-networkPieSvg"></svg>
               <div style="flex:1;">
@@ -1319,7 +1328,11 @@
             </div>
           </div>
         </div>
-        <div class="insight-box"><span>💡</span><span>TikTok pasó de 16% a 24% de la comunidad en 6 meses: es la red de crecimiento más rápido, aunque Instagram sigue siendo la mayor en volumen.</span></div>
+        <div class="zone zone-pad" style="margin-top:14px;">
+          <div class="zone-label">Análisis</div>
+          <div class="zone-title" style="margin-bottom:8px;">Análisis resumen</div>
+          <div class="fx" id="sm-t1Summary" style="font-size:12.5px;line-height:1.65;color:#3d3d3d;"></div>
+        </div>
       </div>
 
       <!-- ============ TAB 2 — POR MARCA ============ -->
@@ -1334,19 +1347,19 @@
           <div class="zone zone-pad" data-brand="Diners" data-tt="Diners Club" data-ttv="Marca principal">
             <div class="brand-card-head"><span class="brand-dot-lg" style="background:#4F52E5"></span><span class="zone-title" style="margin-bottom:0;">Diners Club</span></div>
             <div class="brand-metric-row"><span class="brand-metric-label">Seguidores</span><span class="fx" id="sm-brandFollowersDiners"><span class="brand-metric-value">190,950</span></span></div>
-            <div class="brand-metric-row"><span class="brand-metric-label">Crecimiento</span><span class="delta-chip fx" id="sm-brandGrowthDiners">▲ +1.4%</span></div>
+            <div class="brand-metric-row"><span class="brand-metric-label">Crecimiento</span><span class="sm-metric-yoy-wrap"><span class="delta-chip fx" id="sm-brandGrowthDiners">▲ +1.4%</span><span class="sm-metric-yoy fx" id="sm-brandGrowthYoyDiners">AA: Sin histórico</span></span></div>
             <div class="brand-metric-row"><span class="brand-metric-label">Engagement rate</span><span class="fx" id="sm-brandEngDiners"><span class="brand-metric-value">6.5%</span></span></div>
           </div>
           <div class="zone zone-pad" data-brand="TITANIUM" data-tt="TITANIUM" data-ttv="Segmento premium">
             <div class="brand-card-head"><span class="brand-dot-lg" style="background:#2563EB"></span><span class="zone-title" style="margin-bottom:0;">TITANIUM</span></div>
             <div class="brand-metric-row"><span class="brand-metric-label">Seguidores</span><span class="fx" id="sm-brandFollowersTITANIUM"><span class="brand-metric-value">57,000</span></span></div>
-            <div class="brand-metric-row"><span class="brand-metric-label">Crecimiento</span><span class="delta-chip fx" id="sm-brandGrowthTITANIUM">▲ +8.3%</span></div>
+            <div class="brand-metric-row"><span class="brand-metric-label">Crecimiento</span><span class="sm-metric-yoy-wrap"><span class="delta-chip fx" id="sm-brandGrowthTITANIUM">▲ +8.3%</span><span class="sm-metric-yoy fx" id="sm-brandGrowthYoyTITANIUM">AA: Sin histórico</span></span></div>
             <div class="brand-metric-row"><span class="brand-metric-label">Engagement rate</span><span class="fx" id="sm-brandEngTITANIUM"><span class="brand-metric-value">9.2%</span></span></div>
           </div>
           <div class="zone zone-pad" data-brand="Discover" data-tt="Discover" data-ttv="Marca co-branded">
             <div class="brand-card-head"><span class="brand-dot-lg" style="background:#6E93B0"></span><span class="zone-title" style="margin-bottom:0;">Discover</span></div>
             <div class="brand-metric-row"><span class="brand-metric-label">Seguidores</span><span class="fx" id="sm-brandFollowersDiscover"><span class="brand-metric-value">37,050</span></span></div>
-            <div class="brand-metric-row"><span class="brand-metric-label">Crecimiento</span><span class="delta-chip fx" id="sm-brandGrowthDiscover">▲ +2.9%</span></div>
+            <div class="brand-metric-row"><span class="brand-metric-label">Crecimiento</span><span class="sm-metric-yoy-wrap"><span class="delta-chip fx" id="sm-brandGrowthDiscover">▲ +2.9%</span><span class="sm-metric-yoy fx" id="sm-brandGrowthYoyDiscover">AA: Sin histórico</span></span></div>
             <div class="brand-metric-row"><span class="brand-metric-label">Engagement rate</span><span class="fx" id="sm-brandEngDiscover"><span class="brand-metric-value">5.1%</span></span></div>
           </div>
         </div>
@@ -1358,7 +1371,7 @@
         <div class="zone zone-pad">
           <div class="zone-title" style="margin-bottom:10px;">Desempeño por red social</div>
           <table class="network-table">
-            <thead><tr><th>Red</th><th>Seguidores</th><th>Engagement rate</th><th>Crecimiento</th></tr></thead>
+            <thead><tr><th>Red</th><th>Seguidores</th><th>Engagement rate</th><th>Crecimiento</th><th>vs. año anterior</th></tr></thead>
             <tbody id="sm-networkTableBody">
             </tbody>
           </table>
@@ -3421,6 +3434,8 @@
       networks: { Instagram: { followers: 97020, engagement: 5.7 }, Facebook: { followers: 76230, engagement: 3.6 }, TikTok: { followers: 23100, engagement: 8.3 }, LinkedIn: { followers: 18480, engagement: 4.7 }, X: { followers: 16170, engagement: 3.1 } } },
   };
 
+  const SM_yoyMonth = m => m.includes('2026') ? m.replace('2026', '2025') : null;
+
   const SM_viewSel = document.getElementById('sm-viewMonthSelect');
   const SM_cmpSel = document.getElementById('sm-compareMonthSelect');
   SM_MONTHS.forEach(m => { SM_viewSel.add(new Option(m, m)); SM_cmpSel.add(new Option(m, m)); });
@@ -3440,10 +3455,10 @@
     svg.innerHTML = pieMarkup(order.map(k => ({ label: k, pct: vd.networkShare[k], color: SM_NETWORK_COLOR[k] })), 120);
   }
 
-  function SM_renderBrandRace(vd, cd) {
+  function SM_renderBrandRace(vd, cd, yd) {
     const order = ['Diners', 'TITANIUM', 'Discover'];
     const ranked = order
-      .map(k => ({ key: k, growth: relDelta(vd.brands[k].followers, cd.brands[k].followers) }))
+      .map(k => ({ key: k, growth: relDelta(vd.brands[k].followers, cd.brands[k].followers), growthYoy: yd ? relDelta(vd.brands[k].followers, yd.brands[k].followers) : null }))
       .sort((a, b) => (b.growth ?? -Infinity) - (a.growth ?? -Infinity));
     const maxGrowth = Math.max(...ranked.map(r => Math.abs(r.growth ?? 0)), 0.1);
     const el = document.getElementById('sm-brandRace');
@@ -3457,38 +3472,81 @@
         <div class="brand-race-name"><span class="mix-dot" style="background:${color}"></span>${label}</div>
         <div class="brand-race-track"><div class="brand-race-fill" style="width:100%;background:${color};transform:scaleX(${ratio})"></div></div>
         <div class="brand-race-value" style="color:${g === null ? '#6b6b6b' : (g >= 0 ? '#008038' : '#EE0000')}">${deltaText(g)}</div>
+        <div class="brand-race-value-yoy">${r.growthYoy !== null ? deltaText(r.growthYoy) + ' AA' : 'Sin histórico'}</div>
       </div>`;
     }).join('');
   }
 
-  function SM_renderNetworkTable(vd, cd) {
+  function SM_renderNetworkTable(vd, cd, yd) {
     const order = ['Instagram', 'Facebook', 'TikTok', 'LinkedIn', 'X'];
     const body = document.getElementById('sm-networkTableBody');
     body.innerHTML = order.map(k => {
       const n = vd.networks[k], c = cd.networks[k];
       const growth = relDelta(n.followers, c.followers);
+      const growthYoy = yd ? relDelta(n.followers, yd.networks[k].followers) : null;
       return `<tr><td><div class="network-name-cell"><span class="mix-dot" style="background:${SM_NETWORK_COLOR[k]}"></span>${k}</div></td>` +
         `<td class="metric">${n.followers.toLocaleString('en-US')}</td>` +
         `<td class="metric">${n.engagement}%</td>` +
-        `<td class="metric">${deltaText(growth)}</td></tr>`;
+        `<td class="metric">${deltaText(growth)}</td>` +
+        `<td class="metric">${growthYoy !== null ? deltaText(growthYoy) : 'Sin histórico'}</td></tr>`;
     }).join('');
+  }
+
+  function SM_renderT1Summary(vd, cd, yd, cmpMonth, yoyMonth) {
+    const brandOrder = ['Diners', 'TITANIUM', 'Discover'];
+    const brandLabel = { Diners: 'Diners Club', TITANIUM: 'TITANIUM', Discover: 'Discover' };
+    const leaderBrand = brandOrder.reduce((a, b) => (vd.brands[b].followers > vd.brands[a].followers ? b : a));
+    const fastestBrand = brandOrder.reduce((a, b) => {
+      const ga = relDelta(vd.brands[a].followers, cd.brands[a].followers) ?? -Infinity;
+      const gb = relDelta(vd.brands[b].followers, cd.brands[b].followers) ?? -Infinity;
+      return gb > ga ? b : a;
+    });
+    const fastestBrandGrowth = relDelta(vd.brands[fastestBrand].followers, cd.brands[fastestBrand].followers);
+
+    const netOrder = ['Instagram', 'Facebook', 'TikTok', 'LinkedIn', 'X'];
+    const fastestNet = netOrder.reduce((a, b) => {
+      const ga = relDelta(vd.networks[a].followers, cd.networks[a].followers) ?? -Infinity;
+      const gb = relDelta(vd.networks[b].followers, cd.networks[b].followers) ?? -Infinity;
+      return gb > ga ? b : a;
+    });
+    const fastestNetGrowth = relDelta(vd.networks[fastestNet].followers, cd.networks[fastestNet].followers);
+    const largestNet = netOrder.reduce((a, b) => (vd.networkShare[b] > vd.networkShare[a] ? b : a));
+
+    const engDelta = vd.engagement - cd.engagement;
+    const engYoy = yd ? vd.engagement - yd.engagement : null;
+    const totalYoy = yd ? relDelta(vd.total, yd.total) : null;
+
+    const parts = [];
+    parts.push(`<b>${brandLabel[leaderBrand]}</b> sigue siendo la marca con más seguidores (${vd.brandShare[leaderBrand]}% de la comunidad), pero <b>${brandLabel[fastestBrand]}</b> crece más rápido este mes (${deltaText(fastestBrandGrowth)} vs. ${cmpMonth.split(' ')[0]}).`);
+    parts.push(`<b>${fastestNet}</b> es la red que más gana terreno (${deltaText(fastestNetGrowth)}), aunque <b>${largestNet}</b> sigue liderando en volumen con ${vd.networkShare[largestNet]}% de la comunidad.`);
+    parts.push(`El engagement rate agregado es de ${vd.engagement}% (${deltaText(engDelta, 'pp')} vs. ${cmpMonth.split(' ')[0]}${engYoy !== null ? ` · ${deltaText(engYoy, 'pp')} vs. ${yoyMonth} AA` : ''}).`);
+    parts.push(`La comunidad total creció ${deltaText(relDelta(vd.total, cd.total))} en el mes${totalYoy !== null ? ` y ${deltaText(totalYoy)} vs. ${yoyMonth} (año anterior)` : ''}.`);
+    document.getElementById('sm-t1Summary').innerHTML = parts.join(' ');
   }
 
   function SM_updateComparison() {
     const viewMonth = SM_viewSel.value, cmpMonth = SM_cmpSel.value;
     const vd = SM_MONTH_DATA[viewMonth], cd = SM_MONTH_DATA[cmpMonth];
+    const yoyMonth = SM_yoyMonth(cmpMonth);
+    const yd = yoyMonth ? SM_MONTH_DATA[yoyMonth] : null;
 
     const heroTotal = document.getElementById('sm-heroTotal');
     const deltaTotal = document.getElementById('sm-deltaTotal');
     crossfade(heroTotal, () => { heroTotal.textContent = vd.total.toLocaleString('en-US'); });
     const totalDelta = relDelta(vd.total, cd.total);
     crossfade(deltaTotal, () => { deltaTotal.textContent = deltaText(totalDelta); deltaStyle(deltaTotal, totalDelta); });
+    const yoyTotal = document.getElementById('sm-yoyTotal');
+    const totalYoyDelta = yd ? relDelta(vd.total, yd.total) : null;
+    crossfade(yoyTotal, () => { yoyTotal.textContent = totalYoyDelta !== null ? `vs. año anterior (${yoyMonth}): ${deltaText(totalYoyDelta)}` : 'vs. año anterior: Sin histórico'; });
 
     const heroEng = document.getElementById('sm-heroEngagement');
     const deltaEng = document.getElementById('sm-deltaEngagement');
     crossfade(heroEng, () => { heroEng.textContent = vd.engagement + '%'; });
     const engDelta = vd.engagement - cd.engagement;
     crossfade(deltaEng, () => { deltaEng.textContent = (engDelta >= 0 ? '▲ +' : '▼ ') + Math.abs(Math.round(engDelta * 10) / 10) + 'pp'; deltaStyle(deltaEng, engDelta); });
+    const yoyEng = document.getElementById('sm-yoyEngagement');
+    const engYoyDelta = yd ? vd.engagement - yd.engagement : null;
+    crossfade(yoyEng, () => { yoyEng.textContent = engYoyDelta !== null ? `vs. año anterior (${yoyMonth}): ${deltaText(engYoyDelta, 'pp')}` : 'vs. año anterior: Sin histórico'; });
 
     ['Diners', 'TITANIUM', 'Discover'].forEach(k => {
       const el = document.getElementById('sm-brandPct' + k);
@@ -3509,12 +3567,20 @@
       const growthEl = document.getElementById('sm-brandGrowth' + k);
       const growth = relDelta(b.followers, cb.followers);
       crossfade(growthEl, () => { growthEl.textContent = deltaText(growth); deltaStyle(growthEl, growth); });
+      const growthYoyEl = document.getElementById('sm-brandGrowthYoy' + k);
+      const growthYoy = yd ? relDelta(b.followers, yd.brands[k].followers) : null;
+      crossfade(growthYoyEl, () => {
+        growthYoyEl.textContent = growthYoy !== null ? `AA: ${deltaText(growthYoy)}` : 'AA: Sin histórico';
+        growthYoyEl.classList.remove('good', 'bad');
+        if (growthYoy !== null) growthYoyEl.classList.add(growthYoy >= 0 ? 'good' : 'bad');
+      });
       const engEl = document.getElementById('sm-brandEng' + k);
       crossfade(engEl, () => { engEl.innerHTML = `<span class="brand-metric-value">${b.engagement}%</span>`; });
     });
 
-    SM_renderBrandRace(vd, cd);
-    SM_renderNetworkTable(vd, cd);
+    SM_renderBrandRace(vd, cd, yd);
+    SM_renderNetworkTable(vd, cd, yd);
+    SM_renderT1Summary(vd, cd, yd, cmpMonth, yoyMonth);
   }
   SM_viewSel.addEventListener('change', () => { ensureMonthsDiffer(SM_viewSel, SM_cmpSel); SM_updateComparison(); });
   SM_cmpSel.addEventListener('change', () => { ensureMonthsDiffer(SM_cmpSel, SM_viewSel); SM_updateComparison(); });
