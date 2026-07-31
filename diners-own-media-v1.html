@@ -1,0 +1,634 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<title>Own Media — Mockup de estructura (borrador interno)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  :root { color-scheme: light; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background:
+      radial-gradient(1100px circle at 12% -8%, rgba(79,82,229,0.09), transparent 55%),
+      radial-gradient(900px circle at 105% 15%, rgba(79,82,229,0.06), transparent 55%),
+      radial-gradient(700px circle at 50% 120%, rgba(27,37,96,0.05), transparent 60%),
+      #F6F6F8;
+    color: #262626;
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .report { max-width: 1240px; margin: 0 auto; padding: 22px 24px 56px; }
+
+  .draft-banner { display: flex; align-items: center; gap: 10px; background: #EFEAFB; border: 1px solid #C9C2F2; color: #3730A3; border-radius: 10px; padding: 11px 16px; font-size: 12.5px; margin-bottom: 16px; }
+  .draft-banner b { color: #262166; }
+
+  .masthead { display: flex; align-items: center; justify-content: space-between; background: #141414; border-radius: 14px; padding: 16px 22px; color: #fff; margin-bottom: 12px; }
+  .masthead-left { display: flex; align-items: center; gap: 14px; }
+  .logo-mark { width: 32px; height: 32px; flex: none; display: flex; align-items: center; justify-content: center; }
+  .masthead-title { font-size: 18px; font-weight: 600; letter-spacing: 0.01em; }
+  .masthead-sub { font-size: 11.5px; color: #b0b0b0; margin-top: 2px; }
+  .masthead-right { display: flex; align-items: center; gap: 14px; }
+  .ring-value { font-size: 21px; font-weight: 700; }
+  .ring-label { font-size: 10.5px; color: #b0b0b0; }
+  .status-pill { font-size: 10.5px; font-weight: 600; padding: 5px 10px; border-radius: 999px; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.18); }
+
+  .filter-row { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
+  .filter-label { font-size: 11px; font-weight: 700; color: #8b8b8b; text-transform: uppercase; letter-spacing: 0.05em; }
+  .month-select {
+    font: inherit; font-size: 12px; font-weight: 600; padding: 6px 30px 6px 13px; border-radius: 999px;
+    background: #fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="6"><path d="M0 0l5 6 5-6z" fill="%236b6b6b"/></svg>') no-repeat right 12px center;
+    border: 1px solid #e2e0e8; color: #262626; cursor: pointer; appearance: none; -webkit-appearance: none;
+    transition: border-color 0.15s ease, transform 0.1s ease;
+  }
+  .month-select:hover { border-color: #4F52E5; }
+  .month-select:active { transform: scale(0.98); }
+  .month-select:focus-visible { outline: 2px solid #4F52E5; outline-offset: 2px; }
+  .month-select.is-compare { color: #4F52E5; border-color: #cfcaf0; }
+  .vs-label { font-size: 12px; font-weight: 700; color: #8b8b8b; }
+  .filter-hint { font-size: 11px; color: #8b8b8b; margin-left: auto; }
+
+  .tab-rail { display: flex; gap: 4px; overflow-x: auto; margin-bottom: 16px; border-bottom: 1px solid #dcdbe0; }
+  .tab { flex: 0 0 auto; font: inherit; font-size: 12.5px; font-weight: 600; letter-spacing: 0.01em; padding: 10px 16px; border-radius: 8px 8px 0 0; color: #6b6b6b; background: transparent; border: none; border-bottom: 2px solid transparent; white-space: nowrap; cursor: pointer; transition: color 0.15s ease, border-color 0.15s ease; }
+  .tab:hover { color: #262626; }
+  .tab:active { transform: scale(0.98); }
+  .tab:focus-visible { outline: 2px solid #4F52E5; outline-offset: -2px; }
+  .tab[data-active="true"] { color: #262626; border-bottom: 2px solid #4F52E5; }
+  .tab-num { display: inline-block; width: 15px; height: 15px; line-height: 15px; text-align: center; border-radius: 50%; background: #e6e5ea; font-size: 9px; margin-right: 5px; }
+  .tab[data-active="true"] .tab-num { background: #4F52E5; color: #fff; }
+
+  .panel { display: none; }
+  .panel[data-visible="true"] { display: block; animation: fadein 0.25s ease; }
+  @keyframes fadein { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes popIn { from { opacity: 0; transform: scale(0.85); } to { opacity: 1; transform: scale(1); } }
+
+  .zone { background: #fff; border-radius: 14px; box-shadow: 0 1px 2px rgba(20,20,20,0.05), 0 6px 20px rgba(20,20,20,0.06); position: relative; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+  .zone:hover { transform: translateY(-3px); box-shadow: 0 4px 10px rgba(20,20,20,0.07), 0 14px 32px rgba(20,20,20,0.10); }
+  .zone-pad { padding: 18px 20px; }
+  .zone-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #4F52E5; margin-bottom: 6px; }
+  .zone-title { font-size: 14px; font-weight: 600; color: #262626; margin-bottom: 2px; }
+  .section-note { font-size: 11.5px; color: #8b8b8b; margin-bottom: 12px; }
+
+  .caveat-box { display: flex; gap: 9px; align-items: flex-start; background: #FBF3D9; border: 1px solid #E9D583; border-radius: 9px; padding: 10px 13px; font-size: 11.5px; color: #6b5a12; }
+  .caveat-box b { color: #4a3d0c; }
+  .insight-box { display: flex; gap: 9px; align-items: flex-start; background: #EFEAFB; border: 1px solid #C9C2F2; border-radius: 9px; padding: 10px 13px; font-size: 11.5px; color: #3730A3; }
+  .insight-box b { color: #262166; }
+
+  #dataTooltip {
+    position: fixed; pointer-events: none; z-index: 999; background: #141414; color: #fff;
+    font-size: 11.5px; padding: 7px 10px; border-radius: 8px; box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+    opacity: 0; transform: translate(-50%, -100%); transition: opacity 0.1s ease; white-space: nowrap;
+  }
+  #dataTooltip.show { opacity: 1; }
+  #dataTooltip b { color: #fff; }
+  #dataTooltip .tt-sub { color: #b0b0b0; font-size: 10px; }
+
+  .fx { transition: opacity 0.18s ease; }
+  .fx.fading { opacity: 0.15; }
+  [data-tt] { cursor: default; }
+
+  /* ============ TAB 1 — Resumen por canal ============ */
+  .channel-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 14px; }
+  .channel-card-head { display: flex; align-items: center; gap: 9px; margin-bottom: 12px; }
+  .channel-icon-badge { width: 30px; height: 30px; border-radius: 9px; display: flex; align-items: center; justify-content: center; flex: none; }
+  .channel-card-name { font-size: 13.5px; font-weight: 700; color: #262626; }
+  .channel-metric-row { display: flex; justify-content: space-between; align-items: baseline; padding: 7px 0; border-top: 1px dashed #e6e5ea; }
+  .channel-metric-row:first-of-type { border-top: none; padding-top: 0; }
+  .channel-metric-label { font-size: 11px; color: #8b8b8b; }
+  .channel-metric-value { font-size: 15px; font-weight: 700; color: #262626; font-variant-numeric: tabular-nums; }
+  .channel-metric-value.muted { font-size: 11.5px; font-weight: 600; color: #8b8b8b; }
+  .channel-delta { font-size: 9.5px; font-weight: 700; margin-left: 6px; }
+  .channel-delta.good { color: #1C7A42; }
+  .channel-delta.bad { color: #AC3B2E; }
+  .t1-bottom { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .pie-wrap { display: flex; align-items: center; gap: 16px; }
+  .pie-wrap svg { animation: popIn 0.5s cubic-bezier(.2,.9,.3,1.2); }
+  .mix-legend-row { display: flex; align-items: center; gap: 7px; font-size: 11.5px; margin-bottom: 7px; }
+  .mix-dot { width: 9px; height: 9px; border-radius: 3px; flex: none; }
+  .mix-name { flex: 1; color: #262626; }
+  .mix-pct { font-weight: 700; font-variant-numeric: tabular-nums; }
+  .yoy-row { display: flex; gap: 18px; font-size: 12px; flex-wrap: wrap; align-items: center; height: 100%; }
+  .delta-chip { font-size: 11.5px; font-weight: 600; padding: 3px 8px; border-radius: 6px; background: rgba(28,122,66,0.1); color: #1c7a42; display: inline-flex; align-items: center; gap: 4px; }
+
+  /* ============ TAB 2 — Desglose por campaña ============ */
+  .campaign-group { margin-bottom: 14px; }
+  .campaign-badge { align-self: flex-start; font-size: 10px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; padding: 3px 8px; border-radius: 6px; flex: none; }
+  .campaign-group-head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+  .campaign-group-title { font-size: 14.5px; font-weight: 600; }
+  .campaign-group-count { font-size: 11px; font-weight: 400; color: #8b8b8b; margin-left: 6px; }
+  .campaign-group-totals { display: flex; align-items: center; gap: 9px; margin-left: auto; }
+  .campaign-stat-value { font-size: 14.5px; font-weight: 700; }
+  .campaign-stat-label { font-size: 9.5px; color: #8b8b8b; }
+  .campaign-group-meta { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; background: #F3F3F6; border-radius: 9px; padding: 10px 13px; margin-bottom: 12px; }
+  .campaign-block-label { font-size: 9.5px; font-weight: 700; color: #8b8b8b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 2px; }
+  .campaign-objective { font-size: 11.5px; color: #5C5C5C; line-height: 1.4; }
+  .campaign-metric { font-size: 11.5px; color: #262626; }
+  .channel-fit-row { display: flex; gap: 5px; flex-wrap: wrap; }
+  .channel-chip { font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 999px; background: #fff; color: #4b4b4b; }
+  .campaign-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .campaign-table th { text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: 0.04em; color: #8b8b8b; font-weight: 700; padding: 5px 7px; border-bottom: 1px solid #e6e5ea; }
+  .campaign-table tbody tr { transition: background 0.15s ease; }
+  .campaign-table tbody tr:hover { background: #F8F7FC; }
+  .campaign-table td { padding: 8px 7px; border-bottom: 1px solid #eef1f3; }
+  .campaign-table td.name { font-weight: 600; color: #262626; }
+  .campaign-table td.metric { font-variant-numeric: tabular-nums; }
+  .status-chip { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 999px; }
+  .status-chip.active { background: rgba(28,122,66,0.1); color: #1c7a42; }
+  .status-chip.planned { background: rgba(107,114,128,0.12); color: #4b4b4b; }
+  .status-chip.finished { background: #eef1f3; color: #6b6b6b; }
+  .legend-row { display: flex; gap: 14px; margin-bottom: 8px; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: #5C5C5C; }
+  .legend-swatch { width: 9px; height: 9px; border-radius: 3px; }
+
+  /* ============ TAB 3 — Salud del canal y ranking ============ */
+  .health-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 14px; }
+  .health-metric-row { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 0; }
+  .health-status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 6px; }
+  .rank-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+  .rank-highlight { display: flex; align-items: center; gap: 12px; }
+  .rank-badge { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex: none; }
+  .rank-campaign-name { font-size: 13.5px; font-weight: 700; }
+  .rank-campaign-sub { font-size: 11px; color: #8b8b8b; margin-top: 2px; }
+  .rank-stats-row { display: flex; gap: 16px; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #e6e5ea; }
+  .rank-stat-value { font-size: 15px; font-weight: 700; }
+  .rank-stat-label { font-size: 9.5px; color: #8b8b8b; }
+  .rank-table { width: 100%; border-collapse: collapse; font-size: 11.5px; }
+  .rank-table th { text-align: left; font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.04em; color: #8b8b8b; font-weight: 700; padding: 5px 6px; border-bottom: 1px solid #e6e5ea; }
+  .rank-table td { padding: 7px 6px; border-bottom: 1px solid #eef1f3; }
+  .rank-table td.metric { font-variant-numeric: tabular-nums; font-weight: 600; }
+
+  .footer-note { font-size: 11px; color: #8b8b8b; text-align: center; margin-top: 22px; }
+</style>
+</head>
+<body>
+<div id="dataTooltip"></div>
+<div class="report">
+
+  <div class="draft-banner">
+    <span style="font-size:15px;">🧭</span>
+    <span><b>Borrador de estructura — no validado con todo el equipo.</b> Mismo sistema de diseño que Paid Media (gauges para metas, pasteles para composición, filtros y cruce de datos reales). Datos 100% ilustrativos.</span>
+  </div>
+
+  <div class="masthead">
+    <div class="masthead-left">
+      <div class="logo-mark">
+        <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
+          <circle cx="15" cy="15" r="12.5" stroke="#fff" stroke-width="2.2"></circle>
+          <line x1="15" y1="3" x2="15" y2="27" stroke="#fff" stroke-width="2.2"></line>
+        </svg>
+      </div>
+      <div>
+        <div class="masthead-title">Diners Club · Own Media</div>
+        <div class="masthead-sub">Email, SMS, Push y WhatsApp — desempeño y salud de canal</div>
+      </div>
+    </div>
+    <div class="masthead-right">
+      <span class="status-pill">Canales saludables</span>
+      <div><div class="ring-value">61.2</div><div class="ring-label">Índice compuesto</div></div>
+    </div>
+  </div>
+
+  <div class="filter-row">
+    <span class="filter-label">Ver</span>
+    <select class="month-select" id="viewMonthSelect"></select>
+    <span class="vs-label">vs.</span>
+    <span class="filter-label">Comparar contra</span>
+    <select class="month-select is-compare" id="compareMonthSelect"></select>
+    <span class="filter-hint">↑ recalcula tasas de canal, envíos por grupo y deltas en tiempo real</span>
+  </div>
+
+  <div class="tab-rail" id="tabRail">
+    <button class="tab" data-tab="t1" data-active="true"><span class="tab-num">1</span>Resumen por canal</button>
+    <button class="tab" data-tab="t2"><span class="tab-num">2</span>Desglose por campaña</button>
+    <button class="tab" data-tab="t3"><span class="tab-num">3</span>Salud del canal y ranking</button>
+  </div>
+
+  <!-- ============ TAB 1 — RESUMEN POR CANAL ============ -->
+  <div class="panel" data-panel="t1" data-visible="true">
+    <div class="channel-grid">
+      <div class="zone zone-pad">
+        <div class="channel-card-head">
+          <span class="channel-icon-badge" style="background:rgba(27,169,163,0.12);">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1BA9A3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="M2 6l10 7L22 6"></path></svg>
+          </span>
+          <span class="channel-card-name">Email</span>
+        </div>
+        <div class="channel-metric-row"><span class="channel-metric-label">Aperturas</span><span class="fx" id="chEmailAperturas"><span class="channel-metric-value">45,200</span><span class="channel-delta good" id="dEmailAperturas">▲ +8%</span></span></div>
+        <div class="channel-metric-row"><span class="channel-metric-label">Tasa de apertura</span><span class="fx" id="chEmailTasaApertura"><span class="channel-metric-value">28.4%</span><span class="channel-delta good" id="dEmailTasaApertura">▲ +2.1pp</span></span></div>
+        <div class="channel-metric-row"><span class="channel-metric-label">CTR</span><span class="fx" id="chEmailCTR"><span class="channel-metric-value">3.2%</span><span class="channel-delta good" id="dEmailCTR">▲ +0.4pp</span></span></div>
+        <div class="channel-metric-row"><span class="channel-metric-label">Tasa de clics (sobre abiertos)</span><span class="channel-metric-value">11.3%</span></div>
+      </div>
+
+      <div class="zone zone-pad">
+        <div class="channel-card-head">
+          <span class="channel-icon-badge" style="background:rgba(79,82,229,0.12);">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4F52E5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"></rect><line x1="9" y1="18" x2="15" y2="18"></line></svg>
+          </span>
+          <span class="channel-card-name">SMS</span>
+        </div>
+        <div class="channel-metric-row"><span class="channel-metric-label">Entregabilidad</span><span class="fx" id="chSMSEntrega"><span class="channel-metric-value">97.8%</span><span class="channel-delta good" id="dSMSEntrega">▲ +0.5pp</span></span></div>
+        <div class="channel-metric-row"><span class="channel-metric-label">CTR</span><span class="fx" id="chSMSCTR"><span class="channel-metric-value">4.1%</span><span class="channel-delta good" id="dSMSCTR">▲ +0.3pp</span></span></div>
+        <div class="channel-metric-row"><span class="channel-metric-label" style="font-style:italic;">Solo aplica al 62% de envíos con enlace</span></div>
+      </div>
+
+      <div class="zone zone-pad">
+        <div class="channel-card-head">
+          <span class="channel-icon-badge" style="background:rgba(201,162,63,0.14);">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9A23F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+          </span>
+          <span class="channel-card-name">Push</span>
+        </div>
+        <div class="channel-metric-row"><span class="channel-metric-label">Entrega</span><span class="fx" id="chPushEntrega"><span class="channel-metric-value">94.5%</span><span class="channel-delta bad" id="dPushEntrega">▼ -1.2pp</span></span></div>
+        <div class="channel-metric-row"><span class="channel-metric-label">CTR</span><span class="fx" id="chPushCTR"><span class="channel-metric-value">6.8%</span><span class="channel-delta good" id="dPushCTR">▲ +0.9pp</span></span></div>
+      </div>
+
+      <div class="zone zone-pad">
+        <div class="channel-card-head">
+          <span class="channel-icon-badge" style="background:rgba(212,91,142,0.12);">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D45B8E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+          </span>
+          <span class="channel-card-name">WhatsApp</span>
+        </div>
+        <div class="channel-metric-row"><span class="channel-metric-label">Apertura (lectura)</span><span class="fx" id="chWspApertura"><span class="channel-metric-value">89.2%</span><span class="channel-delta good" id="dWspApertura">▲ +3.4pp</span></span></div>
+        <div class="channel-metric-row"><span class="channel-metric-label">Clics</span><span class="fx" id="chWspClics"><span class="channel-metric-value">1,840</span></span></div>
+        <div class="channel-metric-row"><span class="channel-metric-label">CTR</span><span class="channel-metric-value">5.4%</span></div>
+        <div class="channel-metric-row"><span class="channel-metric-label" style="font-style:italic;">CTR solo si el mensaje tiene enlace</span></div>
+      </div>
+    </div>
+
+    <div class="t1-bottom">
+      <div class="zone zone-pad pie-wrap">
+        <svg width="120" height="120" viewBox="0 0 120 120" id="shareSvg"></svg>
+        <div style="flex:1;">
+          <div class="zone-title" style="margin-bottom:8px;">Share de medios (envíos)</div>
+          <div class="mix-legend-row"><span class="mix-dot" style="background:#1BA9A3"></span><span class="mix-name">Email</span><span class="mix-pct fx" id="sharePctEmail">45%</span></div>
+          <div class="mix-legend-row"><span class="mix-dot" style="background:#4F52E5"></span><span class="mix-name">Push</span><span class="mix-pct fx" id="sharePctPush">25%</span></div>
+          <div class="mix-legend-row"><span class="mix-dot" style="background:#C9A23F"></span><span class="mix-name">SMS</span><span class="mix-pct fx" id="sharePctSMS">20%</span></div>
+          <div class="mix-legend-row"><span class="mix-dot" style="background:#D45B8E"></span><span class="mix-name">WhatsApp</span><span class="mix-pct fx" id="sharePctWhatsApp">10%</span></div>
+        </div>
+      </div>
+      <div class="zone zone-pad">
+        <div class="zone-label fx" id="t1CompareLabel">Comparando Junio 2026 vs. Mayo 2026</div>
+        <div class="yoy-row">
+          <div><b>Aperturas totales</b> <span class="delta-chip fx" id="yoyAperturas">▲ +6.8%</span></div>
+          <div><b>Clics totales</b> <span class="delta-chip fx" id="yoyClics">▲ +4.2%</span></div>
+        </div>
+        <div class="insight-box" style="margin-top:12px;"><span>💡</span><span>Push es el canal con mejor CTR (6.8%) pero su entrega bajó -1.2pp este periodo — vale la pena revisar la salud del canal (pestaña 3).</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ TAB 2 — DESGLOSE POR CAMPAÑA ============ -->
+  <div class="panel" data-panel="t2">
+    <div class="zone zone-pad" style="margin-bottom:14px;">
+      <div class="zone-title" style="margin-bottom:8px;">Envíos y aperturas en el tiempo</div>
+      <div class="legend-row">
+        <div class="legend-item"><span class="legend-swatch" style="background:#141414"></span>Warmers</div>
+        <div class="legend-item"><span class="legend-swatch" style="background:#E9B52D"></span>Beneficio</div>
+        <div class="legend-item"><span class="legend-swatch" style="background:#4F52E5"></span>Refuerzo</div>
+      </div>
+      <svg width="100%" height="140" viewBox="0 0 1080 140" id="timelineSvg" preserveAspectRatio="none"></svg>
+      <div class="section-note" style="margin-top:8px; margin-bottom:0;">Envíos mensuales apilados por tipo de campaña — ayuda a explicar picos de aperturas por volumen, no solo por desempeño.</div>
+    </div>
+
+    <div class="zone zone-pad campaign-group">
+      <div class="campaign-group-head">
+        <span class="campaign-badge" style="background:#f0f0f0;color:#141414">Warmers</span>
+        <div class="campaign-group-title">Calentamiento<span class="campaign-group-count">2 campañas</span></div>
+        <div class="campaign-group-totals">
+          <div><div class="campaign-stat-value">62,000</div><div class="campaign-stat-label">envíos · 24% del total</div></div>
+          <span class="delta-chip">▲ +6% mes</span>
+          <span class="delta-chip">▲ +18% año</span>
+        </div>
+      </div>
+      <div class="campaign-group-meta">
+        <div><div class="campaign-block-label">Objetivo</div><div class="campaign-objective">Generar expectativa antes del lanzamiento de una campaña de temporada.</div></div>
+        <div><div class="campaign-block-label">Qué se mide y por qué</div><div class="campaign-metric">Aperturas y CTR tempranos — mide si el "teaser" despierta interés antes del mensaje principal.</div></div>
+        <div><div class="campaign-block-label">Canales relevantes</div><div class="channel-fit-row"><span class="channel-chip">Email</span><span class="channel-chip">Push</span></div></div>
+      </div>
+      <table class="campaign-table">
+        <thead><tr><th>Campaña</th><th>Periodo</th><th>Canal(es)</th><th>Aperturas</th><th>CTR</th><th>Estado</th></tr></thead>
+        <tbody>
+          <tr><td class="name">Regreso a Clases</td><td>Enero–Febrero 2026</td><td>Email, Push</td><td class="metric">11,200</td><td class="metric">3.4%</td><td><span class="status-chip finished">Finalizada</span></td></tr>
+          <tr><td class="name">Aniversario Diners - Teaser</td><td>Marzo 2026</td><td>Email</td><td class="metric">7,100</td><td class="metric">2.8%</td><td><span class="status-chip finished">Finalizada</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="zone zone-pad campaign-group">
+      <div class="campaign-group-head">
+        <span class="campaign-badge" style="background:rgba(233,181,45,0.16);color:#8a6d1f">Beneficio</span>
+        <div class="campaign-group-title">Comunicación del beneficio central<span class="campaign-group-count">3 campañas</span></div>
+        <div class="campaign-group-totals">
+          <div><div class="campaign-stat-value">118,000</div><div class="campaign-stat-label">envíos · 45% del total</div></div>
+          <span class="delta-chip">▲ +11% mes</span>
+          <span class="delta-chip">▲ +9% año</span>
+        </div>
+      </div>
+      <div class="campaign-group-meta">
+        <div><div class="campaign-block-label">Objetivo</div><div class="campaign-objective">Comunicar la promoción/beneficio principal de la temporada a toda la base.</div></div>
+        <div><div class="campaign-block-label">Qué se mide y por qué</div><div class="campaign-metric">Aperturas y CTR — mide si el mensaje central capta atención y genera acción.</div></div>
+        <div><div class="campaign-block-label">Canales relevantes</div><div class="channel-fit-row"><span class="channel-chip">Email</span><span class="channel-chip">SMS</span><span class="channel-chip">Push</span><span class="channel-chip">WhatsApp</span></div></div>
+      </div>
+      <table class="campaign-table">
+        <thead><tr><th>Campaña</th><th>Periodo</th><th>Canal(es)</th><th>Aperturas</th><th>CTR</th><th>Estado</th></tr></thead>
+        <tbody>
+          <tr><td class="name">Semana de Beneficios</td><td>Abril 2026</td><td>Email, SMS</td><td class="metric">15,360</td><td class="metric">4.2%</td><td><span class="status-chip finished">Finalizada</span></td></tr>
+          <tr><td class="name">Cyber Days</td><td>Mayo 2026</td><td>Email, Push, WhatsApp</td><td class="metric">7,750</td><td class="metric">3.8%</td><td><span class="status-chip active">Activa</span></td></tr>
+          <tr><td class="name">Navidad</td><td>Noviembre 2026</td><td>Email, SMS, Push, WhatsApp</td><td class="metric">13,500 (proyectado)</td><td class="metric">3.0% (proyectado)</td><td><span class="status-chip planned">Planificada</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="zone zone-pad campaign-group">
+      <div class="campaign-group-head">
+        <span class="campaign-badge" style="background:rgba(79,82,229,0.1);color:#3730A3">Refuerzo</span>
+        <div class="campaign-group-title">Refuerzo de uso<span class="campaign-group-count">2 campañas</span></div>
+        <div class="campaign-group-totals">
+          <div><div class="campaign-stat-value">82,000</div><div class="campaign-stat-label">envíos · 31% del total</div></div>
+          <span class="delta-chip" style="background:rgba(172,59,46,0.1);color:#ac3b2e;">▼ -2% mes</span>
+          <span class="delta-chip">▲ +31% año</span>
+        </div>
+      </div>
+      <div class="campaign-group-meta">
+        <div><div class="campaign-block-label">Objetivo</div><div class="campaign-objective">Reforzar el uso continuo de la tarjeta después de una campaña de beneficio.</div></div>
+        <div><div class="campaign-block-label">Qué se mide y por qué</div><div class="campaign-metric">Aperturas y CTR de recordatorio — mide si el refuerzo sostiene el hábito de uso.</div></div>
+        <div><div class="campaign-block-label">Canales relevantes</div><div class="channel-fit-row"><span class="channel-chip">Email</span><span class="channel-chip">WhatsApp</span></div></div>
+      </div>
+      <table class="campaign-table">
+        <thead><tr><th>Campaña</th><th>Periodo</th><th>Canal(es)</th><th>Aperturas</th><th>CTR</th><th>Estado</th></tr></thead>
+        <tbody>
+          <tr><td class="name">Modo Tasty</td><td>Abril–Junio 2026</td><td>Email, WhatsApp</td><td class="metric">16,640</td><td class="metric">5.1%</td><td><span class="status-chip active">Activa</span></td></tr>
+          <tr><td class="name">Recordatorio Cuotas Diferidas</td><td>Junio 2026</td><td>Email</td><td class="metric">8,700</td><td class="metric">2.9%</td><td><span class="status-chip active">Activa</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ============ TAB 3 — SALUD DEL CANAL Y RANKING ============ -->
+  <div class="panel" data-panel="t3">
+    <div class="section-note">Métricas de cuidado — cuánto "desgasta" cada canal a la base de contactos.</div>
+    <div class="health-grid">
+      <div class="zone zone-pad">
+        <div class="channel-card-head"><span class="channel-card-name">Email</span></div>
+        <div class="health-metric-row"><span><span class="health-status-dot" style="background:#1C7A42;"></span>Rebotes</span><span class="channel-metric-value">1.8%</span></div>
+        <div class="health-metric-row"><span><span class="health-status-dot" style="background:#1C7A42;"></span>Spam</span><span class="channel-metric-value">0.3%</span></div>
+      </div>
+      <div class="zone zone-pad">
+        <div class="channel-card-head"><span class="channel-card-name">SMS</span></div>
+        <div class="health-metric-row"><span><span class="health-status-dot" style="background:#8A6D1F;"></span>Rebotes</span><span class="channel-metric-value">2.1%</span></div>
+        <div class="health-metric-row"><span><span class="health-status-dot" style="background:#1C7A42;"></span>Reportes de bloqueo</span><span class="channel-metric-value">0.4%</span></div>
+      </div>
+      <div class="zone zone-pad">
+        <div class="channel-card-head"><span class="channel-card-name">Push</span></div>
+        <div class="health-metric-row"><span><span class="health-status-dot" style="background:#8A6D1F;"></span>Desinstalaciones tras push</span><span class="channel-metric-value">0.9%</span></div>
+        <div class="health-metric-row"><span><span class="health-status-dot" style="background:#1C7A42;"></span>Opt-out</span><span class="channel-metric-value">0.6%</span></div>
+      </div>
+      <div class="zone zone-pad">
+        <div class="channel-card-head"><span class="channel-card-name">WhatsApp</span></div>
+        <div class="health-metric-row"><span><span class="health-status-dot" style="background:#1C7A42;"></span>Bloqueos</span><span class="channel-metric-value">1.1%</span></div>
+        <div class="health-metric-row"><span><span class="health-status-dot" style="background:#1C7A42;"></span>Reportes de spam</span><span class="channel-metric-value">0.2%</span></div>
+      </div>
+    </div>
+
+    <div class="rank-grid">
+      <div class="zone zone-pad">
+        <div class="rank-highlight">
+          <span class="rank-badge" style="background:rgba(28,122,66,0.12);">🏆</span>
+          <div>
+            <div class="rank-campaign-name">Modo Tasty</div>
+            <div class="rank-campaign-sub">Mejor desempeño de este periodo · grupo Refuerzo</div>
+          </div>
+        </div>
+        <div class="rank-stats-row">
+          <div><div class="rank-stat-value">16,640</div><div class="rank-stat-label">Aperturas</div></div>
+          <div><div class="rank-stat-value">5.1%</div><div class="rank-stat-label">CTR</div></div>
+        </div>
+      </div>
+      <div class="zone zone-pad">
+        <div class="rank-highlight">
+          <span class="rank-badge" style="background:rgba(172,59,46,0.12);">⚠️</span>
+          <div>
+            <div class="rank-campaign-name">Recordatorio Cuotas Diferidas</div>
+            <div class="rank-campaign-sub">Desempeño más bajo de este periodo · grupo Refuerzo</div>
+          </div>
+        </div>
+        <div class="rank-stats-row">
+          <div><div class="rank-stat-value">8,700</div><div class="rank-stat-label">Aperturas</div></div>
+          <div><div class="rank-stat-value">2.9%</div><div class="rank-stat-label">CTR</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="zone zone-pad">
+      <div class="zone-title" style="margin-bottom:10px;">Ranking completo de campañas del periodo</div>
+      <table class="rank-table">
+        <thead><tr><th>Campaña</th><th>Grupo</th><th>Aperturas</th><th>CTR</th></tr></thead>
+        <tbody>
+          <tr><td class="name">Modo Tasty</td><td>Refuerzo</td><td class="metric">16,640</td><td class="metric" style="color:#1c7a42;">5.1%</td></tr>
+          <tr><td class="name">Semana de Beneficios</td><td>Beneficio</td><td class="metric">15,360</td><td class="metric">4.2%</td></tr>
+          <tr><td class="name">Regreso a Clases</td><td>Warmers</td><td class="metric">11,200</td><td class="metric">3.4%</td></tr>
+          <tr><td class="name">Recordatorio Cuotas Diferidas</td><td>Refuerzo</td><td class="metric">8,700</td><td class="metric" style="color:#ac3b2e;">2.9%</td></tr>
+          <tr><td class="name">Cyber Days</td><td>Beneficio</td><td class="metric">7,750</td><td class="metric">3.8%</td></tr>
+          <tr><td class="name">Aniversario Diners - Teaser</td><td>Warmers</td><td class="metric">7,100</td><td class="metric">2.8%</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="footer-note">Mockup de estructura · datos ilustrativos · Diners Club del Ecuador — Elaborado por el equipo de Analítica RAM</div>
+</div>
+
+<script>
+  /* ================= TABS ================= */
+  function showTab(id) {
+    document.querySelectorAll('.tab').forEach(t => t.dataset.active = (t.dataset.tab === id) ? 'true' : 'false');
+    document.querySelectorAll('.panel').forEach(p => p.dataset.visible = (p.dataset.panel === id) ? 'true' : 'false');
+  }
+  document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => showTab(t.dataset.tab)));
+
+  /* ================= GLOBAL TOOLTIP ================= */
+  const tip = document.getElementById('dataTooltip');
+  function tipShow(el, evt) {
+    const title = el.getAttribute('data-tt');
+    const val = el.getAttribute('data-ttv');
+    if (!title) return;
+    tip.innerHTML = `<b>${title}</b>` + (val ? `<div class="tt-sub">${val}</div>` : '');
+    tip.classList.add('show');
+    tip.style.left = evt.clientX + 'px';
+    tip.style.top = (evt.clientY - 10) + 'px';
+  }
+  function tipHide() { tip.classList.remove('show'); }
+  document.addEventListener('mousemove', (e) => {
+    const el = e.target.closest('[data-tt]');
+    if (el) { tipShow(el, e); } else { tipHide(); }
+  });
+
+  /* ================= PIE (reusable) ================= */
+  function pieMarkup(segments, size) {
+    size = size || 120;
+    const cx = size / 2, cy = size / 2, r = size / 2 - 2;
+    let angleStart = -90, paths = '';
+    segments.forEach(s => {
+      const angle = (s.pct / 100) * 360;
+      const angleEnd = angleStart + angle;
+      const toRad = a => a * Math.PI / 180;
+      const x1 = cx + r * Math.cos(toRad(angleStart)), y1 = cy + r * Math.sin(toRad(angleStart));
+      const x2 = cx + r * Math.cos(toRad(angleEnd)), y2 = cy + r * Math.sin(toRad(angleEnd));
+      const largeArc = angle > 180 ? 1 : 0;
+      paths += `<path data-tt="${s.label}" data-ttv="${s.pct}% de los envíos" d="M${cx},${cy} L${x1.toFixed(2)},${y1.toFixed(2)} A${r},${r} 0 ${largeArc} 1 ${x2.toFixed(2)},${y2.toFixed(2)} Z" fill="${s.color}" stroke="#fff" stroke-width="2"></path>`;
+      angleStart = angleEnd;
+    });
+    return paths;
+  }
+
+  /* ================= MONTH DATA (Ver / Comparar libre) ================= */
+  const MONTHS = ['Enero 2026', 'Febrero 2026', 'Marzo 2026', 'Abril 2026', 'Mayo 2026', 'Junio 2026', 'Junio 2025'];
+  const MONTH_DATA = {
+    'Enero 2026':   { email: { aperturas: 36800, tasaApertura: 25.1, ctr: 2.6 }, sms: { entrega: 96.9, ctr: 3.4 }, push: { entrega: 95.8, ctr: 5.9 }, wsp: { apertura: 84.1, clics: 1420 }, share: { Email: 44, Push: 24, SMS: 21, WhatsApp: 11 } },
+    'Febrero 2026': { email: { aperturas: 39500, tasaApertura: 26.0, ctr: 2.8 }, sms: { entrega: 97.1, ctr: 3.6 }, push: { entrega: 95.5, ctr: 6.1 }, wsp: { apertura: 85.4, clics: 1510 }, share: { Email: 45, Push: 24, SMS: 21, WhatsApp: 10 } },
+    'Marzo 2026':   { email: { aperturas: 41200, tasaApertura: 26.8, ctr: 2.9 }, sms: { entrega: 97.3, ctr: 3.8 }, push: { entrega: 95.9, ctr: 6.3 }, wsp: { apertura: 86.7, clics: 1600 }, share: { Email: 45, Push: 25, SMS: 20, WhatsApp: 10 } },
+    'Abril 2026':   { email: { aperturas: 42800, tasaApertura: 27.3, ctr: 3.0 }, sms: { entrega: 97.5, ctr: 3.9 }, push: { entrega: 96.0, ctr: 6.5 }, wsp: { apertura: 87.5, clics: 1690 }, share: { Email: 45, Push: 25, SMS: 20, WhatsApp: 10 } },
+    'Mayo 2026':    { email: { aperturas: 43900, tasaApertura: 27.9, ctr: 3.1 }, sms: { entrega: 97.6, ctr: 4.0 }, push: { entrega: 95.7, ctr: 6.7 }, wsp: { apertura: 88.3, clics: 1760 }, share: { Email: 45, Push: 25, SMS: 20, WhatsApp: 10 } },
+    'Junio 2026':   { email: { aperturas: 45200, tasaApertura: 28.4, ctr: 3.2 }, sms: { entrega: 97.8, ctr: 4.1 }, push: { entrega: 94.5, ctr: 6.8 }, wsp: { apertura: 89.2, clics: 1840 }, share: { Email: 45, Push: 25, SMS: 20, WhatsApp: 10 } },
+    'Junio 2025':   { email: { aperturas: 41700, tasaApertura: 26.3, ctr: 2.8 }, sms: { entrega: 97.3, ctr: 3.8 }, push: { entrega: 95.7, ctr: 5.9 }, wsp: { apertura: 85.8, clics: 1580 }, share: { Email: 47, Push: 23, SMS: 21, WhatsApp: 9 } },
+  };
+  const CHANNEL_COLOR = { Email: '#1BA9A3', Push: '#4F52E5', SMS: '#C9A23F', WhatsApp: '#D45B8E' };
+
+  function crossfade(el, apply) {
+    if (!el) return;
+    el.classList.add('fading');
+    setTimeout(() => { apply(); el.classList.remove('fading'); }, 160);
+  }
+  function pctDelta(current, base) {
+    if (base === null || base === undefined || current === null || current === undefined) return null;
+    return current - base; // pp delta for rate metrics, or relative for counts (handled per-case below)
+  }
+  function relDelta(current, base) {
+    if (!base) return null;
+    return ((current - base) / base) * 100;
+  }
+  function deltaChipHTML(v, unit) {
+    if (v === null || v === undefined || isNaN(v)) return '<span class="channel-delta" style="color:#6b6b6b;">Sin histórico</span>';
+    const cls = v >= 0 ? 'good' : 'bad';
+    const arrow = v >= 0 ? '▲ +' : '▼ ';
+    return `<span class="channel-delta ${cls}">${arrow}${Math.round(v * 10) / 10}${unit}</span>`;
+  }
+
+  function drawShare(share) {
+    const order = ['Email', 'Push', 'SMS', 'WhatsApp'];
+    const svg = document.getElementById('shareSvg');
+    svg.innerHTML = pieMarkup(order.map(k => ({ label: k, pct: share[k], color: CHANNEL_COLOR[k] })), 120);
+  }
+
+  const viewSel = document.getElementById('viewMonthSelect');
+  const cmpSel = document.getElementById('compareMonthSelect');
+  MONTHS.forEach(m => { viewSel.add(new Option(m, m)); cmpSel.add(new Option(m, m)); });
+  viewSel.value = 'Junio 2026';
+  cmpSel.value = 'Mayo 2026';
+
+  function updateComparison() {
+    const viewMonth = viewSel.value, cmpMonth = cmpSel.value;
+    const vd = MONTH_DATA[viewMonth], cd = MONTH_DATA[cmpMonth];
+
+    const label = document.getElementById('t1CompareLabel');
+    crossfade(label, () => { label.textContent = 'Comparando ' + viewMonth + ' vs. ' + cmpMonth; });
+
+    // Email
+    crossfade(document.getElementById('chEmailAperturas'), () => {
+      document.getElementById('chEmailAperturas').innerHTML = `<span class="channel-metric-value">${vd.email.aperturas.toLocaleString('en-US')}</span>` + deltaChipHTML(relDelta(vd.email.aperturas, cd.email.aperturas), '%');
+    });
+    crossfade(document.getElementById('chEmailTasaApertura'), () => {
+      document.getElementById('chEmailTasaApertura').innerHTML = `<span class="channel-metric-value">${vd.email.tasaApertura}%</span>` + deltaChipHTML(pctDelta(vd.email.tasaApertura, cd.email.tasaApertura), 'pp');
+    });
+    crossfade(document.getElementById('chEmailCTR'), () => {
+      document.getElementById('chEmailCTR').innerHTML = `<span class="channel-metric-value">${vd.email.ctr}%</span>` + deltaChipHTML(pctDelta(vd.email.ctr, cd.email.ctr), 'pp');
+    });
+    // SMS
+    crossfade(document.getElementById('chSMSEntrega'), () => {
+      document.getElementById('chSMSEntrega').innerHTML = `<span class="channel-metric-value">${vd.sms.entrega}%</span>` + deltaChipHTML(pctDelta(vd.sms.entrega, cd.sms.entrega), 'pp');
+    });
+    crossfade(document.getElementById('chSMSCTR'), () => {
+      document.getElementById('chSMSCTR').innerHTML = `<span class="channel-metric-value">${vd.sms.ctr}%</span>` + deltaChipHTML(pctDelta(vd.sms.ctr, cd.sms.ctr), 'pp');
+    });
+    // Push
+    crossfade(document.getElementById('chPushEntrega'), () => {
+      document.getElementById('chPushEntrega').innerHTML = `<span class="channel-metric-value">${vd.push.entrega}%</span>` + deltaChipHTML(pctDelta(vd.push.entrega, cd.push.entrega), 'pp');
+    });
+    crossfade(document.getElementById('chPushCTR'), () => {
+      document.getElementById('chPushCTR').innerHTML = `<span class="channel-metric-value">${vd.push.ctr}%</span>` + deltaChipHTML(pctDelta(vd.push.ctr, cd.push.ctr), 'pp');
+    });
+    // WhatsApp
+    crossfade(document.getElementById('chWspApertura'), () => {
+      document.getElementById('chWspApertura').innerHTML = `<span class="channel-metric-value">${vd.wsp.apertura}%</span>` + deltaChipHTML(pctDelta(vd.wsp.apertura, cd.wsp.apertura), 'pp');
+    });
+    crossfade(document.getElementById('chWspClics'), () => {
+      document.getElementById('chWspClics').innerHTML = `<span class="channel-metric-value">${vd.wsp.clics.toLocaleString('en-US')}</span>`;
+    });
+
+    // Share pie + legend
+    ['Email', 'Push', 'SMS', 'WhatsApp'].forEach(k => {
+      const el = document.getElementById('sharePct' + k);
+      crossfade(el, () => { el.textContent = vd.share[k] + '%'; });
+    });
+    drawShare(vd.share);
+
+    // Aggregate YoY strip
+    const totalAperturasV = vd.email.aperturas + vd.wsp.clics; // proxy aggregate
+    const totalAperturasC = cd.email.aperturas + cd.wsp.clics;
+    crossfade(document.getElementById('yoyAperturas'), () => {
+      const el = document.getElementById('yoyAperturas');
+      const v = relDelta(totalAperturasV, totalAperturasC);
+      el.textContent = (v >= 0 ? '▲ +' : '▼ ') + Math.abs(Math.round(v * 10) / 10) + '%';
+      el.style.background = v >= 0 ? 'rgba(28,122,66,0.1)' : 'rgba(172,59,46,0.1)';
+      el.style.color = v >= 0 ? '#1c7a42' : '#ac3b2e';
+    });
+    crossfade(document.getElementById('yoyClics'), () => {
+      const el = document.getElementById('yoyClics');
+      const v = relDelta(vd.push.ctr + vd.email.ctr, cd.push.ctr + cd.email.ctr);
+      el.textContent = (v >= 0 ? '▲ +' : '▼ ') + Math.abs(Math.round(v * 10) / 10) + '%';
+      el.style.background = v >= 0 ? 'rgba(28,122,66,0.1)' : 'rgba(172,59,46,0.1)';
+      el.style.color = v >= 0 ? '#1c7a42' : '#ac3b2e';
+    });
+  }
+  viewSel.addEventListener('change', updateComparison);
+  cmpSel.addEventListener('change', updateComparison);
+  updateComparison();
+
+  /* ================= TIMELINE (envíos por grupo, apilado) ================= */
+  (function () {
+    const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'];
+    const series = [ [9,15,7], [10,17,8], [9,22,10], [10,20,15], [12,19,16], [12,25,17] ]; // Warmers, Beneficio, Refuerzo (miles de envíos)
+    const labels = ['Warmers', 'Beneficio', 'Refuerzo'];
+    const colors = ['#141414', '#E9B52D', '#4F52E5'];
+    const W = 1080, H = 140, padL = 34, padR = 10, padT = 8, padB = 22;
+    const plotW = W - padL - padR, plotH = H - padT - padB;
+    const maxTotal = Math.max(...series.map(s => s.reduce((a, b) => a + b, 0))) * 1.15;
+    const stepX = plotW / (months.length - 1);
+    const svg = document.getElementById('timelineSvg');
+    let out = '';
+    for (let g = 0; g <= 3; g++) { const y = padT + (plotH / 3) * g; out += `<line x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}" stroke="#eef1f3" stroke-width="1"></line>`; }
+    for (let s = 0; s < 3; s++) {
+      let topPts = [], basePts = [];
+      let cumBase = months.map((_, i) => series[i].slice(0, s).reduce((a, b) => a + b, 0));
+      let cumTop = months.map((_, i) => series[i].slice(0, s + 1).reduce((a, b) => a + b, 0));
+      months.forEach((_, i) => {
+        const x = padL + i * stepX;
+        topPts.push([x, padT + plotH - (cumTop[i] / maxTotal) * plotH]);
+        basePts.push([x, padT + plotH - (cumBase[i] / maxTotal) * plotH]);
+      });
+      const d = 'M' + topPts.map(p => p.join(',')).join(' L') + ' L' + basePts.slice().reverse().map(p => p.join(',')).join(' L') + ' Z';
+      out += `<path d="${d}" fill="${colors[s]}" opacity="0.85"></path>`;
+    }
+    months.forEach((m, i) => {
+      const x = padL + i * stepX;
+      out += `<text x="${x}" y="${H - 6}" text-anchor="middle" font-size="10.5" fill="#8b8b8b">${m}</text>`;
+      const total = series[i].reduce((a, b) => a + b, 0);
+      const detail = labels.map((l, k) => l + ': ' + series[i][k] + 'K').join(' · ');
+      out += `<rect data-tt="${m} 2026 · ${total}K envíos" data-ttv="${detail}" x="${x - stepX / 2}" y="0" width="${stepX}" height="${H}" fill="transparent"></rect>`;
+    });
+    svg.innerHTML = out;
+  })();
+</script>
+</body>
+</html>

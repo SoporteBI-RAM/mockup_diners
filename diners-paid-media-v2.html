@@ -1,0 +1,999 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<title>Paid Media 2.0 — Mockup de estructura (borrador interno)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  :root { color-scheme: light; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background:
+      radial-gradient(1100px circle at 12% -8%, rgba(79,82,229,0.09), transparent 55%),
+      radial-gradient(900px circle at 105% 15%, rgba(79,82,229,0.06), transparent 55%),
+      radial-gradient(700px circle at 50% 120%, rgba(27,37,96,0.05), transparent 60%),
+      #F6F6F8;
+    color: #262626;
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .report { max-width: 1240px; margin: 0 auto; padding: 22px 24px 56px; }
+
+  .draft-banner { display: flex; align-items: center; gap: 10px; background: #EFEAFB; border: 1px solid #C9C2F2; color: #3730A3; border-radius: 10px; padding: 11px 16px; font-size: 12.5px; margin-bottom: 16px; }
+  .draft-banner b { color: #262166; }
+
+  .masthead { display: flex; align-items: center; justify-content: space-between; background: #141414; border-radius: 14px; padding: 16px 22px; color: #fff; margin-bottom: 12px; }
+  .masthead-left { display: flex; align-items: center; gap: 14px; }
+  .logo-mark { width: 32px; height: 32px; flex: none; display: flex; align-items: center; justify-content: center; }
+  .channel-icon { display: inline-flex; align-items: center; justify-content: center; }
+  .stacked-legend-item { }
+  .channel-legend-row { display: flex; align-items: center; gap: 9px; font-size: 12px; margin-bottom: 11px; }
+  .channel-legend-row:last-child { margin-bottom: 0; }
+  .channel-icon-badge { width: 26px; height: 26px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex: none; }
+  .channel-legend-name { flex: 1; color: #262626; font-weight: 500; }
+  .channel-legend-pct { font-weight: 700; color: #262626; font-variant-numeric: tabular-nums; }
+  .masthead-title { font-size: 18px; font-weight: 600; letter-spacing: 0.01em; }
+  .masthead-sub { font-size: 11.5px; color: #b0b0b0; margin-top: 2px; }
+  .masthead-right { display: flex; align-items: center; gap: 14px; }
+  .ring-value { font-size: 21px; font-weight: 700; }
+  .ring-label { font-size: 10.5px; color: #b0b0b0; }
+  .status-pill { font-size: 10.5px; font-weight: 600; padding: 5px 10px; border-radius: 999px; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.18); }
+
+  /* ---------- functional filter row ---------- */
+  .filter-row { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
+  .filter-label { font-size: 11px; font-weight: 700; color: #8b8b8b; text-transform: uppercase; letter-spacing: 0.05em; }
+  .month-chip { font: inherit; font-size: 12px; font-weight: 600; padding: 6px 13px; border-radius: 999px; background: #fff; border: 1px solid #e2e0e8; color: #6b6b6b; cursor: pointer; box-shadow: 0 1px 2px rgba(20,20,20,0.04); }
+  .month-chip:hover { border-color: #4F52E5; color: #262626; }
+  .month-chip[data-active="true"] { background: #4F52E5; border-color: #4F52E5; color: #fff; }
+  .filter-sep { width: 1px; height: 20px; background: #dcdbe0; margin: 0 2px; }
+  .month-select {
+    font: inherit; font-size: 12px; font-weight: 600; padding: 6px 30px 6px 13px; border-radius: 999px;
+    background: #fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="6"><path d="M0 0l5 6 5-6z" fill="%236b6b6b"/></svg>') no-repeat right 12px center;
+    border: 1px solid #e2e0e8; color: #262626; cursor: pointer; appearance: none; -webkit-appearance: none;
+  }
+  .month-select:hover { border-color: #4F52E5; }
+  .month-select.is-compare { color: #4F52E5; border-color: #cfcaf0; }
+  .vs-label { font-size: 12px; font-weight: 700; color: #8b8b8b; }
+  .filter-hint { font-size: 11px; color: #8b8b8b; margin-left: auto; }
+
+  .tab-rail { display: flex; gap: 4px; overflow-x: auto; margin-bottom: 16px; border-bottom: 1px solid #dcdbe0; }
+  .tab { flex: 0 0 auto; font: inherit; font-size: 12.5px; font-weight: 600; letter-spacing: 0.01em; padding: 10px 16px; border-radius: 8px 8px 0 0; color: #6b6b6b; background: transparent; border: none; border-bottom: 2px solid transparent; white-space: nowrap; cursor: pointer; }
+  .tab:hover { color: #262626; }
+  .tab[data-active="true"] { color: #262626; border-bottom: 2px solid #4F52E5; }
+  .tab-num { display: inline-block; width: 15px; height: 15px; line-height: 15px; text-align: center; border-radius: 50%; background: #e6e5ea; font-size: 9px; margin-right: 5px; }
+  .tab[data-active="true"] .tab-num { background: #4F52E5; color: #fff; }
+
+  .panel { display: none; }
+  .panel[data-visible="true"] { display: block; animation: fadein 0.25s ease; }
+  @keyframes fadein { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+  .zone { background: #fff; border-radius: 14px; box-shadow: 0 1px 2px rgba(20,20,20,0.05), 0 6px 20px rgba(20,20,20,0.06); position: relative; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+  .zone:hover { transform: translateY(-3px); box-shadow: 0 4px 10px rgba(20,20,20,0.07), 0 14px 32px rgba(20,20,20,0.10); }
+  .month-chip, .cmp-chip, .tab, .quicklink { transition: transform 0.12s ease, background 0.15s ease, color 0.15s ease, border-color 0.15s ease; }
+  .month-chip:active, .cmp-chip:active { transform: scale(0.94); }
+  .anim-fill, .fulfil-fill, .rank-fill, .contrib-seg { transition: width 1s cubic-bezier(.16,.84,.32,1); }
+  .hero-number { transition: opacity 0.2s ease; }
+  @keyframes popIn { from { opacity: 0; transform: scale(0.85); } to { opacity: 1; transform: scale(1); } }
+  .pie-wrap svg, #donutSvg { animation: popIn 0.5s cubic-bezier(.2,.9,.3,1.2); }
+  @keyframes drawLine { from { stroke-dashoffset: var(--len, 1000); } to { stroke-dashoffset: 0; } }
+  .obj-item { animation: fadein 0.4s ease backwards; }
+  .obj-item:nth-child(1) { animation-delay: 0.05s; }
+  .obj-item:nth-child(2) { animation-delay: 0.15s; }
+  .obj-item:nth-child(3) { animation-delay: 0.25s; }
+  .fulfil-block { animation: fadein 0.4s ease backwards; }
+  .zone-pad { padding: 18px 20px; }
+  .zone-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #4F52E5; margin-bottom: 6px; }
+  .zone-title { font-size: 14px; font-weight: 600; color: #262626; margin-bottom: 2px; }
+
+  .caveat-box { display: flex; gap: 9px; align-items: flex-start; background: #FBF3D9; border: 1px solid #E9D583; border-radius: 9px; padding: 10px 13px; font-size: 11.5px; color: #6b5a12; }
+  .caveat-box b { color: #4a3d0c; }
+  .insight-box { display: flex; gap: 9px; align-items: flex-start; background: #EFEAFB; border: 1px solid #C9C2F2; border-radius: 9px; padding: 10px 13px; font-size: 11.5px; color: #3730A3; }
+  .insight-box b { color: #262166; }
+
+  /* ---------- global tooltip ---------- */
+  #dataTooltip {
+    position: fixed; pointer-events: none; z-index: 999; background: #141414; color: #fff;
+    font-size: 11.5px; padding: 7px 10px; border-radius: 8px; box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+    opacity: 0; transform: translate(-50%, -100%); transition: opacity 0.1s ease; white-space: nowrap;
+  }
+  #dataTooltip.show { opacity: 1; }
+  #dataTooltip b { color: #fff; }
+  #dataTooltip .tt-sub { color: #b0b0b0; font-size: 10px; }
+
+  /* value transition (month filter) */
+  .fx { transition: opacity 0.18s ease; }
+  .fx.fading { opacity: 0.15; }
+
+  /* ---------- cross-filter states (Tab 3, by platform) ---------- */
+  [data-platform] { cursor: pointer; transition: opacity 0.15s ease, stroke-width 0.15s ease; }
+  .xf-dim { opacity: 0.18 !important; }
+  .xf-active { opacity: 1 !important; }
+  tr[data-platform].xf-dim { opacity: 0.35 !important; }
+  tr[data-platform].xf-active { background: #F8F7FC; }
+
+  /* ---------- narrative annotation ---------- */
+  .annotation { position: absolute; z-index: 5; }
+  .annotation-flag { background: #141414; color: #fff; font-size: 10.5px; font-weight: 600; padding: 5px 9px; border-radius: 7px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); white-space: nowrap; }
+  .annotation-flag::after { content: ""; position: absolute; bottom: -5px; left: 16px; width: 9px; height: 9px; background: #141414; transform: rotate(45deg); }
+  .leader-badge { position: absolute; top: -8px; right: -8px; background: #1c7a42; color: #fff; font-size: 9px; font-weight: 700; padding: 3px 7px; border-radius: 999px; box-shadow: 0 2px 6px rgba(0,0,0,0.25); }
+
+  /* ============ TAB 1 ============ */
+  .t1-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .t1-hero { grid-column: 1; grid-row: 1; }
+  .t1-mix { grid-column: 2; grid-row: 1; display: flex; flex-direction: column; }
+  .t1-objective { grid-column: 1 / 3; grid-row: 2; }
+  .hero-number { font-size: 46px; font-weight: 700; line-height: 1; letter-spacing: -0.01em; }
+  .hero-caption { font-size: 12px; color: #5C5C5C; margin-top: 6px; }
+  .hero-status-row { display: flex; align-items: center; gap: 10px; margin-top: 14px; }
+  .stacked-bar { height: 30px; border-radius: 7px; overflow: hidden; display: flex; margin-top: 16px; }
+  .stacked-seg { display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: #fff; }
+  .stacked-legend { display: flex; gap: 16px; margin-top: 10px; font-size: 11.5px; color: #5C5C5C; }
+  .stacked-legend-item { display: flex; align-items: center; gap: 6px; }
+  .stacked-legend-dot { width: 9px; height: 9px; border-radius: 3px; }
+  .objective-text { font-size: 12.5px; color: #3f3f3f; line-height: 1.5; }
+  .objective-text b { color: #141414; }
+  .t1-second-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+  .obj-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .obj-item { display: flex; gap: 10px; align-items: flex-start; }
+  .obj-icon { flex: none; width: 22px; height: 22px; border-radius: 50%; background: #EFEAFB; color: #4F52E5; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; }
+  .obj-text { font-size: 12px; color: #3f3f3f; line-height: 1.4; }
+  .obj-text b { color: #141414; }
+  .fulfil-block { margin-bottom: 14px; }
+  .fulfil-block:last-of-type { margin-bottom: 0; }
+  .fulfil-row { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+  .fulfil-name { width: 100px; flex: none; font-size: 11.5px; font-weight: 600; color: #262626; }
+  .fulfil-track { flex: 1; height: 9px; background: #eef1f3; border-radius: 5px; overflow: hidden; }
+  .fulfil-fill { height: 100%; border-radius: 5px; transition: width 0.3s ease; }
+  .fulfil-pct { width: 38px; text-align: right; font-size: 11.5px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .fulfil-delta { width: 76px; text-align: right; }
+  .fulfil-mini-row { display: flex; align-items: center; gap: 10px; }
+  .fulfil-mini-label { width: 100px; flex: none; font-size: 9.5px; color: #8b8b8b; }
+  .fulfil-mini-track { flex: 1; height: 8px; border-radius: 4px; overflow: hidden; display: flex; }
+  .fulfil-mini-seg { height: 100%; }
+  .fulfil-mini-legend { width: 190px; flex: none; text-align: right; font-size: 9.5px; color: #6b6b6b; }
+  .fulfil-mini-legend b { color: #262626; font-weight: 600; }
+
+  /* ---------- gauge + pie viz (Cumplimiento) ---------- */
+  .fulfil-viz-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; justify-content: space-between; padding: 4px 8px; }
+  .fulfil-block + .fulfil-block .fulfil-viz-row { border-top: 1px solid #f0f0f2; padding-top: 14px; }
+  .gauge-box { flex: none; width: 118px; }
+  .gauge-box svg { width: 100%; height: auto; display: block; }
+  .fulfil-info { flex: none; width: 128px; }
+  .fulfil-pct-big { font-size: 23px; font-weight: 700; color: #262626; margin: 1px 0 5px; }
+  .pie-box { flex: none; width: 62px; }
+  .pie-box svg { width: 100%; height: auto; display: block; }
+  .pie-legend-col { flex: none; width: 260px; display: grid; grid-template-columns: 1fr 1fr; gap: 4px 10px; align-content: center; font-size: 10.5px; color: #5C5C5C; }
+  .pie-legend-col span { display: inline-flex; align-items: center; gap: 5px; }
+  .pie-legend-title { grid-column: 1 / 3; color: #8b8b8b; font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.04em; font-weight: 700; margin-bottom: 2px; }
+  .pie-legend-dot { width: 8px; height: 8px; border-radius: 2px; flex: none; }
+  .pie-wrap { display: flex; align-items: center; gap: 16px; }
+
+  /* ============ TAB 2 ============ */
+  .t2-goals { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 14px; }
+  .goal-name { font-size: 12px; font-weight: 600; color: #262626; margin-bottom: 8px; }
+  .bullet-track { position: relative; height: 20px; background: #eef1f3; border-radius: 6px; margin-bottom: 5px; }
+  .bullet-fill { position: absolute; top: 0; left: 0; height: 100%; border-radius: 6px; }
+  .bullet-target { position: absolute; top: -3px; width: 3px; height: 26px; background: #262626; border-radius: 2px; }
+  .goal-caption { display: flex; justify-content: space-between; font-size: 11px; color: #5C5C5C; }
+  .goal-verdict { font-size: 10.5px; font-weight: 700; margin-top: 7px; display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; border-radius: 6px; }
+  .goal-verdict.good { background: rgba(28,122,66,0.1); color: #1c7a42; }
+  .goal-verdict.warn { background: rgba(233,181,45,0.16); color: #8a6d1f; }
+  .secondary-row { display: flex; gap: 8px; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #e6e5ea; }
+  .secondary-chip-value { font-size: 14px; font-weight: 700; }
+  .secondary-chip-label { font-size: 9.5px; color: #8b8b8b; }
+  .t2-strip { display: grid; grid-template-columns: 1.3fr 1fr; gap: 14px; align-items: stretch; }
+  .yoy-row { display: flex; gap: 20px; font-size: 12px; flex-wrap: wrap; align-items: center; height: 100%; }
+  .delta-chip { font-size: 11.5px; font-weight: 600; padding: 3px 8px; border-radius: 6px; background: rgba(28,122,66,0.1); color: #1c7a42; display: inline-flex; align-items: center; gap: 4px; }
+  .activity-row { display: flex; gap: 12px; margin-bottom: 8px; }
+  .activity-tile { flex: 1; background: #F3F3F6; border-radius: 8px; padding: 9px 12px; }
+  .activity-tile-value { font-size: 17px; font-weight: 700; }
+  .activity-tile-label { font-size: 9.5px; color: #6b6b6b; }
+
+  /* ============ TAB 3 ============ */
+  .t3-grid { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 14px; margin-bottom: 14px; }
+  .t3-left { display: flex; flex-direction: column; gap: 14px; }
+  .pacing-track { height: 9px; border-radius: 6px; background: #e7edf2; overflow: hidden; margin: 10px 0 5px; }
+  .pacing-fill { height: 100%; background: linear-gradient(90deg,#141414,#4F52E5); border-radius: 6px 0 0 6px; transition: width 0.4s ease; }
+  .pacing-caption { font-size: 11px; color: #5C5C5C; display: flex; justify-content: space-between; }
+  .rank-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 11.5px; border-radius: 6px; padding: 2px 4px; }
+  .rank-row:hover { background: #F8F7FC; }
+  .rank-dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+  .rank-name { width: 62px; flex: none; color: #262626; font-weight: 600; }
+  .rank-track { flex: 1; height: 7px; background: #eef1f3; border-radius: 5px; overflow: hidden; }
+  .rank-fill { height: 100%; border-radius: 5px; }
+  .rank-value { width: 36px; text-align: right; color: #5C5C5C; font-variant-numeric: tabular-nums; }
+  .t3-right-top { display: grid; grid-template-columns: auto 1fr; gap: 18px; align-items: center; }
+  .mix-legend-row { display: flex; align-items: center; gap: 7px; font-size: 11.5px; margin-bottom: 7px; border-radius: 6px; padding: 2px 4px; }
+  .mix-legend-row:hover { background: #F8F7FC; }
+  .mix-dot { width: 9px; height: 9px; border-radius: 3px; flex: none; }
+  .mix-name { flex: 1; color: #262626; }
+  .mix-pct { font-weight: 700; font-variant-numeric: tabular-nums; }
+  .contrib-kpi-row { display: flex; align-items: center; gap: 10px; margin-bottom: 9px; }
+  .contrib-kpi-name { width: 78px; flex: none; font-size: 11.5px; font-weight: 600; color: #262626; }
+  .contrib-track { flex: 1; height: 16px; border-radius: 5px; overflow: hidden; display: flex; }
+  .contrib-seg { height: 100%; display: flex; align-items: center; justify-content: center; font-size: 9.5px; color: #fff; font-weight: 700; }
+  .goal-contrib { margin-top: 10px; padding-top: 10px; border-top: 1px dashed #e6e5ea; display: flex; align-items: center; gap: 12px; }
+  .goal-contrib-label { font-size: 9.5px; font-weight: 700; color: #8b8b8b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+  .goal-contrib-pie { flex: none; width: 58px; }
+  .goal-contrib-pie svg { width: 100%; height: auto; display: block; }
+  .goal-contrib-legend { display: flex; flex-direction: column; gap: 3px; font-size: 10px; color: #6b6b6b; flex: 1; }
+  .goal-contrib-legend span { display: inline-flex; align-items: center; gap: 5px; }
+  .goal-contrib-dot { width: 7px; height: 7px; border-radius: 2px; flex: none; }
+  .goal-gauge-wrap { display: flex; justify-content: center; margin: 2px 0 6px; }
+  .goal-gauge-wrap svg { width: 160px; height: auto; display: block; }
+  .t3-bottom { display: grid; grid-template-columns: 1fr; gap: 14px; }
+  .legend-row { display: flex; gap: 14px; margin-bottom: 8px; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: #5C5C5C; }
+  .legend-swatch { width: 9px; height: 9px; border-radius: 3px; }
+  .perf-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .perf-table th { text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: 0.04em; color: #8b8b8b; font-weight: 700; padding: 5px 7px; border-bottom: 1px solid #e6e5ea; }
+  .perf-table td { padding: 8px 7px; border-bottom: 1px solid #eef1f3; }
+  .perf-table td.metric { font-weight: 700; font-variant-numeric: tabular-nums; }
+  .perf-platform { display: flex; align-items: center; gap: 7px; font-weight: 600; }
+  .perf-dot { width: 8px; height: 8px; border-radius: 3px; flex: none; }
+  .perf-best { color: #1c7a42; }
+  .xf-hint { font-size: 10.5px; color: #8b8b8b; margin-bottom: 10px; }
+
+  /* ============ TAB 4 ============ */
+  .campaign-group { margin-bottom: 14px; }
+  .campaign-badge { align-self: flex-start; font-size: 10px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; padding: 3px 8px; border-radius: 6px; flex: none; }
+  .campaign-group-head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+  .campaign-group-title { font-size: 14.5px; font-weight: 600; }
+  .campaign-group-count { font-size: 11px; font-weight: 400; color: #8b8b8b; margin-left: 6px; }
+  .campaign-group-totals { display: flex; align-items: center; gap: 9px; margin-left: auto; }
+  .campaign-stat-value { font-size: 14.5px; font-weight: 700; }
+  .campaign-stat-label { font-size: 9.5px; color: #8b8b8b; }
+  .campaign-group-meta { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; background: #F3F3F6; border-radius: 9px; padding: 10px 13px; margin-bottom: 12px; }
+  .campaign-block-label { font-size: 9.5px; font-weight: 700; color: #8b8b8b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 2px; }
+  .campaign-objective { font-size: 11.5px; color: #5C5C5C; line-height: 1.4; }
+  .campaign-metric { font-size: 11.5px; color: #262626; }
+  .channel-fit-row { display: flex; gap: 5px; flex-wrap: wrap; }
+  .channel-chip { font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 999px; background: #fff; color: #4b4b4b; }
+  .campaign-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .campaign-table th { text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: 0.04em; color: #8b8b8b; font-weight: 700; padding: 5px 7px; border-bottom: 1px solid #e6e5ea; }
+  .campaign-table tbody tr:hover { background: #F8F7FC; }
+  .campaign-table td { padding: 8px 7px; border-bottom: 1px solid #eef1f3; }
+  .campaign-table td.name { font-weight: 600; color: #262626; }
+  .campaign-table td.metric { font-variant-numeric: tabular-nums; }
+  .status-chip { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 999px; }
+  .status-chip.active { background: rgba(28,122,66,0.1); color: #1c7a42; }
+  .status-chip.planned { background: rgba(107,114,128,0.12); color: #4b4b4b; }
+  .status-chip.finished { background: #eef1f3; color: #6b6b6b; }
+
+  .footer-note { font-size: 11px; color: #8b8b8b; text-align: center; margin-top: 22px; }
+</style>
+</head>
+<body>
+<div id="dataTooltip"></div>
+<div class="report">
+
+  <div class="draft-banner">
+    <span style="font-size:15px;">🧭</span>
+    <span><b>Borrador de estructura — no validado con todo el equipo.</b> Filtros funcionales, tooltips y cruce entre gráficos (clic en una plataforma resalta en todos los visuales de Composición). Datos 100% ilustrativos.</span>
+  </div>
+
+  <div class="masthead">
+    <div class="masthead-left">
+      <div class="logo-mark">
+        <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
+          <circle cx="15" cy="15" r="12.5" stroke="#fff" stroke-width="2.2"></circle>
+          <line x1="15" y1="3" x2="15" y2="27" stroke="#fff" stroke-width="2.2"></line>
+        </svg>
+      </div>
+      <div>
+        <div class="masthead-title">Diners Club · Paid Media</div>
+        <div class="masthead-sub">Del plan de medios completo al detalle de campaña</div>
+      </div>
+    </div>
+    <div class="masthead-right">
+      <span class="status-pill">Pacing en línea</span>
+      <div><div class="ring-value">58.4</div><div class="ring-label">Índice compuesto</div></div>
+    </div>
+  </div>
+
+  <div class="filter-row">
+    <span class="filter-label">Ver</span>
+    <select class="month-select" id="viewMonthSelect"></select>
+    <span class="vs-label">vs.</span>
+    <span class="filter-label">Comparar contra</span>
+    <select class="month-select is-compare" id="compareMonthSelect"></select>
+    <span class="filter-hint">↑ elige cualquier par de meses — recalcula pacing, mix y cumplimiento en Resumen, Seguimiento y Composición</span>
+  </div>
+
+  <div class="tab-rail" id="tabRail">
+    <button class="tab" data-tab="t1" data-active="true"><span class="tab-num">1</span>Resumen · Objetivo y Plan</button>
+    <button class="tab" data-tab="t2"><span class="tab-num">2</span>Seguimiento y Cumplimiento</button>
+    <button class="tab" data-tab="t3"><span class="tab-num">3</span>Composición y Plataformas</button>
+    <button class="tab" data-tab="t4"><span class="tab-num">4</span>Campañas</button>
+  </div>
+
+  <!-- ============ TAB 1 — RESUMEN ============ -->
+  <div class="panel" data-panel="t1" data-visible="true">
+    <div class="t1-grid">
+      <div class="zone zone-pad t1-hero">
+        <div class="zone-label">Plan</div>
+        <div class="zone-title">Presupuesto total de medios 2026</div>
+        <div class="hero-number">$1,545,000</div>
+        <div class="hero-caption">Aprobado para todos los canales (TV, radio, digital)</div>
+        <div class="hero-status-row">
+          <span class="status-pill fx" id="t1StatusPill" style="background:rgba(28,122,66,0.1);color:#1c7a42;border:none;">Pacing en línea</span>
+          <span class="fx" id="t1MonthLabel" style="font-size:11.5px;color:#8b8b8b;">Corte a junio 2026</span>
+        </div>
+      </div>
+      <div class="zone zone-pad t1-mix">
+        <div class="zone-label">Composición</div>
+        <div class="zone-title">Distribución de la inversión por canal</div>
+        <div class="hero-caption" style="margin-top:-2px;margin-bottom:2px;">% del presupuesto total invertido, por canal — corte del mes seleccionado</div>
+        <div class="pie-wrap" style="margin-top:10px;">
+          <svg width="120" height="120" viewBox="0 0 120 120" id="channelPieSvg"></svg>
+          <div style="flex:1;">
+            <div class="channel-legend-row">
+              <span class="channel-icon-badge" style="background:rgba(20,20,20,0.08);">
+                <svg class="channel-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#141414" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="14" rx="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="18" x2="12" y2="21"></line></svg>
+              </span>
+              <span class="channel-legend-name">Televisión</span><span class="channel-legend-pct fx" id="chPctTV">35%</span>
+            </div>
+            <div class="channel-legend-row">
+              <span class="channel-icon-badge" style="background:rgba(107,114,128,0.14);">
+                <svg class="channel-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="15" r="1.2"></circle><path d="M18 8a8 8 0 0 1 0 11"></path><path d="M6 8a8 8 0 0 0 0 11"></path><path d="M15 11a4 4 0 0 1 0 6"></path><path d="M9 11a4 4 0 0 0 0 6"></path></svg>
+              </span>
+              <span class="channel-legend-name">Radio</span><span class="channel-legend-pct fx" id="chPctRadio">10%</span>
+            </div>
+            <div class="channel-legend-row">
+              <span class="channel-icon-badge" style="background:rgba(79,82,229,0.12);">
+                <svg class="channel-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4F52E5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l18-6v14L3 15v-4z"></path><path d="M11.5 17a3 3 0 1 1-5.8-1.5"></path></svg>
+              </span>
+              <span class="channel-legend-name">Paid Media</span><span class="channel-legend-pct fx" id="chPctPaid">55%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="zone zone-pad t1-objective">
+        <div class="zone-label">Objetivo</div>
+        <div class="zone-title" style="margin-bottom:10px;">Qué buscamos este periodo</div>
+        <div class="obj-list">
+          <div class="obj-item"><span class="obj-icon">1</span><span class="obj-text">Sostener el <b>top of mind</b> de marca en temporadas clave (Season) con cobertura masiva.</span></div>
+          <div class="obj-item"><span class="obj-icon">2</span><span class="obj-text">Reactivar consumo en sectores específicos vía comercios afiliados (Establecimientos).</span></div>
+          <div class="obj-item"><span class="obj-icon">3</span><span class="obj-text">Acelerar la <b>apertura de cuentas de ahorro digitales</b> (Onboarding, iniciativa nueva).</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="zone zone-pad" style="margin-top:14px;">
+      <div class="zone-label">Cumplimiento</div>
+      <div class="zone-title" style="margin-bottom:12px;">¿Vamos bien contra la meta? — resumen por objetivo</div>
+      <div class="fulfil-block" style="animation-delay:0.02s;">
+        <div class="fulfil-viz-row">
+          <div class="gauge-box"><svg viewBox="0 0 120 66" id="gaugeSeasonT1"></svg></div>
+          <div class="fulfil-info">
+            <div class="fulfil-name">Season</div>
+            <div class="fulfil-pct-big fx" id="fulfilPctSeason">103%</div>
+            <span class="delta-chip fx fulfil-delta" id="fulfilDeltaSeason">▲ +15%</span>
+          </div>
+          <div class="pie-box"><svg viewBox="0 0 70 70" id="pieSeasonT1"></svg></div>
+          <div class="pie-legend-col">
+            <div class="pie-legend-title">Aporte al Alcance</div>
+            <span><span class="pie-legend-dot" style="background:#141414;"></span>TV 30%</span>
+            <span><span class="pie-legend-dot" style="background:#1BA9A3;"></span>Meta 28%</span>
+            <span><span class="pie-legend-dot" style="background:#4F52E5;"></span>Google 22%</span>
+            <span><span class="pie-legend-dot" style="background:#C9A23F;"></span>TikTok 20%</span>
+          </div>
+        </div>
+      </div>
+      <div class="fulfil-block" style="animation-delay:0.1s;">
+        <div class="fulfil-viz-row">
+          <div class="gauge-box"><svg viewBox="0 0 120 66" id="gaugeEstablecimientosT1"></svg></div>
+          <div class="fulfil-info">
+            <div class="fulfil-name">Establecimientos</div>
+            <div class="fulfil-pct-big fx" id="fulfilPctEstablecimientos">89%</div>
+            <span class="delta-chip fx fulfil-delta" id="fulfilDeltaEstablecimientos">▲ +22%</span>
+          </div>
+          <div class="pie-box"><svg viewBox="0 0 70 70" id="pieEstablecimientosT1"></svg></div>
+          <div class="pie-legend-col">
+            <div class="pie-legend-title">Aporte a Transacciones</div>
+            <span><span class="pie-legend-dot" style="background:#1BA9A3;"></span>Meta 58%</span>
+            <span><span class="pie-legend-dot" style="background:#4F52E5;"></span>Google 42%</span>
+          </div>
+        </div>
+      </div>
+      <div class="fulfil-block" style="animation-delay:0.18s;">
+        <div class="fulfil-viz-row">
+          <div class="gauge-box"><svg viewBox="0 0 120 66" id="gaugeOnboardingT1"></svg></div>
+          <div class="fulfil-info">
+            <div class="fulfil-name">Onboarding</div>
+            <div class="fulfil-pct-big fx" id="fulfilPctOnboarding">91%</div>
+            <span class="delta-chip fx fulfil-delta" id="fulfilDeltaOnboarding" style="background:#eef1f3;color:#6b6b6b;">Sin histórico</span>
+          </div>
+          <div class="pie-box"><svg viewBox="0 0 70 70" id="pieOnboardingT1"></svg></div>
+          <div class="pie-legend-col">
+            <div class="pie-legend-title">Aporte a Cuentas abiertas</div>
+            <span><span class="pie-legend-dot" style="background:#1BA9A3;"></span>Meta 50%</span>
+            <span><span class="pie-legend-dot" style="background:#4F52E5;"></span>Google 30%</span>
+            <span><span class="pie-legend-dot" style="background:#6B7280;"></span>Digital propio 20%</span>
+          </div>
+        </div>
+      </div>
+      <div class="filter-hint" style="margin-top:4px;">Ver pestaña Seguimiento y Cumplimiento para el detalle y las métricas secundarias.</div>
+    </div>
+  </div>
+
+  <!-- ============ TAB 2 — SEGUIMIENTO Y CUMPLIMIENTO ============ -->
+  <div class="panel" data-panel="t2">
+    <div class="t2-goals">
+      <div class="zone zone-pad">
+        <div class="goal-name">Season — Alcance (objetivo principal)</div>
+        <div class="goal-gauge-wrap"><svg viewBox="0 0 120 66" id="gaugeSeasonT2"></svg></div>
+        <div class="goal-caption"><span class="fx" id="goalCaptionSeason">620K de 600K meta</span><span class="fx" id="goalPctSeason">103%</span></div>
+        <div class="goal-verdict good" id="goalVerdictSeason">✓ Meta superada <span class="fx" id="goalDeltaSeason">▲ +15%</span></div>
+        <div class="secondary-row">
+          <div><div class="secondary-chip-value">4.2×</div><div class="secondary-chip-label">Frecuencia (meta 4.0×)</div></div>
+          <div><div class="secondary-chip-value">5.8%</div><div class="secondary-chip-label">VTR (meta 5.0%)</div></div>
+        </div>
+        <div class="goal-contrib">
+          <div class="goal-contrib-pie"><svg viewBox="0 0 70 70" id="pieSeasonT2"></svg></div>
+          <div class="goal-contrib-legend">
+            <div class="goal-contrib-label" style="margin-bottom:0;">Aporte al Alcance</div>
+            <span><span class="goal-contrib-dot" style="background:#141414;"></span>TV 30%</span>
+            <span><span class="goal-contrib-dot" style="background:#1BA9A3;"></span>Meta 28%</span>
+            <span><span class="goal-contrib-dot" style="background:#4F52E5;"></span>Google 22%</span>
+            <span><span class="goal-contrib-dot" style="background:#C9A23F;"></span>TikTok 20%</span>
+          </div>
+        </div>
+      </div>
+      <div class="zone zone-pad">
+        <div class="goal-name">Establecimientos — Transacciones activadas</div>
+        <div class="goal-gauge-wrap"><svg viewBox="0 0 120 66" id="gaugeEstablecimientosT2"></svg></div>
+        <div class="goal-caption"><span class="fx" id="goalCaptionEstablecimientos">2,140 de 2,400 meta</span><span class="fx" id="goalPctEstablecimientos">89%</span></div>
+        <div class="goal-verdict warn" id="goalVerdictEstablecimientos">△ Cerca de la meta <span class="fx" id="goalDeltaEstablecimientos">▲ +22%</span></div>
+        <div class="secondary-row">
+          <div><div class="secondary-chip-value">0.53%</div><div class="secondary-chip-label">CTR</div></div>
+          <div><div class="secondary-chip-value">$84</div><div class="secondary-chip-label">Costo por transacción</div></div>
+        </div>
+        <div class="goal-contrib">
+          <div class="goal-contrib-pie"><svg viewBox="0 0 70 70" id="pieEstablecimientosT2"></svg></div>
+          <div class="goal-contrib-legend">
+            <div class="goal-contrib-label" style="margin-bottom:0;">Aporte a Transacciones</div>
+            <span><span class="goal-contrib-dot" style="background:#1BA9A3;"></span>Meta 58%</span>
+            <span><span class="goal-contrib-dot" style="background:#4F52E5;"></span>Google 42%</span>
+          </div>
+        </div>
+      </div>
+      <div class="zone zone-pad">
+        <div class="goal-name">Onboarding — Cuentas de ahorro abiertas</div>
+        <div class="goal-gauge-wrap"><svg viewBox="0 0 120 66" id="gaugeOnboardingT2"></svg></div>
+        <div class="goal-caption"><span class="fx" id="goalCaptionOnboarding">640 de 700 meta</span><span class="fx" id="goalPctOnboarding">91%</span></div>
+        <div class="goal-verdict good" id="goalVerdictOnboarding">✓ En línea <span class="fx" id="goalDeltaOnboarding">Sin histórico</span></div>
+        <div class="secondary-row">
+          <div><div class="secondary-chip-value">0.61%</div><div class="secondary-chip-label">CTR</div></div>
+          <div><div class="secondary-chip-value">68%</div><div class="secondary-chip-label">Completitud de registro</div></div>
+        </div>
+        <div class="goal-contrib">
+          <div class="goal-contrib-pie"><svg viewBox="0 0 70 70" id="pieOnboardingT2"></svg></div>
+          <div class="goal-contrib-legend">
+            <div class="goal-contrib-label" style="margin-bottom:0;">Aporte a Cuentas abiertas</div>
+            <span><span class="goal-contrib-dot" style="background:#1BA9A3;"></span>Meta 50%</span>
+            <span><span class="goal-contrib-dot" style="background:#4F52E5;"></span>Google 30%</span>
+            <span><span class="goal-contrib-dot" style="background:#6B7280;"></span>Digital propio 20%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="t2-strip">
+      <div class="zone zone-pad">
+        <div class="zone-label fx" id="t2CompareLabel">Vs. mes anterior</div>
+        <div class="yoy-row">
+          <div><b>Alcance</b> <span class="delta-chip fx" id="yoyAlcance">▲ +12.4%</span></div>
+          <div><b>Clics</b> <span class="delta-chip fx" id="yoyClics">▲ +8.1%</span></div>
+          <div><b>Conversiones</b> <span class="delta-chip fx" id="yoyConversiones" style="background:rgba(233,181,45,0.16);color:#8a6d1f;">△ +2.0%</span></div>
+        </div>
+      </div>
+      <div class="zone zone-pad">
+        <div class="activity-row">
+          <div class="activity-tile"><div class="activity-tile-value">7</div><div class="activity-tile-label">campañas activas este mes</div></div>
+          <div class="activity-tile"><div class="activity-tile-value">4</div><div class="activity-tile-label">mismo mes año anterior</div></div>
+        </div>
+        <div class="caveat-box"><span>⚠️</span><span>Más campañas activas que el año pasado (Día de la Madre + regreso a clases coincidieron) — más alcance no es necesariamente mejor desempeño.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ TAB 3 — COMPOSICIÓN Y PLATAFORMAS ============ -->
+  <div class="panel" data-panel="t3">
+    <div class="xf-hint">💡 Clic en cualquier plataforma (leyenda, ranking o tabla) para resaltarla en todos los gráficos de esta pestaña.</div>
+    <div class="t3-grid">
+      <div class="t3-left">
+        <div class="zone zone-pad">
+          <div class="zone-label">Composición</div>
+          <div class="zone-title">Presupuesto Paid Media</div>
+          <div class="hero-number fx" id="t3Invested" style="font-size:30px;">$850,000</div>
+          <div class="hero-caption">Aprobado 2026</div>
+          <div class="pacing-track"><div class="pacing-fill" id="t3PacingFill" style="width:48.3%"></div></div>
+          <div class="pacing-caption"><span class="fx" id="t3PacingCaption"><b>$410,500</b> a la fecha</span><span class="fx" id="t3PacingPct">48.3%</span></div>
+        </div>
+        <div class="zone zone-pad">
+          <div class="zone-title" style="margin-bottom:10px;">Eficiencia de inversión por plataforma</div>
+          <div class="rank-row" data-platform="Meta" data-tt="Meta" data-ttv="Índice de eficiencia 1.00× (referencia)"><span class="rank-dot" style="background:#1BA9A3"></span><span class="rank-name">Meta</span><div class="rank-track"><div class="rank-fill" style="width:92%;background:#1BA9A3"></div></div><span class="rank-value">1.00×</span></div>
+          <div class="rank-row" data-platform="TikTok" data-tt="TikTok" data-ttv="Índice de eficiencia 0.85×"><span class="rank-dot" style="background:#C9A23F"></span><span class="rank-name">TikTok</span><div class="rank-track"><div class="rank-fill" style="width:78%;background:#C9A23F"></div></div><span class="rank-value">0.85×</span></div>
+          <div class="rank-row" data-platform="Google" data-tt="Google" data-ttv="Índice de eficiencia 0.66×"><span class="rank-dot" style="background:#4F52E5"></span><span class="rank-name">Google</span><div class="rank-track"><div class="rank-fill" style="width:61%;background:#4F52E5"></div></div><span class="rank-value">0.66×</span></div>
+          <div class="rank-row" data-platform="DV360" data-tt="DV360" data-ttv="Índice de eficiencia 0.48×"><span class="rank-dot" style="background:#D45B8E"></span><span class="rank-name">DV360</span><div class="rank-track"><div class="rank-fill" style="width:44%;background:#D45B8E"></div></div><span class="rank-value">0.48×</span></div>
+        </div>
+      </div>
+      <div class="zone zone-pad">
+        <div class="t3-right-top">
+          <svg width="130" height="130" viewBox="0 0 130 130" id="donutSvg"></svg>
+          <div>
+            <div class="zone-title" style="margin-bottom:8px;">Mix de medios digitales</div>
+            <div class="mix-legend-row" data-platform="Meta"><span class="mix-dot" style="background:#1BA9A3"></span><span class="mix-name">Meta</span><span class="mix-pct fx" id="mixPctMeta">42%</span></div>
+            <div class="mix-legend-row" data-platform="Google"><span class="mix-dot" style="background:#4F52E5"></span><span class="mix-name">Google</span><span class="mix-pct fx" id="mixPctGoogle">28%</span></div>
+            <div class="mix-legend-row" data-platform="TikTok"><span class="mix-dot" style="background:#C9A23F"></span><span class="mix-name">TikTok</span><span class="mix-pct fx" id="mixPctTikTok">18%</span></div>
+            <div class="mix-legend-row" data-platform="DV360"><span class="mix-dot" style="background:#D45B8E"></span><span class="mix-name">DV360</span><span class="mix-pct fx" id="mixPctDV360">12%</span></div>
+          </div>
+        </div>
+        <div style="border-top:1px dashed #e6e5ea; margin:14px 0 12px;"></div>
+        <div class="zone-title" style="margin-bottom:9px;">Contribución de cada plataforma por resultado</div>
+        <div class="contrib-kpi-row"><span class="contrib-kpi-name">Alcance</span><div class="contrib-track">
+          <div class="contrib-seg" data-platform="Meta" data-tt="Meta · Alcance" data-ttv="38% del alcance total" style="width:38%;background:#1BA9A3">38%</div>
+          <div class="contrib-seg" data-platform="Google" data-tt="Google · Alcance" data-ttv="25% del alcance total" style="width:25%;background:#4F52E5">25%</div>
+          <div class="contrib-seg" data-platform="TikTok" data-tt="TikTok · Alcance" data-ttv="22% del alcance total" style="width:22%;background:#C9A23F">22%</div>
+          <div class="contrib-seg" data-platform="DV360" data-tt="DV360 · Alcance" data-ttv="15% del alcance total" style="width:15%;background:#D45B8E">15%</div>
+        </div></div>
+        <div class="contrib-kpi-row"><span class="contrib-kpi-name">Clics</span><div class="contrib-track">
+          <div class="contrib-seg" data-platform="Meta" data-tt="Meta · Clics" data-ttv="45% de los clics totales" style="width:45%;background:#1BA9A3">45%</div>
+          <div class="contrib-seg" data-platform="Google" data-tt="Google · Clics" data-ttv="20% de los clics totales" style="width:20%;background:#4F52E5">20%</div>
+          <div class="contrib-seg" data-platform="TikTok" data-tt="TikTok · Clics" data-ttv="25% de los clics totales" style="width:25%;background:#C9A23F">25%</div>
+          <div class="contrib-seg" data-platform="DV360" data-tt="DV360 · Clics" data-ttv="10% de los clics totales" style="width:10%;background:#D45B8E">10%</div>
+        </div></div>
+        <div class="contrib-kpi-row"><span class="contrib-kpi-name">Conversiones</span><div class="contrib-track">
+          <div class="contrib-seg" data-platform="Meta" data-tt="Meta · Conversiones" data-ttv="52% de las conversiones" style="width:52%;background:#1BA9A3">52%</div>
+          <div class="contrib-seg" data-platform="Google" data-tt="Google · Conversiones" data-ttv="18% de las conversiones" style="width:18%;background:#4F52E5">18%</div>
+          <div class="contrib-seg" data-platform="TikTok" data-tt="TikTok · Conversiones" data-ttv="20% de las conversiones" style="width:20%;background:#C9A23F">20%</div>
+          <div class="contrib-seg" data-platform="DV360" data-tt="DV360 · Conversiones" data-ttv="10% de las conversiones" style="width:10%;background:#D45B8E">10%</div>
+        </div></div>
+        <div class="insight-box"><span>💡</span><span>Meta recibe 42% del presupuesto pero aporta 52% de las conversiones — sobre-indexado en resultado. Google es lo opuesto: 28% del gasto, solo 18% de conversiones.</span></div>
+      </div>
+    </div>
+
+    <div class="t3-bottom">
+      <div class="zone zone-pad">
+        <div class="zone-title" style="margin-bottom:8px;">Cómo se invierte en el tiempo — picos por tipo de campaña</div>
+        <div class="legend-row">
+          <div class="legend-item"><span class="legend-swatch" style="background:#141414"></span>Season</div>
+          <div class="legend-item"><span class="legend-swatch" style="background:#E9B52D"></span>Establecimientos</div>
+          <div class="legend-item"><span class="legend-swatch" style="background:#4F52E5"></span>Onboarding</div>
+        </div>
+        <div style="position:relative;">
+          <svg width="100%" height="140" viewBox="0 0 1080 140" id="timelineSvg" preserveAspectRatio="none"></svg>
+          <div class="annotation" style="top:2px; left:44%;">
+            <div class="annotation-flag">Pico: 3 campañas activas a la vez</div>
+          </div>
+        </div>
+        <div class="caveat-box" style="margin-top:10px;"><span>💡</span><span>No se contrasta con facturación — la inversión en pauta es soporte a la venta, no 100% atribuible.</span></div>
+      </div>
+      <div class="zone zone-pad">
+        <div class="zone-label">Plataformas</div>
+        <div class="zone-title" style="margin-bottom:10px;">Desempeño por plataforma — qué funciona y por qué</div>
+        <div class="insight-box" style="margin-bottom:12px;"><span>💡</span><span><b>Meta</b> lidera en CTR y CVR este periodo — la segmentación por intereses funciona mejor que la programática (DV360) para conversión.</span></div>
+        <table class="perf-table">
+          <thead><tr><th>Plataforma</th><th>CTR</th><th>VTR</th><th>CVR</th><th>Alcance</th></tr></thead>
+          <tbody>
+            <tr data-platform="Meta"><td><div class="perf-platform"><span class="perf-dot" style="background:#1BA9A3"></span>Meta</div></td><td class="metric perf-best">0.67%</td><td class="metric">5.32%</td><td class="metric perf-best">16.12%</td><td class="metric">92%</td></tr>
+            <tr data-platform="Google"><td><div class="perf-platform"><span class="perf-dot" style="background:#4F52E5"></span>Google</div></td><td class="metric">0.41%</td><td class="metric">4.10%</td><td class="metric">11.80%</td><td class="metric">70%</td></tr>
+            <tr data-platform="TikTok"><td><div class="perf-platform"><span class="perf-dot" style="background:#C9A23F"></span>TikTok</div></td><td class="metric">0.53%</td><td class="metric perf-best">7.20%</td><td class="metric">9.40%</td><td class="metric">64%</td></tr>
+            <tr data-platform="DV360"><td><div class="perf-platform"><span class="perf-dot" style="background:#D45B8E"></span>DV360</div></td><td class="metric">0.29%</td><td class="metric">3.85%</td><td class="metric">7.60%</td><td class="metric">48%</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ TAB 4 — CAMPAÑAS ============ -->
+  <div class="panel" data-panel="t4">
+    <div class="zone zone-pad campaign-group">
+      <div class="campaign-group-head">
+        <span class="campaign-badge" style="background:#f0f0f0;color:#141414">Season</span>
+        <div class="campaign-group-title">Movilización masiva<span class="campaign-group-count">3 campañas</span></div>
+        <div class="campaign-group-totals">
+          <div><div class="campaign-stat-value">$320K</div><div class="campaign-stat-label">37.6% del presupuesto</div></div>
+          <span class="delta-chip">▲ +8% mes</span>
+          <span class="delta-chip">▲ +15% año</span>
+        </div>
+      </div>
+      <div class="campaign-group-meta">
+        <div><div class="campaign-block-label">Objetivo</div><div class="campaign-objective">Maximizar alcance en picos estacionales y sostener top of mind.</div></div>
+        <div><div class="campaign-block-label">Qué se mide y por qué</div><div class="campaign-metric">Alcance, frecuencia y VTR — cobertura, no conversión directa.</div></div>
+        <div><div class="campaign-block-label">Canales relevantes</div><div class="channel-fit-row"><span class="channel-chip">TV</span><span class="channel-chip">Meta</span><span class="channel-chip">Google</span><span class="channel-chip">TikTok</span></div></div>
+      </div>
+      <table class="campaign-table">
+        <thead><tr><th>Campaña</th><th>Periodo</th><th>Inversión</th><th>% del grupo</th><th>Resultado clave</th><th>Estado</th></tr></thead>
+        <tbody>
+          <tr><td class="name">Black Friday 2026</td><td>Noviembre 2026</td><td class="metric">$145K</td><td class="metric">45%</td><td class="metric">280K alcance</td><td><span class="status-chip planned">Planificada</span></td></tr>
+          <tr><td class="name">Día de la Madre</td><td>Mayo 2026</td><td class="metric">$98K</td><td class="metric">31%</td><td class="metric">210K alcance</td><td><span class="status-chip finished">Finalizada</span></td></tr>
+          <tr><td class="name">Regreso a Clases</td><td>Enero–Febrero 2026</td><td class="metric">$77K</td><td class="metric">24%</td><td class="metric">130K alcance</td><td><span class="status-chip finished">Finalizada</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="zone zone-pad campaign-group">
+      <div class="campaign-group-head">
+        <span class="campaign-badge" style="background:rgba(233,181,45,0.16);color:#8a6d1f">Establecimientos</span>
+        <div class="campaign-group-title">Activación por sector afiliado<span class="campaign-group-count">3 campañas</span></div>
+        <div class="campaign-group-totals">
+          <div><div class="campaign-stat-value">$180K</div><div class="campaign-stat-label">21.2% del presupuesto</div></div>
+          <span class="delta-chip" style="background:rgba(172,59,46,0.1);color:#ac3b2e;">▼ -3% mes</span>
+          <span class="delta-chip">▲ +22% año</span>
+        </div>
+      </div>
+      <div class="campaign-group-meta">
+        <div><div class="campaign-block-label">Objetivo</div><div class="campaign-objective">Reactivar consumo con la tarjeta en un sector, con comercios de acuerdo vigente.</div></div>
+        <div><div class="campaign-block-label">Qué se mide y por qué</div><div class="campaign-metric">Clics y transacciones — activar consumo, no solo tráfico.</div></div>
+        <div><div class="campaign-block-label">Canales relevantes</div><div class="channel-fit-row"><span class="channel-chip">Meta</span><span class="channel-chip">Google</span></div></div>
+      </div>
+      <table class="campaign-table">
+        <thead><tr><th>Campaña</th><th>Periodo</th><th>Inversión</th><th>% del grupo</th><th>Resultado clave</th><th>Estado</th></tr></thead>
+        <tbody>
+          <tr><td class="name">Gastronomía Quito</td><td>Junio 2026</td><td class="metric">$65K</td><td class="metric">36%</td><td class="metric">890 transacciones</td><td><span class="status-chip active">Activa</span></td></tr>
+          <tr><td class="name">Retail Guayaquil</td><td>Mayo–Junio 2026</td><td class="metric">$58K</td><td class="metric">32%</td><td class="metric">720 transacciones</td><td><span class="status-chip active">Activa</span></td></tr>
+          <tr><td class="name">Entretenimiento Nacional</td><td>Abril 2026</td><td class="metric">$57K</td><td class="metric">32%</td><td class="metric">530 transacciones</td><td><span class="status-chip finished">Finalizada</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="zone zone-pad campaign-group">
+      <div class="campaign-group-head">
+        <span class="campaign-badge" style="background:rgba(79,82,229,0.1);color:#3730A3">Onboarding <span style="font-weight:600;text-transform:none;">· nueva</span></span>
+        <div class="campaign-group-title">Apertura de cuenta de ahorro<span class="campaign-group-count">2 campañas</span></div>
+        <div class="campaign-group-totals">
+          <div><div class="campaign-stat-value">$350K</div><div class="campaign-stat-label">41.2% del presupuesto</div></div>
+          <span class="delta-chip">▲ +12% mes</span>
+          <span class="delta-chip" style="background:#eef1f3;color:#6b6b6b;">Sin histórico</span>
+        </div>
+      </div>
+      <div class="campaign-group-meta">
+        <div><div class="campaign-block-label">Objetivo</div><div class="campaign-objective">Generar solicitudes de apertura y acompañar el onboarding hasta la activación.</div></div>
+        <div><div class="campaign-block-label">Qué se mide y por qué</div><div class="campaign-metric">Clics, registros y cuentas abiertas — colocación, no solo tráfico.</div></div>
+        <div><div class="campaign-block-label">Canales relevantes</div><div class="channel-fit-row"><span class="channel-chip">Meta</span><span class="channel-chip">Google</span><span class="channel-chip">Digital propio</span></div></div>
+      </div>
+      <table class="campaign-table">
+        <thead><tr><th>Campaña</th><th>Periodo</th><th>Inversión</th><th>% del grupo</th><th>Resultado clave</th><th>Estado</th></tr></thead>
+        <tbody>
+          <tr><td class="name">Apertura Digital blu</td><td>Todo el año</td><td class="metric">$210K</td><td class="metric">60%</td><td class="metric">410 cuentas</td><td><span class="status-chip active">Activa</span></td></tr>
+          <tr><td class="name">Referidos Cuenta Ahorro</td><td>Marzo–Junio 2026</td><td class="metric">$140K</td><td class="metric">40%</td><td class="metric">230 cuentas</td><td><span class="status-chip active">Activa</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="footer-note">Mockup de estructura · datos ilustrativos · Diners Club del Ecuador — Elaborado por el equipo de Analítica RAM</div>
+</div>
+
+<script>
+  /* ================= TABS ================= */
+  function showTab(id) {
+    document.querySelectorAll('.tab').forEach(t => t.dataset.active = (t.dataset.tab === id) ? 'true' : 'false');
+    document.querySelectorAll('.panel').forEach(p => p.dataset.visible = (p.dataset.panel === id) ? 'true' : 'false');
+  }
+  document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => showTab(t.dataset.tab)));
+
+  /* ================= GLOBAL TOOLTIP ================= */
+  const tip = document.getElementById('dataTooltip');
+  function tipShow(el, evt) {
+    const title = el.getAttribute('data-tt');
+    const val = el.getAttribute('data-ttv');
+    if (!title) return;
+    tip.innerHTML = `<b>${title}</b>` + (val ? `<div class="tt-sub">${val}</div>` : '');
+    tip.classList.add('show');
+    tipMove(evt);
+  }
+  function tipMove(evt) {
+    tip.style.left = evt.clientX + 'px';
+    tip.style.top = (evt.clientY - 10) + 'px';
+  }
+  function tipHide() { tip.classList.remove('show'); }
+  document.addEventListener('mousemove', (e) => {
+    const el = e.target.closest('[data-tt]');
+    if (el) { tipShow(el, e); } else { tipHide(); }
+  });
+
+  /* ================= CROSS-FILTER (Tab 3, by platform) ================= */
+  let xfActive = null;
+  function applyXf() {
+    document.querySelectorAll('#tabRail ~ * [data-platform]').forEach(() => {}); // no-op guard
+    const els = document.querySelectorAll('[data-platform]');
+    els.forEach(el => {
+      el.classList.remove('xf-dim', 'xf-active');
+      if (xfActive) {
+        if (el.getAttribute('data-platform') === xfActive) el.classList.add('xf-active');
+        else el.classList.add('xf-dim');
+      }
+    });
+  }
+  document.querySelectorAll('[data-platform]').forEach(el => {
+    el.addEventListener('click', () => {
+      const p = el.getAttribute('data-platform');
+      xfActive = (xfActive === p) ? null : p;
+      applyXf();
+    });
+  });
+
+  /* ================= FREE-FORM MONTH COMPARISON (Ver vs. Comparar contra) ================= */
+  const MONTHS = ['Enero 2026', 'Febrero 2026', 'Marzo 2026', 'Abril 2026', 'Mayo 2026', 'Junio 2026', 'Junio 2025'];
+  const MONTH_DATA = {
+    'Enero 2026':   { invested: 231000, pct: 27.2, mix: {Meta:37,Google:31,TikTok:20,DV360:12}, channels: {TV:38,Radio:12,Paid:50}, goals: {Season:480000, Establecimientos:1600, Onboarding:380} },
+    'Febrero 2026': { invested: 268000, pct: 31.5, mix: {Meta:38,Google:30,TikTok:20,DV360:12}, channels: {TV:37,Radio:11,Paid:52}, goals: {Season:510000, Establecimientos:1750, Onboarding:430} },
+    'Marzo 2026':   { invested: 295000, pct: 34.7, mix: {Meta:39,Google:29,TikTok:20,DV360:12}, channels: {TV:36,Radio:11,Paid:53}, goals: {Season:590000, Establecimientos:1900, Onboarding:480} },
+    'Abril 2026':   { invested: 318000, pct: 37.4, mix: {Meta:39,Google:29,TikTok:20,DV360:12}, channels: {TV:36,Radio:10,Paid:54}, goals: {Season:540000, Establecimientos:2050, Onboarding:510} },
+    'Mayo 2026':    { invested: 366000, pct: 43.1, mix: {Meta:40,Google:29,TikTok:19,DV360:12}, channels: {TV:35,Radio:10,Paid:55}, goals: {Season:600000, Establecimientos:2206, Onboarding:571} },
+    'Junio 2026':   { invested: 410500, pct: 48.3, mix: {Meta:42,Google:28,TikTok:18,DV360:12}, channels: {TV:35,Radio:10,Paid:55}, goals: {Season:620000, Establecimientos:2140, Onboarding:640} },
+    'Junio 2025':   { invested: 356000, pct: null, mix: {Meta:36,Google:33,TikTok:19,DV360:12}, channels: {TV:42,Radio:14,Paid:44}, goals: {Season:540000, Establecimientos:1754, Onboarding:null} },
+  };
+  const TARGETS = { Season: 600000, Establecimientos: 2400, Onboarding: 700 };
+  const GOAL_FMT = {
+    Season: v => (v / 1000).toFixed(0) + 'K',
+    Establecimientos: v => v.toLocaleString('en-US'),
+    Onboarding: v => v.toLocaleString('en-US'),
+  };
+  const fmtUSD = n => '$' + n.toLocaleString('en-US');
+  function crossfade(el, apply) {
+    if (!el) return;
+    el.classList.add('fading');
+    setTimeout(() => { apply(); el.classList.remove('fading'); }, 160);
+  }
+  function deltaText(v) {
+    if (v === null || v === undefined || isNaN(v)) return 'Sin histórico';
+    const r = Math.round(v * 10) / 10;
+    return (r >= 0 ? '▲ +' : '▼ ') + r + '%';
+  }
+  function deltaStyle(el, v) {
+    if (!el) return;
+    if (v === null || v === undefined || isNaN(v)) { el.style.background = '#eef1f3'; el.style.color = '#6b6b6b'; return; }
+    if (v >= 0) { el.style.background = 'rgba(28,122,66,0.1)'; el.style.color = '#1c7a42'; }
+    else { el.style.background = 'rgba(172,59,46,0.1)'; el.style.color = '#ac3b2e'; }
+  }
+  function pctDelta(current, base) {
+    if (base === null || base === undefined || current === null || current === undefined) return null;
+    return ((current - base) / base) * 100;
+  }
+
+  // populate dropdowns
+  const viewSel = document.getElementById('viewMonthSelect');
+  const cmpSel = document.getElementById('compareMonthSelect');
+  MONTHS.forEach(m => { viewSel.add(new Option(m, m)); cmpSel.add(new Option(m, m)); });
+  viewSel.value = 'Junio 2026';
+  cmpSel.value = 'Mayo 2026';
+
+  /* ================= GAUGE (velocímetro) — zonas rojo/amarillo/verde, escala hasta 120% para reflejar sobre-cumplimiento ================= */
+  function gaugeMarkup(value) {
+    const max = 120, cx = 60, cy = 60, r = 48, sw = 14;
+    const toXY = (v, radius) => {
+      const clamped = Math.min(Math.max(v, 0), max);
+      const theta = (180 - (clamped / max) * 180) * Math.PI / 180;
+      return [cx + radius * Math.cos(theta), cy - radius * Math.sin(theta)];
+    };
+    const arc = (v0, v1, color) => {
+      const [x0, y0] = toXY(v0, r), [x1, y1] = toXY(v1, r);
+      return `<path d="M${x0.toFixed(2)},${y0.toFixed(2)} A${r},${r} 0 0 1 ${x1.toFixed(2)},${y1.toFixed(2)}" stroke="${color}" stroke-width="${sw}" fill="none" stroke-linecap="round"></path>`;
+    };
+    const zones = [{ from: 0, to: 70, color: '#D9534F' }, { from: 70, to: 100, color: '#E9B52D' }, { from: 100, to: max, color: '#1c7a42' }];
+    let markup = zones.map(z => arc(z.from, z.to, z.color)).join('');
+    const [tx1, ty1] = toXY(100, r - 6);
+    const [tx2, ty2] = toXY(100, r + 9);
+    markup += `<line x1="${tx1.toFixed(2)}" y1="${ty1.toFixed(2)}" x2="${tx2.toFixed(2)}" y2="${ty2.toFixed(2)}" stroke="#262626" stroke-width="2"></line>`;
+    const clampedVal = Math.min(Math.max(value, 0), max);
+    const [nx, ny] = toXY(clampedVal, r - 12);
+    markup += `<line x1="${cx}" y1="${cy}" x2="${nx.toFixed(2)}" y2="${ny.toFixed(2)}" stroke="#141414" stroke-width="3" stroke-linecap="round"></line><circle cx="${cx}" cy="${cy}" r="5" fill="#141414"></circle>`;
+    return markup;
+  }
+
+  /* ================= SOLID PIE (aporte por canal) ================= */
+  function pieMarkup(segments, size) {
+    size = size || 70;
+    const cx = size / 2, cy = size / 2, r = size / 2 - 2;
+    let angleStart = -90, paths = '';
+    segments.forEach(s => {
+      const angle = (s.pct / 100) * 360;
+      const angleEnd = angleStart + angle;
+      const toRad = a => a * Math.PI / 180;
+      const x1 = cx + r * Math.cos(toRad(angleStart)), y1 = cy + r * Math.sin(toRad(angleStart));
+      const x2 = cx + r * Math.cos(toRad(angleEnd)), y2 = cy + r * Math.sin(toRad(angleEnd));
+      const largeArc = angle > 180 ? 1 : 0;
+      paths += `<path data-tt="${s.label}" data-ttv="${s.pct}%" d="M${cx},${cy} L${x1.toFixed(2)},${y1.toFixed(2)} A${r},${r} 0 ${largeArc} 1 ${x2.toFixed(2)},${y2.toFixed(2)} Z" fill="${s.color}" stroke="#fff" stroke-width="1.5"></path>`;
+      angleStart = angleEnd;
+    });
+    return paths;
+  }
+  const CONTRIB_PIES = {
+    Season: [{ label: 'TV', pct: 30, color: '#141414' }, { label: 'Meta', pct: 28, color: '#1BA9A3' }, { label: 'Google', pct: 22, color: '#4F52E5' }, { label: 'TikTok', pct: 20, color: '#C9A23F' }],
+    Establecimientos: [{ label: 'Meta', pct: 58, color: '#1BA9A3' }, { label: 'Google', pct: 42, color: '#4F52E5' }],
+    Onboarding: [{ label: 'Meta', pct: 50, color: '#1BA9A3' }, { label: 'Google', pct: 30, color: '#4F52E5' }, { label: 'Digital propio', pct: 20, color: '#6B7280' }],
+  };
+  ['Season', 'Establecimientos', 'Onboarding'].forEach(g => {
+    ['pie' + g + 'T1', 'pie' + g + 'T2'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.innerHTML = pieMarkup(CONTRIB_PIES[g]);
+    });
+  });
+
+  function updateComparison() {
+    const viewMonth = viewSel.value, cmpMonth = cmpSel.value;
+    const vd = MONTH_DATA[viewMonth], cd = MONTH_DATA[cmpMonth];
+
+    // Tab 1 hero status + Tab 3 pacing/mix/donut — driven by "Ver" month
+    const t1Pill = document.getElementById('t1StatusPill');
+    const t1Label = document.getElementById('t1MonthLabel');
+    crossfade(t1Label, () => { t1Label.textContent = 'Corte a ' + viewMonth.toLowerCase(); });
+    crossfade(t1Pill, () => { t1Pill.textContent = vd.pct === null ? 'Periodo cerrado' : (vd.pct >= 45 ? 'Pacing en línea' : 'Pacing por debajo del plan'); });
+
+    const t3Inv = document.getElementById('t3Invested');
+    const t3Cap = document.getElementById('t3PacingCaption');
+    const t3Pct = document.getElementById('t3PacingPct');
+    const t3Fill = document.getElementById('t3PacingFill');
+    crossfade(t3Inv, () => { t3Inv.textContent = fmtUSD(vd.invested); });
+    crossfade(t3Cap, () => { t3Cap.innerHTML = '<b>' + fmtUSD(vd.invested) + '</b> a la fecha'; });
+    crossfade(t3Pct, () => { t3Pct.textContent = (vd.pct === null ? '—' : vd.pct + '%'); });
+    if (t3Fill) t3Fill.style.width = (vd.pct === null ? 0 : vd.pct) + '%';
+    ['Meta', 'Google', 'TikTok', 'DV360'].forEach(p => {
+      const elm = document.getElementById('mixPct' + p);
+      crossfade(elm, () => { elm.textContent = vd.mix[p] + '%'; });
+    });
+    drawDonut(vd.mix, vd.invested);
+
+    // Tab 1 channel distribution pie (TV/Radio/Paid Media) — also driven by "Ver" month
+    [['TV', 'chPctTV'], ['Radio', 'chPctRadio'], ['Paid', 'chPctPaid']].forEach(([k, id]) => {
+      const elm = document.getElementById(id);
+      crossfade(elm, () => { elm.textContent = vd.channels[k] + '%'; });
+    });
+    drawChannelPie(vd.channels);
+
+    // Comparison label
+    const t2Label = document.getElementById('t2CompareLabel');
+    crossfade(t2Label, () => { t2Label.textContent = 'Comparando ' + viewMonth + ' vs. ' + cmpMonth; });
+
+    // Aggregate strip (Alcance/Clics/Conversiones) — proxies derived from Season / inversión / promedio Establecimientos+Onboarding
+    const seasonDelta = pctDelta(vd.goals.Season, cd.goals.Season);
+    const investDelta = pctDelta(vd.invested, cd.invested);
+    const estDelta = pctDelta(vd.goals.Establecimientos, cd.goals.Establecimientos);
+    const onbDelta = pctDelta(vd.goals.Onboarding, cd.goals.Onboarding);
+    const convDeltas = [estDelta, onbDelta].filter(x => x !== null);
+    const convDelta = convDeltas.length ? convDeltas.reduce((a, b) => a + b, 0) / convDeltas.length : null;
+    [['Alcance', seasonDelta], ['Clics', investDelta], ['Conversiones', convDelta]].forEach(([m, v]) => {
+      const el = document.getElementById('yoy' + m);
+      crossfade(el, () => { el.textContent = deltaText(v); deltaStyle(el, v); });
+    });
+
+    // Per-goal: current value, % of target, verdict, delta vs compare month
+    ['Season', 'Establecimientos', 'Onboarding'].forEach(g => {
+      const current = vd.goals[g];
+      const pctTarget = current === null ? null : (current / TARGETS[g]) * 100;
+      const delta = pctDelta(current, cd.goals[g]);
+
+      const captionEl = document.getElementById('goalCaption' + g);
+      const pctEl = document.getElementById('goalPct' + g);
+      const verdictEl = document.getElementById('goalVerdict' + g);
+      const goalDeltaEl = document.getElementById('goalDelta' + g);
+      const fulfilPct = document.getElementById('fulfilPct' + g);
+      const fulfilDeltaEl = document.getElementById('fulfilDelta' + g);
+      const gaugeT1 = document.getElementById('gauge' + g + 'T1');
+      const gaugeT2 = document.getElementById('gauge' + g + 'T2');
+
+      if (current !== null && pctTarget !== null) {
+        crossfade(captionEl, () => { captionEl.textContent = GOAL_FMT[g](current) + ' de ' + GOAL_FMT[g](TARGETS[g]) + ' meta'; });
+        crossfade(pctEl, () => { pctEl.textContent = pctTarget.toFixed(0) + '%'; });
+        crossfade(fulfilPct, () => { fulfilPct.textContent = pctTarget.toFixed(0) + '%'; });
+        if (gaugeT1) gaugeT1.innerHTML = gaugeMarkup(pctTarget);
+        if (gaugeT2) gaugeT2.innerHTML = gaugeMarkup(pctTarget);
+        if (verdictEl) {
+          const verdictText = pctTarget >= 100 ? '✓ Meta superada' : (pctTarget >= 85 ? '△ Cerca de la meta' : '✕ Por debajo de la meta');
+          verdictEl.className = 'goal-verdict ' + (pctTarget >= 100 ? 'good' : (pctTarget >= 85 ? 'warn' : 'warn'));
+          verdictEl.firstChild.textContent = verdictText + ' ';
+        }
+      }
+      [goalDeltaEl, fulfilDeltaEl].forEach(el => { crossfade(el, () => { el.textContent = deltaText(delta); deltaStyle(el, delta); }); });
+    });
+  }
+  viewSel.addEventListener('change', updateComparison);
+  cmpSel.addEventListener('change', updateComparison);
+  updateComparison();
+
+  /* ================= CHANNEL DISTRIBUTION PIE (Tab 1) — reactive to Ver month ================= */
+  function drawChannelPie(ch) {
+    ch = ch || { TV: 35, Radio: 10, Paid: 55 };
+    const data = [
+      { label: 'Televisión', pct: ch.TV, color: '#141414' },
+      { label: 'Radio', pct: ch.Radio, color: '#6B7280' },
+      { label: 'Paid Media', pct: ch.Paid, color: '#4F52E5' },
+    ];
+    const cx = 60, cy = 60, r = 56;
+    let angleStart = -90;
+    const svg = document.getElementById('channelPieSvg');
+    let paths = '';
+    data.forEach(d => {
+      const angle = (d.pct / 100) * 360;
+      const angleEnd = angleStart + angle;
+      const toRad = a => (a * Math.PI) / 180;
+      const x1 = cx + r * Math.cos(toRad(angleStart)), y1 = cy + r * Math.sin(toRad(angleStart));
+      const x2 = cx + r * Math.cos(toRad(angleEnd)), y2 = cy + r * Math.sin(toRad(angleEnd));
+      const largeArc = angle > 180 ? 1 : 0;
+      paths += `<path data-tt="${d.label}" data-ttv="${d.pct}% del presupuesto total" d="M${cx},${cy} L${x1},${y1} A${r},${r} 0 ${largeArc} 1 ${x2},${y2} Z" fill="${d.color}" stroke="#fff" stroke-width="2"></path>`;
+      angleStart = angleEnd;
+    });
+    svg.innerHTML = paths;
+  }
+  drawChannelPie(MONTH_DATA['Junio 2026'].channels);
+
+  /* ================= ENTRANCE ANIMATION: grow bar/pill fills from 0 (script runs at end of body, DOM is ready) ================= */
+  document.querySelectorAll('.anim-fill, .fulfil-fill').forEach(el => {
+    const target = el.style.width;
+    el.style.width = '0%';
+    requestAnimationFrame(() => requestAnimationFrame(() => { el.style.width = target; }));
+  });
+
+  /* ================= DONUT ================= */
+  const PLATFORM_COLOR = { Meta: '#1BA9A3', Google: '#4F52E5', TikTok: '#C9A23F', DV360: '#D45B8E' };
+  function drawDonut(mix, invested) {
+    const order = ['Meta', 'Google', 'TikTok', 'DV360'];
+    const cx = 65, cy = 65, rOuter = 60, rInner = 38;
+    let angleStart = -90;
+    const svg = document.getElementById('donutSvg');
+    let paths = '';
+    order.forEach(label => {
+      const pct = mix[label];
+      const color = PLATFORM_COLOR[label];
+      const angle = (pct / 100) * 360;
+      const angleEnd = angleStart + angle;
+      const toRad = a => (a * Math.PI) / 180;
+      const x1o = cx + rOuter * Math.cos(toRad(angleStart)), y1o = cy + rOuter * Math.sin(toRad(angleStart));
+      const x2o = cx + rOuter * Math.cos(toRad(angleEnd)), y2o = cy + rOuter * Math.sin(toRad(angleEnd));
+      const x1i = cx + rInner * Math.cos(toRad(angleEnd)), y1i = cy + rInner * Math.sin(toRad(angleEnd));
+      const x2i = cx + rInner * Math.cos(toRad(angleStart)), y2i = cy + rInner * Math.sin(toRad(angleStart));
+      const largeArc = angle > 180 ? 1 : 0;
+      paths += `<path data-platform="${label}" data-tt="${label}" data-ttv="${pct}% del mix digital" d="M${x1o},${y1o} A${rOuter},${rOuter} 0 ${largeArc} 1 ${x2o},${y2o} L${x1i},${y1i} A${rInner},${rInner} 0 ${largeArc} 0 ${x2i},${y2i} Z" fill="${color}" stroke="#fff" stroke-width="2"></path>`;
+      angleStart = angleEnd;
+    });
+    svg.innerHTML = paths + `<text x="${cx}" y="${cy - 2}" text-anchor="middle" font-size="15" font-weight="700" fill="#262626">${(invested/1000).toFixed(1)}K</text><text x="${cx}" y="${cy + 13}" text-anchor="middle" font-size="8.5" fill="#8b8b8b">invertido</text>`;
+    // re-bind click/hover on new paths + re-apply active xf state
+    svg.querySelectorAll('[data-platform]').forEach(el => {
+      el.addEventListener('click', () => { xfActive = (xfActive === el.getAttribute('data-platform')) ? null : el.getAttribute('data-platform'); applyXf(); });
+    });
+    applyXf();
+  }
+  drawDonut(MONTH_DATA['Junio 2026'].mix, MONTH_DATA['Junio 2026'].invested);
+
+  /* ================= TIMELINE ================= */
+  (function () {
+    const months = ['Ene','Feb','Mar','Abr','May','Jun'];
+    const series = [ [28,10,18],[32,12,20],[58,14,22],[40,22,24],[34,30,26],[30,24,30] ];
+    const labels = ['Season', 'Establecimientos', 'Onboarding'];
+    const colors = ['#141414', '#E9B52D', '#4F52E5'];
+    const W = 1080, H = 140, padL = 34, padR = 10, padT = 8, padB = 22;
+    const plotW = W - padL - padR, plotH = H - padT - padB;
+    const maxTotal = Math.max(...series.map(s => s.reduce((a,b)=>a+b,0))) * 1.15;
+    const stepX = plotW / (months.length - 1);
+    const svg = document.getElementById('timelineSvg');
+    let out = '';
+    for (let g = 0; g <= 3; g++) { const y = padT + (plotH/3)*g; out += `<line x1="${padL}" y1="${y}" x2="${W-padR}" y2="${y}" stroke="#eef1f3" stroke-width="1"></line>`; }
+    for (let s = 0; s < 3; s++) {
+      let topPts = [], basePts = [];
+      let cumBase = months.map((_, i) => series[i].slice(0, s).reduce((a,b)=>a+b, 0));
+      let cumTop = months.map((_, i) => series[i].slice(0, s+1).reduce((a,b)=>a+b, 0));
+      months.forEach((_, i) => {
+        const x = padL + i * stepX;
+        topPts.push([x, padT + plotH - (cumTop[i] / maxTotal) * plotH]);
+        basePts.push([x, padT + plotH - (cumBase[i] / maxTotal) * plotH]);
+      });
+      const d = 'M' + topPts.map(p => p.join(',')).join(' L') + ' L' + basePts.slice().reverse().map(p => p.join(',')).join(' L') + ' Z';
+      out += `<path d="${d}" fill="${colors[s]}" opacity="0.85"></path>`;
+    }
+    // invisible hit columns per month for tooltip
+    months.forEach((m, i) => {
+      const x = padL + i * stepX;
+      out += `<text x="${x}" y="${H-6}" text-anchor="middle" font-size="10.5" fill="#8b8b8b">${m}</text>`;
+      const total = series[i].reduce((a,b)=>a+b,0);
+      const detail = labels.map((l, k) => l + ': $' + series[i][k] + 'K').join(' · ');
+      out += `<rect data-tt="${m} 2026 · Inversión $${total}K" data-ttv="${detail}" x="${x - stepX/2}" y="0" width="${stepX}" height="${H}" fill="transparent"></rect>`;
+    });
+    svg.innerHTML = out;
+  })();
+</script>
+</body>
+</html>

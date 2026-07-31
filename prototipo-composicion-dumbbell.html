@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<title>Prototipo — Composición + desglose (dumbbell chart)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  :root { color-scheme: light; --font-display: Georgia, 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Palatino, serif; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 32px;
+    background: #F6F6F8; color: #262626;
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .note { max-width: 900px; margin: 0 auto 20px; background: #EFEAFB; border: 1px solid #C9C2F2; color: #3730A3; border-radius: 10px; padding: 12px 16px; font-size: 12.5px; }
+  .note b { color: #262166; }
+  .wrap { max-width: 1240px; margin: 0 auto; }
+  .zone { background: #fff; border-radius: 14px; box-shadow: 0 1px 2px rgba(20,20,20,0.05), 0 6px 20px rgba(20,20,20,0.06); }
+  .zone-pad { padding: 18px 20px; }
+  .zone-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #4F52E5; margin-bottom: 6px; }
+  .zone-title { font-size: 14px; font-weight: 600; color: #262626; margin-bottom: 2px; }
+  .hero-caption { font-size: 12px; color: #5C5C5C; margin-top: 2px; }
+  .legend-key { font-size: 9.5px; color: #b0b0b0; margin-top: 4px; margin-bottom: 12px; }
+
+  .mix-body { display: grid; grid-template-columns: 1fr 1.35fr; gap: 20px; align-items: start; }
+  .pie-wrap { display: flex; align-items: center; gap: 16px; }
+  .pie-wrap svg { animation: popIn 0.5s cubic-bezier(0.16,1,0.3,1); }
+  @keyframes popIn { from { opacity: 0; transform: scale(0.6); } to { opacity: 1; transform: scale(1); } }
+  .channel-pie-slice { transform-origin: 60px 60px; animation: sliceIn 0.55s cubic-bezier(0.16,1,0.3,1) backwards; }
+  @keyframes sliceIn { from { opacity: 0; transform: scale(0.6); } to { opacity: 1; transform: scale(1); } }
+  .channel-legend-row { display: flex; align-items: center; gap: 9px; font-size: 12px; margin-bottom: 9px; border-radius: 8px; padding: 4px 6px; margin-left: -6px; margin-right: -6px; cursor: pointer; transition: background 0.15s ease; }
+  .channel-legend-row:last-child { margin-bottom: 0; }
+  .channel-legend-row:hover, .channel-legend-row.is-active { background: #F8F7FC; }
+  .channel-icon-badge { width: 26px; height: 26px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex: none; }
+  .channel-legend-name { flex: 1; color: #262626; font-weight: 500; }
+  .channel-legend-value { display: flex; flex-direction: column; align-items: flex-end; line-height: 1.25; }
+  .channel-legend-pct { font-weight: 700; color: #262626; font-variant-numeric: tabular-nums; }
+  .channel-legend-usd { font-size: 9.5px; font-weight: 500; color: #8b8b8b; }
+  .channel-legend-delta { font-size: 10px; font-weight: 600; margin-top: 2px; white-space: nowrap; border-bottom: 1px dotted currentColor; cursor: help; }
+  .channel-legend-delta.good { color: #1c7a42; }
+  .channel-legend-delta.bad { color: #ac3b2e; }
+  .channel-legend-delta.flat { color: #8b8b8b; }
+  .channel-legend-delta.yoy { padding-left: 6px; border-left: 1px solid #e6e5ea; color: #8b8b8b; }
+  .channel-legend-delta.yoy.good { color: #1c7a42; }
+  .channel-legend-delta.yoy.bad { color: #ac3b2e; }
+
+  /* ================= DUMBBELL DRILLDOWN ================= */
+  .drilldown { background: #F8F7FC; border-radius: 10px; padding: 16px 18px; min-height: 200px; }
+  .drilldown-title { font-size: 10.5px; font-weight: 700; color: #4F52E5; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 3px; }
+  .drilldown-key { font-size: 9px; color: #b0b0b0; margin-bottom: 4px; }
+  .drilldown-legend { display: flex; gap: 14px; font-size: 10px; color: #5C5C5C; margin-bottom: 14px; }
+  .drilldown-legend-item { display: flex; align-items: center; gap: 5px; }
+  .drilldown-legend-dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+
+  /* One bar = the current value (length is the whole story, no reading required). One tick = where it
+     was before (same "reference mark on a track" language as the gauge's target tick elsewhere in this
+     dashboard). The delta chip states the number so nobody has to eyeball the gap between mark and bar-end. */
+  .db-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-top: 1px solid #eceaf5; }
+  .db-row:first-of-type { border-top: none; padding-top: 0; }
+  .db-name-col { width: 118px; flex: none; }
+  .db-name { font-size: 12px; font-weight: 600; color: #262626; display: block; }
+  .db-yoy-note { font-size: 9.5px; color: #8b8b8b; margin-top: 2px; display: block; }
+  .db-yoy-note.good { color: #1c7a42; }
+  .db-yoy-note.bad { color: #ac3b2e; }
+  .db-track-wrap { flex: 1; position: relative; height: 20px; background: #eceaf5; border-radius: 5px; }
+  .db-fill { position: absolute; top: 0; left: 0; height: 100%; border-radius: 5px; transition: width 0.7s cubic-bezier(0.16,1,0.3,1); display: flex; align-items: center; }
+  .db-fill-value { position: absolute; left: 100%; margin-left: 8px; font-size: 11px; font-weight: 700; color: #262626; white-space: nowrap; font-variant-numeric: tabular-nums; transition: left 0.7s cubic-bezier(0.16,1,0.3,1); }
+  .db-tick { position: absolute; top: -3px; width: 3px; height: 26px; background: #fff; border-radius: 2px; box-shadow: 0 0 0 1px rgba(20,20,20,0.35); transform: translateX(-50%); transition: left 0.7s cubic-bezier(0.16,1,0.3,1); cursor: pointer; z-index: 2; }
+  .db-delta-col { width: 82px; flex: none; text-align: right; }
+  .db-delta-col .delta-chip { font-size: 10.5px; font-weight: 700; padding: 3px 8px; border-radius: 6px; display: inline-block; }
+  .delta-chip.good { background: rgba(28,122,66,0.1); color: #1c7a42; }
+  .delta-chip.bad { background: rgba(172,59,46,0.1); color: #ac3b2e; }
+
+  #tooltip { position: fixed; pointer-events: none; z-index: 999; background: #141414; color: #fff; font-size: 11px; padding: 6px 9px; border-radius: 7px; opacity: 0; transition: opacity 0.1s ease; white-space: nowrap; }
+  #tooltip.show { opacity: 1; }
+</style>
+</head>
+<body>
+<div class="note">
+  <b>Prototipo aislado — no es el dashboard completo.</b> Desglose por medio con una barra (valor del mes actual) + una marca blanca (dónde estaba en el mes de comparación) + el % de cambio a la derecha. En la leyenda de canales, cada badge de cambio ahora dice explícitamente contra qué mes compara ("vs. Mayo"), y la comparación contra el año anterior está en el tooltip al pasar el mouse, en vez de competir por atención con dos badges a la vez.
+</div>
+<div id="tooltip"></div>
+<div class="wrap">
+  <div class="zone zone-pad">
+    <div class="zone-label">Composición</div>
+    <div class="zone-title">Distribución de la inversión por canal</div>
+    <div class="hero-caption">% y monto invertido por canal, corte del mes seleccionado. Pasa el mouse sobre un canal para ver su desglose por medio específico.</div>
+    <div class="legend-key" id="legendKey"></div>
+    <div class="mix-body">
+      <div class="pie-wrap">
+        <svg width="140" height="140" viewBox="0 0 120 120" id="channelPieSvg"></svg>
+        <div id="channelLegend" style="flex:1;"></div>
+      </div>
+      <div class="drilldown" id="drilldown"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const CHANNEL_ORDER = ['TV', 'Radio', 'PrensaEscrita', 'Revistas', 'Paid', 'Eventos'];
+  const CHANNEL_LABEL = { TV: 'Televisión', Radio: 'Radio', PrensaEscrita: 'Prensa escrita', Revistas: 'Revistas', Paid: 'Paid Media', Eventos: 'Eventos' };
+  const CHANNEL_COLOR = { TV: '#141414', Radio: '#6B7280', PrensaEscrita: '#C9A23F', Revistas: '#D45B8E', Paid: '#4F52E5', Eventos: '#1BA9A3' };
+  const CHANNEL_ICON = {
+    TV: '<rect x="2" y="4" width="20" height="14" rx="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="18" x2="12" y2="21"></line>',
+    Radio: '<circle cx="12" cy="15" r="1.2"></circle><path d="M18 8a8 8 0 0 1 0 11"></path><path d="M6 8a8 8 0 0 0 0 11"></path><path d="M15 11a4 4 0 0 1 0 6"></path><path d="M9 11a4 4 0 0 0 0 6"></path>',
+    PrensaEscrita: '<rect x="3" y="4" width="18" height="16" rx="1"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="7" y1="13" x2="10" y2="13"></line><line x1="7" y1="16" x2="10" y2="16"></line><line x1="14" y1="13" x2="17" y2="13"></line><line x1="14" y1="16" x2="17" y2="16"></line>',
+    Revistas: '<path d="M2 6a2 2 0 0 1 2-2h6v16H4a2 2 0 0 1-2-2z"></path><path d="M22 6a2 2 0 0 0-2-2h-6v16h6a2 2 0 0 0 2-2z"></path>',
+    Paid: '<path d="M3 11l18-6v14L3 15v-4z"></path><path d="M11.5 17a3 3 0 1 1-5.8-1.5"></path>',
+    Eventos: '<rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>',
+  };
+
+  const VIEW_MONTH = 'Junio 2026', CMP_MONTH = 'Mayo 2026', YOY_MONTH = 'Mayo 2025';
+
+  // Channel-level totals (same numbers as the real dashboard for June/May 2026 and May 2025)
+  const CHANNEL_PCT = {
+    view: { TV: 26, Radio: 8, PrensaEscrita: 6, Revistas: 3, Eventos: 2, Paid: 55 },
+    cmp:  { TV: 26, Radio: 9, PrensaEscrita: 5, Revistas: 3, Eventos: 2, Paid: 55 },
+    yoy:  { TV: 37, Radio: 13, PrensaEscrita: 4, Revistas: 2, Eventos: 1, Paid: 43 },
+  };
+  const TOTAL_MEDIA = { view: 746364, cmp: 665455, yoy: 755814 };
+
+  // Real Paid Media platform mix (matches the actual dashboard's per-month `mix` data)
+  const PAID_MIX = {
+    view: { Meta: 42, Google: 28, TikTok: 18, DV360: 12 },
+    cmp:  { Meta: 40, Google: 29, TikTok: 19, DV360: 12 },
+    yoy:  { Meta: 36, Google: 33, TikTok: 19, DV360: 12 },
+  };
+  const PAID_INVESTED = { view: 410500, cmp: 366000, yoy: 325000 };
+  const PLATFORM_COLOR = { Meta: '#1BA9A3', Google: '#4F52E5', TikTok: '#C9A23F', DV360: '#D45B8E' };
+
+  // Per-outlet SHARE WITHIN CHANNEL that genuinely moves period to period — some outlets gain share,
+  // some lose it, independent of the channel total. This is what was missing before: every outlet
+  // inherited the exact same delta as its parent channel because the share was one static number.
+  const CHANNEL_BREAKDOWN = {
+    TV: {
+      view: [{ name: 'Teleamazonas', pct: 40 }, { name: 'Ecuavisa', pct: 31 }, { name: 'RTS', pct: 17 }, { name: 'Canal Uno', pct: 12 }],
+      cmp:  [{ name: 'Teleamazonas', pct: 37 }, { name: 'Ecuavisa', pct: 32 }, { name: 'RTS', pct: 19 }, { name: 'Canal Uno', pct: 12 }],
+      yoy:  [{ name: 'Teleamazonas', pct: 30 }, { name: 'Ecuavisa', pct: 35 }, { name: 'RTS', pct: 23 }, { name: 'Canal Uno', pct: 12 }],
+    },
+    Radio: {
+      view: [{ name: 'Radio Disney', pct: 32 }, { name: 'JC Radio', pct: 27 }, { name: 'Radio Exa', pct: 23 }, { name: 'Radio Sonorama', pct: 18 }],
+      cmp:  [{ name: 'Radio Disney', pct: 30 }, { name: 'JC Radio', pct: 28 }, { name: 'Radio Exa', pct: 24 }, { name: 'Radio Sonorama', pct: 18 }],
+      yoy:  [{ name: 'Radio Disney', pct: 24 }, { name: 'JC Radio', pct: 30 }, { name: 'Radio Exa', pct: 26 }, { name: 'Radio Sonorama', pct: 20 }],
+    },
+    PrensaEscrita: {
+      view: [{ name: 'El Comercio', pct: 47 }, { name: 'El Universo', pct: 36 }, { name: 'Expreso', pct: 17 }],
+      cmp:  [{ name: 'El Comercio', pct: 45 }, { name: 'El Universo', pct: 38 }, { name: 'Expreso', pct: 17 }],
+      yoy:  [{ name: 'El Comercio', pct: 40 }, { name: 'El Universo', pct: 40 }, { name: 'Expreso', pct: 20 }],
+    },
+    Revistas: {
+      view: [{ name: 'Vistazo', pct: 44 }, { name: 'Cosas', pct: 32 }, { name: 'Gestión Digital', pct: 24 }],
+      cmp:  [{ name: 'Vistazo', pct: 42 }, { name: 'Cosas', pct: 33 }, { name: 'Gestión Digital', pct: 25 }],
+      yoy:  [{ name: 'Vistazo', pct: 36 }, { name: 'Cosas', pct: 36 }, { name: 'Gestión Digital', pct: 28 }],
+    },
+    Eventos: {
+      view: [{ name: 'Copa Diners Golf', pct: 42 }, { name: 'Feria Aniversario Quito', pct: 34 }, { name: 'Rock the Park', pct: 24 }],
+      cmp:  [{ name: 'Copa Diners Golf', pct: 40 }, { name: 'Feria Aniversario Quito', pct: 35 }, { name: 'Rock the Park', pct: 25 }],
+      yoy:  [{ name: 'Copa Diners Golf', pct: 33 }, { name: 'Feria Aniversario Quito', pct: 37 }, { name: 'Rock the Park', pct: 30 }],
+    },
+  };
+
+  const fmtUSD = n => n >= 1000000 ? '$' + (n / 1000000).toFixed(2) + 'M' : '$' + Math.round(n / 1000) + 'K';
+  const relDelta = (cur, base) => (!base ? null : ((cur - base) / base) * 100);
+  const deltaText = v => v === null || v === undefined || isNaN(v) ? 'Sin histórico' : (v >= 0 ? '▲ +' : '▼ ') + Math.round(v * 10) / 10 + '%';
+
+  const tip = document.getElementById('tooltip');
+  document.addEventListener('mousemove', e => {
+    const el = e.target.closest('[data-tt]');
+    if (el) { tip.innerHTML = '<b>' + el.getAttribute('data-tt') + '</b>' + (el.getAttribute('data-ttv') ? ' — ' + el.getAttribute('data-ttv') : ''); tip.classList.add('show'); tip.style.left = e.clientX + 12 + 'px'; tip.style.top = e.clientY - 10 + 'px'; }
+    else tip.classList.remove('show');
+  });
+
+  let activeChannel = 'TV';
+
+  function drawPie() {
+    const svg = document.getElementById('channelPieSvg');
+    const legend = document.getElementById('channelLegend');
+    const cx = 60, cy = 60, r = 56;
+    let angleStart = -90, paths = '', rows = '';
+    CHANNEL_ORDER.forEach((key, i) => {
+      const pct = CHANNEL_PCT.view[key];
+      const dollars = TOTAL_MEDIA.view * (pct / 100);
+      const angle = (pct / 100) * 360, angleEnd = angleStart + angle;
+      const toRad = a => a * Math.PI / 180;
+      const x1 = cx + r * Math.cos(toRad(angleStart)), y1 = cy + r * Math.sin(toRad(angleStart));
+      const x2 = cx + r * Math.cos(toRad(angleEnd)), y2 = cy + r * Math.sin(toRad(angleEnd));
+      const largeArc = angle > 180 ? 1 : 0;
+      paths += `<path class="channel-pie-slice" style="animation-delay:${i * 70}ms" data-channel="${key}" data-tt="${CHANNEL_LABEL[key]}" data-ttv="${pct}% · ${fmtUSD(dollars)}" d="M${cx},${cy} L${x1.toFixed(2)},${y1.toFixed(2)} A${r},${r} 0 ${largeArc} 1 ${x2.toFixed(2)},${y2.toFixed(2)} Z" fill="${CHANNEL_COLOR[key]}" stroke="#fff" stroke-width="2"></path>`;
+      angleStart = angleEnd;
+
+      const dCmp = pct - CHANNEL_PCT.cmp[key];
+      const dYoy = pct - CHANNEL_PCT.yoy[key];
+      const cmpShort = CMP_MONTH.split(' ')[0];
+      const cmpText = dCmp === 0 ? `Sin cambio vs. ${cmpShort}` : `${dCmp > 0 ? '▲ +' : '▼ '}${Math.abs(dCmp)}pp vs. ${cmpShort}`;
+      const yoyText = dYoy === 0 ? `Sin cambio vs. ${YOY_MONTH} (año anterior)` : `${dYoy > 0 ? '▲ +' : '▼ '}${Math.abs(dYoy)}pp vs. ${YOY_MONTH} (año anterior)`;
+      rows += `<div class="channel-legend-row" data-channel="${key}">
+        <span class="channel-icon-badge" style="background:${CHANNEL_COLOR[key]}22;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="${CHANNEL_COLOR[key]}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${CHANNEL_ICON[key]}</svg></span>
+        <span class="channel-legend-name">${CHANNEL_LABEL[key]}</span>
+        <span class="channel-legend-value">
+          <span class="channel-legend-pct">${pct}%</span><span class="channel-legend-usd">${fmtUSD(dollars)}</span>
+          <span class="channel-legend-delta ${dCmp > 0 ? 'good' : dCmp < 0 ? 'bad' : 'flat'}" data-tt="${CHANNEL_LABEL[key]}" data-ttv="${yoyText}">${cmpText}</span>
+        </span>
+      </div>`;
+    });
+    svg.innerHTML = paths;
+    legend.innerHTML = rows;
+    document.getElementById('legendKey').textContent = `Pasa el mouse sobre el % de cambio para ver también la comparación vs. el año anterior`;
+    legend.querySelectorAll('[data-channel]').forEach(el => el.addEventListener('mouseenter', () => { activeChannel = el.getAttribute('data-channel'); renderDrilldown(); syncActive(); }));
+    svg.querySelectorAll('[data-channel]').forEach(el => el.addEventListener('mouseenter', () => { activeChannel = el.getAttribute('data-channel'); renderDrilldown(); syncActive(); }));
+  }
+  function syncActive() {
+    document.querySelectorAll('.channel-legend-row').forEach(r => r.classList.toggle('is-active', r.getAttribute('data-channel') === activeChannel));
+  }
+
+  function renderDrilldown() {
+    const key = activeChannel;
+    const container = document.getElementById('drilldown');
+    let outlets;
+    if (key === 'Paid') {
+      outlets = ['Meta', 'Google', 'TikTok', 'DV360'].map(p => ({
+        name: p, color: PLATFORM_COLOR[p],
+        view: PAID_INVESTED.view * (PAID_MIX.view[p] / 100),
+        cmp: PAID_INVESTED.cmp * (PAID_MIX.cmp[p] / 100),
+        yoy: PAID_INVESTED.yoy * (PAID_MIX.yoy[p] / 100),
+      }));
+    } else {
+      const bd = CHANNEL_BREAKDOWN[key];
+      const chView = TOTAL_MEDIA.view * (CHANNEL_PCT.view[key] / 100);
+      const chCmp = TOTAL_MEDIA.cmp * (CHANNEL_PCT.cmp[key] / 100);
+      const chYoy = TOTAL_MEDIA.yoy * (CHANNEL_PCT.yoy[key] / 100);
+      outlets = bd.view.map((o, i) => ({
+        name: o.name, color: CHANNEL_COLOR[key],
+        view: chView * (o.pct / 100),
+        cmp: chCmp * (bd.cmp[i].pct / 100),
+        yoy: chYoy * (bd.yoy[i].pct / 100),
+      }));
+    }
+    const maxVal = Math.max(...outlets.flatMap(o => [o.view, o.cmp, o.yoy]));
+
+    const rows = outlets.map(o => {
+      const viewPct = (o.view / maxVal) * 100, cmpPct = (o.cmp / maxVal) * 100;
+      const delta = relDelta(o.view, o.cmp);
+      const yoyDelta = relDelta(o.view, o.yoy);
+      const deltaClass = delta >= 0 ? 'good' : 'bad';
+      return `<div class="db-row">
+        <div class="db-name-col">
+          <span class="db-name">${o.name}</span>
+          <span class="db-yoy-note ${yoyDelta >= 0 ? 'good' : 'bad'}">AA: ${deltaText(yoyDelta)}</span>
+        </div>
+        <div class="db-track-wrap" data-tt="${o.name} — mes de comparación (${CMP_MONTH})" data-ttv="${fmtUSD(o.cmp)}">
+          <div class="db-fill" style="width:${viewPct}%;background:${o.color};">
+            <span class="db-fill-value">${fmtUSD(o.view)}</span>
+          </div>
+          <div class="db-tick" style="left:${cmpPct}%;"></div>
+        </div>
+        <div class="db-delta-col"><span class="delta-chip ${deltaClass}">${deltaText(delta)}</span></div>
+      </div>`;
+    }).join('');
+
+    container.innerHTML = `
+      <div class="drilldown-title">${CHANNEL_LABEL[key]} — desglose por medio</div>
+      <div class="drilldown-key">Comparando ${VIEW_MONTH} vs. ${CMP_MONTH} · AA = vs. ${YOY_MONTH}</div>
+      <div class="drilldown-legend">
+        <span class="drilldown-legend-item"><span class="drilldown-legend-dot" style="background:${CHANNEL_COLOR[key] || '#4F52E5'}; border-radius: 3px;"></span>Barra = ${VIEW_MONTH} (mes actual)</span>
+        <span class="drilldown-legend-item"><span class="drilldown-legend-dot" style="background:#fff; border-radius: 2px; box-shadow: 0 0 0 1px rgba(20,20,20,0.35);"></span>Marca = ${CMP_MONTH} (dónde estaba antes)</span>
+      </div>
+      ${rows}`;
+  }
+
+  drawPie();
+  renderDrilldown();
+  syncActive();
+</script>
+</body>
+</html>

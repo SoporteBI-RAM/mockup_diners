@@ -1,0 +1,1606 @@
+<title>Tablero de KPIs — Diners Club</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<style>
+  :root {
+    color-scheme: light;
+    --page-plane:     #E5E4E1;
+    --surface-card:   #ffffff;
+    --navy-900:       #141414;
+    --navy-700:       #1B2560;
+    --navy-tint:      #e7edf2;
+    --ink-primary:    #262626;
+    --ink-secondary:  #5C5C5C;
+    --ink-muted:      #8b98a3;
+    --hairline:       #e2e6ea;
+    --accent-gold:    #4F52E5;
+    --accent-gold-tint: rgba(233, 113, 50, 0.14);
+    --good:           #1c7a42;
+    --good-tint:      rgba(28, 122, 66, 0.10);
+    --critical:       #ac3b2e;
+    --critical-tint:  rgba(172, 59, 46, 0.10);
+    --spark-line:     #aab4bd;
+    --shadow-card:    0 1px 2px rgba(16, 24, 32, 0.04), 0 6px 20px rgba(16, 24, 32, 0.06);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) {
+      color-scheme: dark;
+      --page-plane:     #12181d;
+      --surface-card:   #1a2229;
+      --navy-900:       #0b1e33;
+      --navy-700:       #17334c;
+      --navy-tint:      rgba(255, 255, 255, 0.06);
+      --ink-primary:    #f2f5f7;
+      --ink-secondary:  #b7c1c9;
+      --ink-muted:      #7c8792;
+      --hairline:       rgba(255, 255, 255, 0.10);
+      --accent-gold:    #f0904f;
+      --accent-gold-tint: rgba(240, 144, 79, 0.16);
+      --good:           #3fb872;
+      --good-tint:      rgba(63, 184, 114, 0.14);
+      --critical:       #e2695a;
+      --critical-tint:  rgba(226, 105, 90, 0.14);
+      --spark-line:     #46525c;
+      --shadow-card:    0 1px 2px rgba(0, 0, 0, 0.30), 0 8px 24px rgba(0, 0, 0, 0.35);
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --page-plane:     #12181d;
+    --surface-card:   #1a2229;
+    --navy-900:       #0b1e33;
+    --navy-700:       #17334c;
+    --navy-tint:      rgba(255, 255, 255, 0.06);
+    --ink-primary:    #f2f5f7;
+    --ink-secondary:  #b7c1c9;
+    --ink-muted:      #7c8792;
+    --hairline:       rgba(255, 255, 255, 0.10);
+    --accent-gold:    #f0904f;
+    --accent-gold-tint: rgba(240, 144, 79, 0.16);
+    --good:           #3fb872;
+    --good-tint:      rgba(63, 184, 114, 0.14);
+    --critical:       #e2695a;
+    --critical-tint:  rgba(226, 105, 90, 0.14);
+    --spark-line:     #46525c;
+    --shadow-card:    0 1px 2px rgba(0, 0, 0, 0.30), 0 8px 24px rgba(0, 0, 0, 0.35);
+  }
+  :root[data-theme="light"] {
+    color-scheme: light;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--page-plane);
+    color: var(--ink-primary);
+    font-family: "Segoe UI", "Segoe UI Semibold", system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .display {
+    font-family: Georgia, "Iowan Old Style", "Times New Roman", serif;
+  }
+
+  .report {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 28px 28px 56px;
+  }
+
+  /* ---------- Tab rail ---------- */
+  .tab-rail {
+    display: flex;
+    gap: 4px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+    margin-bottom: 14px;
+  }
+  .tab {
+    flex: 0 0 auto;
+    font: inherit;
+    font-size: 12.5px;
+    letter-spacing: 0.01em;
+    padding: 9px 16px;
+    border-radius: 8px 8px 0 0;
+    color: var(--ink-secondary);
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+  .tab:hover { color: var(--ink-primary); }
+  .tab:focus-visible { outline: 2px solid var(--accent-gold); outline-offset: 2px; }
+  .tab[data-active="true"] {
+    color: var(--ink-primary);
+    font-weight: 600;
+    border-bottom: 2px solid var(--accent-gold);
+  }
+  .tab-soon {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+    margin-left: 5px;
+  }
+
+  /* ---------- Masthead ---------- */
+  .masthead {
+    background: linear-gradient(155deg, var(--navy-900) 0%, var(--navy-700) 100%);
+    border-radius: 16px;
+    padding: 30px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .masthead-kicker {
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #b9c9d8;
+    margin: 0 0 8px;
+  }
+  .masthead-title {
+    font-size: 32px;
+    line-height: 1.15;
+    color: #ffffff;
+    margin: 0 0 8px;
+    text-wrap: balance;
+  }
+  .masthead-sub {
+    font-size: 13.5px;
+    color: #c7d4e0;
+    margin: 0;
+  }
+
+  .composite {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 14px;
+    padding: 14px 20px;
+  }
+  .composite-copy {
+    font-size: 10.5px;
+    line-height: 1.4;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #c7d4e0;
+    max-width: 130px;
+  }
+  .composite-copy strong {
+    display: block;
+    color: #ffffff;
+    font-size: 11.5px;
+    letter-spacing: 0.06em;
+  }
+
+  /* ---------- Portada ---------- */
+  #page-home {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(165deg, var(--navy-900) 0%, var(--navy-700) 65%, var(--navy-700) 100%);
+    border-radius: 22px;
+    padding: 36px 36px 32px;
+  }
+  .home-hero {
+    margin-bottom: 26px;
+  }
+  .home-hero-watermark {
+    position: absolute;
+    top: -6%; right: -4%;
+    width: 50%;
+    height: 85%;
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  .home-hero-top {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+  .home-wordmark {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #ffffff;
+    border-bottom: 2px solid var(--accent-gold);
+    padding-bottom: 5px;
+  }
+  .home-hero-chip {
+    font-size: 11px;
+    color: #dbe6ef;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 999px;
+    padding: 5px 13px;
+    white-space: nowrap;
+  }
+  .home-hero-body { position: relative; max-width: 640px; }
+  .home-stats {
+    position: relative;
+    display: flex;
+    gap: 12px;
+    margin-top: 26px;
+    flex-wrap: wrap;
+  }
+  .home-stat {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 12px;
+    padding: 12px 18px;
+    min-width: 120px;
+  }
+  .home-stat-value {
+    font-family: "Segoe UI Semibold", "Segoe UI", system-ui, sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    color: #ffffff;
+  }
+  .home-stat-label {
+    font-size: 10.5px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #c7d4e0;
+    margin-top: 2px;
+  }
+
+  .home-icon-badge {
+    flex: 0 0 auto;
+    width: 42px;
+    height: 42px;
+    border-radius: 11px;
+    background: rgba(255, 255, 255, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .home-icon-badge svg { width: 22px; height: 22px; }
+
+  /* Portada siempre vive sobre el panel navy — sus tarjetas usan vidrio translúcido
+     y tinta clara fija, nunca los tokens --surface-card/--ink-* que asumen fondo claro. */
+  .home-spotlight {
+    display: flex;
+    align-items: stretch;
+    gap: 26px;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 16px;
+    padding: 24px 28px;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    text-align: left;
+    font: inherit;
+    color: inherit;
+    width: 100%;
+    transition: transform 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+  }
+  .home-spotlight:focus-visible { outline: 2px solid var(--accent-gold); outline-offset: 2px; }
+  @media (prefers-reduced-motion: no-preference) {
+    .home-spotlight:hover {
+      transform: translateY(-2px);
+      background: rgba(255, 255, 255, 0.10);
+      border-color: var(--accent-gold);
+    }
+  }
+  .home-spotlight-main { flex: 1 1 54%; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+  .home-spotlight-head { display: flex; align-items: flex-start; gap: 14px; }
+  .home-spotlight-title { font-size: 19px; font-weight: 700; color: #ffffff; margin: 0; }
+  .home-spotlight-desc { font-size: 13px; line-height: 1.55; color: #c7d4e0; margin: 0; }
+  .home-spotlight-footer { display: flex; align-items: center; gap: 10px; margin-top: auto; padding-top: 10px; font-size: 12.5px; color: var(--accent-gold); font-weight: 700; }
+  .home-spotlight-preview {
+    flex: 1 1 46%;
+    display: flex;
+    gap: 20px;
+    border-left: 1px solid rgba(255, 255, 255, 0.16);
+    padding-left: 26px;
+  }
+  .home-preview-metric { flex: 1; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .home-preview-label { font-size: 10.5px; color: #9fb3c4; text-transform: uppercase; letter-spacing: 0.04em; }
+  .home-preview-value { font-size: 24px; font-weight: 700; color: #ffffff; }
+  .home-preview-delta { font-size: 11.5px; font-weight: 700; }
+  .home-preview-delta.good { color: #6bd39a; }
+  .home-preview-delta.critical { color: #ef9284; }
+
+  .home-secondary-label {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: #c7d4e0;
+    margin: 26px 0 10px;
+  }
+  .home-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+  .home-card {
+    appearance: none;
+    -webkit-appearance: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    text-align: left;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 14px;
+    padding: 18px 20px 14px;
+    transition: transform 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+  }
+  .home-card:focus-visible { outline: 2px solid var(--accent-gold); outline-offset: 2px; }
+  @media (prefers-reduced-motion: no-preference) {
+    .home-card:hover {
+      transform: translateY(-2px);
+      background: rgba(255, 255, 255, 0.10);
+      border-color: var(--accent-gold);
+    }
+  }
+  .home-card-top { display: flex; align-items: flex-start; gap: 12px; }
+  .home-card-title { font-size: 14.5px; font-weight: 700; color: #ffffff; margin: 0 0 3px; }
+  .home-badge {
+    flex: 0 0 auto;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border-radius: 999px;
+    padding: 2px 8px;
+    white-space: nowrap;
+  }
+  .home-badge.real { color: #a3ecc4; background: rgba(28, 122, 66, 0.35); }
+  .home-badge.illustrative { color: #ffcda3; background: rgba(233, 113, 50, 0.30); }
+  .home-card-kpi {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    column-gap: 8px;
+    row-gap: 2px;
+    padding-top: 2px;
+  }
+  .home-card-kpi-label {
+    flex-basis: 100%;
+    font-size: 10px;
+    color: #9fb3c4;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .home-card-kpi-value { font-size: 23px; font-weight: 700; color: #ffffff; }
+  .home-card-kpi-delta { font-size: 11px; font-weight: 700; }
+  .home-card-kpi-delta.good { color: #6bd39a; }
+  .home-card-kpi-delta.critical { color: #ef9284; }
+  .home-card-kpi-delta.neutral { color: #9fb3c4; text-transform: uppercase; letter-spacing: 0.04em; }
+  .home-card-desc { font-size: 12px; line-height: 1.5; color: #c7d4e0; margin: 0; flex: 1; }
+  .home-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 11px;
+    color: #93a8ba;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
+  }
+  .home-card-arrow { color: var(--accent-gold); font-weight: 700; }
+
+  @media (max-width: 880px) {
+    .home-spotlight { flex-direction: column; }
+    .home-spotlight-preview { border-left: none; border-top: 1px solid rgba(255, 255, 255, 0.16); padding-left: 0; padding-top: 16px; }
+  }
+
+  /* ---------- Illustrative banner ---------- */
+  .illustrative-banner {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--accent-gold-tint);
+    border: 1px solid var(--accent-gold);
+    color: var(--ink-primary);
+    border-radius: 10px;
+    padding: 10px 16px;
+    font-size: 12.5px;
+    margin: 16px 0;
+  }
+  .illustrative-banner strong { color: var(--accent-gold); }
+  .illustrative-banner svg { flex: 0 0 auto; }
+
+  /* ---------- Insight strip ---------- */
+  .insights {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin: 20px 0;
+  }
+  .insight {
+    background: var(--surface-card);
+    border: 1px solid var(--hairline);
+    border-radius: 12px;
+    padding: 16px 18px;
+    display: flex;
+    gap: 12px;
+    box-shadow: var(--shadow-card);
+  }
+  .insight-icon {
+    flex: 0 0 auto;
+    width: 30px;
+    height: 30px;
+  }
+  .insight-label {
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 0 0 4px;
+  }
+  .insight-label.good { color: var(--good); }
+  .insight-label.info { color: var(--ink-primary); }
+  .insight-label.critical { color: var(--critical); }
+  .insight-body {
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--ink-primary);
+    margin: 0;
+  }
+  .insight-body b { font-weight: 700; }
+
+  /* ---------- Section headers ---------- */
+  .section-heading {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-secondary);
+    margin: 22px 0 10px;
+  }
+
+  /* ---------- KPI grid ---------- */
+  .kpi-grid, .compare-grid, .status-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+  .compare-grid { grid-template-columns: repeat(2, 1fr); }
+  .status-grid { grid-template-columns: repeat(3, 1fr); }
+
+  @keyframes cardIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .kpi-card, .compare-card, .status-card {
+    background: var(--surface-card);
+    border: 1px solid var(--hairline);
+    border-radius: 14px;
+    padding: 18px 20px 16px;
+    box-shadow: var(--shadow-card);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .kpi-card:hover, .compare-card:hover, .status-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 2px 4px rgba(16,24,32,0.06), 0 14px 28px rgba(16,24,32,0.10);
+    }
+    .page:not([hidden]) .kpi-card,
+    .page:not([hidden]) .compare-card,
+    .page:not([hidden]) .status-card,
+    .page:not([hidden]) .home-card,
+    .page:not([hidden]) .home-spotlight {
+      animation: cardIn 520ms cubic-bezier(.16,1,.3,1) both;
+      animation-delay: calc(var(--i, 0) * 55ms);
+    }
+  }
+  .kpi-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 2px;
+  }
+  .kpi-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink-primary);
+    margin: 0;
+  }
+  .kpi-name small {
+    display: block;
+    font-weight: 400;
+    font-size: 11.5px;
+    color: var(--ink-muted);
+    margin-top: 1px;
+  }
+  .kpi-tag {
+    flex: 0 0 auto;
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--navy-900);
+    background: var(--navy-tint);
+    border-radius: 999px;
+    padding: 3px 9px;
+    white-space: nowrap;
+  }
+  :root[data-theme="dark"] .kpi-tag { color: #dce8f2; }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) .kpi-tag { color: #dce8f2; }
+  }
+
+  .kpi-value {
+    font-family: "Segoe UI Semibold", "Segoe UI", system-ui, sans-serif;
+    font-weight: 700;
+    font-size: 38px;
+    line-height: 1.05;
+    color: var(--ink-primary);
+    margin: 10px 0 8px;
+  }
+  .kpi-value-unit { font-size: 19px; font-weight: 600; color: var(--ink-secondary); }
+
+  .kpi-deltas {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 12px;
+  }
+  .delta {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    font-size: 12.5px;
+  }
+  .delta-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    font-weight: 700;
+    font-size: 12px;
+    padding: 1px 7px;
+    border-radius: 999px;
+  }
+  .delta-pill.good { color: var(--good); background: var(--good-tint); }
+  .delta-pill.critical { color: var(--critical); background: var(--critical-tint); }
+  .delta-label { color: var(--ink-secondary); }
+
+  .kpi-spark { margin: 4px 0 6px; cursor: crosshair; }
+  .kpi-spark svg { display: block; width: 100%; height: 44px; }
+  .spark-caption {
+    font-size: 10.5px;
+    color: var(--ink-muted);
+    margin: 0 0 10px;
+  }
+
+  .spark-tooltip {
+    position: fixed;
+    z-index: 50;
+    pointer-events: none;
+    background: var(--navy-900);
+    color: #ffffff;
+    font-size: 11.5px;
+    line-height: 1.4;
+    padding: 6px 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 14px rgba(16,24,32,0.22);
+    transform: translate(-50%, -120%);
+    white-space: nowrap;
+  }
+  .spark-tooltip strong { display: block; font-size: 13px; }
+  .spark-tooltip[hidden] { display: none; }
+
+  /* ---------- Filtro de rango ---------- */
+  .filter-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin: 18px 0 4px;
+  }
+  .filter-bar-label { font-size: 12px; color: var(--ink-secondary); }
+  .filter-pills { display: inline-flex; gap: 4px; background: var(--navy-tint); border-radius: 999px; padding: 3px; }
+  .filter-pill {
+    appearance: none;
+    -webkit-appearance: none;
+    font: inherit;
+    font-size: 11.5px;
+    font-weight: 600;
+    border: none;
+    background: transparent;
+    color: var(--ink-secondary);
+    border-radius: 999px;
+    padding: 5px 13px;
+    cursor: pointer;
+  }
+  .filter-pill:focus-visible { outline: 2px solid var(--accent-gold); outline-offset: 1px; }
+  .filter-pill[data-active="true"] { background: var(--navy-900); color: #ffffff; }
+  :root[data-theme="dark"] .filter-pill[data-active="true"] { background: var(--accent-gold); color: #1a1200; }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) .filter-pill[data-active="true"] { background: var(--accent-gold); color: #1a1200; }
+  }
+  .kpi-desc {
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--ink-secondary);
+    margin: 0;
+    padding-top: 10px;
+    border-top: 1px solid var(--hairline);
+  }
+
+  /* ---------- Compare card (Social Media) ---------- */
+  .compare-card .kpi-name { margin-bottom: 12px; }
+  .compare-rows { display: flex; flex-direction: column; gap: 10px; margin-bottom: 10px; }
+  .compare-row { display: grid; grid-template-columns: 84px 1fr auto; align-items: center; gap: 10px; }
+  .compare-brand { font-size: 12.5px; font-weight: 600; color: var(--ink-primary); }
+  .compare-bar-track { display: block; height: 6px; border-radius: 3px; background: var(--navy-tint); overflow: hidden; }
+  .compare-bar-fill { display: block; height: 100%; border-radius: 3px; background: var(--accent-gold); transition: width 900ms cubic-bezier(.16,1,.3,1); }
+  .compare-value { font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--ink-primary); text-align: right; min-width: 46px; }
+
+  /* ---------- Status card (RSE iniciativas) ---------- */
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 999px;
+  }
+  .status-pill.en-curso { color: var(--navy-900); background: var(--navy-tint); }
+  :root[data-theme="dark"] .status-pill.en-curso { color: #dce8f2; }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) .status-pill.en-curso { color: #dce8f2; }
+  }
+  .status-pill.completado { color: var(--good); background: var(--good-tint); }
+  .status-progress-track { height: 8px; border-radius: 4px; background: var(--navy-tint); overflow: hidden; margin: 14px 0 6px; }
+  .status-progress-fill { height: 100%; border-radius: 4px; background: var(--accent-gold); transition: width 900ms cubic-bezier(.16,1,.3,1); }
+  .status-progress-label { font-size: 12px; color: var(--ink-secondary); margin: 0; }
+  .status-desc { font-size: 12px; line-height: 1.5; color: var(--ink-secondary); margin: 10px 0 0; padding-top: 10px; border-top: 1px solid var(--hairline); }
+
+  /* ---------- Footer ---------- */
+  .report-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+    padding-top: 14px;
+    border-top: 1px solid var(--hairline);
+    font-size: 11.5px;
+    color: var(--ink-muted);
+  }
+  .legend { display: flex; gap: 16px; }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+  .page[hidden] { display: none; }
+
+  @media (max-width: 880px) {
+    .insights, .kpi-grid, .compare-grid, .status-grid, .home-grid { grid-template-columns: 1fr; }
+    .masthead { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+
+<div class="report">
+
+  <nav class="tab-rail" aria-label="Secciones del tablero" id="tab-rail"></nav>
+
+  <!-- ================= PORTADA ================= -->
+  <section class="page" id="page-home" data-title="Portada">
+    <header class="home-hero">
+      <svg class="home-hero-watermark" viewBox="0 0 300 200" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <polyline points="0,150 40,120 80,135 120,90 160,110 200,60 240,80 300,40" fill="none" stroke="#4F52E5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.4"/>
+        <polyline points="0,180 40,170 80,175 120,150 160,160 200,130 240,140 300,110" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.14"/>
+      </svg>
+      <div class="home-hero-top">
+        <span class="home-wordmark">Diners Club del Ecuador</span>
+        <span class="home-hero-chip">Corte Q2 2026 — Julio 2026</span>
+      </div>
+      <div class="home-hero-body">
+        <h1 class="masthead-title display">Tablero de KPIs de Marketing</h1>
+        <p class="masthead-sub">Resumen ejecutivo por sección — marca, medios pagados y propios, redes sociales, RSE y activos digitales.</p>
+      </div>
+      <div class="home-stats" id="home-stats"></div>
+    </header>
+
+    <button class="home-spotlight" type="button" id="home-spotlight"></button>
+
+    <p class="home-secondary-label">Próximas secciones · datos ilustrativos</p>
+    <section class="home-grid" id="home-grid"></section>
+  </section>
+
+  <!-- ================= PÁGINA 1 — MARCA Y COMUNICACIÓN (datos reales) ================= -->
+  <section class="page" id="page-marca" data-title="Marca y Comunicación" hidden>
+
+    <header class="masthead">
+      <div>
+        <p class="masthead-kicker">Marketing · Diners Club</p>
+        <h1 class="masthead-title display">Marca y Comunicación</h1>
+        <p class="masthead-sub">Área: Marketing · Resultados al corte: Q2 2026 — Julio 2026</p>
+      </div>
+      <div class="composite" role="img" aria-label="Índice compuesto de marca: 49.7 por ciento">
+        <svg width="72" height="72" viewBox="0 0 72 72">
+          <circle cx="36" cy="36" r="30" fill="none" stroke="rgba(255,255,255,0.16)" stroke-width="8"/>
+          <circle id="composite-ring" data-target="94.9" cx="36" cy="36" r="30" fill="none" stroke="#4F52E5" stroke-width="8"
+                  stroke-linecap="round" stroke-dasharray="188.5" stroke-dashoffset="94.9"
+                  transform="rotate(-90 36 36)" style="transition: stroke-dashoffset 1100ms cubic-bezier(.16,1,.3,1);"/>
+          <text id="composite-value" x="36" y="41" text-anchor="middle" font-family="Segoe UI Semibold, Segoe UI, sans-serif"
+                font-size="17" font-weight="700" fill="#ffffff">49.7%</text>
+        </svg>
+        <p class="composite-copy">Índice compuesto de marca<strong>Promedio simple de 6 indicadores</strong></p>
+      </div>
+    </header>
+
+    <div class="filter-bar" data-page="page-marca">
+      <span class="filter-bar-label">Rango del histórico:</span>
+      <div class="filter-pills">
+        <button class="filter-pill" data-range="all" data-active="true">Todo el histórico</button>
+        <button class="filter-pill" data-range="6">Últimos 6 periodos</button>
+        <button class="filter-pill" data-range="3">Últimos 3 periodos</button>
+      </div>
+    </div>
+
+    <section class="insights">
+      <div class="insight">
+        <svg class="insight-icon" viewBox="0 0 30 30" fill="none">
+          <circle cx="15" cy="15" r="15" fill="var(--good-tint)"/>
+          <path d="M9 18l5-6 3.5 4L23 9" stroke="var(--good)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M18 9h5v5" stroke="var(--good)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div>
+          <p class="insight-label good">Mejor evolución</p>
+          <p class="insight-body"><b>Recordación Publicitaria</b> +5.1&nbsp;pp vs. promedio de los últimos 10&nbsp;trimestres.</p>
+        </div>
+      </div>
+      <div class="insight">
+        <svg class="insight-icon" viewBox="0 0 30 30" fill="none">
+          <circle cx="15" cy="15" r="15" fill="var(--navy-tint)"/>
+          <circle cx="15" cy="10.5" r="1.6" fill="var(--navy-900)"/>
+          <rect x="13.6" y="13.5" width="2.8" height="8" rx="1.2" fill="var(--navy-900)"/>
+        </svg>
+        <div>
+          <p class="insight-label info">Observación general</p>
+          <p class="insight-body">Hubo una recuperación en el primer Q del 2026 en la mayoría de indicadores frente al cierre de 2025.</p>
+        </div>
+      </div>
+      <div class="insight">
+        <svg class="insight-icon" viewBox="0 0 30 30" fill="none">
+          <circle cx="15" cy="15" r="15" fill="var(--critical-tint)"/>
+          <path d="M15 9v7" stroke="var(--critical)" stroke-width="2.2" stroke-linecap="round"/>
+          <circle cx="15" cy="19.5" r="1.4" fill="var(--critical)"/>
+        </svg>
+        <div>
+          <p class="insight-label critical">Atención</p>
+          <p class="insight-body"><b>Mayor Uso/Principalidad</b> retrocede en ambas comparativas: −1.2&nbsp;pp vs. promedio 10Q y −2.3&nbsp;pp vs. mismo corte 2025.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="kpi-grid" id="grid-marca"></section>
+
+    <footer class="report-footer">
+      <span>Fuente: Estudio de tracking de marca · Diners Club — Elaborado por el equipo de Marketing</span>
+      <div class="legend">
+        <span class="legend-item"><span class="legend-dot" style="background:var(--good)"></span>Mejora</span>
+        <span class="legend-item"><span class="legend-dot" style="background:var(--critical)"></span>Retrocede</span>
+      </div>
+    </footer>
+  </section>
+
+  <!-- ================= PÁGINA 2 — PAID MEDIA (ilustrativo) ================= -->
+  <section class="page" id="page-paid" data-title="Paid Media" hidden>
+    <header class="masthead">
+      <div>
+        <p class="masthead-kicker">Marketing · Diners Club</p>
+        <h1 class="masthead-title display">Paid Media</h1>
+        <p class="masthead-sub">Área: Marketing · Corte mensual — Julio 2026</p>
+      </div>
+    </header>
+    <div class="filter-bar" data-page="page-paid">
+      <span class="filter-bar-label">Rango del histórico:</span>
+      <div class="filter-pills">
+        <button class="filter-pill" data-range="all" data-active="true">Todo el histórico</button>
+        <button class="filter-pill" data-range="6">Últimos 6 periodos</button>
+        <button class="filter-pill" data-range="3">Últimos 3 periodos</button>
+      </div>
+    </div>
+    <div class="illustrative-banner">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2l8 14H1L9 2z" stroke="#4F52E5" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 7v4" stroke="#4F52E5" stroke-width="1.6" stroke-linecap="round"/><circle cx="9" cy="13.5" r="0.9" fill="#4F52E5"/></svg>
+      <span><strong>Datos ilustrativos</strong> — pendiente de conectar la fuente real de pauta paga. Layout y KPIs confirmados con el listado de la presentación.</span>
+    </div>
+    <section class="kpi-grid" id="grid-paid"></section>
+    <footer class="report-footer">
+      <span>Fuente: por conectar (plataformas de pauta paga) — Elaborado por el equipo de Marketing</span>
+    </footer>
+  </section>
+
+  <!-- ================= PÁGINA 3 — OWN MEDIA (ilustrativo) ================= -->
+  <section class="page" id="page-own" data-title="Own Media" hidden>
+    <header class="masthead">
+      <div>
+        <p class="masthead-kicker">Marketing · Diners Club</p>
+        <h1 class="masthead-title display">Own Media</h1>
+        <p class="masthead-sub">Área: Marketing · Corte mensual — Julio 2026</p>
+      </div>
+    </header>
+    <div class="filter-bar" data-page="page-own">
+      <span class="filter-bar-label">Rango del histórico:</span>
+      <div class="filter-pills">
+        <button class="filter-pill" data-range="all" data-active="true">Todo el histórico</button>
+        <button class="filter-pill" data-range="6">Últimos 6 periodos</button>
+        <button class="filter-pill" data-range="3">Últimos 3 periodos</button>
+      </div>
+    </div>
+    <div class="illustrative-banner">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2l8 14H1L9 2z" stroke="#4F52E5" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 7v4" stroke="#4F52E5" stroke-width="1.6" stroke-linecap="round"/><circle cx="9" cy="13.5" r="0.9" fill="#4F52E5"/></svg>
+      <span><strong>Datos ilustrativos</strong> — pendiente de conectar CRM / plataforma de email, push y WhatsApp.</span>
+    </div>
+    <section class="kpi-grid" id="grid-own"></section>
+    <footer class="report-footer">
+      <span>Fuente: por conectar (CRM / ESP / push / WhatsApp) — Elaborado por el equipo de Marketing</span>
+    </footer>
+  </section>
+
+  <!-- ================= PÁGINA 4 — SOCIAL MEDIA (ilustrativo) ================= -->
+  <section class="page" id="page-social" data-title="Social Media" hidden>
+    <header class="masthead">
+      <div>
+        <p class="masthead-kicker">Marketing · Diners Club</p>
+        <h1 class="masthead-title display">Social Media</h1>
+        <p class="masthead-sub">Área: Marketing · Corte mensual — Julio 2026 · Comparativo por marca</p>
+      </div>
+    </header>
+    <div class="illustrative-banner">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2l8 14H1L9 2z" stroke="#4F52E5" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 7v4" stroke="#4F52E5" stroke-width="1.6" stroke-linecap="round"/><circle cx="9" cy="13.5" r="0.9" fill="#4F52E5"/></svg>
+      <span><strong>Datos ilustrativos</strong> — pendiente de conectar las plataformas sociales de Diners, TITANIUM y Discover.</span>
+    </div>
+    <section class="compare-grid" id="grid-social"></section>
+    <footer class="report-footer">
+      <span>Fuente: por conectar (redes sociales, por marca) — Elaborado por el equipo de Marketing</span>
+    </footer>
+  </section>
+
+  <!-- ================= PÁGINA 5 — RSE Y REVISTA (ilustrativo) ================= -->
+  <section class="page" id="page-rse" data-title="RSE y Revista" hidden>
+    <header class="masthead">
+      <div>
+        <p class="masthead-kicker">Marketing · Diners Club</p>
+        <h1 class="masthead-title display">RSE y Revista</h1>
+        <p class="masthead-sub">Área: Marketing · Corte — Julio 2026</p>
+      </div>
+    </header>
+    <div class="filter-bar" data-page="page-rse">
+      <span class="filter-bar-label">Rango del histórico:</span>
+      <div class="filter-pills">
+        <button class="filter-pill" data-range="all" data-active="true">Todo el histórico</button>
+        <button class="filter-pill" data-range="6">Últimos 6 periodos</button>
+        <button class="filter-pill" data-range="3">Últimos 3 periodos</button>
+      </div>
+    </div>
+    <div class="illustrative-banner">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2l8 14H1L9 2z" stroke="#4F52E5" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 7v4" stroke="#4F52E5" stroke-width="1.6" stroke-linecap="round"/><circle cx="9" cy="13.5" r="0.9" fill="#4F52E5"/></svg>
+      <span><strong>Datos ilustrativos</strong> — pendiente de conectar seguimiento de programas RSE y métricas de Revista Mundo Diners.</span>
+    </div>
+    <p class="section-heading">Ejecución de programas e iniciativas</p>
+    <section class="status-grid" id="grid-rse-status"></section>
+    <p class="section-heading">Conocimiento de programas</p>
+    <section class="kpi-grid" id="grid-rse-awareness"></section>
+    <p class="section-heading">Revista Mundo Diners</p>
+    <section class="kpi-grid" id="grid-rse-revista"></section>
+    <footer class="report-footer">
+      <span>Fuente: por conectar (seguimiento RSE / Revista Mundo Diners) — Elaborado por el equipo de Marketing</span>
+    </footer>
+  </section>
+
+  <!-- ================= PÁGINA 6 — ACTIVOS DIGITALES (ilustrativo) ================= -->
+  <section class="page" id="page-digital" data-title="Activos Digitales" hidden>
+    <header class="masthead">
+      <div>
+        <p class="masthead-kicker">Marketing · Diners Club</p>
+        <h1 class="masthead-title display">Activos Digitales</h1>
+        <p class="masthead-sub">Área: Marketing · Corte mensual — Julio 2026</p>
+      </div>
+    </header>
+    <div class="filter-bar" data-page="page-digital">
+      <span class="filter-bar-label">Rango del histórico:</span>
+      <div class="filter-pills">
+        <button class="filter-pill" data-range="all" data-active="true">Todo el histórico</button>
+        <button class="filter-pill" data-range="6">Últimos 6 periodos</button>
+        <button class="filter-pill" data-range="3">Últimos 3 periodos</button>
+      </div>
+    </div>
+    <div class="illustrative-banner">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2l8 14H1L9 2z" stroke="#4F52E5" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 7v4" stroke="#4F52E5" stroke-width="1.6" stroke-linecap="round"/><circle cx="9" cy="13.5" r="0.9" fill="#4F52E5"/></svg>
+      <span><strong>Datos ilustrativos</strong> — pendiente de conectar analítica de la app Blu y del portal público.</span>
+    </div>
+    <section class="kpi-grid" id="grid-digital"></section>
+    <footer class="report-footer">
+      <span>Fuente: por conectar (analítica app Blu / portal público) — Elaborado por el equipo de Marketing</span>
+    </footer>
+  </section>
+
+</div>
+
+<script>
+  /* ===================== DATA ===================== */
+
+  const KPIS_MARCA = [
+    { tag: "Percepción", name: "Top of Mind", sub: null, kind: "pct",
+      value: 54.1, d1: -1.5, d1abs: 55.6, d1label: "vs. prom. 10Q",
+      dyoy: 1.7, dyoyabs: 52.4, dyoylabel: "vs. mismo corte 2025",
+      caption: "Últimos 10 trimestres (Socios DC)",
+      desc: "Nivel de recordación espontánea de Diners Club como la primera marca mencionada dentro de la categoría de tarjetas de crédito.",
+      trend: [59.412, 55.842, 56.812, 59.848, 55.620, 52.362, 54.671, 52.100, 55.100, 54.100], trendStatus: "good" },
+    { tag: "Uso", name: "Uso Habitual DC", sub: null, kind: "pct",
+      value: 71.2, d1: 1.4, d1abs: 69.8, d1label: "vs. prom. 10Q",
+      dyoy: 4.2, dyoyabs: 67.0, dyoylabel: "vs. mismo corte 2025",
+      caption: "Últimos 10 trimestres (Socios DC)",
+      desc: "Porcentaje de clientes que utilizan Diners Club como medio de pago de forma frecuente en sus transacciones.",
+      trend: [74.455, 70.490, 73.982, 71.087, 67.070, 67.037, 70.196, 67.700, 65.000, 71.200], trendStatus: "good" },
+    { tag: "Comunicación", name: "Recordación Publicitaria", sub: "(Categoría Tarjetas de Crédito)", kind: "pct",
+      value: 62.0, d1: 5.1, d1abs: 56.9, d1label: "vs. prom. 10Q",
+      dyoy: 6.9, dyoyabs: 55.1, dyoylabel: "vs. mismo corte 2025",
+      caption: "Últimos 12 meses (Total mercado)",
+      desc: "Nivel de recuerdo espontáneo o asistido de la comunicación publicitaria de las marcas de tarjetas de crédito.",
+      trend: [44.95, 46.88, 44.54, 52.09, 47.25, 54.00, 61.00, 57.00, 68.00, 65.00, 58.00, 62.00], trendStatus: "good" },
+    { tag: "Percepción", name: "Brand Equity", sub: null, kind: "pct",
+      value: 30.9, d1: 0.7, d1abs: 30.2, d1label: "vs. prom. 10Q",
+      dyoy: -0.8, dyoyabs: 31.7, dyoylabel: "vs. mismo corte 2025",
+      caption: "Últimos 10 trimestres",
+      desc: "Evalúa la fortaleza de la marca a partir de la percepción del consumidor.",
+      trend: [31.4, 27.8, 31.4, 34.1, 29.4, 31.7, 29.0, 26.3, 30.2, 30.9], trendStatus: "critical" },
+    { tag: "Elección", name: "Preferencia", sub: null, kind: "pct",
+      value: 39.4, d1: 0.8, d1abs: 38.6, d1label: "vs. prom. 10Q",
+      dyoy: 0.7, dyoyabs: 38.7, dyoylabel: "vs. mismo corte 2025",
+      caption: "Últimos 10 trimestres (Socios DC)",
+      desc: "Predisposición de los consumidores a elegir Diners Club frente a otras alternativas de la categoría.",
+      trend: [42.912, 37.970, 40.113, 42.555, 36.793, 38.568, 34.545, 37.200, 36.900, 39.400], trendStatus: "good" },
+    { tag: "Elección", name: "Mayor Uso / Principalidad", sub: null, kind: "pct",
+      value: 40.7, d1: -1.2, d1abs: 41.9, d1label: "vs. prom. 10Q",
+      dyoy: -2.3, dyoyabs: 43.0, dyoylabel: "vs. mismo corte 2025",
+      caption: "Últimos 10 trimestres (Socios DC)",
+      desc: "Porcentaje de clientes que identifican a Diners Club como su tarjeta principal o la de mayor uso dentro de su portafolio de medios de pago.",
+      trend: [44.684, 39.489, 44.755, 46.977, 37.719, 43.018, 37.499, 44.100, 39.800, 40.700], trendStatus: "critical" }
+  ];
+
+  const KPIS_PAID = [
+    { tag: "Alcance", name: "Alcance", sub: null, kind: "count", suffix: "personas",
+      value: 1250000, d1: 6.2, d1abs: 1177000, d1label: "vs. mes anterior",
+      dyoy: 14.0, dyoyabs: 1096500, dyoylabel: "vs. mismo mes 2025",
+      caption: "Últimos 12 meses", desc: "Número de personas únicas expuestas a la pauta paga de Diners Club en el mes.",
+      trend: [980,1010,1040,1090,1005,1120,1150,1180,1090,1200,1230,1250].map(v => v*1000), trendStatus: "good" },
+    { tag: "Frecuencia", name: "Frecuencia", sub: null, kind: "decimal", unit: "x",
+      value: 3.4, d1: 6.3, d1abs: 3.2, d1label: "vs. mes anterior",
+      dyoy: -2.9, dyoyabs: 3.5, dyoylabel: "vs. mismo mes 2025",
+      caption: "Últimos 12 meses", desc: "Promedio de veces que una misma persona vio la pauta paga en el mes.",
+      trend: [3.1,3.3,3.0,3.2,3.5,3.3,3.4,3.6,3.2,3.3,3.5,3.4], trendStatus: "critical" },
+    { tag: "CTR", name: "CTR", sub: null, kind: "pct",
+      value: 1.8, d1: 0.1, d1abs: 1.7, d1label: "vs. mes anterior",
+      dyoy: 0.3, dyoyabs: 1.5, dyoylabel: "vs. mismo mes 2025",
+      caption: "Últimos 12 meses", desc: "Porcentaje de clics sobre impresiones en la pauta paga.",
+      trend: [1.5,1.6,1.4,1.7,1.6,1.8,1.9,1.7,1.6,1.8,1.7,1.8], trendStatus: "good" },
+    { tag: "VTR", name: "VTR", sub: null, kind: "pct",
+      value: 42.0, d1: -1.0, d1abs: 43.0, d1label: "vs. mes anterior",
+      dyoy: 3.5, dyoyabs: 38.5, dyoylabel: "vs. mismo mes 2025",
+      caption: "Últimos 12 meses", desc: "Porcentaje de reproducciones completas sobre el total de videos vistos.",
+      trend: [39,41,40,44,43,42,45,41,40,43,42,42], trendStatus: "good" },
+    { tag: "CVR", name: "CVR (Onboarding)", sub: null, kind: "pct",
+      value: 2.3, d1: 0.2, d1abs: 2.1, d1label: "vs. mes anterior",
+      dyoy: 0.6, dyoyabs: 1.7, dyoylabel: "vs. mismo mes 2025",
+      caption: "Últimos 12 meses", desc: "Porcentaje de clics en pauta que completan el proceso de onboarding.",
+      trend: [1.8,1.9,2.0,1.9,2.1,2.0,2.2,2.1,2.2,2.1,2.2,2.3], trendStatus: "good" }
+  ];
+
+  const KPIS_OWN = [
+    { tag: "Entregabilidad", name: "Tasa de entregabilidad", sub: null, kind: "pct",
+      value: 97.5, d1: 0.3, d1abs: 97.2, d1label: "vs. mes anterior",
+      dyoy: 1.1, dyoyabs: 96.4, dyoylabel: "vs. mismo mes 2025",
+      caption: "Últimos 12 meses", desc: "Porcentaje de correos enviados que llegan efectivamente a la bandeja de entrada.",
+      trend: [96.5,96.8,97.0,96.9,97.1,97.3,97.0,97.2,97.4,97.3,97.4,97.5], trendStatus: "good" },
+    { tag: "Email", name: "Ratio de Apertura", sub: null, kind: "pct",
+      value: 28.4, d1: -0.6, d1abs: 29.0, d1label: "vs. mes anterior",
+      dyoy: 2.1, dyoyabs: 26.3, dyoylabel: "vs. mismo mes 2025",
+      caption: "Últimos 12 meses", desc: "Porcentaje de correos entregados que fueron abiertos.",
+      trend: [25,26,27,26,28,27,29,28,27,29,28,28.4], trendStatus: "good" },
+    { tag: "Email", name: "CTR", sub: null, kind: "pct",
+      value: 3.1, d1: 0.2, d1abs: 2.9, d1label: "vs. mes anterior",
+      dyoy: 0.5, dyoyabs: 2.6, dyoylabel: "vs. mismo mes 2025",
+      caption: "Últimos 12 meses", desc: "Porcentaje de aperturas que generan un clic dentro del correo.",
+      trend: [2.6,2.7,2.8,2.7,2.9,3.0,2.8,3.0,3.1,3.0,3.1,3.1], trendStatus: "good" },
+    { tag: "Email", name: "CTOR", sub: null, kind: "pct",
+      value: 10.9, d1: 0.4, d1abs: 10.5, d1label: "vs. mes anterior",
+      dyoy: 1.3, dyoyabs: 9.6, dyoylabel: "vs. mismo mes 2025",
+      caption: "Últimos 12 meses", desc: "Porcentaje de clics sobre aperturas (click-to-open rate).",
+      trend: [9.5,9.8,10.0,9.9,10.2,10.4,10.1,10.5,10.6,10.7,10.8,10.9], trendStatus: "good" },
+    { tag: "Push", name: "Tasa de apertura - Push", sub: null, kind: "pct",
+      value: 22.7, d1: -0.8, d1abs: 23.5, d1label: "vs. mes anterior",
+      dyoy: 3.0, dyoyabs: 19.7, dyoylabel: "vs. mismo mes 2025",
+      caption: "Últimos 12 meses", desc: "Porcentaje de notificaciones push enviadas que fueron abiertas.",
+      trend: [19,20,21,20.5,22,21.5,23,22,21.8,23,22.5,22.7], trendStatus: "critical" },
+    { tag: "WhatsApp", name: "Tasa de respuesta - WhatsApp", sub: null, kind: "pct",
+      value: 15.6, d1: 0.9, d1abs: 14.7, d1label: "vs. mes anterior",
+      dyoy: 5.2, dyoyabs: 10.4, dyoylabel: "vs. mismo mes 2025",
+      caption: "Últimos 12 meses", desc: "Porcentaje de mensajes de WhatsApp que generan una respuesta del cliente.",
+      trend: [10.5,11,12,11.5,13,12.5,14,13.5,14.5,15,15.2,15.6], trendStatus: "good" }
+  ];
+
+  const SOCIAL_GROWTH = {
+    name: "Crecimiento de comunidad", desc: "Variación mensual de seguidores en redes sociales, por marca.",
+    rows: [
+      { brand: "Diners", value: 4.2 }, { brand: "TITANIUM", value: 2.1 }, { brand: "Discover", value: 1.3 }
+    ]
+  };
+  const SOCIAL_ENGAGEMENT = {
+    name: "Engagement rate", desc: "Interacciones (likes, comentarios, compartidos) sobre alcance, por marca.",
+    rows: [
+      { brand: "Diners", value: 3.8 }, { brand: "TITANIUM", value: 2.9 }, { brand: "Discover", value: 2.2 }
+    ]
+  };
+
+  const RSE_STATUS = [
+    { name: "Educación Financiera", progress: 78, status: "En curso", desc: "Avance de ejecución del programa frente al plan anual." },
+    { name: "Iniciativa Orígenes (Gastronomía)", progress: 92, status: "En curso", desc: "Avance de ejecución de la iniciativa frente al plan anual." },
+    { name: "Iniciativa Cultural", progress: 45, status: "En curso", desc: "Avance de ejecución de la iniciativa frente al plan anual." }
+  ];
+
+  const RSE_AWARENESS = [
+    { tag: "Alianzas", name: "Conocimiento de Programas", sub: "(Alianza con UNICEF)", kind: "pct",
+      value: 34.0, d1: 2.0, d1abs: 32.0, d1label: "vs. medición anterior",
+      dyoy: 8.0, dyoyabs: 26.0, dyoylabel: "vs. mismo corte 2025",
+      caption: "Mediciones semestrales", desc: "Porcentaje de clientes que reconocen la alianza de Diners Club con UNICEF.",
+      trend: [24,25,26,27,28,30,31,32,33,32,33,34], trendStatus: "good" },
+    { tag: "Programas", name: "Conocimiento de Programas", sub: "(Orígenes)", kind: "pct",
+      value: 41.0, d1: 1.0, d1abs: 40.0, d1label: "vs. medición anterior",
+      dyoy: 5.0, dyoyabs: 36.0, dyoylabel: "vs. mismo corte 2025",
+      caption: "Mediciones semestrales", desc: "Porcentaje de clientes que reconocen el programa Orígenes.",
+      trend: [34,35,36,37,38,39,39,40,40,41,40,41], trendStatus: "good" }
+  ];
+
+  const RSE_REVISTA = [
+    { tag: "Suscripciones", name: "Nuevos Suscriptores Premium", sub: "(papel, Revista Mundo Diners)", kind: "count", suffix: "suscriptores",
+      value: 320, d1: 12.3, d1abs: 285, d1label: "vs. mes anterior",
+      dyoy: 18.1, dyoyabs: 271, dyoylabel: "vs. mismo mes 2025",
+      caption: "Últimos 12 meses", desc: "Nuevas suscripciones premium (versión papel) de Revista Mundo Diners en el mes.",
+      trend: [230,240,255,260,270,265,280,290,300,295,310,320], trendStatus: "good" },
+    { tag: "Retención", name: "Retención de suscriptores", sub: "(Revista Mundo Diners)", kind: "pct",
+      value: 88.5, d1: 0.5, d1abs: 88.0, d1label: "vs. mes anterior",
+      dyoy: -1.0, dyoyabs: 89.5, dyoylabel: "vs. mismo mes 2025",
+      caption: "Últimos 12 meses", desc: "Porcentaje de suscriptores que renuevan su suscripción a Revista Mundo Diners.",
+      trend: [90,89.8,89.5,89.6,89.2,89.0,88.8,88.6,88.4,88.6,88.3,88.5], trendStatus: "critical" },
+    { tag: "Web", name: "Visitas a la página web", sub: "(Revista Mundo Diners)", kind: "count", suffix: "visitas",
+      value: 54200, d1: 9.1, d1abs: 49680, d1label: "vs. mes anterior",
+      dyoy: 22.1, dyoyabs: 44390, dyoylabel: "vs. mismo mes 2025",
+      caption: "Últimos 12 meses", desc: "Visitas mensuales a la página web de Revista Mundo Diners.",
+      trend: [40000,41500,43000,42000,45000,47000,46000,48500,50000,51500,53000,54200], trendStatus: "good" }
+  ];
+
+  const KPIS_DIGITAL = [
+    { tag: "App Blu", name: "Usuarios Activos (MAU)", sub: "app Blu", kind: "count", suffix: "usuarios",
+      value: 84500, d1: 3.4, d1abs: 81700, d1label: "vs. mes anterior",
+      dyoy: 21.0, dyoyabs: 69835, dyoylabel: "vs. mismo mes 2025",
+      caption: "Últimos 12 meses", desc: "Usuarios que abrieron la app Blu al menos una vez en el mes.",
+      trend: [69800,71000,73500,75000,76500,78000,79500,80500,81700,82600,83500,84500], trendStatus: "good" },
+    { tag: "App Blu", name: "Re-engagement", sub: "app Blu", kind: "pct",
+      value: 34.2, d1: 1.1, d1abs: 33.1, d1label: "vs. mes anterior",
+      dyoy: 6.4, dyoyabs: 27.8, dyoylabel: "vs. mismo mes 2025",
+      caption: "Últimos 12 meses", desc: "Porcentaje de usuarios inactivos que regresaron a usar la app Blu en el mes.",
+      trend: [27.8,28.5,29.5,30,30.8,31.5,32,32.5,33.1,33.5,33.8,34.2], trendStatus: "good" },
+    { tag: "App Blu", name: "Visitas a blu benefits", sub: "sección in-app", kind: "count", suffix: "visitas",
+      value: 128400, d1: 5.0, d1abs: 122300, d1label: "vs. mes anterior",
+      dyoy: 33.1, dyoyabs: 96500, dyoylabel: "vs. mismo mes 2025",
+      caption: "Últimos 12 meses", desc: "Visitas a la sección de beneficios dentro de la app Blu.",
+      trend: [96500,101000,105000,108000,111000,114500,117500,120000,122300,124500,126500,128400], trendStatus: "good" },
+    { tag: "Portal", name: "Visitas al Portal Público", sub: null, kind: "count", suffix: "visitas",
+      value: 245000, d1: -2.1, d1abs: 250300, d1label: "vs. mes anterior",
+      dyoy: 9.8, dyoyabs: 223200, dyoylabel: "vs. mismo mes 2025",
+      caption: "Últimos 12 meses", desc: "Visitas mensuales al portal público de Diners Club (no autenticado).",
+      trend: [223200,228000,231000,235000,238000,242000,246000,249000,250300,248000,246500,245000], trendStatus: "critical" },
+    { tag: "App Blu", name: "% de engagement", sub: null, kind: "pct",
+      value: 18.9, d1: 0.8, d1abs: 18.1, d1label: "vs. mes anterior",
+      dyoy: 3.2, dyoyabs: 15.7, dyoylabel: "vs. mismo mes 2025",
+      caption: "Últimos 12 meses", desc: "Porcentaje de usuarios activos que interactúan con contenido dentro de la app.",
+      trend: [15.7,16.0,16.5,17.0,17.3,17.6,18.0,18.2,18.1,18.4,18.6,18.9], trendStatus: "good" }
+  ];
+
+  function headlineFromKpi(k) {
+    return {
+      label: k.name,
+      value: formatValue(k.value, k.kind, k.unit) + valueUnit(k.kind, k.unit),
+      deltaText: fmtDelta(k.dyoy, k.kind) + " vs. 2025",
+      status: k.dyoy >= 0 ? "good" : "critical"
+    };
+  }
+
+  const NAV_PAGES = [
+    { id: "page-marca",  title: "Marca y Comunicación", illustrative: false,
+      desc: "Top of Mind, uso habitual, recordación publicitaria, brand equity, preferencia y mayor uso.",
+      count: KPIS_MARCA.length },
+    { id: "page-paid",   title: "Paid Media",           illustrative: true,
+      desc: "Alcance, frecuencia, CTR, VTR y CVR de onboarding.",
+      count: KPIS_PAID.length,
+      headline: headlineFromKpi(KPIS_PAID.find(k => k.name === "Alcance")) },
+    { id: "page-own",    title: "Own Media",            illustrative: true,
+      desc: "Entregabilidad, apertura y CTR/CTOR de email, push y WhatsApp.",
+      count: KPIS_OWN.length,
+      headline: headlineFromKpi(KPIS_OWN.find(k => k.name === "Ratio de Apertura")) },
+    { id: "page-social", title: "Social Media",         illustrative: true,
+      desc: "Crecimiento de comunidad y engagement rate por marca (Diners, TITANIUM, Discover).",
+      count: 2,
+      headline: {
+        label: "Engagement rate · Diners",
+        value: SOCIAL_ENGAGEMENT.rows.find(r => r.brand === "Diners").value.toFixed(1) + "%",
+        deltaText: null, status: null
+      } },
+    { id: "page-rse",    title: "RSE y Revista",        illustrative: true,
+      desc: "Ejecución de iniciativas, conocimiento de programas y Revista Mundo Diners.",
+      count: RSE_STATUS.length + RSE_AWARENESS.length + RSE_REVISTA.length,
+      headline: {
+        label: RSE_STATUS[0].name,
+        value: RSE_STATUS[0].progress + "%",
+        deltaText: RSE_STATUS[0].status, status: "neutral"
+      } },
+    { id: "page-digital","title": "Activos Digitales",  illustrative: true,
+      desc: "MAU de app Blu, re-engagement, visitas a blu benefits y al portal público.",
+      count: KPIS_DIGITAL.length,
+      headline: headlineFromKpi(KPIS_DIGITAL.find(k => k.name === "Usuarios Activos (MAU)")) }
+  ];
+  const PAGES = [{ id: "page-home", title: "Portada", illustrative: false }, ...NAV_PAGES];
+
+  /* ===================== HELPERS ===================== */
+
+  function formatCompact(n) {
+    if (Math.abs(n) >= 1000000) return (n / 1000000).toFixed(2) + "M";
+    if (Math.abs(n) >= 1000) return (n / 1000).toFixed(1) + "K";
+    return Math.round(n).toLocaleString("es-EC");
+  }
+
+  function formatValue(v, kind, unit) {
+    if (kind === "pct") return v.toFixed(1);
+    if (kind === "decimal") return v.toFixed(1);
+    return formatCompact(v);
+  }
+  function valueUnit(kind, unit) {
+    if (kind === "pct") return "%";
+    if (kind === "decimal") return unit || "x";
+    return "";
+  }
+  function formatAbs(v, kind, unit) {
+    if (kind === "pct") return v.toFixed(1) + "%";
+    if (kind === "decimal") return v.toFixed(1) + (unit || "x");
+    return formatCompact(v);
+  }
+  function fmtDelta(v, kind) {
+    const sign = v > 0 ? "+" : v < 0 ? "−" : "±";
+    const suffix = kind === "pct" ? " pp" : "%";
+    return sign + Math.abs(v).toFixed(1) + suffix;
+  }
+
+  function periodUnit(caption) {
+    if (/trimestr/i.test(caption)) return "trimestre";
+    if (/semestr/i.test(caption)) return "semestre";
+    if (/\bmes(es)?\b/i.test(caption)) return "mes";
+    return "trimestre";
+  }
+
+  function sparkSVG(values, status, kind, unit) {
+    const w = 300, h = 88, pad = 6;
+    const min = Math.min(...values), max = Math.max(...values);
+    const span = (max - min) || 1;
+    const stepX = (w - pad * 2) / (values.length - 1);
+    const points = values.map((v, i) => {
+      const x = pad + i * stepX;
+      const y = pad + (1 - (v - min) / span) * (h - pad * 2);
+      return [x, y];
+    });
+    const linePath = points.map((p, i) => (i === 0 ? "M" : "L") + p[0].toFixed(1) + "," + p[1].toFixed(1)).join(" ");
+    const areaPath = linePath + ` L${points[points.length - 1][0].toFixed(1)},${h - pad} L${points[0][0].toFixed(1)},${h - pad} Z`;
+    const last = points[points.length - 1];
+    const color = status === "good" ? "var(--good)" : "var(--critical)";
+    return `<svg class="spark-svg" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" role="img" aria-hidden="true"
+        data-values="${values.join(",")}" data-kind="${kind || "pct"}" data-unit="${unit || "trimestre"}">
+      <path class="spark-area" d="${areaPath}" fill="${color}" opacity="0.10" />
+      <path class="spark-line" d="${linePath}" fill="none" stroke="var(--spark-line)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+      <circle class="spark-dot" cx="${last[0].toFixed(1)}" cy="${last[1].toFixed(1)}" r="5" fill="${color}" stroke="var(--surface-card)" stroke-width="2.5"/>
+      <line class="spark-hover-line" x1="0" y1="${pad}" x2="0" y2="${h - pad}" stroke="var(--ink-muted)" stroke-width="1" opacity="0"/>
+      <circle class="spark-hover-dot" r="4" fill="${color}" stroke="var(--surface-card)" stroke-width="2" opacity="0"/>
+    </svg>`;
+  }
+
+  function deltaPillHTML(v, abs, label, kind) {
+    const status = v >= 0 ? "good" : "critical";
+    const arrow = v >= 0 ? "▲" : "▼";
+    return `<div class="delta">
+      <span class="delta-pill ${status}">${arrow} ${fmtDelta(v, kind)}</span>
+      <span class="delta-label">${label} (${formatAbs(abs, kind, undefined)})</span>
+    </div>`;
+  }
+
+  function renderKpiGrid(containerId, kpis) {
+    const el = document.getElementById(containerId);
+    if (!el) return;
+    el.innerHTML = kpis.map((k, i) => `
+      <article class="kpi-card" style="--i:${i}">
+        <div class="kpi-top">
+          <h2 class="kpi-name">${k.name}${k.sub ? `<small>${k.sub}</small>` : ""}</h2>
+          <span class="kpi-tag">${k.tag}</span>
+        </div>
+        <p class="kpi-value"><span class="kpi-value-num" data-target="${k.value}" data-kind="${k.kind}">${formatValue(k.value, k.kind, k.unit)}</span><span class="kpi-value-unit">${valueUnit(k.kind, k.unit)}${k.suffix ? " " + k.suffix : ""}</span></p>
+        <div class="kpi-deltas">
+          ${deltaPillHTML(k.d1, k.d1abs, k.d1label, k.kind)}
+          ${deltaPillHTML(k.dyoy, k.dyoyabs, k.dyoylabel, k.kind)}
+        </div>
+        <div class="kpi-spark">${sparkSVG(k.trend, k.trendStatus, k.kind, periodUnit(k.caption))}</div>
+        <p class="spark-caption">${k.caption}</p>
+        <p class="kpi-desc">${k.desc}</p>
+      </article>
+    `).join("");
+  }
+
+  function renderCompareGrid(containerId, groups) {
+    const el = document.getElementById(containerId);
+    if (!el) return;
+    const max = Math.max(...groups.flatMap(g => g.rows.map(r => r.value)));
+    el.innerHTML = groups.map((g, i) => `
+      <article class="compare-card" style="--i:${i}">
+        <h2 class="kpi-name">${g.name}</h2>
+        <div class="compare-rows">
+          ${g.rows.map(r => `
+            <div class="compare-row">
+              <span class="compare-brand">${r.brand}</span>
+              <span class="compare-bar-track"><span class="compare-bar-fill" data-target-width="${(r.value / max * 100).toFixed(0)}%" style="width:${(r.value / max * 100).toFixed(0)}%"></span></span>
+              <span class="compare-value">+${r.value.toFixed(1)}%</span>
+            </div>
+          `).join("")}
+        </div>
+        <p class="kpi-desc">${g.desc}</p>
+      </article>
+    `).join("");
+  }
+
+  function renderStatusGrid(containerId, items) {
+    const el = document.getElementById(containerId);
+    if (!el) return;
+    el.innerHTML = items.map((it, i) => `
+      <article class="status-card" style="--i:${i}">
+        <div class="kpi-top">
+          <h2 class="kpi-name">${it.name}</h2>
+          <span class="status-pill ${it.status === 'Completado' ? 'completado' : 'en-curso'}">${it.status}</span>
+        </div>
+        <div class="status-progress-track"><div class="status-progress-fill" data-target-width="${it.progress}%" style="width:${it.progress}%"></div></div>
+        <p class="status-progress-label">${it.progress}% de avance frente al plan anual</p>
+        <p class="status-desc">${it.desc}</p>
+      </article>
+    `).join("");
+  }
+
+  /* ===================== ANIMATION ===================== */
+
+  const REDUCE_MOTION = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const EASE = "cubic-bezier(.16,1,.3,1)";
+
+  function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+
+  function animateCountUp(el, duration) {
+    const target = parseFloat(el.dataset.target);
+    const kind = el.dataset.kind;
+    const start = performance.now();
+    function tick(now) {
+      const p = Math.min((now - start) / duration, 1);
+      el.textContent = formatValue(target * easeOutCubic(p), kind);
+      if (p < 1) requestAnimationFrame(tick);
+      else el.textContent = formatValue(target, kind);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  function animateBar(el, duration) {
+    const target = el.dataset.targetWidth;
+    el.style.transition = "none";
+    el.style.width = "0%";
+    el.getBoundingClientRect(); // force reflow so the 0% takes effect before transitioning
+    requestAnimationFrame(() => {
+      el.style.transition = `width ${duration}ms ${EASE}`;
+      el.style.width = target;
+    });
+  }
+
+  function animateSparkline(svg, duration) {
+    const line = svg.querySelector(".spark-line");
+    const area = svg.querySelector(".spark-area");
+    const dot = svg.querySelector(".spark-dot");
+    if (!line) return;
+    const len = line.getTotalLength();
+    line.style.transition = "none";
+    line.style.strokeDasharray = len;
+    line.style.strokeDashoffset = len;
+    if (area) { area.style.transition = "none"; area.style.opacity = "0"; }
+    if (dot) { dot.style.transition = "none"; dot.style.opacity = "0"; }
+    line.getBoundingClientRect();
+    requestAnimationFrame(() => {
+      line.style.transition = `stroke-dashoffset ${duration}ms ${EASE}`;
+      line.style.strokeDashoffset = "0";
+      if (area) { area.style.transition = `opacity 500ms ease ${duration * 0.5}ms`; area.style.opacity = "0.10"; }
+      if (dot) { dot.style.transition = `opacity 300ms ease ${duration * 0.9}ms`; dot.style.opacity = "1"; }
+    });
+  }
+
+  function animateCompositeRing() {
+    const ring = document.getElementById("composite-ring");
+    const label = document.getElementById("composite-value");
+    if (!ring) return;
+    const circumference = 188.5;
+    const target = parseFloat(ring.dataset.target || "94.9");
+    ring.style.transition = "none";
+    ring.style.strokeDashoffset = circumference;
+    ring.getBoundingClientRect();
+    requestAnimationFrame(() => {
+      ring.style.transition = `stroke-dashoffset 1100ms ${EASE}`;
+      ring.style.strokeDashoffset = target;
+    });
+    if (label) {
+      const start = performance.now();
+      const targetVal = 49.7;
+      function tick(now) {
+        const p = Math.min((now - start) / 1100, 1);
+        label.textContent = (targetVal * easeOutCubic(p)).toFixed(1) + "%";
+        if (p < 1) requestAnimationFrame(tick);
+        else label.textContent = targetVal.toFixed(1) + "%";
+      }
+      requestAnimationFrame(tick);
+    }
+  }
+
+  function animatePage(pageEl) {
+    if (!pageEl || REDUCE_MOTION) return;
+    pageEl.querySelectorAll(".kpi-value-num").forEach(el => animateCountUp(el, 900));
+    pageEl.querySelectorAll("[data-target-width]").forEach(el => animateBar(el, 900));
+    pageEl.querySelectorAll(".kpi-spark svg").forEach(svg => animateSparkline(svg, 900));
+    if (pageEl.id === "page-marca") animateCompositeRing();
+  }
+
+  /* ===================== RENDER ===================== */
+
+  renderKpiGrid("grid-marca", KPIS_MARCA);
+  renderKpiGrid("grid-paid", KPIS_PAID);
+  renderKpiGrid("grid-own", KPIS_OWN);
+  renderCompareGrid("grid-social", [SOCIAL_GROWTH, SOCIAL_ENGAGEMENT]);
+  renderStatusGrid("grid-rse-status", RSE_STATUS);
+  renderKpiGrid("grid-rse-awareness", RSE_AWARENESS);
+  renderKpiGrid("grid-rse-revista", RSE_REVISTA);
+  renderKpiGrid("grid-digital", KPIS_DIGITAL);
+
+  const HOME_ICONS = {
+    "page-marca": `<svg viewBox="0 0 22 22" fill="none"><path d="M4 9v4a1 1 0 001 1h1.6l4.4 3V5l-4.4 3H5a1 1 0 00-1 1z" stroke="var(--navy-900)" stroke-width="1.5" stroke-linejoin="round"/><path d="M14.5 8.3a3 3 0 010 5.4" stroke="var(--navy-900)" stroke-width="1.5" stroke-linecap="round"/><path d="M16.6 6.2a6 6 0 010 9.6" stroke="var(--navy-900)" stroke-width="1.5" stroke-linecap="round"/></svg>`,
+    "page-paid": `<svg viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="7" stroke="var(--navy-900)" stroke-width="1.5"/><circle cx="11" cy="11" r="3.6" stroke="var(--navy-900)" stroke-width="1.5"/><circle cx="11" cy="11" r="0.9" fill="var(--navy-900)"/></svg>`,
+    "page-own": `<svg viewBox="0 0 22 22" fill="none"><rect x="3.5" y="5.5" width="15" height="11" rx="1.6" stroke="var(--navy-900)" stroke-width="1.5"/><path d="M4.2 6.5L11 12l6.8-5.5" stroke="var(--navy-900)" stroke-width="1.5" stroke-linejoin="round"/></svg>`,
+    "page-social": `<svg viewBox="0 0 22 22" fill="none"><circle cx="5.8" cy="11" r="2.1" stroke="var(--navy-900)" stroke-width="1.5"/><circle cx="16.2" cy="5.8" r="2.1" stroke="var(--navy-900)" stroke-width="1.5"/><circle cx="16.2" cy="16.2" r="2.1" stroke="var(--navy-900)" stroke-width="1.5"/><path d="M7.7 10L14.3 6.8M7.7 12L14.3 15.2" stroke="var(--navy-900)" stroke-width="1.5"/></svg>`,
+    "page-rse": `<svg viewBox="0 0 22 22" fill="none"><path d="M11 17.2s-6.2-3.8-6.2-8.2a3.7 3.7 0 016.2-2.7 3.7 3.7 0 016.2 2.7c0 4.4-6.2 8.2-6.2 8.2z" stroke="var(--navy-900)" stroke-width="1.5" stroke-linejoin="round"/></svg>`,
+    "page-digital": `<svg viewBox="0 0 22 22" fill="none"><rect x="6.5" y="3.3" width="9" height="15.4" rx="1.8" stroke="var(--navy-900)" stroke-width="1.5"/><circle cx="11" cy="15.4" r="0.9" fill="var(--navy-900)"/></svg>`
+  };
+
+  const TOTAL_INDICATORS = KPIS_MARCA.length + KPIS_PAID.length + KPIS_OWN.length
+    + SOCIAL_GROWTH.rows.length + SOCIAL_ENGAGEMENT.rows.length
+    + RSE_STATUS.length + RSE_AWARENESS.length + RSE_REVISTA.length
+    + KPIS_DIGITAL.length;
+
+  const homeStats = document.getElementById("home-stats");
+  homeStats.innerHTML = [
+    { value: String(NAV_PAGES.length), label: "Secciones de KPI" },
+    { value: "1 de " + NAV_PAGES.length, label: "Con datos reales" },
+    { value: String(TOTAL_INDICATORS), label: "Indicadores mapeados" }
+  ].map(s => `
+    <div class="home-stat">
+      <div class="home-stat-value">${s.value}</div>
+      <div class="home-stat-label">${s.label}</div>
+    </div>
+  `).join("");
+
+  const marcaPreview = ["Top of Mind", "Recordación Publicitaria", "Mayor Uso / Principalidad"]
+    .map(name => KPIS_MARCA.find(k => k.name === name));
+
+  const homeSpotlight = document.getElementById("home-spotlight");
+  homeSpotlight.dataset.target = "page-marca";
+  homeSpotlight.innerHTML = `
+    <div class="home-spotlight-main">
+      <div class="home-spotlight-head">
+        <span class="home-icon-badge">${HOME_ICONS["page-marca"]}</span>
+        <div>
+          <span class="home-badge real">Datos reales</span>
+          <h2 class="home-spotlight-title">Marca y Comunicación</h2>
+        </div>
+      </div>
+      <p class="home-spotlight-desc">Top of Mind, uso habitual, recordación publicitaria, brand equity, preferencia y mayor uso — con histórico de hasta 10 trimestres y comparativas vs. promedio y vs. mismo corte 2025.</p>
+      <div class="home-spotlight-footer">Ver el tablero completo →</div>
+    </div>
+    <div class="home-spotlight-preview">
+      ${marcaPreview.map(k => `
+        <div class="home-preview-metric">
+          <span class="home-preview-label">${k.name}</span>
+          <span class="home-preview-value">${formatValue(k.value, k.kind)}%</span>
+          <span class="home-preview-delta ${k.dyoy >= 0 ? 'good' : 'critical'}">${k.dyoy >= 0 ? '▲' : '▼'} ${fmtDelta(k.dyoy, k.kind)} vs. 2025</span>
+        </div>
+      `).join("")}
+    </div>
+  `;
+
+  const homeGrid = document.getElementById("home-grid");
+  const SECONDARY_PAGES = NAV_PAGES.filter(p => p.id !== "page-marca");
+  homeGrid.innerHTML = SECONDARY_PAGES.map((p, i) => `
+    <button class="home-card" type="button" data-target="${p.id}" style="--i:${i}">
+      <div class="home-card-top">
+        <span class="home-icon-badge">${HOME_ICONS[p.id] || ""}</span>
+        <div>
+          <h2 class="home-card-title">${p.title}</h2>
+          <span class="home-badge illustrative">Ilustrativo</span>
+        </div>
+      </div>
+      <div class="home-card-kpi">
+        <span class="home-card-kpi-label">${p.headline.label}</span>
+        <span class="home-card-kpi-value">${p.headline.value}</span>
+        ${p.headline.deltaText ? `<span class="home-card-kpi-delta ${p.headline.status}">${p.headline.status === "good" ? "▲ " : p.headline.status === "critical" ? "▼ " : ""}${p.headline.deltaText}</span>` : ""}
+      </div>
+      <p class="home-card-desc">${p.desc}</p>
+      <div class="home-card-footer">
+        <span>${p.count} indicador${p.count === 1 ? '' : 'es'}</span>
+        <span class="home-card-arrow">Ver detalle →</span>
+      </div>
+    </button>
+  `).join("");
+
+  const tabRail = document.getElementById("tab-rail");
+  tabRail.innerHTML = PAGES.map((p, i) => `
+    <button class="tab" data-target="${p.id}" data-active="${i === 0}" aria-current="${i === 0 ? 'page' : 'false'}">
+      ${p.title}${p.illustrative ? '<span class="tab-soon">Ilustrativo</span>' : ''}
+    </button>
+  `).join("");
+
+  function activatePage(target) {
+    document.querySelectorAll(".tab").forEach(t => {
+      const active = t.dataset.target === target;
+      t.dataset.active = active;
+      t.setAttribute("aria-current", active ? "page" : "false");
+    });
+    document.querySelectorAll(".page").forEach(sec => {
+      sec.hidden = sec.id !== target;
+    });
+    animatePage(document.getElementById(target));
+  }
+
+  tabRail.addEventListener("click", (e) => {
+    const btn = e.target.closest(".tab");
+    if (!btn) return;
+    activatePage(btn.dataset.target);
+  });
+
+  homeGrid.addEventListener("click", (e) => {
+    const card = e.target.closest(".home-card");
+    if (!card) return;
+    activatePage(card.dataset.target);
+  });
+
+  homeSpotlight.addEventListener("click", () => activatePage("page-marca"));
+
+  /* ===================== FILTRO DE RANGO (sparklines) ===================== */
+  /* Recorta el mismo arreglo histórico ya usado en las tarjetas — no inventa
+     valores nuevos, solo cambia cuántos puntos del histórico real se muestran. */
+
+  const GRID_DATA = {
+    "grid-marca": KPIS_MARCA,
+    "grid-paid": KPIS_PAID,
+    "grid-own": KPIS_OWN,
+    "grid-rse-awareness": RSE_AWARENESS,
+    "grid-rse-revista": RSE_REVISTA,
+    "grid-digital": KPIS_DIGITAL
+  };
+  const PAGE_SPARK_GRIDS = {
+    "page-marca": ["grid-marca"],
+    "page-paid": ["grid-paid"],
+    "page-own": ["grid-own"],
+    "page-rse": ["grid-rse-awareness", "grid-rse-revista"],
+    "page-digital": ["grid-digital"]
+  };
+
+  function captionFor(originalCaption, count, unit) {
+    const segmentMatch = originalCaption.match(/\(([^)]+)\)/);
+    const segment = segmentMatch ? ` (${segmentMatch[1]})` : "";
+    return `Últimos ${count} ${unit}${count === 1 ? "" : "s"}${segment}`;
+  }
+
+  function applyRange(gridId, range) {
+    const kpis = GRID_DATA[gridId];
+    const container = document.getElementById(gridId);
+    if (!kpis || !container) return;
+    const cards = container.querySelectorAll(".kpi-card");
+    cards.forEach((card, i) => {
+      const k = kpis[i];
+      const unit = periodUnit(k.caption);
+      const sliced = range === "all" ? k.trend : k.trend.slice(-range);
+      const sparkEl = card.querySelector(".kpi-spark");
+      sparkEl.innerHTML = sparkSVG(sliced, k.trendStatus, k.kind, unit);
+      if (!REDUCE_MOTION) animateSparkline(sparkEl.querySelector("svg"), 700);
+      const captionEl = card.querySelector(".spark-caption");
+      if (captionEl) captionEl.textContent = range === "all" ? k.caption : captionFor(k.caption, sliced.length, unit);
+    });
+  }
+
+  document.querySelectorAll(".filter-bar").forEach(bar => {
+    bar.addEventListener("click", (e) => {
+      const btn = e.target.closest(".filter-pill");
+      if (!btn) return;
+      bar.querySelectorAll(".filter-pill").forEach(b => { b.dataset.active = String(b === btn); });
+      const range = btn.dataset.range === "all" ? "all" : parseInt(btn.dataset.range, 10);
+      (PAGE_SPARK_GRIDS[bar.dataset.page] || []).forEach(gridId => applyRange(gridId, range));
+    });
+  });
+
+  /* ===================== TOOLTIP DE SPARKLINES ===================== */
+  /* Deja inspeccionar cualquier punto pasado del histórico real al pasar el cursor. */
+
+  const sparkTooltip = document.createElement("div");
+  sparkTooltip.className = "spark-tooltip";
+  sparkTooltip.hidden = true;
+  document.body.appendChild(sparkTooltip);
+
+  function periodLabel(idx, total, unit) {
+    const back = total - 1 - idx;
+    if (back === 0) return "Periodo actual";
+    return `Hace ${back} ${unit}${back === 1 ? "" : "s"}`;
+  }
+
+  function handleSparkPointer(e) {
+    const svg = e.target.closest(".spark-svg");
+    if (!svg) { sparkTooltip.hidden = true; hideHoverMarks(); return; }
+    const values = svg.dataset.values.split(",").map(Number);
+    const kind = svg.dataset.kind;
+    const unit = svg.dataset.unit;
+    const w = 300, pad = 6;
+    const stepX = (w - pad * 2) / (values.length - 1);
+    const pt = svg.createSVGPoint();
+    pt.x = e.clientX; pt.y = e.clientY;
+    const local = pt.matrixTransform(svg.getScreenCTM().inverse());
+    let idx = Math.round((local.x - pad) / stepX);
+    idx = Math.max(0, Math.min(values.length - 1, idx));
+
+    const min = Math.min(...values), max = Math.max(...values);
+    const span = (max - min) || 1;
+    const h = 88;
+    const x = pad + idx * stepX;
+    const y = pad + (1 - (values[idx] - min) / span) * (h - pad * 2);
+
+    const hoverLine = svg.querySelector(".spark-hover-line");
+    const hoverDot = svg.querySelector(".spark-hover-dot");
+    if (hoverLine) { hoverLine.setAttribute("x1", x); hoverLine.setAttribute("x2", x); hoverLine.style.opacity = "1"; }
+    if (hoverDot) { hoverDot.setAttribute("cx", x); hoverDot.setAttribute("cy", y); hoverDot.style.opacity = "1"; }
+
+    sparkTooltip.hidden = false;
+    sparkTooltip.style.left = e.clientX + "px";
+    sparkTooltip.style.top = e.clientY + "px";
+    sparkTooltip.innerHTML = `<strong>${formatValue(values[idx], kind)}${valueUnit(kind)}</strong>${periodLabel(idx, values.length, unit)}`;
+  }
+
+  function hideHoverMarks() {
+    document.querySelectorAll(".spark-hover-line, .spark-hover-dot").forEach(el => { el.style.opacity = "0"; });
+  }
+
+  document.addEventListener("pointermove", handleSparkPointer);
+  document.addEventListener("pointerleave", () => { sparkTooltip.hidden = true; hideHoverMarks(); });
+
+  animatePage(document.getElementById("page-home"));
+</script>

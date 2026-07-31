@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Candidatos de paleta — Diners</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 40px 32px; background: #f4f4f2; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; color: #141414; }
+  h1 { font-size: 20px; margin: 0 0 6px; }
+  .sub { font-size: 13px; color: #6b6b6b; margin: 0 0 32px; max-width: 640px; line-height: 1.5; }
+  .candidates { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 22px; }
+  .card { background: #fff; border-radius: 14px; padding: 22px 24px; box-shadow: 0 1px 2px rgba(20,20,20,0.05), 0 6px 20px rgba(20,20,20,0.06); }
+  .card h2 { font-size: 15px; margin: 0 0 3px; }
+  .card .tag { font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #4F52E5; margin-bottom: 14px; }
+  .swatch-row { display: flex; gap: 6px; margin-bottom: 18px; }
+  .swatch { flex: 1; height: 34px; border-radius: 7px; }
+  .body { display: grid; grid-template-columns: 118px 1fr; gap: 16px; align-items: center; }
+  .pie { width: 108px; height: 108px; border-radius: 50%; }
+  .legend-row { display: flex; align-items: baseline; gap: 8px; padding: 3px 0; font-size: 12px; }
+  .dot { width: 9px; height: 9px; border-radius: 50%; flex: none; }
+  .name { font-weight: 600; flex: 1; }
+  .pct { font-variant-numeric: tabular-nums; color: #6b6b6b; font-size: 11.5px; }
+  .verdict { margin-top: 16px; padding-top: 14px; border-top: 1px solid #eee; font-size: 11.5px; color: #6b6b6b; line-height: 1.5; }
+  .verdict b { color: #141414; }
+</style>
+</head>
+<body>
+
+<h1>Candidatos de paleta — mas vivos, mismo espiritu "premium/serio"</h1>
+<p class="sub">Los 3 usan el mismo dato real (mezcla de canales de Junio 2026: TV 26% · Radio 8% · Prensa 6% · Revistas 3% · Eventos 2% · Paid Media 55%). Cambia solo el color de cada canal. El azul-violeta de marca (#4F52E5, Paid Media) y el negro (#141414, TV) se mantienen fijos en los 3 — son el ancla de marca verificada, no se tocan.</p>
+
+<div class="candidates">
+
+  <div class="card">
+    <div class="tag">Candidato A</div>
+    <h2>Azul + violeta + acento cálido</h2>
+    <div class="swatch-row" id="swA"></div>
+    <div class="body">
+      <div class="pie" id="pieA"></div>
+      <div class="legend" id="legA"></div>
+    </div>
+    <div class="verdict"><b>Sensación:</b> el mas "vivo" de los 3 — el violeta le da un pop distinto al azul de marca sin repetir tono. El naranja quemado da vida sin ser dorado.</div>
+  </div>
+
+  <div class="card">
+    <div class="tag">Candidato B</div>
+    <h2>Azules multi-tono + acento cálido</h2>
+    <div class="swatch-row" id="swB"></div>
+    <div class="body">
+      <div class="pie" id="pieB"></div>
+      <div class="legend" id="legB"></div>
+    </div>
+    <div class="verdict"><b>Sensación:</b> el mas literal a "variaciones entre azules y grises" — acero, petróleo y azul-violeta de marca conviven, un solo acento cálido (naranja) rompe la monotonía.</div>
+  </div>
+
+  <div class="card">
+    <div class="tag">Candidato C</div>
+    <h2>Azul + rojo serio (sin violeta)</h2>
+    <div class="swatch-row" id="swC"></div>
+    <div class="body">
+      <div class="pie" id="pieC"></div>
+      <div class="legend" id="legC"></div>
+    </div>
+    <div class="verdict"><b>Sensación:</b> mas clásico "corporativo financiero" — azul + rojo serio (no rosa) es un contraste muy usado en banca/tarjetas. Menos "vivo" que A, mas sobrio.</div>
+  </div>
+
+</div>
+
+<script>
+  const DATA = [
+    { key: 'TV', label: 'Televisión', pct: 26 },
+    { key: 'Radio', label: 'Radio', pct: 8 },
+    { key: 'PrensaEscrita', label: 'Prensa escrita', pct: 6 },
+    { key: 'Revistas', label: 'Revistas', pct: 3 },
+    { key: 'Eventos', label: 'Eventos', pct: 2 },
+    { key: 'Paid', label: 'Paid Media', pct: 55 },
+  ];
+
+  const CANDIDATES = {
+    A: { TV: '#141414', Radio: '#3B4A6B', PrensaEscrita: '#6D28D9', Revistas: '#00618C', Eventos: '#D6521A', Paid: '#4F52E5' },
+    B: { TV: '#141414', Radio: '#55637A', PrensaEscrita: '#2563EB', Revistas: '#00618C', Eventos: '#D6521A', Paid: '#4F52E5' },
+    C: { TV: '#141414', Radio: '#475569', PrensaEscrita: '#2563EB', Revistas: '#B91C3C', Eventos: '#00618C', Paid: '#4F52E5' },
+  };
+
+  function render(letter) {
+    const colors = CANDIDATES[letter];
+    const swRow = document.getElementById('sw' + letter);
+    const pieEl = document.getElementById('pie' + letter);
+    const legEl = document.getElementById('leg' + letter);
+
+    DATA.forEach(d => {
+      const chip = document.createElement('div');
+      chip.className = 'swatch';
+      chip.style.background = colors[d.key];
+      chip.title = d.label + ' — ' + colors[d.key];
+      swRow.appendChild(chip);
+    });
+
+    let acc = 0;
+    const stops = DATA.map(d => {
+      const start = acc;
+      acc += d.pct;
+      return `${colors[d.key]} ${start}% ${acc}%`;
+    }).join(', ');
+    pieEl.style.background = `conic-gradient(${stops})`;
+
+    DATA.forEach(d => {
+      const row = document.createElement('div');
+      row.className = 'legend-row';
+      row.innerHTML = `<span class="dot" style="background:${colors[d.key]}"></span><span class="name">${d.label}</span><span class="pct">${d.pct}%</span>`;
+      legEl.appendChild(row);
+    });
+  }
+
+  ['A', 'B', 'C'].forEach(render);
+</script>
+
+</body>
+</html>
