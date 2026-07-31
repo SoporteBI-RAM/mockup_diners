@@ -175,6 +175,11 @@
 
   /* ================= ACTIVOS DIGITALES ================= */
   [data-page="digital"] .ad-mini-kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 14px; }
+  [data-page="digital"] .obj-filter { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+  [data-page="digital"] .obj-filter-btn { font-size: 11px; font-weight: 600; padding: 6px 12px; border-radius: 999px; border: 1px solid #e2e0ea; background: #fff; color: #6b6b6b; cursor: pointer; transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease; }
+  [data-page="digital"] .obj-filter-btn:hover { background: #F8F7FC; }
+  [data-page="digital"] .obj-filter-btn:focus-visible { outline: 2px solid #4F52E5; outline-offset: 1px; }
+  [data-page="digital"] .obj-filter-btn[data-active="true"] { background: #4F52E5; border-color: #4F52E5; color: #fff; }
   [data-page="digital"] .ad-mini-kpi-value { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
   [data-page="digital"] .ad-tag { display: inline-block; font-size: 8.5px; font-weight: 700; padding: 2px 6px; border-radius: 999px; margin-left: 6px; text-transform: uppercase; letter-spacing: 0.02em; vertical-align: middle; }
   [data-page="digital"] .ad-tag.real { background: rgba(0,128,56,0.1); color: #008038; }
@@ -1627,8 +1632,17 @@
         </div>
 
         <div class="zone zone-pad">
-          <div class="zone-title" style="margin-bottom:2px;">Evolución de Usuarios Activos por día</div>
-          <div class="hero-caption" style="margin-top:0;margin-bottom:8px;">Forma diaria ilustrativa, escalada al MAU real del mes seleccionado. Eje X: día del mes · Eje Y: usuarios activos.</div>
+          <div class="zone-title fx" id="ad-dailyMauTitle" style="margin-bottom:2px;">Evolución de Usuarios Activos por día</div>
+          <div class="hero-caption" style="margin-top:0;margin-bottom:10px;">La línea muestra usuarios activos por día (forma ilustrativa, escalada al MAU real del mes). Eje X: día del mes · Eje Y: usuarios activos. Filtra por canal de adquisición para ver cómo se comporta cada uno.</div>
+          <div class="obj-filter" id="ad-channelFilter" style="margin-bottom:10px;">
+            <button class="obj-filter-btn" data-canal="ALL" data-active="true">Todos</button>
+            <button class="obj-filter-btn" data-canal="GoogleAds">Google Ads</button>
+            <button class="obj-filter-btn" data-canal="MetaAds">Meta Ads</button>
+            <button class="obj-filter-btn" data-canal="OrganicoAppStore">Orgánico App Store</button>
+            <button class="obj-filter-btn" data-canal="Referidos">Referidos</button>
+            <button class="obj-filter-btn" data-canal="Email">Email</button>
+            <button class="obj-filter-btn" data-canal="Otros">Otros</button>
+          </div>
           <svg width="100%" height="140" viewBox="0 0 1080 140" id="ad-dailyMauSvg" preserveAspectRatio="none"></svg>
         </div>
 
@@ -4177,8 +4191,11 @@
   const AD_RECENCY_VALUES = [62, 145, 210, 98, 54];
   const AD_CATEGORIAS_ORDER = ['Restaurantes', 'Compras online', 'Viajes', 'Entretenimiento', 'Salud y bienestar', 'Otros'];
   const AD_CATEGORIAS_VALUES = [118, 96, 71, 58, 33, 19];
-  const AD_CANAL_ORDER = ['Google Ads', 'Meta Ads', 'Orgánico App Store', 'Referidos', 'Email', 'Otros'];
-  const AD_CANAL_VALUES = [118, 96, 84, 58, 33, 19];
+  const AD_CANAL_KEYS = ['GoogleAds', 'MetaAds', 'OrganicoAppStore', 'Referidos', 'Email', 'Otros'];
+  const AD_CANAL_LABEL = { GoogleAds: 'Google Ads', MetaAds: 'Meta Ads', OrganicoAppStore: 'Orgánico App Store', Referidos: 'Referidos', Email: 'Email', Otros: 'Otros' };
+  const AD_CANAL_VALUES_MAP = { GoogleAds: 118, MetaAds: 96, OrganicoAppStore: 84, Referidos: 58, Email: 33, Otros: 19 };
+  const AD_CANAL_TOTAL = AD_CANAL_KEYS.reduce((s, k) => s + AD_CANAL_VALUES_MAP[k], 0);
+  let AD_activeChannel = null;
 
   /* ================= PORTAL PÚBLICO DINERS — series mensuales base ================= */
   const AD_VISITAS_PORTAL_SERIES = { 'Enero 2026': 469715, 'Febrero 2026': 488504, 'Marzo 2026': 510486, 'Abril 2026': 536010, 'Mayo 2026': 565489, 'Junio 2026': 599984, 'Junio 2025': 428560 };
@@ -4306,7 +4323,7 @@
     });
     document.getElementById(svgId).innerHTML = out;
   }
-  function AD_hBarChart(svgId, categories, values, color, W, H, padL) {
+  function AD_hBarChart(svgId, categories, values, color, W, H, padL, activeIdx) {
     padL = padL || 130;
     const padR = 46, padT = 4, padB = 4;
     const plotW = W - padL - padR;
@@ -4317,9 +4334,11 @@
       const v = values[i];
       const barW = (v / maxV) * plotW;
       const y = padT + i * rowH + rowH * 0.22, bh = rowH * 0.56;
-      out += `<text x="${padL - 8}" y="${(y + bh / 2 + 3.5).toFixed(1)}" text-anchor="end" font-size="10.5" fill="#262626">${cat}</text>`;
-      out += `<rect x="${padL}" y="${y.toFixed(1)}" width="${barW.toFixed(1)}" height="${bh.toFixed(1)}" rx="4" fill="${color}" data-tt="${cat}" data-ttv="${v.toLocaleString('en-US')}"></rect>`;
-      out += `<text x="${(padL + barW + 7).toFixed(1)}" y="${(y + bh / 2 + 3.5).toFixed(1)}" font-size="10.5" font-weight="700" fill="#262626">${v.toLocaleString('en-US')}</text>`;
+      const opacity = (activeIdx === undefined || activeIdx === null || activeIdx === i) ? 1 : 0.25;
+      const textColor = opacity < 1 ? '#b0b0b0' : '#262626';
+      out += `<text x="${padL - 8}" y="${(y + bh / 2 + 3.5).toFixed(1)}" text-anchor="end" font-size="10.5" fill="${textColor}">${cat}</text>`;
+      out += `<rect x="${padL}" y="${y.toFixed(1)}" width="${barW.toFixed(1)}" height="${bh.toFixed(1)}" rx="4" fill="${color}" opacity="${opacity}" data-tt="${cat}" data-ttv="${v.toLocaleString('en-US')}"></rect>`;
+      out += `<text x="${(padL + barW + 7).toFixed(1)}" y="${(y + bh / 2 + 3.5).toFixed(1)}" font-size="10.5" font-weight="700" fill="${textColor}">${v.toLocaleString('en-US')}</text>`;
     });
     document.getElementById(svgId).innerHTML = out;
   }
@@ -4354,7 +4373,7 @@
       const x = padL + i * stepX;
       out += `<text x="${x}" y="${H - 6}" text-anchor="middle" font-size="9.5" fill="#8b8b8b">${i + 1}</text>`;
     }
-    if (seriesArr.length > 1) {
+    {
       let lx = padL;
       seriesArr.forEach(s => {
         out += `<circle cx="${lx}" cy="${padT - 8}" r="3.5" fill="${s.color}"></circle><text x="${lx + 8}" y="${padT - 4.5}" font-size="9.5" font-weight="700" fill="${s.color}">${s.label}</text>`;
@@ -4372,7 +4391,6 @@
   AD_renderMiniGaugeRow('ad-ageGaugeRow', AD_EDAD_REENG);
   AD_vBarChart('ad-recencySvg', AD_RECENCY_ORDER, AD_RECENCY_VALUES, '#6E93B0', 1080, 110);
   AD_hBarChart('ad-categoriasSvg', AD_CATEGORIAS_ORDER, AD_CATEGORIAS_VALUES, '#4F52E5', 500, 150, 118);
-  AD_hBarChart('ad-canalSvg', AD_CANAL_ORDER, AD_CANAL_VALUES, '#2563EB', 500, 150, 136);
   AD_renderWeeklyTable('ad-weeklyEventsBody', ['blueBenefits', 'aperturaAhorro', 'avanceEfectivo', 'consultaSaldo'], AD_EVENT_LABEL, AD_EVENT_WEEKLY);
   AD_renderWeeklyTable('ad-weeklyRoutesBody', ['home', 'descargaApp', 'titaniumVisa', 'modoFutbol'], AD_RUTA_LABEL, AD_RUTA_WEEKLY);
   AD_vBarChart('ad-deviceSvg', AD_DEVICE_ORDER, AD_DEVICE_VALUES, '#4F52E5', 500, 110);
@@ -4433,9 +4451,17 @@
       return `<tr><td>${AD_FUENTE_SESION_LABEL[k]}</td><td class="metric">${val.toLocaleString('en-US')}</td><td class="metric">${pct.toFixed(1)}%</td></tr>`;
     }).join('');
 
+    const canalActiveIdx = AD_activeChannel ? AD_CANAL_KEYS.indexOf(AD_activeChannel) : null;
+    AD_hBarChart('ad-canalSvg', AD_CANAL_KEYS.map(k => AD_CANAL_LABEL[k]), AD_CANAL_KEYS.map(k => AD_CANAL_VALUES_MAP[k]), '#2563EB', 500, 150, 136, canalActiveIdx);
+
+    const dailyTitleEl = document.getElementById('ad-dailyMauTitle');
+    const channelShare = AD_activeChannel ? (AD_CANAL_VALUES_MAP[AD_activeChannel] / AD_CANAL_TOTAL) : 1;
+    const dauLabel = AD_activeChannel ? `Usuarios activos — ${AD_CANAL_LABEL[AD_activeChannel]}` : 'Usuarios activos';
+    crossfade(dailyTitleEl, () => { dailyTitleEl.textContent = AD_activeChannel ? `Evolución de Usuarios Activos por día — ${AD_CANAL_LABEL[AD_activeChannel]}` : 'Evolución de Usuarios Activos por día'; });
+
     const days = AD_DAYS_IN_MONTH[viewMonth];
-    const dauSeries = AD_dailyWave(days, vd.mau * AD_DAU_MAU_RATIO, 0.5, 0);
-    AD_drawDailyLine('ad-dailyMauSvg', [{ values: dauSeries, color: '#4F52E5', label: 'Usuarios activos' }], 1080, 140);
+    const dauSeries = AD_dailyWave(days, vd.mau * AD_DAU_MAU_RATIO * channelShare, 0.5, 0);
+    AD_drawDailyLine('ad-dailyMauSvg', [{ values: dauSeries, color: '#4F52E5', label: dauLabel }], 1080, 140);
     const totalSeries = AD_dailyWave(days, vd.visitasPortal / days, 0.75, 0);
     const nuevosSeries = AD_dailyWave(days, vd.nuevosPortal / days, 0.65, 0.35);
     AD_drawDailyLine('ad-dailyPortalSvg', [{ values: totalSeries, color: '#141414', label: 'Total de usuarios' }, { values: nuevosSeries, color: '#2E9560', label: 'Usuarios nuevos' }], 1080, 140);
@@ -4445,6 +4471,17 @@
   }
   AD_viewSel.addEventListener('change', () => { ensureMonthsDiffer(AD_viewSel, AD_cmpSel); AD_updateComparison(); });
   AD_cmpSel.addEventListener('change', () => { ensureMonthsDiffer(AD_cmpSel, AD_viewSel); AD_updateComparison(); });
+  const AD_channelFilterEl = document.getElementById('ad-channelFilter');
+  if (AD_channelFilterEl) {
+    AD_channelFilterEl.querySelectorAll('.obj-filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        AD_channelFilterEl.querySelectorAll('.obj-filter-btn').forEach(b => b.dataset.active = 'false');
+        btn.dataset.active = 'true';
+        AD_activeChannel = btn.getAttribute('data-canal') === 'ALL' ? null : btn.getAttribute('data-canal');
+        AD_updateComparison();
+      });
+    });
+  }
   AD_updateComparison();
 
   })();
