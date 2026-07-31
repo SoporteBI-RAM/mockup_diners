@@ -1593,17 +1593,28 @@
 
       <!-- ============ TAB 1 — APP BLU ============ -->
       <div class="panel" data-panel="t1" data-visible="true">
+        <div class="obj-filter" id="ad-channelFilter" style="margin-bottom:8px;">
+          <span class="filter-label" style="margin-right:2px;">Filtrar por canal de adquisición</span>
+          <button class="obj-filter-btn" data-canal="ALL" data-active="true">Todos</button>
+          <button class="obj-filter-btn" data-canal="GoogleAds">Google Ads</button>
+          <button class="obj-filter-btn" data-canal="MetaAds">Meta Ads</button>
+          <button class="obj-filter-btn" data-canal="OrganicoAppStore">Orgánico App Store</button>
+          <button class="obj-filter-btn" data-canal="Referidos">Referidos</button>
+          <button class="obj-filter-btn" data-canal="Email">Email</button>
+          <button class="obj-filter-btn" data-canal="Otros">Otros</button>
+        </div>
+        <div class="hero-caption" style="margin-bottom:14px;">↑ recalcula usuarios, eventos y tablas de esta pestaña (conteos). Las tasas — Re-engagement, Sesiones/usuario, composición SO/Nuevos y re-engagement por edad — quedan agregadas: no hay dato real por canal.</div>
         <div class="ad-mini-kpi-row">
           <div class="zone zone-pad">
             <div class="zone-label">Usuarios<span class="ad-tag ilustrativo">Ilustrativo</span></div>
-            <div class="zone-title" style="margin-bottom:4px;">Usuarios Activos (MAU)</div>
+            <div class="zone-title fx" id="ad-heroMauLabel" style="margin-bottom:4px;">Usuarios Activos (MAU)</div>
             <div class="ad-mini-kpi-value fx" id="ad-heroMau">142,850</div>
             <div class="hero-caption" style="margin-top:4px;">vs. mes de comparación <span class="delta-chip fx" id="ad-deltaMau">▲ +4.6%</span></div>
             <div class="sm-yoy-caption fx" id="ad-yoyMau">vs. año anterior: Sin histórico</div>
           </div>
           <div class="zone zone-pad">
             <div class="zone-label">Usuarios<span class="ad-tag real">Dato real</span></div>
-            <div class="zone-title" style="margin-bottom:4px;">Usuarios Leales</div>
+            <div class="zone-title fx" id="ad-heroLealesLabel" style="margin-bottom:4px;">Usuarios Leales</div>
             <div class="ad-mini-kpi-value fx" id="ad-heroLeales">50,337</div>
             <div class="hero-caption" style="margin-top:4px;">vs. mes de comparación <span class="delta-chip fx" id="ad-deltaLeales">▼ -1.8%</span></div>
             <div class="sm-yoy-caption fx" id="ad-yoyLeales">vs. año anterior: Sin histórico</div>
@@ -1617,7 +1628,7 @@
           </div>
           <div class="zone zone-pad">
             <div class="zone-label">Engagement<span class="ad-tag ilustrativo">Ilustrativo</span></div>
-            <div class="zone-title" style="margin-bottom:4px;">Eventos totales</div>
+            <div class="zone-title fx" id="ad-heroEventosAppLabel" style="margin-bottom:4px;">Eventos totales</div>
             <div class="ad-mini-kpi-value fx" id="ad-heroEventosApp">64,712</div>
             <div class="hero-caption" style="margin-top:4px;">vs. mes de comparación <span class="delta-chip fx" id="ad-deltaEventosApp">▲ +6.1%</span></div>
             <div class="sm-yoy-caption fx" id="ad-yoyEventosApp">vs. año anterior: Sin histórico</div>
@@ -1633,16 +1644,7 @@
 
         <div class="zone zone-pad">
           <div class="zone-title fx" id="ad-dailyMauTitle" style="margin-bottom:2px;">Evolución de Usuarios Activos por día</div>
-          <div class="hero-caption" style="margin-top:0;margin-bottom:10px;">La línea muestra usuarios activos por día (forma ilustrativa, escalada al MAU real del mes). Eje X: día del mes · Eje Y: usuarios activos. Filtra por canal de adquisición para ver cómo se comporta cada uno.</div>
-          <div class="obj-filter" id="ad-channelFilter" style="margin-bottom:10px;">
-            <button class="obj-filter-btn" data-canal="ALL" data-active="true">Todos</button>
-            <button class="obj-filter-btn" data-canal="GoogleAds">Google Ads</button>
-            <button class="obj-filter-btn" data-canal="MetaAds">Meta Ads</button>
-            <button class="obj-filter-btn" data-canal="OrganicoAppStore">Orgánico App Store</button>
-            <button class="obj-filter-btn" data-canal="Referidos">Referidos</button>
-            <button class="obj-filter-btn" data-canal="Email">Email</button>
-            <button class="obj-filter-btn" data-canal="Otros">Otros</button>
-          </div>
+          <div class="hero-caption" style="margin-top:0;margin-bottom:10px;">La línea muestra usuarios activos por día (forma ilustrativa, escalada al MAU real del mes). Eje X: día del mes · Eje Y: usuarios activos.</div>
           <svg width="100%" height="140" viewBox="0 0 1080 140" id="ad-dailyMauSvg" preserveAspectRatio="none"></svg>
         </div>
 
@@ -4284,10 +4286,10 @@
     const dy = (yoyValue !== null && yoyValue !== undefined) ? relDelta(value, yoyValue) : null;
     const dyColor = dy !== null ? (dy >= 0 ? '#008038' : '#EE0000') : '#8b8b8b';
     return `<tr><td>${label}</td>` +
-      `<td class="metric">${value.toLocaleString('en-US')}</td>` +
+      `<td class="metric">${Math.round(value).toLocaleString('en-US')}</td>` +
       `<td class="metric" style="color:${dColor};font-weight:700;">${deltaText(d)}</td>` +
       `<td class="metric" style="color:${dyColor};font-weight:700;">${dy !== null ? deltaText(dy) : 'Sin histórico'}</td>` +
-      `<td class="metric" style="color:#8b8b8b;">${meta.toLocaleString('en-US')}</td>` +
+      `<td class="metric" style="color:#8b8b8b;">${Math.round(meta).toLocaleString('en-US')}</td>` +
       `<td><div class="ad-meta-track"><div class="ad-meta-fill" style="background:${color};transform:scaleX(${trackPct / 130})"></div></div><div style="font-size:10px;color:#8b8b8b;margin-top:2px;">${pct.toFixed(0)}%</div></td>` +
       `<td>${pill}</td></tr>`;
   }
@@ -4383,15 +4385,11 @@
     document.getElementById(svgId).innerHTML = out;
   }
 
-  /* ================= RENDERS ESTÁTICOS (corte del período actual, no reactivos a mes) ================= */
+  /* ================= RENDERS ESTÁTICOS (tasas y datos de Portal — no varían por canal ni por mes) ================= */
   document.getElementById('ad-osPieSvg').innerHTML = pieMarkup(AD_OS_SHARE, 120);
   document.getElementById('ad-newRecPieSvg').innerHTML = pieMarkup(AD_NEWREC_SHARE, 120);
   document.getElementById('ad-trafficPieSvg').innerHTML = pieMarkup(AD_TRAFFIC_SHARE, 120);
-  AD_vBarChart('ad-ageBarSvg', AD_EDAD_ORDER, AD_EDAD_ORDER.map(k => AD_EDAD_USERS[k]), '#4F52E5', 1080, 130);
   AD_renderMiniGaugeRow('ad-ageGaugeRow', AD_EDAD_REENG);
-  AD_vBarChart('ad-recencySvg', AD_RECENCY_ORDER, AD_RECENCY_VALUES, '#6E93B0', 1080, 110);
-  AD_hBarChart('ad-categoriasSvg', AD_CATEGORIAS_ORDER, AD_CATEGORIAS_VALUES, '#4F52E5', 500, 150, 118);
-  AD_renderWeeklyTable('ad-weeklyEventsBody', ['blueBenefits', 'aperturaAhorro', 'avanceEfectivo', 'consultaSaldo'], AD_EVENT_LABEL, AD_EVENT_WEEKLY);
   AD_renderWeeklyTable('ad-weeklyRoutesBody', ['home', 'descargaApp', 'titaniumVisa', 'modoFutbol'], AD_RUTA_LABEL, AD_RUTA_WEEKLY);
   AD_vBarChart('ad-deviceSvg', AD_DEVICE_ORDER, AD_DEVICE_VALUES, '#4F52E5', 500, 110);
   AD_vBarChart('ad-dwellSvg', AD_DWELL_ORDER, AD_DWELL_VALUES, '#55637A', 1080, 110);
@@ -4399,15 +4397,19 @@
   AD_renderMiniGaugeRow('ad-interaccionFuenteRow', AD_INTERACCION_FUENTE);
 
   /* ================= ANÁLISIS RESUMEN ================= */
-  function AD_renderAppSummary(vd, cd, yd, cmpMonth, yoyMonth) {
+  function AD_renderAppSummary(vd, cd, yd, cmpMonth, yoyMonth, chShare, chLabel) {
+    chShare = chShare || 1;
     const parts = [];
-    const mauDelta = relDelta(vd.mau, cd.mau);
-    const mauYoy = yd ? relDelta(vd.mau, yd.mau) : null;
-    parts.push(`Los <b>Usuarios Activos (MAU)</b> llegan a ${vd.mau.toLocaleString('en-US')} (${deltaText(mauDelta)} vs. ${cmpMonth.split(' ')[0]}${mauYoy !== null ? ` · ${deltaText(mauYoy)} vs. ${yoyMonth} AA` : ''}), con ${vd.leales.toLocaleString('en-US')} usuarios leales (${(vd.leales / vd.mau * 100).toFixed(1)}% del MAU).`);
+    const mauEff = vd.mau * chShare, mauCmpEff = cd.mau * chShare, mauYoyEff = yd ? yd.mau * chShare : null;
+    const lealesEff = vd.leales * chShare;
+    const mauDelta = relDelta(mauEff, mauCmpEff);
+    const mauYoy = mauYoyEff !== null ? relDelta(mauEff, mauYoyEff) : null;
+    const mauScope = chLabel ? ` (canal ${chLabel})` : '';
+    parts.push(`Los <b>Usuarios Activos (MAU)</b>${mauScope} llegan a ${Math.round(mauEff).toLocaleString('en-US')} (${deltaText(mauDelta)} vs. ${cmpMonth.split(' ')[0]}${mauYoy !== null ? ` · ${deltaText(mauYoy)} vs. ${yoyMonth} AA` : ''}), con ${Math.round(lealesEff).toLocaleString('en-US')} usuarios leales (${(vd.leales / vd.mau * 100).toFixed(1)}% del MAU).`);
     const bestEvent = AD_EVENT_ORDER.reduce((a, b) => (vd.events[b] / AD_EVENT_META[b]) > (vd.events[a] / AD_EVENT_META[a]) ? b : a);
     const worstEvent = AD_EVENT_ORDER.reduce((a, b) => (vd.events[b] / AD_EVENT_META[b]) < (vd.events[a] / AD_EVENT_META[a]) ? b : a);
     parts.push(`<b>${AD_EVENT_LABEL[bestEvent]}</b> es el evento con mejor cumplimiento de meta (${(vd.events[bestEvent] / AD_EVENT_META[bestEvent] * 100).toFixed(0)}%), mientras <b>${AD_EVENT_LABEL[worstEvent]}</b> queda más rezagado (${(vd.events[worstEvent] / AD_EVENT_META[worstEvent] * 100).toFixed(0)}%).`);
-    parts.push(`Android concentra el 64% de los usuarios; el segmento de 25-34 años es el más numeroso (48,200 usuarios) y el de mayor re-engagement (52%).`);
+    parts.push(`Android concentra el 64% de los usuarios; el segmento de 25-34 años es el más numeroso y el de mayor re-engagement (52%)${chLabel ? ' — tasas agregadas de todos los canales' : ''}.`);
     document.getElementById('ad-appSummary').innerHTML = parts.join(' ');
   }
   function AD_renderPortalSummary(vd, cd, yd, cmpMonth, yoyMonth) {
@@ -4422,17 +4424,36 @@
     document.getElementById('ad-portalSummary').innerHTML = parts.join(' ');
   }
 
-  /* ================= ACTUALIZACIÓN REACTIVA AL FILTRO DE MES ================= */
+  /* ================= ACTUALIZACIÓN REACTIVA AL FILTRO DE MES Y AL FILTRO DE CANAL (APP BLU) ================= */
+  function AD_scaleObj(obj, factor) {
+    const out = {};
+    Object.keys(obj).forEach(k => { out[k] = obj[k] * factor; });
+    return out;
+  }
   function AD_updateComparison() {
     const viewMonth = AD_viewSel.value, cmpMonth = AD_cmpSel.value;
     const vd = AD_MONTH_DATA[viewMonth], cd = AD_MONTH_DATA[cmpMonth];
     const yoyMonth = AD_yoyMonth(cmpMonth);
     const yd = yoyMonth ? AD_MONTH_DATA[yoyMonth] : null;
 
-    AD_updateKpiAbs('ad-heroMau', 'ad-deltaMau', 'ad-yoyMau', vd.mau, cd.mau, yd ? yd.mau : null, yoyMonth, v => v.toLocaleString('en-US'));
-    AD_updateKpiAbs('ad-heroLeales', 'ad-deltaLeales', 'ad-yoyLeales', vd.leales, cd.leales, yd ? yd.leales : null, yoyMonth, v => v.toLocaleString('en-US'));
+    // El filtro de canal escala TODOS los conteos de APP BLU (usuarios, eventos, tablas). Las tasas
+    // (Re-engagement, Sesiones/usuario, composición SO/Nuevos, re-engagement por edad) quedan agregadas
+    // — no existe dato real de esas tasas desglosado por canal de adquisición.
+    const chShare = AD_activeChannel ? (AD_CANAL_VALUES_MAP[AD_activeChannel] / AD_CANAL_TOTAL) : 1;
+    const chLabel = AD_activeChannel ? AD_CANAL_LABEL[AD_activeChannel] : null;
+    const mauEff = vd.mau * chShare, mauCmpEff = cd.mau * chShare, mauYoyEff = yd ? yd.mau * chShare : null;
+    const lealesEff = vd.leales * chShare, lealesCmpEff = cd.leales * chShare, lealesYoyEff = yd ? yd.leales * chShare : null;
+    const eventosTotalesEff = vd.eventosTotales * chShare, eventosTotalesCmpEff = cd.eventosTotales * chShare, eventosTotalesYoyEff = yd ? yd.eventosTotales * chShare : null;
+    const eventsEff = AD_scaleObj(vd.events, chShare), eventsCmpEff = AD_scaleObj(cd.events, chShare), eventsYoyEff = yd ? AD_scaleObj(yd.events, chShare) : null;
+    const eventMetaEff = AD_scaleObj(AD_EVENT_META, chShare);
+
+    AD_updateKpiAbs('ad-heroMau', 'ad-deltaMau', 'ad-yoyMau', mauEff, mauCmpEff, mauYoyEff, yoyMonth, v => Math.round(v).toLocaleString('en-US'));
+    crossfade(document.getElementById('ad-heroMauLabel'), () => { document.getElementById('ad-heroMauLabel').textContent = chLabel ? `Usuarios Activos (MAU) — ${chLabel}` : 'Usuarios Activos (MAU)'; });
+    AD_updateKpiAbs('ad-heroLeales', 'ad-deltaLeales', 'ad-yoyLeales', lealesEff, lealesCmpEff, lealesYoyEff, yoyMonth, v => Math.round(v).toLocaleString('en-US'));
+    crossfade(document.getElementById('ad-heroLealesLabel'), () => { document.getElementById('ad-heroLealesLabel').textContent = chLabel ? `Usuarios Leales — ${chLabel}` : 'Usuarios Leales'; });
     AD_updateKpiRate('ad-heroReeng', 'ad-deltaReeng', 'ad-yoyReeng', vd.reengagement, cd.reengagement, yd ? yd.reengagement : null, yoyMonth, v => v.toFixed(1) + '%', 'pp');
-    AD_updateKpiAbs('ad-heroEventosApp', 'ad-deltaEventosApp', 'ad-yoyEventosApp', vd.eventosTotales, cd.eventosTotales, yd ? yd.eventosTotales : null, yoyMonth, v => v.toLocaleString('en-US'));
+    AD_updateKpiAbs('ad-heroEventosApp', 'ad-deltaEventosApp', 'ad-yoyEventosApp', eventosTotalesEff, eventosTotalesCmpEff, eventosTotalesYoyEff, yoyMonth, v => Math.round(v).toLocaleString('en-US'));
+    crossfade(document.getElementById('ad-heroEventosAppLabel'), () => { document.getElementById('ad-heroEventosAppLabel').textContent = chLabel ? `Eventos totales — ${chLabel}` : 'Eventos totales'; });
     AD_updateKpiRate('ad-heroSesionesApp', 'ad-deltaSesionesApp', 'ad-yoySesionesApp', vd.sesionesApp, cd.sesionesApp, yd ? yd.sesionesApp : null, yoyMonth, v => v.toFixed(1), '');
 
     AD_updateKpiAbs('ad-heroVisitasPortal', 'ad-deltaVisitasPortal', 'ad-yoyVisitasPortal', vd.visitasPortal, cd.visitasPortal, yd ? yd.visitasPortal : null, yoyMonth, v => v.toLocaleString('en-US'));
@@ -4441,8 +4462,16 @@
     AD_updateKpiAbs('ad-heroSesionesPortal', 'ad-deltaSesionesPortal', 'ad-yoySesionesPortal', vd.sesionesPortal, cd.sesionesPortal, yd ? yd.sesionesPortal : null, yoyMonth, v => v.toLocaleString('en-US'));
     AD_updateKpiRate('ad-heroEventosSesion', 'ad-deltaEventosSesion', 'ad-yoyEventosSesion', vd.eventosPorSesionPortal, cd.eventosPorSesionPortal, yd ? yd.eventosPorSesionPortal : null, yoyMonth, v => v.toFixed(1), '');
 
-    AD_renderMetaTable('ad-eventsMetaBody', AD_EVENT_ORDER, AD_EVENT_LABEL, vd.events, cd.events, yd ? yd.events : null, AD_EVENT_META, yoyMonth);
+    AD_renderMetaTable('ad-eventsMetaBody', AD_EVENT_ORDER, AD_EVENT_LABEL, eventsEff, eventsCmpEff, eventsYoyEff, eventMetaEff, yoyMonth);
     AD_renderMetaTable('ad-routesMetaBody', AD_RUTA_ORDER, AD_RUTA_LABEL, vd.rutas, cd.rutas, yd ? yd.rutas : null, AD_RUTAS_META, yoyMonth);
+
+    const weeklyEventsEff = {};
+    ['blueBenefits', 'aperturaAhorro', 'avanceEfectivo', 'consultaSaldo'].forEach(k => { weeklyEventsEff[k] = AD_EVENT_WEEKLY[k].map(v => Math.round(v * chShare)); });
+    AD_renderWeeklyTable('ad-weeklyEventsBody', ['blueBenefits', 'aperturaAhorro', 'avanceEfectivo', 'consultaSaldo'], AD_EVENT_LABEL, weeklyEventsEff);
+
+    AD_vBarChart('ad-ageBarSvg', AD_EDAD_ORDER, AD_EDAD_ORDER.map(k => Math.round(AD_EDAD_USERS[k] * chShare)), '#4F52E5', 1080, 130);
+    AD_vBarChart('ad-recencySvg', AD_RECENCY_ORDER, AD_RECENCY_VALUES.map(v => Math.round(v * chShare)), '#6E93B0', 1080, 110);
+    AD_hBarChart('ad-categoriasSvg', AD_CATEGORIAS_ORDER, AD_CATEGORIAS_VALUES.map(v => Math.round(v * chShare)), '#4F52E5', 500, 150, 118);
 
     const fuenteBody = document.getElementById('ad-fuenteSesionBody');
     fuenteBody.innerHTML = AD_FUENTE_SESION_ORDER.map(k => {
@@ -4454,19 +4483,17 @@
     const canalActiveIdx = AD_activeChannel ? AD_CANAL_KEYS.indexOf(AD_activeChannel) : null;
     AD_hBarChart('ad-canalSvg', AD_CANAL_KEYS.map(k => AD_CANAL_LABEL[k]), AD_CANAL_KEYS.map(k => AD_CANAL_VALUES_MAP[k]), '#2563EB', 500, 150, 136, canalActiveIdx);
 
+    const dauLabel = chLabel ? `Usuarios activos — ${chLabel}` : 'Usuarios activos';
     const dailyTitleEl = document.getElementById('ad-dailyMauTitle');
-    const channelShare = AD_activeChannel ? (AD_CANAL_VALUES_MAP[AD_activeChannel] / AD_CANAL_TOTAL) : 1;
-    const dauLabel = AD_activeChannel ? `Usuarios activos — ${AD_CANAL_LABEL[AD_activeChannel]}` : 'Usuarios activos';
-    crossfade(dailyTitleEl, () => { dailyTitleEl.textContent = AD_activeChannel ? `Evolución de Usuarios Activos por día — ${AD_CANAL_LABEL[AD_activeChannel]}` : 'Evolución de Usuarios Activos por día'; });
-
+    crossfade(dailyTitleEl, () => { dailyTitleEl.textContent = chLabel ? `Evolución de Usuarios Activos por día — ${chLabel}` : 'Evolución de Usuarios Activos por día'; });
     const days = AD_DAYS_IN_MONTH[viewMonth];
-    const dauSeries = AD_dailyWave(days, vd.mau * AD_DAU_MAU_RATIO * channelShare, 0.5, 0);
+    const dauSeries = AD_dailyWave(days, vd.mau * AD_DAU_MAU_RATIO * chShare, 0.5, 0);
     AD_drawDailyLine('ad-dailyMauSvg', [{ values: dauSeries, color: '#4F52E5', label: dauLabel }], 1080, 140);
     const totalSeries = AD_dailyWave(days, vd.visitasPortal / days, 0.75, 0);
     const nuevosSeries = AD_dailyWave(days, vd.nuevosPortal / days, 0.65, 0.35);
     AD_drawDailyLine('ad-dailyPortalSvg', [{ values: totalSeries, color: '#141414', label: 'Total de usuarios' }, { values: nuevosSeries, color: '#2E9560', label: 'Usuarios nuevos' }], 1080, 140);
 
-    AD_renderAppSummary(vd, cd, yd, cmpMonth, yoyMonth);
+    AD_renderAppSummary(vd, cd, yd, cmpMonth, yoyMonth, chShare, chLabel);
     AD_renderPortalSummary(vd, cd, yd, cmpMonth, yoyMonth);
   }
   AD_viewSel.addEventListener('change', () => { ensureMonthsDiffer(AD_viewSel, AD_cmpSel); AD_updateComparison(); });
