@@ -470,6 +470,19 @@
   [data-page="social"] .obj-filter-btn[data-active="true"] { background: #4F52E5; border-color: #4F52E5; color: #fff; }
   [data-page="social"] .sm-net-icon { width: 15px; height: 15px; flex: none; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; }
   [data-page="social"] .sm-net-icon svg { width: 100%; height: 100%; display: block; }
+  [data-page="social"] .sm-map-row { display: flex; gap: 22px; align-items: flex-start; flex-wrap: wrap; }
+  [data-page="social"] .sm-map-svg { width: 160px; height: 300px; flex: none; }
+  [data-page="social"] .sm-map-svg circle { cursor: pointer; transition: opacity 0.15s ease; }
+  [data-page="social"] .sm-map-svg circle:hover { opacity: 1 !important; filter: brightness(1.08); }
+  [data-page="social"] .sm-map-legend { flex: 1; min-width: 200px; }
+  [data-page="social"] .sm-map-legend-title { font-size: 10.5px; font-weight: 700; color: #8b8b8b; text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 6px; }
+  [data-page="social"] .sm-map-legend-scale { height: 8px; border-radius: 4px; background: linear-gradient(90deg, #E3E1FB, #312E81); margin-bottom: 3px; }
+  [data-page="social"] .sm-map-legend-labels { display: flex; justify-content: space-between; font-size: 10px; color: #8b8b8b; margin-bottom: 14px; }
+  [data-page="social"] .sm-map-city-row { display: flex; align-items: center; gap: 8px; font-size: 12px; padding: 5px 0; border-top: 1px dashed #e6e5ea; }
+  [data-page="social"] .sm-map-city-row:first-child { border-top: none; padding-top: 0; }
+  [data-page="social"] .sm-map-city-dot { width: 10px; height: 10px; border-radius: 3px; flex: none; }
+  [data-page="social"] .sm-map-city-name { flex: 1; color: #262626; }
+  [data-page="social"] .sm-map-city-pct { font-weight: 700; font-variant-numeric: tabular-nums; color: #262626; }
   [data-page="social"] .sm-kpi-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
   [data-page="social"] .sm-mini-kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
   [data-page="social"] .sm-mini-kpi-value { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
@@ -1337,6 +1350,20 @@
                 <div class="mix-legend-row"><span class="sm-net-icon"><svg viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#0A66C2"></rect><rect x="6" y="10" width="2.3" height="8" fill="#fff"></rect><circle cx="7.15" cy="7" r="1.35" fill="#fff"></circle><path d="M11 10h2.2v1.15c.45-.7 1.25-1.35 2.6-1.35 1.95 0 3.2 1.25 3.2 3.65V18h-2.3v-4.1c0-1.1-.45-1.85-1.5-1.85-.85 0-1.35.55-1.55 1.1-.08.2-.1.45-.1.72V18H11v-8z" fill="#fff"></path></svg></span><span class="mix-name">LinkedIn</span><span class="mix-pct fx" id="sm-netPctLinkedIn">9%</span></div>
                 <div class="mix-legend-row"><span class="sm-net-icon"><svg viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#000"></rect><path d="M6.5 6.5l11 11M17.5 6.5l-11 11" stroke="#fff" stroke-width="1.8" stroke-linecap="round"></path></svg></span><span class="mix-name">X</span><span class="mix-pct fx" id="sm-netPctX">5%</span></div>
               </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="zone zone-pad" style="margin-top:14px;">
+          <div class="zone-title" style="margin-bottom:2px;">Mapa de calor — comunidad por ciudad</div>
+          <div class="hero-caption" style="margin-top:0;margin-bottom:10px;">Distribución geográfica de la comunidad total (agregado de todas las marcas y redes). Mapa ilustrativo, no a escala — pasa el mouse sobre una ciudad para ver el detalle.</div>
+          <div class="sm-map-row">
+            <svg viewBox="0 0 220 420" class="sm-map-svg" id="sm-mapSvg"></svg>
+            <div class="sm-map-legend">
+              <div class="sm-map-legend-title">Intensidad de la comunidad</div>
+              <div class="sm-map-legend-scale"></div>
+              <div class="sm-map-legend-labels"><span>Menor</span><span>Mayor</span></div>
+              <div id="sm-mapCityList"></div>
             </div>
           </div>
         </div>
@@ -3551,6 +3578,26 @@
   ];
   const SM_INFLUENCER_REACH_TOTAL = 318000; // alcance estimado — no es la suma (solape entre audiencias de influencers)
 
+  /* ================= MAPA DE CALOR — comunidad por ciudad ================= */
+  // % de la comunidad total por ciudad — desglose ilustrativo fijo, aplicado al total real de cada mes (deriva, no autora un dataset nuevo por mes)
+  const SM_CITY_SHARE = [
+    { name: 'Quito', prov: 'Pichincha', pct: 32, x: 128, y: 70 },
+    { name: 'Guayaquil', prov: 'Guayas', pct: 28, x: 58, y: 260 },
+    { name: 'Cuenca', prov: 'Azuay', pct: 10, x: 110, y: 330 },
+    { name: 'Ambato', prov: 'Tungurahua', pct: 7, x: 122, y: 170 },
+    { name: 'Manta', prov: 'Manabí', pct: 6, x: 60, y: 175 },
+    { name: 'Machala', prov: 'El Oro', pct: 5, x: 68, y: 360 },
+    { name: 'Loja', prov: 'Loja', pct: 4, x: 95, y: 385 },
+    { name: 'Otras ciudades', prov: '—', pct: 8, x: null, y: null },
+  ];
+  const SM_ECUADOR_PATH = 'M120,8 C150,10 165,45 168,90 C172,140 168,190 158,240 C148,285 130,330 108,370 C95,395 85,410 78,405 C65,395 55,360 48,320 C42,280 40,240 42,200 C44,160 48,120 60,85 C72,55 90,25 120,8 Z';
+  function SM_heatColor(pct, maxPct) {
+    const t = Math.max(0, Math.min(1, pct / maxPct));
+    const c1 = [227, 225, 251], c2 = [49, 46, 129];
+    const c = c1.map((v, i) => Math.round(v + (c2[i] - v) * t));
+    return `rgb(${c[0]},${c[1]},${c[2]})`;
+  }
+
   const SM_yoyMonth = m => m.includes('2026') ? m.replace('2026', '2025') : null;
 
   const SM_viewSel = document.getElementById('sm-viewMonthSelect');
@@ -3593,6 +3640,32 @@
       </div>`;
     }).join('');
     SM_bindBrandClicks(el);
+  }
+
+  function SM_renderMap(vd, cd, yd, cmpMonth, yoyMonth) {
+    const cities = SM_CITY_SHARE.filter(c => c.x !== null);
+    const maxPct = Math.max(...cities.map(c => c.pct));
+    const svg = document.getElementById('sm-mapSvg');
+    let out = `<path d="${SM_ECUADOR_PATH}" fill="#F8F7FA" stroke="#dcdae2" stroke-width="1.5"></path>`;
+    cities.forEach(c => {
+      const now = vd.total * (c.pct / 100);
+      const cmp = cd.total * (c.pct / 100);
+      const delta = relDelta(now, cmp);
+      const yoyBase = yd ? yd.total * (c.pct / 100) : null;
+      const yoyDelta = yoyBase !== null ? relDelta(now, yoyBase) : null;
+      const r = 8 + (c.pct / maxPct) * 13;
+      const color = SM_heatColor(c.pct, maxPct);
+      const ttv = `${Math.round(now).toLocaleString('en-US')} seguidores · ${c.pct}% de la comunidad · ${deltaText(delta)} vs. ${cmpMonth.split(' ')[0]}${yoyDelta !== null ? ' · ' + deltaText(yoyDelta) + ' AA' : ''}`;
+      out += `<circle cx="${c.x}" cy="${c.y}" r="${r}" fill="${color}" stroke="#fff" stroke-width="1.5" opacity="0.92" data-tt="${c.name} (${c.prov})" data-ttv="${ttv}"></circle>`;
+    });
+    svg.innerHTML = out;
+
+    const listEl = document.getElementById('sm-mapCityList');
+    const ranked = [...SM_CITY_SHARE].sort((a, b) => b.pct - a.pct);
+    listEl.innerHTML = ranked.map(c => {
+      const color = c.x !== null ? SM_heatColor(c.pct, maxPct) : '#c7c6d1';
+      return `<div class="sm-map-city-row"><span class="sm-map-city-dot" style="background:${color}"></span><span class="sm-map-city-name">${c.name}</span><span class="sm-map-city-pct">${c.pct}%</span></div>`;
+    }).join('');
   }
 
   function SM_renderNetworkTable(vd, cd, yd) {
@@ -3710,6 +3783,9 @@
     const bestInfCtr = (bestInf.registros / bestInf.clicks) * 100;
     parts.push(`En influencers, <b>${bestInf.handle}</b> (${bestInf.tipo}) tiene la mejor conversión a registro (${bestInfCtr.toFixed(1)}%).`);
 
+    const topCities = [...SM_CITY_SHARE].filter(c => c.x !== null).sort((a, b) => b.pct - a.pct);
+    parts.push(`Geográficamente, <b>${topCities[0].name}</b> concentra el ${topCities[0].pct}% de la comunidad, seguido de <b>${topCities[1].name}</b> (${topCities[1].pct}%).`);
+
     document.getElementById('sm-t1Summary').innerHTML = parts.join(' ');
   }
 
@@ -3780,6 +3856,7 @@
 
     SM_renderBrandRace(vd, cd, yd);
     SM_applyXf(); // las filas de la carrera se recrean en cada render — reaplicar resaltado de la marca activa
+    SM_renderMap(vd, cd, yd, cmpMonth, yoyMonth);
     SM_renderNetworkTable(vd, cd, yd);
     SM_renderT1Summary(vd, cd, yd, cmpMonth, yoyMonth, activeBrand);
   }
