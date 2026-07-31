@@ -1673,16 +1673,16 @@
             <div class="pie-wrap">
               <svg width="110" height="110" viewBox="0 0 120 120" id="ad-osPieSvg"></svg>
               <div style="flex:1;">
-                <div class="mix-legend-row"><span class="mix-dot" style="background:#4F52E5"></span><span class="mix-name">Android</span><span class="mix-pct">64%</span></div>
-                <div class="mix-legend-row"><span class="mix-dot" style="background:#6E93B0"></span><span class="mix-name">iOS</span><span class="mix-pct">36%</span></div>
+                <div class="mix-legend-row"><span class="mix-dot" style="background:#4F52E5"></span><span class="mix-name">Android</span><span class="mix-pct fx" id="ad-osPctAndroid">64%</span></div>
+                <div class="mix-legend-row"><span class="mix-dot" style="background:#6E93B0"></span><span class="mix-name">iOS</span><span class="mix-pct fx" id="ad-osPctiOS">36%</span></div>
               </div>
             </div>
             <div class="sm-combo-divider"></div>
             <div class="pie-wrap">
               <svg width="110" height="110" viewBox="0 0 120 120" id="ad-newRecPieSvg"></svg>
               <div style="flex:1;">
-                <div class="mix-legend-row"><span class="mix-dot" style="background:#E9B52D"></span><span class="mix-name">Nuevos</span><span class="mix-pct">44%</span></div>
-                <div class="mix-legend-row"><span class="mix-dot" style="background:#141414"></span><span class="mix-name">Recurrentes</span><span class="mix-pct">56%</span></div>
+                <div class="mix-legend-row"><span class="mix-dot" style="background:#E9B52D"></span><span class="mix-name">Nuevos</span><span class="mix-pct fx" id="ad-newRecPctNuevos">44%</span></div>
+                <div class="mix-legend-row"><span class="mix-dot" style="background:#141414"></span><span class="mix-name">Recurrentes</span><span class="mix-pct fx" id="ad-newRecPctRecurrentes">56%</span></div>
               </div>
             </div>
           </div>
@@ -4184,8 +4184,6 @@
   const AD_EVENT_META = { blueBenefits: 16500, aperturaAhorro: 4000, avanceEfectivo: 2000, consultaSaldo: 28000, pagoTarjeta: 9500 };
   const AD_EVENT_WEEKLY = { blueBenefits: [4120, 4530, 4680, 4874], aperturaAhorro: [780, 845, 890, 897], avanceEfectivo: [510, 528, 560, 589], consultaSaldo: [7400, 7910, 8100, 8432] };
 
-  const AD_OS_SHARE = [{ label: 'Android', pct: 64, color: '#4F52E5' }, { label: 'iOS', pct: 36, color: '#6E93B0' }];
-  const AD_NEWREC_SHARE = [{ label: 'Nuevos', pct: 44, color: '#E9B52D' }, { label: 'Recurrentes', pct: 56, color: '#141414' }];
   const AD_EDAD_ORDER = ['18-24', '25-34', '35-44', '45-54', '55+'];
   const AD_EDAD_USERS = { '18-24': 21400, '25-34': 48200, '35-44': 39750, '45-54': 22300, '55+': 11200 }; // suma = 142,850 = MAU de junio 2026
   const AD_EDAD_REENG = { '18-24': 38, '25-34': 52, '35-44': 47, '45-54': 35, '55+': 22 };
@@ -4198,6 +4196,47 @@
   const AD_CANAL_VALUES_MAP = { GoogleAds: 118, MetaAds: 96, OrganicoAppStore: 84, Referidos: 58, Email: 33, Otros: 19 };
   const AD_CANAL_TOTAL = AD_CANAL_KEYS.reduce((s, k) => s + AD_CANAL_VALUES_MAP[k], 0);
   let AD_activeChannel = null;
+
+  // Afinidad relativa de cada canal de adquisición — canales pagados (Google/Meta Ads) sobre-indexan usuarios
+  // jóvenes y "nuevos"; orgánico/referidos/email sobre-indexan usuarios mayores y "recurrentes" (más leales).
+  const AD_CANAL_AGE_INDEX = {
+    GoogleAds: { '18-24': 1.30, '25-34': 1.25, '35-44': 0.85, '45-54': 0.65, '55+': 0.45 },
+    MetaAds: { '18-24': 1.50, '25-34': 1.30, '35-44': 0.75, '45-54': 0.55, '55+': 0.35 },
+    OrganicoAppStore: { '18-24': 0.70, '25-34': 0.95, '35-44': 1.15, '45-54': 1.25, '55+': 1.30 },
+    Referidos: { '18-24': 0.80, '25-34': 1.00, '35-44': 1.10, '45-54': 1.15, '55+': 1.15 },
+    Email: { '18-24': 0.50, '25-34': 0.80, '35-44': 1.20, '45-54': 1.40, '55+': 1.50 },
+    Otros: { '18-24': 1.00, '25-34': 1.00, '35-44': 1.00, '45-54': 1.00, '55+': 1.00 },
+  };
+  const AD_CANAL_OS_INDEX = {
+    GoogleAds: { Android: 1.05, iOS: 0.90 }, MetaAds: { Android: 1.15, iOS: 0.75 },
+    OrganicoAppStore: { Android: 0.85, iOS: 1.25 }, Referidos: { Android: 0.95, iOS: 1.10 },
+    Email: { Android: 0.90, iOS: 1.20 }, Otros: { Android: 1.00, iOS: 1.00 },
+  };
+  const AD_CANAL_NEWREC_INDEX = {
+    GoogleAds: { Nuevos: 1.45, Recurrentes: 0.75 }, MetaAds: { Nuevos: 1.55, Recurrentes: 0.70 },
+    OrganicoAppStore: { Nuevos: 0.70, Recurrentes: 1.20 }, Referidos: { Nuevos: 0.55, Recurrentes: 1.30 },
+    Email: { Nuevos: 0.50, Recurrentes: 1.35 }, Otros: { Nuevos: 1.00, Recurrentes: 1.00 },
+  };
+  // Forma de onda diaria por canal — pagados con picos más marcados en días distintos a orgánico/email
+  const AD_CANAL_WAVE = {
+    GoogleAds: { amplitude: 0.55, phase: 0.3 }, MetaAds: { amplitude: 0.6, phase: 0.6 },
+    OrganicoAppStore: { amplitude: 0.35, phase: 0 }, Referidos: { amplitude: 0.4, phase: 1.0 },
+    Email: { amplitude: 0.65, phase: 1.6 }, Otros: { amplitude: 0.5, phase: 0 },
+  };
+  function AD_channelAgeValues(channel, totalForChannel) {
+    if (!channel) return AD_EDAD_ORDER.map(k => AD_EDAD_USERS[k]);
+    const idx = AD_CANAL_AGE_INDEX[channel];
+    const raw = AD_EDAD_ORDER.map(k => AD_EDAD_USERS[k] * idx[k]);
+    const sum = raw.reduce((a, b) => a + b, 0);
+    return raw.map(v => Math.round(totalForChannel * (v / sum)));
+  }
+  function AD_twoWayShares(baseA, baseB, keyA, keyB, indexMap, channel) {
+    if (!channel) return [baseA, baseB];
+    const idx = indexMap[channel];
+    const rawA = baseA * idx[keyA], rawB = baseB * idx[keyB];
+    const sum = rawA + rawB;
+    return [rawA / sum * 100, rawB / sum * 100];
+  }
 
   /* ================= PORTAL PÚBLICO DINERS — series mensuales base ================= */
   const AD_VISITAS_PORTAL_SERIES = { 'Enero 2026': 469715, 'Febrero 2026': 488504, 'Marzo 2026': 510486, 'Abril 2026': 536010, 'Mayo 2026': 565489, 'Junio 2026': 599984, 'Junio 2025': 428560 };
@@ -4349,11 +4388,11 @@
     for (let d = 0; d < days; d++) { arr.push(Math.max(0, avg * (1 + amplitude * Math.sin((2 * Math.PI * d / 6.5) + phase)))); }
     return arr;
   }
-  function AD_drawDailyLine(svgId, seriesArr, W, H) {
+  function AD_drawDailyLine(svgId, seriesArr, W, H, fixedMax) {
     const days = seriesArr[0].values.length;
     const padL = 50, padR = 10, padT = 16, padB = 22;
     const plotW = W - padL - padR, plotH = H - padT - padB;
-    const maxV = Math.max(...seriesArr.flatMap(s => s.values)) * 1.1 || 1;
+    const maxV = fixedMax || (Math.max(...seriesArr.flatMap(s => s.values)) * 1.1) || 1;
     const stepX = plotW / (days - 1);
     let out = '';
     for (let g = 0; g <= 3; g++) {
@@ -4386,8 +4425,6 @@
   }
 
   /* ================= RENDERS ESTÁTICOS (tasas y datos de Portal — no varían por canal ni por mes) ================= */
-  document.getElementById('ad-osPieSvg').innerHTML = pieMarkup(AD_OS_SHARE, 120);
-  document.getElementById('ad-newRecPieSvg').innerHTML = pieMarkup(AD_NEWREC_SHARE, 120);
   document.getElementById('ad-trafficPieSvg').innerHTML = pieMarkup(AD_TRAFFIC_SHARE, 120);
   AD_renderMiniGaugeRow('ad-ageGaugeRow', AD_EDAD_REENG);
   AD_renderWeeklyTable('ad-weeklyRoutesBody', ['home', 'descargaApp', 'titaniumVisa', 'modoFutbol'], AD_RUTA_LABEL, AD_RUTA_WEEKLY);
@@ -4436,16 +4473,18 @@
     const yoyMonth = AD_yoyMonth(cmpMonth);
     const yd = yoyMonth ? AD_MONTH_DATA[yoyMonth] : null;
 
-    // El filtro de canal escala TODOS los conteos de APP BLU (usuarios, eventos, tablas). Las tasas
-    // (Re-engagement, Sesiones/usuario, composición SO/Nuevos, re-engagement por edad) quedan agregadas
-    // — no existe dato real de esas tasas desglosado por canal de adquisición.
+    // El filtro de canal escala los conteos de APP BLU (usuarios, eventos, tablas) por la participación real
+    // de ese canal. La META queda FIJA (es un objetivo del total de la base, no por canal) — así el
+    // % de cumplimiento sí varía con el canal, en vez de quedar siempre igual. Re-engagement y Sesiones/usuario
+    // quedan agregados (tasas, sin dato real por canal); edad, SO y Nuevos/Recurrentes usan una afinidad
+    // relativa por canal (canales pagados sobre-indexan usuarios jóvenes y "nuevos").
     const chShare = AD_activeChannel ? (AD_CANAL_VALUES_MAP[AD_activeChannel] / AD_CANAL_TOTAL) : 1;
     const chLabel = AD_activeChannel ? AD_CANAL_LABEL[AD_activeChannel] : null;
     const mauEff = vd.mau * chShare, mauCmpEff = cd.mau * chShare, mauYoyEff = yd ? yd.mau * chShare : null;
     const lealesEff = vd.leales * chShare, lealesCmpEff = cd.leales * chShare, lealesYoyEff = yd ? yd.leales * chShare : null;
     const eventosTotalesEff = vd.eventosTotales * chShare, eventosTotalesCmpEff = cd.eventosTotales * chShare, eventosTotalesYoyEff = yd ? yd.eventosTotales * chShare : null;
     const eventsEff = AD_scaleObj(vd.events, chShare), eventsCmpEff = AD_scaleObj(cd.events, chShare), eventsYoyEff = yd ? AD_scaleObj(yd.events, chShare) : null;
-    const eventMetaEff = AD_scaleObj(AD_EVENT_META, chShare);
+    const eventMetaEff = AD_EVENT_META;
 
     AD_updateKpiAbs('ad-heroMau', 'ad-deltaMau', 'ad-yoyMau', mauEff, mauCmpEff, mauYoyEff, yoyMonth, v => Math.round(v).toLocaleString('en-US'));
     crossfade(document.getElementById('ad-heroMauLabel'), () => { document.getElementById('ad-heroMauLabel').textContent = chLabel ? `Usuarios Activos (MAU) — ${chLabel}` : 'Usuarios Activos (MAU)'; });
@@ -4469,9 +4508,19 @@
     ['blueBenefits', 'aperturaAhorro', 'avanceEfectivo', 'consultaSaldo'].forEach(k => { weeklyEventsEff[k] = AD_EVENT_WEEKLY[k].map(v => Math.round(v * chShare)); });
     AD_renderWeeklyTable('ad-weeklyEventsBody', ['blueBenefits', 'aperturaAhorro', 'avanceEfectivo', 'consultaSaldo'], AD_EVENT_LABEL, weeklyEventsEff);
 
-    AD_vBarChart('ad-ageBarSvg', AD_EDAD_ORDER, AD_EDAD_ORDER.map(k => Math.round(AD_EDAD_USERS[k] * chShare)), '#4F52E5', 1080, 130);
+    AD_vBarChart('ad-ageBarSvg', AD_EDAD_ORDER, AD_channelAgeValues(AD_activeChannel, mauEff), '#4F52E5', 1080, 130);
     AD_vBarChart('ad-recencySvg', AD_RECENCY_ORDER, AD_RECENCY_VALUES.map(v => Math.round(v * chShare)), '#6E93B0', 1080, 110);
     AD_hBarChart('ad-categoriasSvg', AD_CATEGORIAS_ORDER, AD_CATEGORIAS_VALUES.map(v => Math.round(v * chShare)), '#4F52E5', 500, 150, 118);
+
+    const [osAndroidPct, osIosPct] = AD_twoWayShares(64, 36, 'Android', 'iOS', AD_CANAL_OS_INDEX, AD_activeChannel);
+    document.getElementById('ad-osPieSvg').innerHTML = pieMarkup([{ label: 'Android', pct: osAndroidPct, color: '#4F52E5' }, { label: 'iOS', pct: osIosPct, color: '#6E93B0' }], 120);
+    crossfade(document.getElementById('ad-osPctAndroid'), () => { document.getElementById('ad-osPctAndroid').textContent = Math.round(osAndroidPct) + '%'; });
+    crossfade(document.getElementById('ad-osPctiOS'), () => { document.getElementById('ad-osPctiOS').textContent = Math.round(osIosPct) + '%'; });
+
+    const [newPct, recPct] = AD_twoWayShares(44, 56, 'Nuevos', 'Recurrentes', AD_CANAL_NEWREC_INDEX, AD_activeChannel);
+    document.getElementById('ad-newRecPieSvg').innerHTML = pieMarkup([{ label: 'Nuevos', pct: newPct, color: '#E9B52D' }, { label: 'Recurrentes', pct: recPct, color: '#141414' }], 120);
+    crossfade(document.getElementById('ad-newRecPctNuevos'), () => { document.getElementById('ad-newRecPctNuevos').textContent = Math.round(newPct) + '%'; });
+    crossfade(document.getElementById('ad-newRecPctRecurrentes'), () => { document.getElementById('ad-newRecPctRecurrentes').textContent = Math.round(recPct) + '%'; });
 
     const fuenteBody = document.getElementById('ad-fuenteSesionBody');
     fuenteBody.innerHTML = AD_FUENTE_SESION_ORDER.map(k => {
@@ -4487,8 +4536,10 @@
     const dailyTitleEl = document.getElementById('ad-dailyMauTitle');
     crossfade(dailyTitleEl, () => { dailyTitleEl.textContent = chLabel ? `Evolución de Usuarios Activos por día — ${chLabel}` : 'Evolución de Usuarios Activos por día'; });
     const days = AD_DAYS_IN_MONTH[viewMonth];
-    const dauSeries = AD_dailyWave(days, vd.mau * AD_DAU_MAU_RATIO * chShare, 0.5, 0);
-    AD_drawDailyLine('ad-dailyMauSvg', [{ values: dauSeries, color: '#4F52E5', label: dauLabel }], 1080, 140);
+    const dauWave = AD_activeChannel ? AD_CANAL_WAVE[AD_activeChannel] : { amplitude: 0.5, phase: 0 };
+    const dauSeries = AD_dailyWave(days, vd.mau * AD_DAU_MAU_RATIO * chShare, dauWave.amplitude, dauWave.phase);
+    const dauRefMax = (vd.mau * AD_DAU_MAU_RATIO * 1.5) * 1.1; // eje de referencia fijo (escala de "Todos") para que el filtro también se note en la escala, no solo en la forma
+    AD_drawDailyLine('ad-dailyMauSvg', [{ values: dauSeries, color: '#4F52E5', label: dauLabel }], 1080, 140, dauRefMax);
     const totalSeries = AD_dailyWave(days, vd.visitasPortal / days, 0.75, 0);
     const nuevosSeries = AD_dailyWave(days, vd.nuevosPortal / days, 0.65, 0.35);
     AD_drawDailyLine('ad-dailyPortalSvg', [{ values: totalSeries, color: '#141414', label: 'Total de usuarios' }, { values: nuevosSeries, color: '#2E9560', label: 'Usuarios nuevos' }], 1080, 140);
