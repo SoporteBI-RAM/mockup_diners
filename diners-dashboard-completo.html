@@ -1587,12 +1587,70 @@
       </div>
 
       <div class="tab-rail" id="ad-tabRail">
-        <button class="tab" data-tab="t1" data-active="true"><span class="tab-num">1</span>APP BLU</button>
-        <button class="tab" data-tab="t2"><span class="tab-num">2</span>Portal Público Diners</button>
+        <button class="tab" data-tab="t1" data-active="true"><span class="tab-num">1</span>Resumen</button>
+        <button class="tab" data-tab="t2"><span class="tab-num">2</span>APP BLU</button>
+        <button class="tab" data-tab="t3"><span class="tab-num">3</span>Portal Público Diners</button>
       </div>
 
-      <!-- ============ TAB 1 — APP BLU ============ -->
+      <!-- ============ TAB 1 — RESUMEN GLOBAL ============ -->
       <div class="panel" data-panel="t1" data-visible="true">
+        <div class="ad-mini-kpi-row">
+          <div class="zone zone-pad">
+            <div class="zone-label">APP BLU<span class="ad-tag ilustrativo">Ilustrativo</span></div>
+            <div class="zone-title" style="margin-bottom:4px;">Usuarios Activos (MAU)</div>
+            <div class="ad-mini-kpi-value fx" id="ad-sumMau">142,850</div>
+            <div class="hero-caption" style="margin-top:4px;">vs. mes de comparación <span class="delta-chip fx" id="ad-sumDeltaMau">▲ +4.6%</span></div>
+            <div class="sm-yoy-caption fx" id="ad-sumYoyMau">vs. año anterior: Sin histórico</div>
+          </div>
+          <div class="zone zone-pad">
+            <div class="zone-label">Portal<span class="ad-tag real">Dato real</span></div>
+            <div class="zone-title" style="margin-bottom:4px;">Visitas al portal</div>
+            <div class="ad-mini-kpi-value fx" id="ad-sumVisitas">599,984</div>
+            <div class="hero-caption" style="margin-top:4px;">vs. mes de comparación <span class="delta-chip fx" id="ad-sumDeltaVisitas">▲ +6.1%</span></div>
+            <div class="sm-yoy-caption fx" id="ad-sumYoyVisitas">vs. año anterior: Sin histórico</div>
+          </div>
+          <div class="zone zone-pad">
+            <div class="zone-label">APP BLU</div>
+            <div class="zone-title" style="margin-bottom:4px;">Mejor canal de adquisición</div>
+            <div class="ad-mini-kpi-value fx" id="ad-sumBestCanal" style="font-size:19px;">Referidos</div>
+            <div class="hero-caption fx" id="ad-sumBestCanalDesc" style="margin-top:4px;">rinde por encima de su cuota esperada</div>
+          </div>
+          <div class="zone zone-pad">
+            <div class="zone-label">Portal</div>
+            <div class="zone-title" style="margin-bottom:4px;">Mejor fuente de sesión</div>
+            <div class="ad-mini-kpi-value fx" id="ad-sumBestFuente" style="font-size:19px;">direct / none</div>
+            <div class="hero-caption fx" id="ad-sumBestFuenteDesc" style="margin-top:4px;">rinde por encima de su cuota esperada</div>
+          </div>
+        </div>
+
+        <div class="zone zone-pad">
+          <div class="zone-title" style="margin-bottom:2px;">Tráfico — últimos 6 meses</div>
+          <div class="hero-caption" style="margin-top:0;margin-bottom:8px;">MAU (APP BLU) y Visitas al portal, Enero–Junio 2026. Así se ve la tendencia más allá de un solo mes de comparación.</div>
+          <svg width="100%" height="140" viewBox="0 0 1080 140" id="ad-sumTrendSvg" preserveAspectRatio="none"></svg>
+        </div>
+
+        <div class="ad-donut-row" style="margin-top:14px;align-items:stretch;">
+          <div class="zone zone-pad" style="flex:1;min-width:280px;">
+            <div class="zone-title" style="margin-bottom:8px;">Canales APP BLU — ranking de desempeño</div>
+            <div class="hero-caption" style="margin-top:-4px;margin-bottom:10px;">Índice promedio vs. su cuota esperada (100% = rinde exactamente según su tamaño).</div>
+            <div id="ad-sumCanalRanking"></div>
+          </div>
+          <div class="zone zone-pad" style="flex:1;min-width:280px;">
+            <div class="zone-title" style="margin-bottom:8px;">Fuentes Portal — ranking de desempeño</div>
+            <div class="hero-caption" style="margin-top:-4px;margin-bottom:10px;">Índice promedio vs. su cuota esperada (100% = rinde exactamente según su tamaño).</div>
+            <div id="ad-sumFuenteRanking"></div>
+          </div>
+        </div>
+
+        <div class="zone zone-pad" style="margin-top:14px;">
+          <div class="zone-label">Análisis</div>
+          <div class="zone-title" style="margin-bottom:8px;">Análisis resumen — vista global</div>
+          <div class="fx" id="ad-globalSummary" style="font-size:12.5px;line-height:1.65;color:#3d3d3d;"></div>
+        </div>
+      </div>
+
+      <!-- ============ TAB 2 — APP BLU ============ -->
+      <div class="panel" data-panel="t2">
         <div class="obj-filter" id="ad-channelFilter" style="margin-bottom:8px;">
           <span class="filter-label" style="margin-right:2px;">Filtrar por canal de adquisición</span>
           <button class="obj-filter-btn" data-canal="ALL" data-active="true">Todos</button>
@@ -1721,33 +1779,43 @@
         </div>
       </div>
 
-      <!-- ============ TAB 2 — PORTAL PÚBLICO DINERS ============ -->
-      <div class="panel" data-panel="t2">
+      <!-- ============ TAB 3 — PORTAL PÚBLICO DINERS ============ -->
+      <div class="panel" data-panel="t3">
+        <div class="obj-filter" id="ad-fuenteFilter" style="margin-bottom:8px;">
+          <span class="filter-label" style="margin-right:2px;">Filtrar por fuente de sesión</span>
+          <button class="obj-filter-btn" data-fuente="ALL" data-active="true">Todas</button>
+          <button class="obj-filter-btn" data-fuente="GoogleCPC">google / cpc</button>
+          <button class="obj-filter-btn" data-fuente="GoogleOrganic">google / organic</button>
+          <button class="obj-filter-btn" data-fuente="DirectNone">direct / none</button>
+          <button class="obj-filter-btn" data-fuente="MetaCPA">META / CPA</button>
+          <button class="obj-filter-btn" data-fuente="Otras">Otras</button>
+        </div>
+        <div class="hero-caption" style="margin-bottom:14px;">↑ recalcula visitas, rutas y tablas de esta pestaña (conteos), con meta prorrateada a la cuota de cada fuente. Eventos/sesión queda agregado: no hay dato real de esa tasa por fuente.</div>
         <div class="ad-mini-kpi-row">
           <div class="zone zone-pad">
             <div class="zone-label">Tráfico<span class="ad-tag real">Dato real</span></div>
-            <div class="zone-title" style="margin-bottom:4px;">Visitas al portal</div>
+            <div class="zone-title fx" id="ad-heroVisitasPortalLabel" style="margin-bottom:4px;">Visitas al portal</div>
             <div class="ad-mini-kpi-value fx" id="ad-heroVisitasPortal">599,984</div>
             <div class="hero-caption" style="margin-top:4px;">vs. mes de comparación <span class="delta-chip fx" id="ad-deltaVisitasPortal">▲ +6.1%</span></div>
             <div class="sm-yoy-caption fx" id="ad-yoyVisitasPortal">vs. año anterior: Sin histórico</div>
           </div>
           <div class="zone zone-pad">
             <div class="zone-label">Adquisición<span class="ad-tag ilustrativo">Ilustrativo</span></div>
-            <div class="zone-title" style="margin-bottom:4px;">Usuarios nuevos</div>
+            <div class="zone-title fx" id="ad-heroNuevosPortalLabel" style="margin-bottom:4px;">Usuarios nuevos</div>
             <div class="ad-mini-kpi-value fx" id="ad-heroNuevosPortal">324,402</div>
             <div class="hero-caption" style="margin-top:4px;">vs. mes de comparación <span class="delta-chip fx" id="ad-deltaNuevosPortal">▲ +6.1%</span></div>
             <div class="sm-yoy-caption fx" id="ad-yoyNuevosPortal">vs. año anterior: Sin histórico</div>
           </div>
           <div class="zone zone-pad">
             <div class="zone-label">Engagement<span class="ad-tag real">Dato real</span></div>
-            <div class="zone-title" style="margin-bottom:4px;">% Engagement (interacciones)</div>
+            <div class="zone-title fx" id="ad-heroEngPortalLabel" style="margin-bottom:4px;">% Engagement (interacciones)</div>
             <div class="ad-mini-kpi-value fx" id="ad-heroEngPortal">35.79%</div>
             <div class="hero-caption" style="margin-top:4px;">vs. mes de comparación <span class="delta-chip fx" id="ad-deltaEngPortal">▼ -2.3pp</span></div>
             <div class="sm-yoy-caption fx" id="ad-yoyEngPortal">vs. año anterior: Sin histórico</div>
           </div>
           <div class="zone zone-pad">
             <div class="zone-label">Engagement<span class="ad-tag ilustrativo">Ilustrativo</span></div>
-            <div class="zone-title" style="margin-bottom:4px;">Sesiones</div>
+            <div class="zone-title fx" id="ad-heroSesionesPortalLabel" style="margin-bottom:4px;">Sesiones</div>
             <div class="ad-mini-kpi-value fx" id="ad-heroSesionesPortal">879,400</div>
             <div class="hero-caption" style="margin-top:4px;">vs. mes de comparación <span class="delta-chip fx" id="ad-deltaSesionesPortal">▲ +6.1%</span></div>
             <div class="sm-yoy-caption fx" id="ad-yoySesionesPortal">vs. año anterior: Sin histórico</div>
@@ -1762,13 +1830,13 @@
         </div>
 
         <div class="zone zone-pad">
-          <div class="zone-title" style="margin-bottom:2px;">Evolución de usuarios — Total vs. Nuevos</div>
+          <div class="zone-title fx" id="ad-dailyPortalTitle" style="margin-bottom:2px;">Evolución de usuarios — Total vs. Nuevos</div>
           <div class="hero-caption" style="margin-top:0;margin-bottom:8px;">Forma diaria ilustrativa, escalada a las visitas reales del mes seleccionado. Eje X: día del mes · Eje Y: usuarios.</div>
           <svg width="100%" height="140" viewBox="0 0 1080 140" id="ad-dailyPortalSvg" preserveAspectRatio="none"></svg>
         </div>
 
         <div class="zone zone-pad" style="margin-top:14px;">
-          <div class="zone-title" style="margin-bottom:2px;">Rutas más visitadas — cumplimiento vs. meta</div>
+          <div class="zone-title fx" id="ad-routesMetaTitle" style="margin-bottom:2px;">Rutas más visitadas — cumplimiento vs. meta</div>
           <div class="hero-caption" style="margin-top:0;margin-bottom:10px;">Valor del mes seleccionado vs. meta mensual.<span class="ad-tag ilustrativo">Ilustrativo</span></div>
           <table class="network-table">
             <thead><tr><th>Ruta</th><th>Visitas</th><th>vs. mes</th><th>vs. año ant.</th><th>Meta</th><th>Cumplimiento</th><th>Estado</th></tr></thead>
@@ -4272,15 +4340,51 @@
   const AD_FUENTE_SESION_ORDER = ['GoogleCPC', 'GoogleOrganic', 'DirectNone', 'Otras', 'MetaCPA'];
   const AD_FUENTE_SESION_LABEL = { GoogleOrganic: 'google / organic', GoogleCPC: 'google / cpc', DirectNone: 'direct / none', MetaCPA: 'META / CPA', Otras: 'Otras' };
   const AD_FUENTE_SESION_SHARE = { GoogleOrganic: 26.81, GoogleCPC: 27.36, DirectNone: 15.67, MetaCPA: 4.21, Otras: 25.95 };
+  let AD_activeFuente = null;
+
+  // Índice de desempeño por ruta y por fuente — CPC/Meta (intención de clic pagado) convierte más en páginas
+  // de solicitud específicas (titanium-visa, modo-futbol); orgánico/directo navega más hacia home/soporte.
+  const AD_FUENTE_RUTA_INDEX = {
+    GoogleCPC: { home: 0.85, descargaApp: 1.05, titaniumVisa: 1.30, modoFutbol: 1.25, callCenter: 0.70 },
+    GoogleOrganic: { home: 1.10, descargaApp: 1.05, titaniumVisa: 0.90, modoFutbol: 0.85, callCenter: 1.05 },
+    DirectNone: { home: 1.20, descargaApp: 0.95, titaniumVisa: 0.80, modoFutbol: 0.80, callCenter: 1.15 },
+    MetaCPA: { home: 0.75, descargaApp: 0.95, titaniumVisa: 1.35, modoFutbol: 1.40, callCenter: 0.60 },
+    Otras: { home: 1.0, descargaApp: 1.0, titaniumVisa: 1.0, modoFutbol: 1.0, callCenter: 1.0 },
+  };
+  // Afinidad por dispositivo — CPC/Meta (ads en feed móvil) sobre-indexan Móvil; tráfico directo sobre-indexa Escritorio.
+  const AD_FUENTE_DEVICE_INDEX = {
+    GoogleCPC: { 'Móvil': 1.15, 'Escritorio': 0.80, 'Tablet': 0.90 },
+    GoogleOrganic: { 'Móvil': 1.10, 'Escritorio': 0.85, 'Tablet': 1.05 },
+    DirectNone: { 'Móvil': 0.80, 'Escritorio': 1.35, 'Tablet': 0.90 },
+    MetaCPA: { 'Móvil': 1.30, 'Escritorio': 0.55, 'Tablet': 0.85 },
+    Otras: { 'Móvil': 1.0, 'Escritorio': 1.0, 'Tablet': 1.0 },
+  };
+  function AD_indexedRedistribute(baseValues, order, indexMap, key, totalForKey) {
+    if (!key) return order.map(k => baseValues[k]);
+    const idx = indexMap[key];
+    const raw = order.map(k => baseValues[k] * idx[k]);
+    const sum = raw.reduce((a, b) => a + b, 0);
+    return raw.map(v => Math.round(totalForKey * (v / sum)));
+  }
 
   const AD_TRAFFIC_SHARE = [{ label: 'Google', pct: 45, color: '#4F52E5' }, { label: 'Meta / CPA', pct: 30, color: '#6E93B0' }, { label: 'Directo / otros', pct: 25, color: '#55637A' }];
   const AD_DEVICE_ORDER = ['Móvil', 'Escritorio', 'Tablet'];
-  const AD_DEVICE_VALUES = [408200, 162300, 29484]; // suma = 599,984 = visitas al portal de junio 2026
+  const AD_DEVICE_VALUES_MAP = { 'Móvil': 408200, 'Escritorio': 162300, 'Tablet': 29484 }; // suma = 599,984 = visitas al portal de junio 2026
   const AD_DWELL_ORDER = ['<30 seg', '30-60 seg', '1-3 min', '3-10 min', '10+ min'];
   const AD_DWELL_VALUES = [88, 132, 187, 76, 41];
   const AD_RUTAS_INTERACCION_ORDER = ['/responsys-email', '/solicitud-vacaciones', '/app-blupersonas', '/modo-futbol', '/titanium-visa', '/call-center'];
   const AD_RUTAS_INTERACCION_VALUES = [118, 96, 84, 71, 58, 33];
   const AD_INTERACCION_FUENTE = { 'Google CPC': 34, 'Google Org': 45, 'Directo': 30, 'META': 38, 'Email': 51 };
+  // Onda diaria por fuente — mismo criterio que APP BLU: cada fuente tiene su propia forma, no solo su escala.
+  const AD_FUENTE_WAVE = {
+    GoogleCPC: { amplitude: 0.85, phase: 0.3 }, GoogleOrganic: { amplitude: 0.55, phase: 0 },
+    DirectNone: { amplitude: 0.45, phase: 1.0 }, MetaCPA: { amplitude: 0.9, phase: 0.6 },
+    Otras: { amplitude: 0.7, phase: 1.4 },
+  };
+  // Índice de engagement por fuente, anclado a los mismos valores reales de "% Interacción por fuente"
+  // (promedio de referencia ≈36.75%): orgánico convierte mejor, CPC/Directo algo menos.
+  const AD_FUENTE_ENG_INDEX = { GoogleCPC: 34 / 36.75, GoogleOrganic: 45 / 36.75, DirectNone: 30 / 36.75, MetaCPA: 38 / 36.75, Otras: 1.0 };
+  const AD_FUENTE_TO_INTERACCION = { GoogleCPC: 'Google CPC', GoogleOrganic: 'Google Org', DirectNone: 'Directo', MetaCPA: 'META', Otras: null };
 
   /* ================= MODELO MENSUAL DERIVADO ================= */
   const AD_MONTH_DATA = {};
@@ -4359,9 +4463,10 @@
       return `<tr><td>${labelMap[k]}</td>` + w.map(v => `<td class="metric">${v.toLocaleString('en-US')}</td>`).join('') + `<td class="metric" style="font-weight:700;">${total.toLocaleString('en-US')}</td></tr>`;
     }).join('');
   }
-  function AD_renderMiniGaugeRow(containerId, dataObj) {
+  function AD_renderMiniGaugeRow(containerId, dataObj, activeLabel) {
     document.getElementById(containerId).innerHTML = Object.entries(dataObj).map(([label, val]) => {
-      return `<div class="ad-mini-gauge-item"><svg viewBox="-12 -14 144 84">${gaugeMarkup(val)}</svg><div class="ad-mini-gauge-value">${val}%</div><div class="ad-mini-gauge-label">${label}</div></div>`;
+      const dim = activeLabel && label !== activeLabel;
+      return `<div class="ad-mini-gauge-item" style="opacity:${dim ? 0.35 : 1};"><svg viewBox="-12 -14 144 84">${gaugeMarkup(val)}</svg><div class="ad-mini-gauge-value">${val}%</div><div class="ad-mini-gauge-label">${label}</div></div>`;
     }).join('');
   }
   function AD_vBarChart(svgId, categories, values, color, W, H) {
@@ -4441,14 +4546,9 @@
     document.getElementById(svgId).innerHTML = out;
   }
 
-  /* ================= RENDERS ESTÁTICOS (tasas y datos de Portal — no varían por canal ni por mes) ================= */
+  /* ================= RENDERS ESTÁTICOS (tasas — no varían por canal/fuente ni por mes) ================= */
   document.getElementById('ad-trafficPieSvg').innerHTML = pieMarkup(AD_TRAFFIC_SHARE, 120);
   AD_renderMiniGaugeRow('ad-ageGaugeRow', AD_EDAD_REENG);
-  AD_renderWeeklyTable('ad-weeklyRoutesBody', ['home', 'descargaApp', 'titaniumVisa', 'modoFutbol'], AD_RUTA_LABEL, AD_RUTA_WEEKLY);
-  AD_vBarChart('ad-deviceSvg', AD_DEVICE_ORDER, AD_DEVICE_VALUES, '#4F52E5', 500, 110);
-  AD_vBarChart('ad-dwellSvg', AD_DWELL_ORDER, AD_DWELL_VALUES, '#55637A', 1080, 110);
-  AD_hBarChart('ad-rutasInteraccionSvg', AD_RUTAS_INTERACCION_ORDER, AD_RUTAS_INTERACCION_VALUES, '#2563EB', 1080, 150, 190);
-  AD_renderMiniGaugeRow('ad-interaccionFuenteRow', AD_INTERACCION_FUENTE);
 
   /* ================= ANÁLISIS RESUMEN ================= */
   function AD_renderAppSummary(vd, cd, yd, cmpMonth, yoyMonth, chShare, chLabel) {
@@ -4466,16 +4566,110 @@
     parts.push(`Android concentra el 64% de los usuarios; el segmento de 25-34 años es el más numeroso y el de mayor re-engagement (52%)${chLabel ? ' — tasas agregadas de todos los canales' : ''}.`);
     document.getElementById('ad-appSummary').innerHTML = parts.join(' ');
   }
-  function AD_renderPortalSummary(vd, cd, yd, cmpMonth, yoyMonth) {
+  function AD_renderPortalSummary(vd, cd, yd, cmpMonth, yoyMonth, fuShare, fuLabel) {
+    fuShare = fuShare || 1;
     const parts = [];
-    const visDelta = relDelta(vd.visitasPortal, cd.visitasPortal);
-    const visYoy = yd ? relDelta(vd.visitasPortal, yd.visitasPortal) : null;
-    parts.push(`Las <b>visitas al portal</b> llegan a ${vd.visitasPortal.toLocaleString('en-US')} (${deltaText(visDelta)} vs. ${cmpMonth.split(' ')[0]}${visYoy !== null ? ` · ${deltaText(visYoy)} vs. ${yoyMonth} AA` : ''}), con un engagement del ${vd.engagementPortal.toFixed(1)}%.`);
+    const visEff = vd.visitasPortal * fuShare, visCmpEff = cd.visitasPortal * fuShare, visYoyEff = yd ? yd.visitasPortal * fuShare : null;
+    const engEff = vd.engagementPortal * (fuLabel ? AD_FUENTE_ENG_INDEX[Object.keys(AD_FUENTE_SESION_LABEL).find(k => AD_FUENTE_SESION_LABEL[k] === fuLabel)] : 1);
+    const visDelta = relDelta(visEff, visCmpEff);
+    const visYoy = visYoyEff !== null ? relDelta(visEff, visYoyEff) : null;
+    const visScope = fuLabel ? ` (fuente ${fuLabel})` : '';
+    parts.push(`Las <b>visitas al portal</b>${visScope} llegan a ${Math.round(visEff).toLocaleString('en-US')} (${deltaText(visDelta)} vs. ${cmpMonth.split(' ')[0]}${visYoy !== null ? ` · ${deltaText(visYoy)} vs. ${yoyMonth} AA` : ''}), con un engagement del ${engEff.toFixed(1)}%.`);
     const bestRuta = AD_RUTA_ORDER.reduce((a, b) => (vd.rutas[b] / AD_RUTAS_META[b]) > (vd.rutas[a] / AD_RUTAS_META[a]) ? b : a);
     const worstRuta = AD_RUTA_ORDER.reduce((a, b) => (vd.rutas[b] / AD_RUTAS_META[b]) < (vd.rutas[a] / AD_RUTAS_META[a]) ? b : a);
     parts.push(`<b>${AD_RUTA_LABEL[bestRuta]}</b> es la ruta con mejor cumplimiento de meta (${(vd.rutas[bestRuta] / AD_RUTAS_META[bestRuta] * 100).toFixed(0)}%), mientras <b>${AD_RUTA_LABEL[worstRuta]}</b> queda por debajo (${(vd.rutas[worstRuta] / AD_RUTAS_META[worstRuta] * 100).toFixed(0)}%).`);
-    parts.push(`Google concentra el 45% del tráfico y el 68% de las visitas llegan desde dispositivos móviles.`);
+    parts.push(`Google concentra el 45% del tráfico y el 68% de las visitas llegan desde dispositivos móviles${fuLabel ? ' — datos agregados de todas las fuentes' : ''}.`);
     document.getElementById('ad-portalSummary').innerHTML = parts.join(' ');
+  }
+
+  /* ================= RESUMEN GLOBAL — vista de primera instancia (APP BLU + Portal) ================= */
+  function AD_canalScore(k) {
+    const vals = Object.values(AD_CANAL_EVENT_INDEX[k]);
+    return (vals.reduce((a, b) => a + b, 0) / vals.length) * 100;
+  }
+  function AD_fuenteScore(k) {
+    const vals = Object.values(AD_FUENTE_RUTA_INDEX[k]);
+    return (vals.reduce((a, b) => a + b, 0) / vals.length) * 100;
+  }
+  function AD_renderScoreRanking(containerId, items) {
+    const sorted = [...items].sort((a, b) => b.score - a.score);
+    const maxDev = Math.max(...sorted.map(it => Math.abs(it.score - 100)), 10);
+    document.getElementById(containerId).innerHTML = sorted.map((it, i) => {
+      const dev = it.score - 100;
+      const ratio = Math.max(Math.min(Math.abs(dev) / maxDev, 1), 0.04);
+      const color = dev >= 0 ? '#008038' : '#EE0000';
+      return `<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">` +
+        `<div style="width:20px;height:20px;border-radius:50%;background:${i === 0 ? '#4F52E5' : '#F3F3F6'};color:${i === 0 ? '#fff' : '#6b6b6b'};font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none;">${i + 1}</div>` +
+        `<div style="width:150px;flex:none;font-size:12px;font-weight:600;color:#262626;">${it.label}</div>` +
+        `<div style="flex:1;height:16px;background:#F3F3F6;border-radius:5px;overflow:hidden;"><div style="height:100%;border-radius:5px;background:${color};width:${(ratio * 100).toFixed(0)}%;"></div></div>` +
+        `<div style="width:50px;flex:none;text-align:right;font-size:12.5px;font-weight:700;color:${color};">${it.score.toFixed(0)}%</div></div>`;
+    }).join('');
+  }
+  const AD_TREND_MONTHS = ['Enero 2026', 'Febrero 2026', 'Marzo 2026', 'Abril 2026', 'Mayo 2026', 'Junio 2026'];
+  const AD_TREND_MONTH_SHORT = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'];
+  function AD_drawIndexedTrend(svgId, seriesArr, W, H) {
+    const padL = 40, padR = 10, padT = 20, padB = 22;
+    const plotW = W - padL - padR, plotH = H - padT - padB;
+    const allVals = seriesArr.flatMap(s => s.values);
+    const minV = Math.min(...allVals) * 0.97, maxV = Math.max(...allVals) * 1.03;
+    const stepX = plotW / (AD_TREND_MONTHS.length - 1);
+    let out = '';
+    for (let g = 0; g <= 3; g++) {
+      const y = padT + (plotH / 3) * g;
+      out += `<line x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}" stroke="#eef1f3" stroke-width="1"></line>`;
+      out += `<text x="${padL - 6}" y="${y + 3}" text-anchor="end" font-size="9" fill="#8b8b8b">${Math.round(maxV - (g / 3) * (maxV - minV))}</text>`;
+    }
+    seriesArr.forEach(s => {
+      const pts = s.values.map((v, i) => [padL + i * stepX, padT + plotH - ((v - minV) / (maxV - minV)) * plotH]);
+      out += `<path d="M${pts.map(p => p.join(',')).join(' L')}" fill="none" stroke="${s.color}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>`;
+      pts.forEach(([x, y], i) => { out += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="3" fill="${s.color}" data-tt="${AD_TREND_MONTHS[i]}" data-ttv="${s.label}: índice ${s.values[i].toFixed(0)} (Ene=100)"></circle>`; });
+    });
+    AD_TREND_MONTH_SHORT.forEach((m, i) => {
+      const x = padL + i * stepX;
+      out += `<text x="${x}" y="${H - 6}" text-anchor="middle" font-size="9.5" fill="#8b8b8b">${m}</text>`;
+    });
+    let lx = padL;
+    seriesArr.forEach(s => {
+      out += `<circle cx="${lx}" cy="${padT - 10}" r="3.5" fill="${s.color}"></circle><text x="${lx + 8}" y="${padT - 6.5}" font-size="9.5" font-weight="700" fill="${s.color}">${s.label}</text>`;
+      lx += 18 + s.label.length * 6.3;
+    });
+    document.getElementById(svgId).innerHTML = out;
+  }
+  function AD_renderGlobalSummary(vd, cd, yd, cmpMonth, yoyMonth) {
+    const parts = [];
+    const mauDelta = relDelta(vd.mau, cd.mau);
+    const visDelta = relDelta(vd.visitasPortal, cd.visitasPortal);
+    const mauYoy = yd ? relDelta(vd.mau, yd.mau) : null;
+    const visYoy = yd ? relDelta(vd.visitasPortal, yd.visitasPortal) : null;
+    parts.push(`<b>APP BLU</b> tiene ${vd.mau.toLocaleString('en-US')} usuarios activos (${deltaText(mauDelta)} vs. ${cmpMonth.split(' ')[0]}${mauYoy !== null ? ` · ${deltaText(mauYoy)} vs. ${yoyMonth} AA` : ''}) y el <b>Portal Público</b> recibió ${vd.visitasPortal.toLocaleString('en-US')} visitas (${deltaText(visDelta)} vs. ${cmpMonth.split(' ')[0]}${visYoy !== null ? ` · ${deltaText(visYoy)} vs. ${yoyMonth} AA` : ''}) — ambos ${(mauDelta >= 0 && visDelta >= 0) ? 'creciendo' : 'con tráfico mixto'} este mes.`);
+    const bestCanal = AD_CANAL_KEYS.reduce((a, b) => AD_canalScore(b) > AD_canalScore(a) ? b : a);
+    const worstCanal = AD_CANAL_KEYS.reduce((a, b) => AD_canalScore(b) < AD_canalScore(a) ? b : a);
+    const bestFuente = AD_FUENTE_SESION_ORDER.reduce((a, b) => AD_fuenteScore(b) > AD_fuenteScore(a) ? b : a);
+    const worstFuente = AD_FUENTE_SESION_ORDER.reduce((a, b) => AD_fuenteScore(b) < AD_fuenteScore(a) ? b : a);
+    parts.push(`En la app, <b>${AD_CANAL_LABEL[bestCanal]}</b> es el canal que mejor convierte frente a su tamaño (${AD_canalScore(bestCanal).toFixed(0)}%), mientras <b>${AD_CANAL_LABEL[worstCanal]}</b> rinde por debajo de lo esperado (${AD_canalScore(worstCanal).toFixed(0)}%).`);
+    parts.push(`En el portal, <b>${AD_FUENTE_SESION_LABEL[bestFuente]}</b> convierte mejor (${AD_fuenteScore(bestFuente).toFixed(0)}%) y <b>${AD_FUENTE_SESION_LABEL[worstFuente]}</b> queda más rezagada (${AD_fuenteScore(worstFuente).toFixed(0)}%) — usa los filtros de cada pestaña para ver el detalle de cada una.`);
+    document.getElementById('ad-globalSummary').innerHTML = parts.join(' ');
+  }
+  function AD_renderSummaryTab(vd, cd, yd, cmpMonth, yoyMonth) {
+    AD_updateKpiAbs('ad-sumMau', 'ad-sumDeltaMau', 'ad-sumYoyMau', vd.mau, cd.mau, yd ? yd.mau : null, yoyMonth, v => Math.round(v).toLocaleString('en-US'));
+    AD_updateKpiAbs('ad-sumVisitas', 'ad-sumDeltaVisitas', 'ad-sumYoyVisitas', vd.visitasPortal, cd.visitasPortal, yd ? yd.visitasPortal : null, yoyMonth, v => Math.round(v).toLocaleString('en-US'));
+
+    const bestCanal = AD_CANAL_KEYS.reduce((a, b) => AD_canalScore(b) > AD_canalScore(a) ? b : a);
+    const bestFuente = AD_FUENTE_SESION_ORDER.reduce((a, b) => AD_fuenteScore(b) > AD_fuenteScore(a) ? b : a);
+    document.getElementById('ad-sumBestCanal').textContent = AD_CANAL_LABEL[bestCanal];
+    document.getElementById('ad-sumBestCanalDesc').textContent = `${AD_canalScore(bestCanal).toFixed(0)}% vs. su cuota esperada — ${AD_CANAL_VALUES_MAP[bestCanal]} de participación relativa`;
+    document.getElementById('ad-sumBestFuente').textContent = AD_FUENTE_SESION_LABEL[bestFuente];
+    document.getElementById('ad-sumBestFuenteDesc').textContent = `${AD_fuenteScore(bestFuente).toFixed(0)}% vs. su cuota esperada — ${AD_FUENTE_SESION_SHARE[bestFuente].toFixed(1)}% de las sesiones`;
+
+    AD_drawIndexedTrend('ad-sumTrendSvg', [
+      { values: AD_TREND_MONTHS.map(m => (AD_MAU_SERIES[m] / AD_MAU_SERIES['Enero 2026']) * 100), color: '#4F52E5', label: 'MAU (APP BLU)' },
+      { values: AD_TREND_MONTHS.map(m => (AD_VISITAS_PORTAL_SERIES[m] / AD_VISITAS_PORTAL_SERIES['Enero 2026']) * 100), color: '#2563EB', label: 'Visitas Portal' },
+    ], 1080, 140);
+
+    AD_renderScoreRanking('ad-sumCanalRanking', AD_CANAL_KEYS.map(k => ({ label: AD_CANAL_LABEL[k], score: AD_canalScore(k) })));
+    AD_renderScoreRanking('ad-sumFuenteRanking', AD_FUENTE_SESION_ORDER.map(k => ({ label: AD_FUENTE_SESION_LABEL[k], score: AD_fuenteScore(k) })));
+
+    AD_renderGlobalSummary(vd, cd, yd, cmpMonth, yoyMonth);
   }
 
   /* ================= ACTUALIZACIÓN REACTIVA AL FILTRO DE MES Y AL FILTRO DE CANAL (APP BLU) ================= */
@@ -4514,19 +4708,6 @@
     crossfade(document.getElementById('ad-heroEventosAppLabel'), () => { document.getElementById('ad-heroEventosAppLabel').textContent = chLabel ? `Eventos totales — ${chLabel}` : 'Eventos totales'; });
     AD_updateKpiRate('ad-heroSesionesApp', 'ad-deltaSesionesApp', 'ad-yoySesionesApp', vd.sesionesApp, cd.sesionesApp, yd ? yd.sesionesApp : null, yoyMonth, v => v.toFixed(1), '');
 
-    AD_updateKpiAbs('ad-heroVisitasPortal', 'ad-deltaVisitasPortal', 'ad-yoyVisitasPortal', vd.visitasPortal, cd.visitasPortal, yd ? yd.visitasPortal : null, yoyMonth, v => v.toLocaleString('en-US'));
-    AD_updateKpiAbs('ad-heroNuevosPortal', 'ad-deltaNuevosPortal', 'ad-yoyNuevosPortal', vd.nuevosPortal, cd.nuevosPortal, yd ? yd.nuevosPortal : null, yoyMonth, v => v.toLocaleString('en-US'));
-    AD_updateKpiRate('ad-heroEngPortal', 'ad-deltaEngPortal', 'ad-yoyEngPortal', vd.engagementPortal, cd.engagementPortal, yd ? yd.engagementPortal : null, yoyMonth, v => v.toFixed(2) + '%', 'pp');
-    AD_updateKpiAbs('ad-heroSesionesPortal', 'ad-deltaSesionesPortal', 'ad-yoySesionesPortal', vd.sesionesPortal, cd.sesionesPortal, yd ? yd.sesionesPortal : null, yoyMonth, v => v.toLocaleString('en-US'));
-    AD_updateKpiRate('ad-heroEventosSesion', 'ad-deltaEventosSesion', 'ad-yoyEventosSesion', vd.eventosPorSesionPortal, cd.eventosPorSesionPortal, yd ? yd.eventosPorSesionPortal : null, yoyMonth, v => v.toFixed(1), '');
-
-    AD_renderMetaTable('ad-eventsMetaBody', AD_EVENT_ORDER, AD_EVENT_LABEL, eventsEff, eventsCmpEff, eventsYoyEff, eventMetaEff, yoyMonth);
-    AD_renderMetaTable('ad-routesMetaBody', AD_RUTA_ORDER, AD_RUTA_LABEL, vd.rutas, cd.rutas, yd ? yd.rutas : null, AD_RUTAS_META, yoyMonth);
-
-    const weeklyEventsEff = {};
-    ['blueBenefits', 'aperturaAhorro', 'avanceEfectivo', 'consultaSaldo'].forEach(k => { weeklyEventsEff[k] = AD_EVENT_WEEKLY[k].map(v => Math.round(v * chShare)); });
-    AD_renderWeeklyTable('ad-weeklyEventsBody', ['blueBenefits', 'aperturaAhorro', 'avanceEfectivo', 'consultaSaldo'], AD_EVENT_LABEL, weeklyEventsEff);
-
     AD_vBarChart('ad-ageBarSvg', AD_EDAD_ORDER, AD_channelAgeValues(AD_activeChannel, mauEff), '#4F52E5', 1080, 130);
     AD_vBarChart('ad-recencySvg', AD_RECENCY_ORDER, AD_RECENCY_VALUES.map(v => Math.round(v * chShare)), '#6E93B0', 1080, 110);
     AD_hBarChart('ad-categoriasSvg', AD_CATEGORIAS_ORDER, AD_CATEGORIAS_VALUES.map(v => Math.round(v * chShare)), '#4F52E5', 500, 150, 118);
@@ -4541,13 +4722,6 @@
     crossfade(document.getElementById('ad-newRecPctNuevos'), () => { document.getElementById('ad-newRecPctNuevos').textContent = Math.round(newPct) + '%'; });
     crossfade(document.getElementById('ad-newRecPctRecurrentes'), () => { document.getElementById('ad-newRecPctRecurrentes').textContent = Math.round(recPct) + '%'; });
 
-    const fuenteBody = document.getElementById('ad-fuenteSesionBody');
-    fuenteBody.innerHTML = AD_FUENTE_SESION_ORDER.map(k => {
-      const pct = AD_FUENTE_SESION_SHARE[k];
-      const val = Math.round(vd.visitasPortal * (pct / 100));
-      return `<tr><td>${AD_FUENTE_SESION_LABEL[k]}</td><td class="metric">${val.toLocaleString('en-US')}</td><td class="metric">${pct.toFixed(1)}%</td></tr>`;
-    }).join('');
-
     const canalActiveIdx = AD_activeChannel ? AD_CANAL_KEYS.indexOf(AD_activeChannel) : null;
     AD_hBarChart('ad-canalSvg', AD_CANAL_KEYS.map(k => AD_CANAL_LABEL[k]), AD_CANAL_KEYS.map(k => AD_CANAL_VALUES_MAP[k]), '#2563EB', 500, 150, 136, canalActiveIdx);
 
@@ -4559,12 +4733,66 @@
     const dauSeries = AD_dailyWave(days, vd.mau * AD_DAU_MAU_RATIO * chShare, dauWave.amplitude, dauWave.phase);
     const dauRefMax = (vd.mau * AD_DAU_MAU_RATIO * 1.5) * 1.1; // eje de referencia fijo (escala de "Todos") para que el filtro también se note en la escala, no solo en la forma
     AD_drawDailyLine('ad-dailyMauSvg', [{ values: dauSeries, color: '#4F52E5', label: dauLabel }], 1080, 140, dauRefMax);
-    const totalSeries = AD_dailyWave(days, vd.visitasPortal / days, 0.75, 0);
-    const nuevosSeries = AD_dailyWave(days, vd.nuevosPortal / days, 0.65, 0.35);
-    AD_drawDailyLine('ad-dailyPortalSvg', [{ values: totalSeries, color: '#141414', label: 'Total de usuarios' }, { values: nuevosSeries, color: '#2E9560', label: 'Usuarios nuevos' }], 1080, 140);
+
+    // ============ PORTAL PÚBLICO DINERS — filtro por fuente de sesión (mismo criterio que canal en APP BLU) ============
+    const fuShare = AD_activeFuente ? (AD_FUENTE_SESION_SHARE[AD_activeFuente] / 100) : 1;
+    const fuLabel = AD_activeFuente ? AD_FUENTE_SESION_LABEL[AD_activeFuente] : null;
+    const visitasEff = vd.visitasPortal * fuShare, visitasCmpEff = cd.visitasPortal * fuShare, visitasYoyEff = yd ? yd.visitasPortal * fuShare : null;
+    const nuevosEff = vd.nuevosPortal * fuShare, nuevosCmpEff = cd.nuevosPortal * fuShare, nuevosYoyEff = yd ? yd.nuevosPortal * fuShare : null;
+    const sesionesEff = vd.sesionesPortal * fuShare, sesionesCmpEff = cd.sesionesPortal * fuShare, sesionesYoyEff = yd ? yd.sesionesPortal * fuShare : null;
+    const fuEngIdx = AD_activeFuente ? AD_FUENTE_ENG_INDEX[AD_activeFuente] : 1;
+    const engEff = vd.engagementPortal * fuEngIdx, engCmpEff = cd.engagementPortal * fuEngIdx, engYoyEff = yd ? yd.engagementPortal * fuEngIdx : null;
+
+    AD_updateKpiAbs('ad-heroVisitasPortal', 'ad-deltaVisitasPortal', 'ad-yoyVisitasPortal', visitasEff, visitasCmpEff, visitasYoyEff, yoyMonth, v => Math.round(v).toLocaleString('en-US'));
+    crossfade(document.getElementById('ad-heroVisitasPortalLabel'), () => { document.getElementById('ad-heroVisitasPortalLabel').textContent = fuLabel ? `Visitas al portal — ${fuLabel}` : 'Visitas al portal'; });
+    AD_updateKpiAbs('ad-heroNuevosPortal', 'ad-deltaNuevosPortal', 'ad-yoyNuevosPortal', nuevosEff, nuevosCmpEff, nuevosYoyEff, yoyMonth, v => Math.round(v).toLocaleString('en-US'));
+    crossfade(document.getElementById('ad-heroNuevosPortalLabel'), () => { document.getElementById('ad-heroNuevosPortalLabel').textContent = fuLabel ? `Usuarios nuevos — ${fuLabel}` : 'Usuarios nuevos'; });
+    AD_updateKpiRate('ad-heroEngPortal', 'ad-deltaEngPortal', 'ad-yoyEngPortal', engEff, engCmpEff, engYoyEff, yoyMonth, v => v.toFixed(2) + '%', 'pp');
+    crossfade(document.getElementById('ad-heroEngPortalLabel'), () => { document.getElementById('ad-heroEngPortalLabel').textContent = fuLabel ? `% Engagement — ${fuLabel}` : '% Engagement (interacciones)'; });
+    AD_updateKpiAbs('ad-heroSesionesPortal', 'ad-deltaSesionesPortal', 'ad-yoySesionesPortal', sesionesEff, sesionesCmpEff, sesionesYoyEff, yoyMonth, v => Math.round(v).toLocaleString('en-US'));
+    crossfade(document.getElementById('ad-heroSesionesPortalLabel'), () => { document.getElementById('ad-heroSesionesPortalLabel').textContent = fuLabel ? `Sesiones — ${fuLabel}` : 'Sesiones'; });
+    AD_updateKpiRate('ad-heroEventosSesion', 'ad-deltaEventosSesion', 'ad-yoyEventosSesion', vd.eventosPorSesionPortal, cd.eventosPorSesionPortal, yd ? yd.eventosPorSesionPortal : null, yoyMonth, v => v.toFixed(1), '');
+
+    AD_renderMetaTable('ad-eventsMetaBody', AD_EVENT_ORDER, AD_EVENT_LABEL, eventsEff, eventsCmpEff, eventsYoyEff, eventMetaEff, yoyMonth);
+
+    const rutaIdx = AD_activeFuente ? AD_FUENTE_RUTA_INDEX[AD_activeFuente] : null;
+    const rutasEff = AD_scaleEventsWithIndex(vd.rutas, fuShare, rutaIdx), rutasCmpEff = AD_scaleEventsWithIndex(cd.rutas, fuShare, rutaIdx), rutasYoyEff = yd ? AD_scaleEventsWithIndex(yd.rutas, fuShare, rutaIdx) : null;
+    const rutasMetaEff = AD_scaleObj(AD_RUTAS_META, fuShare);
+    AD_renderMetaTable('ad-routesMetaBody', AD_RUTA_ORDER, AD_RUTA_LABEL, rutasEff, rutasCmpEff, rutasYoyEff, rutasMetaEff, yoyMonth);
+    crossfade(document.getElementById('ad-routesMetaTitle'), () => { document.getElementById('ad-routesMetaTitle').textContent = fuLabel ? `Rutas más visitadas — cumplimiento vs. meta — ${fuLabel}` : 'Rutas más visitadas — cumplimiento vs. meta'; });
+
+    const weeklyEventsEff = {};
+    ['blueBenefits', 'aperturaAhorro', 'avanceEfectivo', 'consultaSaldo'].forEach(k => { weeklyEventsEff[k] = AD_EVENT_WEEKLY[k].map(v => Math.round(v * chShare)); });
+    AD_renderWeeklyTable('ad-weeklyEventsBody', ['blueBenefits', 'aperturaAhorro', 'avanceEfectivo', 'consultaSaldo'], AD_EVENT_LABEL, weeklyEventsEff);
+
+    const weeklyRoutesEff = {};
+    ['home', 'descargaApp', 'titaniumVisa', 'modoFutbol'].forEach(k => { weeklyRoutesEff[k] = AD_RUTA_WEEKLY[k].map(v => Math.round(v * fuShare)); });
+    AD_renderWeeklyTable('ad-weeklyRoutesBody', ['home', 'descargaApp', 'titaniumVisa', 'modoFutbol'], AD_RUTA_LABEL, weeklyRoutesEff);
+
+    const fuenteBody = document.getElementById('ad-fuenteSesionBody');
+    fuenteBody.innerHTML = AD_FUENTE_SESION_ORDER.map(k => {
+      const pct = AD_FUENTE_SESION_SHARE[k];
+      const val = Math.round(vd.visitasPortal * (pct / 100));
+      const active = AD_activeFuente === k;
+      return `<tr${active ? ' style="background:#F8F7FC;font-weight:700;"' : ''}><td>${AD_FUENTE_SESION_LABEL[k]}${active ? ' ▸' : ''}</td><td class="metric">${val.toLocaleString('en-US')}</td><td class="metric">${pct.toFixed(1)}%</td></tr>`;
+    }).join('');
+
+    AD_vBarChart('ad-deviceSvg', AD_DEVICE_ORDER, AD_indexedRedistribute(AD_DEVICE_VALUES_MAP, AD_DEVICE_ORDER, AD_FUENTE_DEVICE_INDEX, AD_activeFuente, visitasEff), '#4F52E5', 500, 110);
+    AD_vBarChart('ad-dwellSvg', AD_DWELL_ORDER, AD_DWELL_VALUES.map(v => Math.round(v * fuShare)), '#55637A', 1080, 110);
+    AD_hBarChart('ad-rutasInteraccionSvg', AD_RUTAS_INTERACCION_ORDER, AD_RUTAS_INTERACCION_VALUES.map(v => Math.round(v * fuShare)), '#2563EB', 1080, 150, 190);
+    AD_renderMiniGaugeRow('ad-interaccionFuenteRow', AD_INTERACCION_FUENTE, AD_activeFuente ? AD_FUENTE_TO_INTERACCION[AD_activeFuente] : null);
+
+    const fuWave = AD_activeFuente ? AD_FUENTE_WAVE[AD_activeFuente] : { amplitude: 0.75, phase: 0 };
+    const totalSeries = AD_dailyWave(days, visitasEff / days, fuWave.amplitude, fuWave.phase);
+    const nuevosSeries = AD_dailyWave(days, nuevosEff / days, fuWave.amplitude * 0.85, fuWave.phase + 0.35);
+    const portalRefMax = ((vd.visitasPortal / days) * 1.9) * 1.1; // eje de referencia fijo (escala de "Todas")
+    const dailyPortalTitleEl = document.getElementById('ad-dailyPortalTitle');
+    crossfade(dailyPortalTitleEl, () => { dailyPortalTitleEl.textContent = fuLabel ? `Evolución de usuarios — Total vs. Nuevos — ${fuLabel}` : 'Evolución de usuarios — Total vs. Nuevos'; });
+    AD_drawDailyLine('ad-dailyPortalSvg', [{ values: totalSeries, color: '#141414', label: 'Total de usuarios' }, { values: nuevosSeries, color: '#2E9560', label: 'Usuarios nuevos' }], 1080, 140, portalRefMax);
 
     AD_renderAppSummary(vd, cd, yd, cmpMonth, yoyMonth, chShare, chLabel);
-    AD_renderPortalSummary(vd, cd, yd, cmpMonth, yoyMonth);
+    AD_renderPortalSummary(vd, cd, yd, cmpMonth, yoyMonth, fuShare, fuLabel);
+    AD_renderSummaryTab(vd, cd, yd, cmpMonth, yoyMonth);
   }
   AD_viewSel.addEventListener('change', () => { ensureMonthsDiffer(AD_viewSel, AD_cmpSel); AD_updateComparison(); });
   AD_cmpSel.addEventListener('change', () => { ensureMonthsDiffer(AD_cmpSel, AD_viewSel); AD_updateComparison(); });
@@ -4575,6 +4803,17 @@
         AD_channelFilterEl.querySelectorAll('.obj-filter-btn').forEach(b => b.dataset.active = 'false');
         btn.dataset.active = 'true';
         AD_activeChannel = btn.getAttribute('data-canal') === 'ALL' ? null : btn.getAttribute('data-canal');
+        AD_updateComparison();
+      });
+    });
+  }
+  const AD_fuenteFilterEl = document.getElementById('ad-fuenteFilter');
+  if (AD_fuenteFilterEl) {
+    AD_fuenteFilterEl.querySelectorAll('.obj-filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        AD_fuenteFilterEl.querySelectorAll('.obj-filter-btn').forEach(b => b.dataset.active = 'false');
+        btn.dataset.active = 'true';
+        AD_activeFuente = btn.getAttribute('data-fuente') === 'ALL' ? null : btn.getAttribute('data-fuente');
         AD_updateComparison();
       });
     });
