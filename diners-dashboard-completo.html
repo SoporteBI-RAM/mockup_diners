@@ -40,8 +40,6 @@
   .sidebar-footer { font-size: 10px; color: #6b6b6b; padding: 12px 12px 4px; border-top: 1px solid rgba(255,255,255,0.08); margin-top: 8px; }
 
   .content-area { flex: 1; min-width: 0; padding: 22px 26px 56px; max-width: 1280px; }
-  .draft-banner { display: flex; align-items: center; gap: 10px; background: #EFEAFB; border: 1px solid #C9C2F2; color: #3730A3; border-radius: 10px; padding: 11px 16px; font-size: 12.5px; margin-bottom: 16px; }
-  .draft-banner b { color: #262166; }
 
   .page { display: none; }
   .page[data-active="true"] { display: block; animation: fadein 0.25s ease; }
@@ -595,10 +593,6 @@
 
   <!-- ================= CONTENT ================= -->
   <div class="content-area">
-    <div class="draft-banner">
-      <span style="font-size:15px;">🧭</span>
-      <span><b>Borrador de estructura — no validado con todo el equipo.</b> Un solo tablero con menú lateral, filtros libres por mes, tooltips y cruce entre gráficos en cada sección. Datos 100% ilustrativos.</span>
-    </div>
 
     <!-- ============================================================ -->
     <!-- PÁGINA: PORTADA -->
@@ -1358,7 +1352,7 @@
           <div class="zone-title" style="margin-bottom:2px;">Mapa de calor — comunidad por ciudad</div>
           <div class="hero-caption" style="margin-top:0;margin-bottom:10px;">Distribución geográfica de la comunidad total (agregado de todas las marcas y redes). Mapa ilustrativo, no a escala — pasa el mouse sobre una ciudad para ver el detalle.</div>
           <div class="sm-map-row">
-            <svg viewBox="0 0 220 420" class="sm-map-svg" id="sm-mapSvg"></svg>
+            <svg viewBox="0 0 200 400" class="sm-map-svg" id="sm-mapSvg"></svg>
             <div class="sm-map-legend">
               <div class="sm-map-legend-title">Intensidad de la comunidad</div>
               <div class="sm-map-legend-scale"></div>
@@ -3581,16 +3575,18 @@
   /* ================= MAPA DE CALOR — comunidad por ciudad ================= */
   // % de la comunidad total por ciudad — desglose ilustrativo fijo, aplicado al total real de cada mes (deriva, no autora un dataset nuevo por mes)
   const SM_CITY_SHARE = [
-    { name: 'Quito', prov: 'Pichincha', pct: 32, x: 128, y: 70 },
-    { name: 'Guayaquil', prov: 'Guayas', pct: 28, x: 58, y: 260 },
-    { name: 'Cuenca', prov: 'Azuay', pct: 10, x: 110, y: 330 },
-    { name: 'Ambato', prov: 'Tungurahua', pct: 7, x: 122, y: 170 },
-    { name: 'Manta', prov: 'Manabí', pct: 6, x: 60, y: 175 },
-    { name: 'Machala', prov: 'El Oro', pct: 5, x: 68, y: 360 },
-    { name: 'Loja', prov: 'Loja', pct: 4, x: 95, y: 385 },
+    { name: 'Quito', prov: 'Pichincha', pct: 32, x: 115, y: 85 },
+    { name: 'Guayaquil', prov: 'Guayas', pct: 28, x: 90, y: 272 },
+    { name: 'Cuenca', prov: 'Azuay', pct: 10, x: 120, y: 310 },
+    { name: 'Ambato', prov: 'Tungurahua', pct: 7, x: 118, y: 175 },
+    { name: 'Manta', prov: 'Manabí', pct: 6, x: 50, y: 175 },
+    { name: 'Machala', prov: 'El Oro', pct: 5, x: 80, y: 325 },
+    { name: 'Loja', prov: 'Loja', pct: 4, x: 95, y: 370 },
     { name: 'Otras ciudades', prov: '—', pct: 8, x: null, y: null },
   ];
-  const SM_ECUADOR_PATH = 'M120,8 C150,10 165,45 168,90 C172,140 168,190 158,240 C148,285 130,330 108,370 C95,395 85,410 78,405 C65,395 55,360 48,320 C42,280 40,240 42,200 C44,160 48,120 60,85 C72,55 90,25 120,8 Z';
+  // Contorno simplificado de Ecuador continental: golfo de Guayaquil + península de Santa Elena al SO,
+  // ensanche amazónico al E, punta sur angosta (Loja). ViewBox 0 0 200 400.
+  const SM_ECUADOR_PATH = 'M78,10 L120,4 L158,20 L183,60 L188,120 L180,190 L165,250 L145,305 L118,350 L92,385 L78,398 L66,378 L70,340 L56,305 L78,275 L52,258 L30,278 L40,232 L28,178 L36,118 L55,62 Z';
   function SM_heatColor(pct, maxPct) {
     const t = Math.max(0, Math.min(1, pct / maxPct));
     const c1 = [227, 225, 251], c2 = [49, 46, 129];
