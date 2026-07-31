@@ -463,7 +463,18 @@
   [data-page="paid"] .xf-hint { font-size: 10.5px; color: #8b8b8b; margin-bottom: 10px; }
 
   /* ================= SOCIAL MEDIA (page-specific) ================= */
+  [data-page="social"] .obj-filter { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+  [data-page="social"] .obj-filter-btn { font-size: 11px; font-weight: 600; padding: 6px 12px; border-radius: 999px; border: 1px solid #e2e0ea; background: #fff; color: #6b6b6b; cursor: pointer; transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease; }
+  [data-page="social"] .obj-filter-btn:hover { background: #F8F7FC; }
+  [data-page="social"] .obj-filter-btn:focus-visible { outline: 2px solid #4F52E5; outline-offset: 1px; }
+  [data-page="social"] .obj-filter-btn[data-active="true"] { background: #4F52E5; border-color: #4F52E5; color: #fff; }
+  [data-page="social"] .sm-net-icon { width: 15px; height: 15px; flex: none; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; }
+  [data-page="social"] .sm-net-icon svg { width: 100%; height: 100%; display: block; }
   [data-page="social"] .sm-kpi-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+  [data-page="social"] .sm-mini-kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
+  [data-page="social"] .sm-mini-kpi-value { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+  [data-page="social"] .sm-mini-kpi-caption { font-size: 10.5px; color: #8b8b8b; margin-top: 4px; }
+  [data-page="social"] .sm-section-divider { border-top: 1px solid #e6e5ea; margin: 22px 0 16px; }
   [data-page="social"] .sm-combo-row { display: flex; align-items: center; gap: 22px; flex-wrap: wrap; }
   [data-page="social"] .sm-combo-row .pie-wrap { flex: 1; min-width: 220px; }
   [data-page="social"] .sm-combo-divider { width: 1px; align-self: stretch; background: #e6e5ea; flex: none; }
@@ -472,7 +483,7 @@
   [data-page="social"] .sm-metric-yoy { font-size: 9px; font-weight: 500; color: #8b8b8b; white-space: nowrap; }
   [data-page="social"] .sm-metric-yoy.good { color: #2E9560; }
   [data-page="social"] .sm-metric-yoy.bad { color: #DE5850; }
-  [data-page="social"] .brand-race-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+  [data-page="social"] .brand-race-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; cursor: pointer; }
   [data-page="social"] .brand-race-row:last-child { margin-bottom: 0; }
   [data-page="social"] .brand-race-rank { width: 22px; height: 22px; border-radius: 50%; background: #F3F3F6; color: #6b6b6b; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex: none; }
   [data-page="social"] .brand-race-row:first-child .brand-race-rank { background: #4F52E5; color: #fff; }
@@ -1279,30 +1290,31 @@
         <span class="filter-hint">↑ recalcula comunidad total, composición y desempeño por marca/red en tiempo real</span>
       </div>
 
-      <div class="tab-rail" id="sm-tabRail">
-        <button class="tab" data-tab="t1" data-active="true"><span class="tab-num">1</span>Resumen</button>
-        <button class="tab" data-tab="t2"><span class="tab-num">2</span>Por marca</button>
-        <button class="tab" data-tab="t3"><span class="tab-num">3</span>Por red</button>
-      </div>
-
-      <!-- ============ TAB 1 — RESUMEN ============ -->
       <div class="panel" data-panel="t1" data-visible="true">
+        <div class="obj-filter" id="sm-brandFilter" style="margin-bottom:12px;">
+          <span class="filter-label" style="margin-right:2px;">Filtrar por marca</span>
+          <button class="obj-filter-btn" data-brand="ALL" data-active="true">Todas</button>
+          <button class="obj-filter-btn" data-brand="Diners">Diners Club</button>
+          <button class="obj-filter-btn" data-brand="TITANIUM">TITANIUM</button>
+          <button class="obj-filter-btn" data-brand="Discover">Discover</button>
+        </div>
         <div class="sm-kpi-row">
           <div class="zone zone-pad">
             <div class="zone-label">Comunidad</div>
-            <div class="zone-title">Seguidores totales — todas las marcas y redes</div>
+            <div class="zone-title fx" id="sm-heroTotalLabel">Seguidores totales — todas las marcas y redes</div>
             <div class="hero-number fx" id="sm-heroTotal">285,000</div>
             <div class="hero-caption">vs. mes de comparación seleccionado <span class="delta-chip fx" id="sm-deltaTotal">▲ +2.9%</span></div>
             <div class="sm-yoy-caption fx" id="sm-yoyTotal">vs. año anterior: Sin histórico</div>
           </div>
           <div class="zone zone-pad">
             <div class="zone-label">Desempeño</div>
-            <div class="zone-title">Engagement rate agregado</div>
+            <div class="zone-title fx" id="sm-heroEngagementLabel">Engagement rate agregado</div>
             <div class="hero-number fx" id="sm-heroEngagement">6.8%</div>
             <div class="hero-caption">vs. mes de comparación seleccionado <span class="delta-chip fx" id="sm-deltaEngagement">▲ +0.3pp</span></div>
             <div class="sm-yoy-caption fx" id="sm-yoyEngagement">vs. año anterior: Sin histórico</div>
           </div>
         </div>
+
         <div class="zone zone-pad">
           <div class="zone-title" style="margin-bottom:2px;">Resumen por marca y por red social</div>
           <div class="hero-caption" style="margin-top:0;margin-bottom:10px;">Composición de la comunidad total, corte del mes seleccionado.</div>
@@ -1319,31 +1331,24 @@
             <div class="pie-wrap">
               <svg width="120" height="120" viewBox="0 0 120 120" id="sm-networkPieSvg"></svg>
               <div style="flex:1;">
-                <div class="mix-legend-row"><span class="mix-dot" style="background:#4F52E5"></span><span class="mix-name">Instagram</span><span class="mix-pct fx" id="sm-netPctInstagram">37%</span></div>
-                <div class="mix-legend-row"><span class="mix-dot" style="background:#6E93B0"></span><span class="mix-name">Facebook</span><span class="mix-pct fx" id="sm-netPctFacebook">25%</span></div>
-                <div class="mix-legend-row"><span class="mix-dot" style="background:#2563EB"></span><span class="mix-name">TikTok</span><span class="mix-pct fx" id="sm-netPctTikTok">24%</span></div>
-                <div class="mix-legend-row"><span class="mix-dot" style="background:#00618C"></span><span class="mix-name">LinkedIn</span><span class="mix-pct fx" id="sm-netPctLinkedIn">9%</span></div>
-                <div class="mix-legend-row"><span class="mix-dot" style="background:#55637A"></span><span class="mix-name">X</span><span class="mix-pct fx" id="sm-netPctX">5%</span></div>
+                <div class="mix-legend-row"><span class="sm-net-icon"><svg viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#E1306C"></rect><rect x="6" y="6" width="12" height="12" rx="3.5" fill="none" stroke="#fff" stroke-width="1.6"></rect><circle cx="12" cy="12" r="3" fill="none" stroke="#fff" stroke-width="1.6"></circle><circle cx="16.2" cy="7.8" r="1" fill="#fff"></circle></svg></span><span class="mix-name">Instagram</span><span class="mix-pct fx" id="sm-netPctInstagram">37%</span></div>
+                <div class="mix-legend-row"><span class="sm-net-icon"><svg viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#1877F2"></rect><path d="M14.5 8.5h-1.7c-.4 0-.8.35-.8.9V11h2.4l-.35 2.3h-2.05V19h-2.4v-5.7H8v-2.3h1.6V9.1c0-1.75 1.05-3.1 2.9-3.1h1.9v2.5z" fill="#fff"></path></svg></span><span class="mix-name">Facebook</span><span class="mix-pct fx" id="sm-netPctFacebook">25%</span></div>
+                <div class="mix-legend-row"><span class="sm-net-icon"><svg viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#000"></rect><path d="M14.2 5.5c.3 1.5 1.3 2.6 3 2.8v2.1c-1.1 0-2.1-.35-3-.95v4.7a4.15 4.15 0 1 1-3.6-4.12v2.2a1.95 1.95 0 1 0 1.5 1.9V5.5h2.1z" fill="#fff"></path></svg></span><span class="mix-name">TikTok</span><span class="mix-pct fx" id="sm-netPctTikTok">24%</span></div>
+                <div class="mix-legend-row"><span class="sm-net-icon"><svg viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#0A66C2"></rect><rect x="6" y="10" width="2.3" height="8" fill="#fff"></rect><circle cx="7.15" cy="7" r="1.35" fill="#fff"></circle><path d="M11 10h2.2v1.15c.45-.7 1.25-1.35 2.6-1.35 1.95 0 3.2 1.25 3.2 3.65V18h-2.3v-4.1c0-1.1-.45-1.85-1.5-1.85-.85 0-1.35.55-1.55 1.1-.08.2-.1.45-.1.72V18H11v-8z" fill="#fff"></path></svg></span><span class="mix-name">LinkedIn</span><span class="mix-pct fx" id="sm-netPctLinkedIn">9%</span></div>
+                <div class="mix-legend-row"><span class="sm-net-icon"><svg viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#000"></rect><path d="M6.5 6.5l11 11M17.5 6.5l-11 11" stroke="#fff" stroke-width="1.8" stroke-linecap="round"></path></svg></span><span class="mix-name">X</span><span class="mix-pct fx" id="sm-netPctX">5%</span></div>
               </div>
             </div>
           </div>
         </div>
-        <div class="zone zone-pad" style="margin-top:14px;">
-          <div class="zone-label">Análisis</div>
-          <div class="zone-title" style="margin-bottom:8px;">Análisis resumen</div>
-          <div class="fx" id="sm-t1Summary" style="font-size:12.5px;line-height:1.65;color:#3d3d3d;"></div>
-        </div>
-      </div>
 
-      <!-- ============ TAB 2 — POR MARCA ============ -->
-      <div class="panel" data-panel="t2">
-        <div class="xf-hint">💡 Clic en cualquier marca (leyenda del pastel o tarjeta) para resaltarla.</div>
-        <div class="zone zone-pad" style="margin-bottom:14px;">
+        <div class="zone zone-pad" style="margin-top:14px;">
+          <div class="xf-hint" style="margin-bottom:8px;">💡 Clic en cualquier marca (leyenda del pastel o tarjeta) para resaltarla.</div>
           <div class="zone-label">Carrera de crecimiento</div>
           <div class="zone-title" style="margin-bottom:12px;">Qué marca crece más rápido, no solo cuál es más grande</div>
           <div id="sm-brandRace"></div>
         </div>
-        <div class="brand-grid">
+
+        <div class="brand-grid" style="margin-top:14px;">
           <div class="zone zone-pad" data-brand="Diners" data-tt="Diners Club" data-ttv="Marca principal">
             <div class="brand-card-head"><span class="brand-dot-lg" style="background:#4F52E5"></span><span class="zone-title" style="margin-bottom:0;">Diners Club</span></div>
             <div class="brand-metric-row"><span class="brand-metric-label">Seguidores</span><span class="fx" id="sm-brandFollowersDiners"><span class="brand-metric-value">190,950</span></span></div>
@@ -1364,11 +1369,8 @@
           </div>
         </div>
         <div class="caveat-box"><span>⚠️</span><span>TITANIUM tiene la menor base de seguidores, pero el mayor engagement rate y el mayor crecimiento relativo: segmento pequeño pero muy activo.</span></div>
-      </div>
 
-      <!-- ============ TAB 3 — POR RED ============ -->
-      <div class="panel" data-panel="t3">
-        <div class="zone zone-pad">
+        <div class="zone zone-pad" style="margin-top:14px;">
           <div class="zone-title" style="margin-bottom:10px;">Desempeño por red social</div>
           <table class="network-table">
             <thead><tr><th>Red</th><th>Seguidores</th><th>Engagement rate</th><th>Crecimiento</th><th>vs. año anterior</th></tr></thead>
@@ -1377,6 +1379,79 @@
           </table>
         </div>
         <div class="insight-box" style="margin-top:12px;"><span>💡</span><span>TikTok tiene el engagement rate más alto de todas las redes, pero Instagram sigue liderando en alcance. Son objetivos distintos: TikTok para interacción, Instagram para volumen.</span></div>
+
+        <div class="sm-section-divider"></div>
+        <div class="section-note" style="margin-bottom:10px;">Comunicación orgánica — corte del periodo actual (no varía con el filtro de mes).</div>
+        <div class="zone-label">Comunicación orgánica</div>
+        <div class="zone-title" style="margin-bottom:12px;">Piezas de comunicación — desempeño</div>
+        <div class="sm-mini-kpi-row">
+          <div class="zone zone-pad">
+            <div class="sm-mini-kpi-value" id="sm-pieceViews">284,500</div>
+            <div class="sm-mini-kpi-caption">Visualizaciones</div>
+          </div>
+          <div class="zone zone-pad">
+            <div class="sm-mini-kpi-value" id="sm-pieceReach">198,300</div>
+            <div class="sm-mini-kpi-caption">Alcance</div>
+          </div>
+          <div class="zone zone-pad">
+            <div class="sm-mini-kpi-value" id="sm-pieceCtr">2.1%</div>
+            <div class="sm-mini-kpi-caption">CTR a registro</div>
+          </div>
+          <div class="zone zone-pad">
+            <div class="sm-mini-kpi-value" id="sm-pieceClicks">4,164</div>
+            <div class="sm-mini-kpi-caption">Clics CTA</div>
+          </div>
+        </div>
+        <div class="zone zone-pad" style="margin-top:14px;">
+          <div class="zone-title" style="margin-bottom:2px;">Piezas de comunicación — rendimiento</div>
+          <div class="hero-caption" style="margin-top:0;margin-bottom:10px;">Ranking por CTR (clics CTA / alcance de la pieza).</div>
+          <table class="network-table">
+            <thead><tr><th>Pieza</th><th>Red</th><th>Visualizaciones</th><th>Alcance</th><th>Clics CTA</th><th>CTR (%)</th></tr></thead>
+            <tbody id="sm-piecesTableBody"></tbody>
+          </table>
+        </div>
+
+        <div class="sm-section-divider"></div>
+        <div class="section-note" style="margin-bottom:10px;">Influencer Marketing — corte del periodo actual (no varía con el filtro de mes).</div>
+        <div class="zone-label">Influencer Marketing</div>
+        <div class="zone-title" style="margin-bottom:12px;">Desempeño por influencer</div>
+        <div class="sm-mini-kpi-row">
+          <div class="zone zone-pad">
+            <div class="sm-mini-kpi-value" id="sm-infActive">8</div>
+            <div class="sm-mini-kpi-caption" id="sm-infActiveSplit">Influencers activos</div>
+          </div>
+          <div class="zone zone-pad">
+            <div class="sm-mini-kpi-value" id="sm-infViews">412,000</div>
+            <div class="sm-mini-kpi-caption">Visualizaciones</div>
+          </div>
+          <div class="zone zone-pad">
+            <div class="sm-mini-kpi-value" id="sm-infReach">318,000</div>
+            <div class="sm-mini-kpi-caption">Alcance estimado</div>
+          </div>
+          <div class="zone zone-pad">
+            <div class="sm-mini-kpi-value" id="sm-infCtr">2.5%</div>
+            <div class="sm-mini-kpi-caption">CTR a registro — swipe up / link</div>
+          </div>
+          <div class="zone zone-pad">
+            <div class="sm-mini-kpi-value" id="sm-infRegistros">164</div>
+            <div class="sm-mini-kpi-caption">Registros atribuidos — UTM influencer</div>
+          </div>
+        </div>
+        <div class="zone zone-pad" style="margin-top:14px;">
+          <div class="zone-title" style="margin-bottom:2px;">Desempeño por handle</div>
+          <div class="hero-caption" style="margin-top:0;margin-bottom:10px;">Ranking por CTR (registros / clics).</div>
+          <table class="network-table">
+            <thead><tr><th>Handle</th><th>Tipo</th><th>Visualizaciones</th><th>Clics</th><th>Registros</th><th>CTR (%)</th></tr></thead>
+            <tbody id="sm-influencerTableBody"></tbody>
+          </table>
+        </div>
+
+        <div class="sm-section-divider"></div>
+        <div class="zone zone-pad">
+          <div class="zone-label">Análisis</div>
+          <div class="zone-title" style="margin-bottom:8px;">Análisis resumen</div>
+          <div class="fx" id="sm-t1Summary" style="font-size:12.5px;line-height:1.65;color:#3d3d3d;"></div>
+        </div>
       </div>
     </div>
 
@@ -3365,14 +3440,10 @@
 <script>
   (function () {
     const PAGE_ROOT = document.querySelector('.page[data-page="social"]');
-    function SM_showTab(id) {
-      PAGE_ROOT.querySelectorAll('.tab').forEach(t => t.dataset.active = (t.dataset.tab === id) ? 'true' : 'false');
-      PAGE_ROOT.querySelectorAll('.panel').forEach(p => p.dataset.visible = (p.dataset.panel === id) ? 'true' : 'false');
-    }
-    PAGE_ROOT.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => SM_showTab(t.dataset.tab)));
 
-  /* ================= CROSS-FILTER (Tab 2, by brand) ================= */
+  /* ================= FILTRO / CROSS-FILTER POR MARCA (un solo estado: SM_xfActive) ================= */
   let SM_xfActive = null;
+  const SM_BRAND_LABEL = { Diners: 'Diners Club', TITANIUM: 'TITANIUM', Discover: 'Discover' };
   function SM_applyXf() {
     document.querySelectorAll('[data-brand]').forEach(el => {
       el.classList.remove('xf-dim', 'xf-active');
@@ -3382,27 +3453,50 @@
       }
     });
   }
-  function SM_bindBrandClicks() {
-    document.querySelectorAll('[data-brand]').forEach(el => {
-      el.addEventListener('click', () => {
-        const b = el.getAttribute('data-brand');
-        SM_xfActive = (SM_xfActive === b) ? null : b;
-        SM_applyXf();
-      });
+  function SM_syncBrandFilterButtons() {
+    const filterEl = document.getElementById('sm-brandFilter');
+    if (!filterEl) return;
+    filterEl.querySelectorAll('.obj-filter-btn').forEach(btn => {
+      const b = btn.getAttribute('data-brand');
+      btn.dataset.active = ((b === 'ALL' && !SM_xfActive) || b === SM_xfActive) ? 'true' : 'false';
+    });
+  }
+  // toggle=true: click en tarjeta/leyenda (clic de nuevo para deseleccionar). toggle=false: clic directo en un pill del filtro.
+  function SM_applyBrandFilter(b, toggle) {
+    SM_xfActive = toggle ? (SM_xfActive === b ? null : b) : b;
+    SM_applyXf();
+    SM_syncBrandFilterButtons();
+    SM_updateComparison();
+  }
+  function SM_bindBrandClicks(scopeEl) {
+    (scopeEl || document).querySelectorAll('[data-brand]').forEach(el => {
+      el.addEventListener('click', () => SM_applyBrandFilter(el.getAttribute('data-brand'), true));
     });
   }
   PAGE_ROOT.querySelectorAll('.brand-grid [data-brand]').forEach(el => {
-    el.addEventListener('click', () => {
-      const b = el.getAttribute('data-brand');
-      SM_xfActive = (SM_xfActive === b) ? null : b;
-      SM_applyXf();
-    });
+    el.addEventListener('click', () => SM_applyBrandFilter(el.getAttribute('data-brand'), true));
   });
+  const SM_brandFilterEl = document.getElementById('sm-brandFilter');
+  if (SM_brandFilterEl) {
+    SM_brandFilterEl.querySelectorAll('.obj-filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const b = btn.getAttribute('data-brand');
+        SM_applyBrandFilter(b === 'ALL' ? null : b, false);
+      });
+    });
+  }
 
   /* ================= MONTH DATA ================= */
   const SM_MONTHS = ['Enero 2026', 'Febrero 2026', 'Marzo 2026', 'Abril 2026', 'Mayo 2026', 'Junio 2026', 'Junio 2025'];
   const SM_BRAND_COLOR = { Diners: '#4F52E5', TITANIUM: '#2563EB', Discover: '#6E93B0' };
   const SM_NETWORK_COLOR = { Instagram: '#4F52E5', Facebook: '#6E93B0', TikTok: '#2563EB', LinkedIn: '#00618C', X: '#55637A' };
+  const SM_NETWORK_ICON = {
+    Instagram: '<svg viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#E1306C"></rect><rect x="6" y="6" width="12" height="12" rx="3.5" fill="none" stroke="#fff" stroke-width="1.6"></rect><circle cx="12" cy="12" r="3" fill="none" stroke="#fff" stroke-width="1.6"></circle><circle cx="16.2" cy="7.8" r="1" fill="#fff"></circle></svg>',
+    Facebook: '<svg viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#1877F2"></rect><path d="M14.5 8.5h-1.7c-.4 0-.8.35-.8.9V11h2.4l-.35 2.3h-2.05V19h-2.4v-5.7H8v-2.3h1.6V9.1c0-1.75 1.05-3.1 2.9-3.1h1.9v2.5z" fill="#fff"></path></svg>',
+    TikTok: '<svg viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#000"></rect><path d="M14.2 5.5c.3 1.5 1.3 2.6 3 2.8v2.1c-1.1 0-2.1-.35-3-.95v4.7a4.15 4.15 0 1 1-3.6-4.12v2.2a1.95 1.95 0 1 0 1.5 1.9V5.5h2.1z" fill="#fff"></path></svg>',
+    LinkedIn: '<svg viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#0A66C2"></rect><rect x="6" y="10" width="2.3" height="8" fill="#fff"></rect><circle cx="7.15" cy="7" r="1.35" fill="#fff"></circle><path d="M11 10h2.2v1.15c.45-.7 1.25-1.35 2.6-1.35 1.95 0 3.2 1.25 3.2 3.65V18h-2.3v-4.1c0-1.1-.45-1.85-1.5-1.85-.85 0-1.35.55-1.55 1.1-.08.2-.1.45-.1.72V18H11v-8z" fill="#fff"></path></svg>',
+    X: '<svg viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#000"></rect><path d="M6.5 6.5l11 11M17.5 6.5l-11 11" stroke="#fff" stroke-width="1.8" stroke-linecap="round"></path></svg>',
+  };
   const SM_MONTH_DATA = {
     'Enero 2026':   { total: 248000, engagement: 5.8,
       brandShare: { Diners: 70, TITANIUM: 18, Discover: 12 }, networkShare: { Instagram: 40, Facebook: 30, TikTok: 16, LinkedIn: 8, X: 6 },
@@ -3434,6 +3528,29 @@
       networks: { Instagram: { followers: 97020, engagement: 5.7 }, Facebook: { followers: 76230, engagement: 3.6 }, TikTok: { followers: 23100, engagement: 8.3 }, LinkedIn: { followers: 18480, engagement: 4.7 }, X: { followers: 16170, engagement: 3.1 } } },
   };
 
+  /* ================= PIEZAS DE COMUNICACIÓN — corte del periodo actual, no reactivo a mes ================= */
+  const SM_PIECES = [
+    { name: 'Reel lanzamiento trivia', red: 'Instagram', views: 92400, reach: 78200, clicks: 1840 },
+    { name: 'Video Modo Fútbol', red: 'TikTok', views: 74300, reach: 60100, clicks: 490 },
+    { name: 'Post restaurantes', red: 'Facebook', views: 41200, reach: 36100, clicks: 620 },
+    { name: 'Story CTA registro', red: 'Instagram', views: 38700, reach: 34500, clicks: 980 },
+    { name: 'Carrusel premios', red: 'Instagram', views: 37900, reach: 28400, clicks: 234 },
+  ];
+  const SM_PIECES_REACH_TOTAL = 198300; // alcance único deduplicado — no es la suma de las piezas (hay solape de audiencia)
+
+  /* ================= INFLUENCER MARKETING — corte del periodo actual, no reactivo a mes ================= */
+  const SM_INFLUENCERS = [
+    { handle: '@finanzas.ec', tipo: 'Macro', views: 150000, clicks: 2250, registros: 45 },
+    { handle: '@vidapremium593', tipo: 'Macro', views: 128000, clicks: 1462, registros: 38 },
+    { handle: '@moneytalks.ec', tipo: 'Macro', views: 62500, clicks: 750, registros: 15 },
+    { handle: '@triviadiners', tipo: 'Micro', views: 41200, clicks: 988, registros: 31 },
+    { handle: '@cuponesquito', tipo: 'Micro', views: 12800, clicks: 387, registros: 12 },
+    { handle: '@ahorraconestilo', tipo: 'Micro', views: 6500, clicks: 222, registros: 8 },
+    { handle: '@finanzasfacilesgye', tipo: 'Micro', views: 3000, clicks: 91, registros: 4 },
+    { handle: '@tipsdedinero.ec', tipo: 'Micro', views: 8000, clicks: 300, registros: 11 },
+  ];
+  const SM_INFLUENCER_REACH_TOTAL = 318000; // alcance estimado — no es la suma (solape entre audiencias de influencers)
+
   const SM_yoyMonth = m => m.includes('2026') ? m.replace('2026', '2025') : null;
 
   const SM_viewSel = document.getElementById('sm-viewMonthSelect');
@@ -3446,7 +3563,7 @@
     const order = ['Diners', 'TITANIUM', 'Discover'];
     const svg = document.getElementById('sm-brandPieSvg');
     svg.innerHTML = pieMarkup(order.map(k => ({ label: k, pct: vd.brandShare[k], color: SM_BRAND_COLOR[k], key: k })), 120);
-    SM_bindBrandClicks();
+    SM_bindBrandClicks(svg);
     SM_applyXf();
   }
   function SM_drawNetworkPie(vd) {
@@ -3467,7 +3584,7 @@
       const ratio = g === null ? 0 : Math.max(Math.abs(g) / maxGrowth, 0.03);
       const color = SM_BRAND_COLOR[r.key];
       const label = r.key === 'Diners' ? 'Diners Club' : r.key;
-      return `<div class="brand-race-row">
+      return `<div class="brand-race-row" data-brand="${r.key}" data-tt="${label}" data-ttv="Clic para filtrar por esta marca">
         <div class="brand-race-rank">${i + 1}</div>
         <div class="brand-race-name"><span class="mix-dot" style="background:${color}"></span>${label}</div>
         <div class="brand-race-track"><div class="brand-race-fill" style="width:100%;background:${color};transform:scaleX(${ratio})"></div></div>
@@ -3475,6 +3592,7 @@
         <div class="brand-race-value-yoy">${r.growthYoy !== null ? deltaText(r.growthYoy) + ' AA' : 'Sin histórico'}</div>
       </div>`;
     }).join('');
+    SM_bindBrandClicks(el);
   }
 
   function SM_renderNetworkTable(vd, cd, yd) {
@@ -3484,7 +3602,7 @@
       const n = vd.networks[k], c = cd.networks[k];
       const growth = relDelta(n.followers, c.followers);
       const growthYoy = yd ? relDelta(n.followers, yd.networks[k].followers) : null;
-      return `<tr><td><div class="network-name-cell"><span class="mix-dot" style="background:${SM_NETWORK_COLOR[k]}"></span>${k}</div></td>` +
+      return `<tr><td><div class="network-name-cell"><span class="sm-net-icon">${SM_NETWORK_ICON[k]}</span>${k}</div></td>` +
         `<td class="metric">${n.followers.toLocaleString('en-US')}</td>` +
         `<td class="metric">${n.engagement}%</td>` +
         `<td class="metric">${deltaText(growth)}</td>` +
@@ -3492,9 +3610,71 @@
     }).join('');
   }
 
-  function SM_renderT1Summary(vd, cd, yd, cmpMonth, yoyMonth) {
+  function SM_renderPieces() {
+    const totalViews = SM_PIECES.reduce((s, p) => s + p.views, 0);
+    const totalClicks = SM_PIECES.reduce((s, p) => s + p.clicks, 0);
+    const ctrTotal = (totalClicks / SM_PIECES_REACH_TOTAL) * 100;
+    document.getElementById('sm-pieceViews').textContent = totalViews.toLocaleString('en-US');
+    document.getElementById('sm-pieceReach').textContent = SM_PIECES_REACH_TOTAL.toLocaleString('en-US');
+    document.getElementById('sm-pieceCtr').textContent = ctrTotal.toFixed(1) + '%';
+    document.getElementById('sm-pieceClicks').textContent = totalClicks.toLocaleString('en-US');
+
+    const ranked = [...SM_PIECES].sort((a, b) => (b.clicks / b.reach) - (a.clicks / a.reach));
+    document.getElementById('sm-piecesTableBody').innerHTML = ranked.map(p => {
+      const ctr = (p.clicks / p.reach) * 100;
+      return `<tr><td>${p.name}</td><td><div class="network-name-cell"><span class="sm-net-icon">${SM_NETWORK_ICON[p.red]}</span>${p.red}</div></td>` +
+        `<td class="metric">${p.views.toLocaleString('en-US')}</td>` +
+        `<td class="metric">${p.reach.toLocaleString('en-US')}</td>` +
+        `<td class="metric">${p.clicks.toLocaleString('en-US')}</td>` +
+        `<td class="metric">${ctr.toFixed(1)}%</td></tr>`;
+    }).join('');
+  }
+
+  function SM_renderInfluencers() {
+    const totalViews = SM_INFLUENCERS.reduce((s, i) => s + i.views, 0);
+    const totalRegistros = SM_INFLUENCERS.reduce((s, i) => s + i.registros, 0);
+    const totalClicks = SM_INFLUENCERS.reduce((s, i) => s + i.clicks, 0);
+    const macroCount = SM_INFLUENCERS.filter(i => i.tipo === 'Macro').length;
+    const microCount = SM_INFLUENCERS.filter(i => i.tipo === 'Micro').length;
+    const ctrTotal = (totalRegistros / totalClicks) * 100;
+
+    document.getElementById('sm-infActive').textContent = SM_INFLUENCERS.length;
+    document.getElementById('sm-infActiveSplit').textContent = `Influencers activos — ${macroCount} macro · ${microCount} micro`;
+    document.getElementById('sm-infViews').textContent = totalViews.toLocaleString('en-US');
+    document.getElementById('sm-infReach').textContent = SM_INFLUENCER_REACH_TOTAL.toLocaleString('en-US');
+    document.getElementById('sm-infCtr').textContent = ctrTotal.toFixed(1) + '%';
+    document.getElementById('sm-infRegistros').textContent = totalRegistros;
+
+    const ranked = [...SM_INFLUENCERS].sort((a, b) => (b.registros / b.clicks) - (a.registros / a.clicks));
+    document.getElementById('sm-influencerTableBody').innerHTML = ranked.map(i => {
+      const ctr = (i.registros / i.clicks) * 100;
+      return `<tr><td>${i.handle}</td><td>${i.tipo}</td>` +
+        `<td class="metric">${i.views.toLocaleString('en-US')}</td>` +
+        `<td class="metric">${i.clicks.toLocaleString('en-US')}</td>` +
+        `<td class="metric">${i.registros}</td>` +
+        `<td class="metric">${ctr.toFixed(1)}%</td></tr>`;
+    }).join('');
+  }
+
+  function SM_renderT1Summary(vd, cd, yd, cmpMonth, yoyMonth, activeBrand) {
     const brandOrder = ['Diners', 'TITANIUM', 'Discover'];
-    const brandLabel = { Diners: 'Diners Club', TITANIUM: 'TITANIUM', Discover: 'Discover' };
+    const brandLabel = SM_BRAND_LABEL;
+
+    if (activeBrand) {
+      const b = vd.brands[activeBrand], cb = cd.brands[activeBrand];
+      const growth = relDelta(b.followers, cb.followers);
+      const growthYoy = yd ? relDelta(b.followers, yd.brands[activeBrand].followers) : null;
+      const engDeltaBrand = b.engagement - cb.engagement;
+      const parts = [];
+      parts.push(`<b>${brandLabel[activeBrand]}</b> tiene ${b.followers.toLocaleString('en-US')} seguidores (${vd.brandShare[activeBrand]}% de la comunidad total), con un crecimiento de ${deltaText(growth)} vs. ${cmpMonth.split(' ')[0]}${growthYoy !== null ? ` y ${deltaText(growthYoy)} vs. ${yoyMonth} (año anterior)` : ''}.`);
+      parts.push(`Su engagement rate es de ${b.engagement}% (${deltaText(engDeltaBrand, 'pp')} vs. ${cmpMonth.split(' ')[0]}).`);
+      const bestPiece = [...SM_PIECES].sort((a, b2) => (b2.clicks / b2.reach) - (a.clicks / a.reach))[0];
+      const bestPieceCtr = (bestPiece.clicks / bestPiece.reach) * 100;
+      parts.push(`En comunicación orgánica (agregado de todas las marcas), <b>"${bestPiece.name}"</b> (${bestPiece.red}) es la pieza con mejor CTR (${bestPieceCtr.toFixed(1)}%).`);
+      document.getElementById('sm-t1Summary').innerHTML = parts.join(' ');
+      return;
+    }
+
     const leaderBrand = brandOrder.reduce((a, b) => (vd.brands[b].followers > vd.brands[a].followers ? b : a));
     const fastestBrand = brandOrder.reduce((a, b) => {
       const ga = relDelta(vd.brands[a].followers, cd.brands[a].followers) ?? -Infinity;
@@ -3521,6 +3701,15 @@
     parts.push(`<b>${fastestNet}</b> es la red que más gana terreno (${deltaText(fastestNetGrowth)}), aunque <b>${largestNet}</b> sigue liderando en volumen con ${vd.networkShare[largestNet]}% de la comunidad.`);
     parts.push(`El engagement rate agregado es de ${vd.engagement}% (${deltaText(engDelta, 'pp')} vs. ${cmpMonth.split(' ')[0]}${engYoy !== null ? ` · ${deltaText(engYoy, 'pp')} vs. ${yoyMonth} AA` : ''}).`);
     parts.push(`La comunidad total creció ${deltaText(relDelta(vd.total, cd.total))} en el mes${totalYoy !== null ? ` y ${deltaText(totalYoy)} vs. ${yoyMonth} (año anterior)` : ''}.`);
+
+    const bestPiece = [...SM_PIECES].sort((a, b) => (b.clicks / b.reach) - (a.clicks / a.reach))[0];
+    const bestPieceCtr = (bestPiece.clicks / bestPiece.reach) * 100;
+    parts.push(`En comunicación orgánica, <b>"${bestPiece.name}"</b> (${bestPiece.red}) es la pieza con mejor CTR (${bestPieceCtr.toFixed(1)}%).`);
+
+    const bestInf = [...SM_INFLUENCERS].sort((a, b) => (b.registros / b.clicks) - (a.registros / a.clicks))[0];
+    const bestInfCtr = (bestInf.registros / bestInf.clicks) * 100;
+    parts.push(`En influencers, <b>${bestInf.handle}</b> (${bestInf.tipo}) tiene la mejor conversión a registro (${bestInfCtr.toFixed(1)}%).`);
+
     document.getElementById('sm-t1Summary').innerHTML = parts.join(' ');
   }
 
@@ -3529,23 +3718,34 @@
     const vd = SM_MONTH_DATA[viewMonth], cd = SM_MONTH_DATA[cmpMonth];
     const yoyMonth = SM_yoyMonth(cmpMonth);
     const yd = yoyMonth ? SM_MONTH_DATA[yoyMonth] : null;
+    const activeBrand = SM_xfActive; // null = todas las marcas
 
     const heroTotal = document.getElementById('sm-heroTotal');
     const deltaTotal = document.getElementById('sm-deltaTotal');
-    crossfade(heroTotal, () => { heroTotal.textContent = vd.total.toLocaleString('en-US'); });
-    const totalDelta = relDelta(vd.total, cd.total);
+    const heroTotalLabel = document.getElementById('sm-heroTotalLabel');
+    const totalNow = activeBrand ? vd.brands[activeBrand].followers : vd.total;
+    const totalCmp = activeBrand ? cd.brands[activeBrand].followers : cd.total;
+    crossfade(heroTotal, () => { heroTotal.textContent = totalNow.toLocaleString('en-US'); });
+    crossfade(heroTotalLabel, () => { heroTotalLabel.textContent = activeBrand ? `Seguidores — ${SM_BRAND_LABEL[activeBrand]}` : 'Seguidores totales — todas las marcas y redes'; });
+    const totalDelta = relDelta(totalNow, totalCmp);
     crossfade(deltaTotal, () => { deltaTotal.textContent = deltaText(totalDelta); deltaStyle(deltaTotal, totalDelta); });
     const yoyTotal = document.getElementById('sm-yoyTotal');
-    const totalYoyDelta = yd ? relDelta(vd.total, yd.total) : null;
+    const totalYoyBase = yd ? (activeBrand ? yd.brands[activeBrand].followers : yd.total) : null;
+    const totalYoyDelta = totalYoyBase !== null ? relDelta(totalNow, totalYoyBase) : null;
     crossfade(yoyTotal, () => { yoyTotal.textContent = totalYoyDelta !== null ? `vs. año anterior (${yoyMonth}): ${deltaText(totalYoyDelta)}` : 'vs. año anterior: Sin histórico'; });
 
     const heroEng = document.getElementById('sm-heroEngagement');
     const deltaEng = document.getElementById('sm-deltaEngagement');
-    crossfade(heroEng, () => { heroEng.textContent = vd.engagement + '%'; });
-    const engDelta = vd.engagement - cd.engagement;
+    const heroEngLabel = document.getElementById('sm-heroEngagementLabel');
+    const engNow = activeBrand ? vd.brands[activeBrand].engagement : vd.engagement;
+    const engCmp = activeBrand ? cd.brands[activeBrand].engagement : cd.engagement;
+    crossfade(heroEng, () => { heroEng.textContent = engNow + '%'; });
+    crossfade(heroEngLabel, () => { heroEngLabel.textContent = activeBrand ? `Engagement rate — ${SM_BRAND_LABEL[activeBrand]}` : 'Engagement rate agregado'; });
+    const engDelta = engNow - engCmp;
     crossfade(deltaEng, () => { deltaEng.textContent = (engDelta >= 0 ? '▲ +' : '▼ ') + Math.abs(Math.round(engDelta * 10) / 10) + 'pp'; deltaStyle(deltaEng, engDelta); });
     const yoyEng = document.getElementById('sm-yoyEngagement');
-    const engYoyDelta = yd ? vd.engagement - yd.engagement : null;
+    const engYoyBase = yd ? (activeBrand ? yd.brands[activeBrand].engagement : yd.engagement) : null;
+    const engYoyDelta = engYoyBase !== null ? (engNow - engYoyBase) : null;
     crossfade(yoyEng, () => { yoyEng.textContent = engYoyDelta !== null ? `vs. año anterior (${yoyMonth}): ${deltaText(engYoyDelta, 'pp')}` : 'vs. año anterior: Sin histórico'; });
 
     ['Diners', 'TITANIUM', 'Discover'].forEach(k => {
@@ -3579,12 +3779,15 @@
     });
 
     SM_renderBrandRace(vd, cd, yd);
+    SM_applyXf(); // las filas de la carrera se recrean en cada render — reaplicar resaltado de la marca activa
     SM_renderNetworkTable(vd, cd, yd);
-    SM_renderT1Summary(vd, cd, yd, cmpMonth, yoyMonth);
+    SM_renderT1Summary(vd, cd, yd, cmpMonth, yoyMonth, activeBrand);
   }
   SM_viewSel.addEventListener('change', () => { ensureMonthsDiffer(SM_viewSel, SM_cmpSel); SM_updateComparison(); });
   SM_cmpSel.addEventListener('change', () => { ensureMonthsDiffer(SM_cmpSel, SM_viewSel); SM_updateComparison(); });
   SM_updateComparison();
+  SM_renderPieces();
+  SM_renderInfluencers();
 
   })();
 </script>
