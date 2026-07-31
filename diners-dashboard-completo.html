@@ -471,7 +471,7 @@
   [data-page="social"] .sm-net-icon svg { width: 100%; height: 100%; display: block; }
   [data-page="social"] .sm-city-row { cursor: pointer; }
   [data-page="social"] .sm-city-row:hover { background: #FAFAFB; }
-  [data-page="social"] .sm-city-expand-icon { display: inline-block; width: 13px; color: #8b8b8b; font-size: 9px; }
+  [data-page="social"] .sm-city-expand-icon { display: inline-block; width: 14px; color: #4F52E5; font-size: 11px; font-weight: 700; }
   [data-page="social"] .sm-network-subrow td:first-child { padding-left: 26px; }
   [data-page="social"] .sm-network-subrow { background: #FAFAFB; }
   [data-page="social"] .sm-network-subrow .network-name-cell { color: #6b6b6b; font-weight: 500; }
@@ -1318,7 +1318,7 @@
 
         <div class="zone zone-pad">
           <div class="zone-title" style="margin-bottom:2px;">Resumen por marca y por red social</div>
-          <div class="hero-caption" style="margin-top:0;margin-bottom:10px;">Composición de la comunidad total, corte del mes seleccionado.</div>
+          <div class="hero-caption fx" id="sm-comboCaption" style="margin-top:0;margin-bottom:10px;">Composición de la comunidad total, corte del mes seleccionado. La red social es agregada (todas las marcas).</div>
           <div class="sm-combo-row">
             <div class="pie-wrap">
               <svg width="120" height="120" viewBox="0 0 120 120" id="sm-brandPieSvg"></svg>
@@ -3593,10 +3593,11 @@
     SM_bindBrandClicks(svg);
     SM_applyXf();
   }
-  function SM_drawNetworkPie(vd) {
+  function SM_drawNetworkPie(vd, activeBrand) {
     const order = ['Instagram', 'Facebook', 'TikTok', 'LinkedIn', 'X'];
     const svg = document.getElementById('sm-networkPieSvg');
-    svg.innerHTML = pieMarkup(order.map(k => ({ label: k, pct: vd.networkShare[k], color: SM_NETWORK_COLOR[k] })), 120);
+    const shares = activeBrand ? SM_brandNetworkShares(activeBrand, vd) : vd.networkShare;
+    svg.innerHTML = pieMarkup(order.map(k => ({ label: k, pct: shares[k], color: SM_NETWORK_COLOR[k] })), 120);
   }
 
   function SM_renderBrandRace(vd, cd, yd) {
@@ -3660,11 +3661,16 @@
     Discover: { Instagram: 0.9, Facebook: 1.35, TikTok: 1.45, LinkedIn: 0.35, X: 0.65 },
   };
   const SM_NET_ORDER = ['Instagram', 'Facebook', 'TikTok', 'LinkedIn', 'X'];
-  function SM_brandNetworkFollowers(brand, key, vd) {
+  function SM_brandNetworkShares(brand, vd) {
     let sum = 0;
     const raw = {};
     SM_NET_ORDER.forEach(n => { raw[n] = vd.networkShare[n] * SM_BRAND_NETWORK_INDEX[brand][n]; sum += raw[n]; });
-    return vd.brands[brand].followers * (raw[key] / sum);
+    const shares = {};
+    SM_NET_ORDER.forEach(n => { shares[n] = (raw[n] / sum) * 100; });
+    return shares;
+  }
+  function SM_brandNetworkFollowers(brand, key, vd) {
+    return vd.brands[brand].followers * (SM_brandNetworkShares(brand, vd)[key] / 100);
   }
 
   function SM_renderNetworkTable(vd, cd, yd, activeBrand) {
@@ -3842,13 +3848,18 @@
     });
     SM_drawBrandPie(vd);
 
+    const brandNetShares = activeBrand ? SM_brandNetworkShares(activeBrand, vd) : null;
     ['Instagram', 'Facebook', 'TikTok', 'LinkedIn', 'X'].forEach(k => {
       const el = document.getElementById('sm-netPct' + k);
-      crossfade(el, () => { el.textContent = vd.networkShare[k] + '%'; });
+      const pctVal = activeBrand ? brandNetShares[k] : vd.networkShare[k];
+      crossfade(el, () => { el.textContent = Math.round(pctVal) + '%'; });
       const numEl = document.getElementById('sm-netNum' + k);
-      crossfade(numEl, () => { numEl.textContent = vd.networks[k].followers.toLocaleString('en-US'); });
+      const numVal = activeBrand ? vd.brands[activeBrand].followers * (brandNetShares[k] / 100) : vd.networks[k].followers;
+      crossfade(numEl, () => { numEl.textContent = Math.round(numVal).toLocaleString('en-US'); });
     });
-    SM_drawNetworkPie(vd);
+    SM_drawNetworkPie(vd, activeBrand);
+    const comboCaption = document.getElementById('sm-comboCaption');
+    crossfade(comboCaption, () => { comboCaption.textContent = activeBrand ? `Composición de ${SM_BRAND_LABEL[activeBrand]}, corte del mes seleccionado. La red social es propia de ${SM_BRAND_LABEL[activeBrand]}.` : 'Composición de la comunidad total, corte del mes seleccionado. La red social es agregada (todas las marcas).'; });
 
     ['Diners', 'TITANIUM', 'Discover'].forEach(k => {
       const b = vd.brands[k], cb = cd.brands[k];
