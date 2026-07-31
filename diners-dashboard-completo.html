@@ -4223,6 +4223,23 @@
     OrganicoAppStore: { amplitude: 0.35, phase: 0 }, Referidos: { amplitude: 0.4, phase: 1.0 },
     Email: { amplitude: 0.65, phase: 1.6 }, Otros: { amplitude: 0.5, phase: 0 },
   };
+  // Índice de desempeño por evento — sobre/sub-índice vs. la "cuota justa" del canal (1.0 = rinde exactamente
+  // según su participación). Canales pagados convierten menos en acciones profundas (abrir ahorro, avance en
+  // efectivo, users más nuevos/menos comprometidos); orgánico/referidos/email convierten más (usuarios de
+  // mayor confianza y antigüedad). Blu Benefits y Consulta de saldo son acciones básicas, casi parejas.
+  const AD_CANAL_EVENT_INDEX = {
+    GoogleAds: { blueBenefits: 0.95, aperturaAhorro: 0.75, avanceEfectivo: 0.70, consultaSaldo: 1.05, pagoTarjeta: 0.90 },
+    MetaAds: { blueBenefits: 1.05, aperturaAhorro: 0.65, avanceEfectivo: 0.60, consultaSaldo: 0.95, pagoTarjeta: 0.85 },
+    OrganicoAppStore: { blueBenefits: 1.00, aperturaAhorro: 1.20, avanceEfectivo: 1.15, consultaSaldo: 1.00, pagoTarjeta: 1.05 },
+    Referidos: { blueBenefits: 1.10, aperturaAhorro: 1.30, avanceEfectivo: 1.25, consultaSaldo: 0.95, pagoTarjeta: 1.10 },
+    Email: { blueBenefits: 0.90, aperturaAhorro: 1.40, avanceEfectivo: 1.35, consultaSaldo: 0.90, pagoTarjeta: 1.15 },
+    Otros: { blueBenefits: 1.0, aperturaAhorro: 1.0, avanceEfectivo: 1.0, consultaSaldo: 1.0, pagoTarjeta: 1.0 },
+  };
+  function AD_scaleEventsWithIndex(obj, factor, idx) {
+    const out = {};
+    Object.keys(obj).forEach(k => { out[k] = obj[k] * factor * (idx ? idx[k] : 1); });
+    return out;
+  }
   function AD_channelAgeValues(channel, totalForChannel) {
     if (!channel) return AD_EDAD_ORDER.map(k => AD_EDAD_USERS[k]);
     const idx = AD_CANAL_AGE_INDEX[channel];
@@ -4474,17 +4491,19 @@
     const yd = yoyMonth ? AD_MONTH_DATA[yoyMonth] : null;
 
     // El filtro de canal escala los conteos de APP BLU (usuarios, eventos, tablas) por la participación real
-    // de ese canal. La META queda FIJA (es un objetivo del total de la base, no por canal) — así el
-    // % de cumplimiento sí varía con el canal, en vez de quedar siempre igual. Re-engagement y Sesiones/usuario
-    // quedan agregados (tasas, sin dato real por canal); edad, SO y Nuevos/Recurrentes usan una afinidad
-    // relativa por canal (canales pagados sobre-indexan usuarios jóvenes y "nuevos").
+    // de ese canal. La META de cada evento también se prorratea a esa misma cuota — comparar el valor de UN
+    // canal contra la meta del TOTAL siempre lo haría ver casi en cero. Un índice de desempeño (abajo) mueve
+    // el % de cumplimiento por encima o por debajo de esa cuota justa, según si ese canal convierte mejor o
+    // peor de lo esperado. Re-engagement y Sesiones/usuario quedan agregados (tasas, sin dato real por canal);
+    // edad, SO y Nuevos/Recurrentes usan una afinidad relativa por canal (pagados sobre-indexan jóvenes/nuevos).
     const chShare = AD_activeChannel ? (AD_CANAL_VALUES_MAP[AD_activeChannel] / AD_CANAL_TOTAL) : 1;
     const chLabel = AD_activeChannel ? AD_CANAL_LABEL[AD_activeChannel] : null;
     const mauEff = vd.mau * chShare, mauCmpEff = cd.mau * chShare, mauYoyEff = yd ? yd.mau * chShare : null;
     const lealesEff = vd.leales * chShare, lealesCmpEff = cd.leales * chShare, lealesYoyEff = yd ? yd.leales * chShare : null;
     const eventosTotalesEff = vd.eventosTotales * chShare, eventosTotalesCmpEff = cd.eventosTotales * chShare, eventosTotalesYoyEff = yd ? yd.eventosTotales * chShare : null;
-    const eventsEff = AD_scaleObj(vd.events, chShare), eventsCmpEff = AD_scaleObj(cd.events, chShare), eventsYoyEff = yd ? AD_scaleObj(yd.events, chShare) : null;
-    const eventMetaEff = AD_EVENT_META;
+    const eventIdx = AD_activeChannel ? AD_CANAL_EVENT_INDEX[AD_activeChannel] : null;
+    const eventsEff = AD_scaleEventsWithIndex(vd.events, chShare, eventIdx), eventsCmpEff = AD_scaleEventsWithIndex(cd.events, chShare, eventIdx), eventsYoyEff = yd ? AD_scaleEventsWithIndex(yd.events, chShare, eventIdx) : null;
+    const eventMetaEff = AD_scaleObj(AD_EVENT_META, chShare); // meta proporcional a la "cuota justa" del canal — el índice arriba mueve el valor por encima o por debajo de esa cuota
 
     AD_updateKpiAbs('ad-heroMau', 'ad-deltaMau', 'ad-yoyMau', mauEff, mauCmpEff, mauYoyEff, yoyMonth, v => Math.round(v).toLocaleString('en-US'));
     crossfade(document.getElementById('ad-heroMauLabel'), () => { document.getElementById('ad-heroMauLabel').textContent = chLabel ? `Usuarios Activos (MAU) — ${chLabel}` : 'Usuarios Activos (MAU)'; });
