@@ -1343,8 +1343,8 @@
         </div>
 
         <div class="zone zone-pad" style="margin-top:14px;">
-          <div class="zone-title" style="margin-bottom:2px;">Comunidad por ciudad</div>
-          <div class="hero-caption" style="margin-top:0;margin-bottom:10px;">Distribución geográfica de la comunidad total (agregado de todas las marcas), corte del mes seleccionado. Clic en una ciudad para ver su desglose por red social — usa el mismo mix agregado de red en todas las ciudades (no hay dato real de red por ciudad).</div>
+          <div class="zone-title fx" id="sm-cityTableTitle" style="margin-bottom:2px;">Comunidad por ciudad</div>
+          <div class="hero-caption fx" id="sm-cityTableCaption" style="margin-top:0;margin-bottom:10px;">Distribución geográfica de la comunidad total (agregado de todas las marcas), corte del mes seleccionado. Clic en una ciudad para ver su desglose por red social — usa el mismo mix de ciudad en todas las marcas (no hay dato real de ciudad por marca).</div>
           <table class="network-table">
             <thead><tr><th>Ciudad</th><th>Seguidores</th><th>% de la comunidad</th></tr></thead>
             <tbody id="sm-cityTableBody"></tbody>
@@ -3623,21 +3623,30 @@
     SM_bindBrandClicks(el);
   }
 
-  function SM_renderCityTable(vd) {
+  function SM_renderCityTable(vd, activeBrand) {
+    const titleEl = document.getElementById('sm-cityTableTitle');
+    if (titleEl) titleEl.textContent = activeBrand ? `Comunidad por ciudad — ${SM_BRAND_LABEL[activeBrand]}` : 'Comunidad por ciudad';
+    const captionEl = document.getElementById('sm-cityTableCaption');
+    if (captionEl) captionEl.textContent = activeBrand
+      ? `Distribución geográfica de ${SM_BRAND_LABEL[activeBrand]}, corte del mes seleccionado. Clic en una ciudad para ver su desglose por red social — usa el mismo mix de ciudad en todas las marcas y el mix de red propio de ${SM_BRAND_LABEL[activeBrand]}.`
+      : 'Distribución geográfica de la comunidad total (agregado de todas las marcas), corte del mes seleccionado. Clic en una ciudad para ver su desglose por red social — usa el mismo mix de ciudad en todas las marcas (no hay dato real de ciudad por marca).';
+
     const body = document.getElementById('sm-cityTableBody');
     const ranked = [...SM_CITY_SHARE].sort((a, b) => b.pct - a.pct);
     const netOrder = ['Instagram', 'Facebook', 'TikTok', 'LinkedIn', 'X'];
+    const baseTotal = activeBrand ? vd.brands[activeBrand].followers : vd.total;
+    const netShares = activeBrand ? SM_brandNetworkShares(activeBrand, vd) : vd.networkShare;
     body.innerHTML = ranked.map(c => {
-      const now = Math.round(vd.total * (c.pct / 100));
+      const now = Math.round(baseTotal * (c.pct / 100));
       const key = 'city-' + c.name.replace(/[^a-zA-Z]/g, '');
       const mainRow = `<tr class="sm-city-row" data-expand-target="${key}"><td><span class="sm-city-expand-icon">▸</span>${c.name}${c.prov !== '—' ? ` <span style="color:#8b8b8b;font-weight:400;">(${c.prov})</span>` : ''}</td>` +
         `<td class="metric">${now.toLocaleString('en-US')}</td>` +
         `<td class="metric">${c.pct}%</td></tr>`;
       const subRows = netOrder.map(k => {
-        const netNow = Math.round(now * (vd.networkShare[k] / 100));
+        const netNow = Math.round(now * (netShares[k] / 100));
         return `<tr class="sm-network-subrow" data-parent="${key}" style="display:none;"><td><div class="network-name-cell"><span class="sm-net-icon">${SM_NETWORK_ICON[k]}</span>${k}</div></td>` +
           `<td class="metric">${netNow.toLocaleString('en-US')}</td>` +
-          `<td class="metric">${vd.networkShare[k]}%</td></tr>`;
+          `<td class="metric">${Math.round(netShares[k])}%</td></tr>`;
       }).join('');
       return mainRow + subRows;
     }).join('');
@@ -3881,7 +3890,7 @@
 
     SM_renderBrandRace(vd, cd, yd);
     SM_applyXf(); // las filas de la carrera se recrean en cada render — reaplicar resaltado de la marca activa
-    SM_renderCityTable(vd);
+    SM_renderCityTable(vd, activeBrand);
     SM_renderNetworkTable(vd, cd, yd, activeBrand);
     SM_renderPieces(activeBrand);
     SM_renderT1Summary(vd, cd, yd, cmpMonth, yoyMonth, activeBrand);
