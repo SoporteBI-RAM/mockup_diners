@@ -116,6 +116,7 @@
   .mix-dot { width: 9px; height: 9px; border-radius: 3px; flex: none; }
   .mix-name { flex: 1; color: #262626; }
   .mix-pct { font-weight: 700; font-variant-numeric: tabular-nums; }
+  .mix-num { font-size: 10.5px; color: #8b8b8b; font-variant-numeric: tabular-nums; margin-right: 8px; }
   .gauge-box { flex: none; width: 118px; }
   .gauge-box svg { width: 100%; height: auto; display: block; }
   .gauge-center-wrap { display: flex; justify-content: center; }
@@ -468,19 +469,6 @@
   [data-page="social"] .obj-filter-btn[data-active="true"] { background: #4F52E5; border-color: #4F52E5; color: #fff; }
   [data-page="social"] .sm-net-icon { width: 15px; height: 15px; flex: none; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; }
   [data-page="social"] .sm-net-icon svg { width: 100%; height: 100%; display: block; }
-  [data-page="social"] .sm-map-row { display: flex; gap: 22px; align-items: flex-start; flex-wrap: wrap; }
-  [data-page="social"] .sm-map-svg { width: 160px; height: 300px; flex: none; }
-  [data-page="social"] .sm-map-svg circle { cursor: pointer; transition: opacity 0.15s ease; }
-  [data-page="social"] .sm-map-svg circle:hover { opacity: 1 !important; filter: brightness(1.08); }
-  [data-page="social"] .sm-map-legend { flex: 1; min-width: 200px; }
-  [data-page="social"] .sm-map-legend-title { font-size: 10.5px; font-weight: 700; color: #8b8b8b; text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 6px; }
-  [data-page="social"] .sm-map-legend-scale { height: 8px; border-radius: 4px; background: linear-gradient(90deg, #E3E1FB, #312E81); margin-bottom: 3px; }
-  [data-page="social"] .sm-map-legend-labels { display: flex; justify-content: space-between; font-size: 10px; color: #8b8b8b; margin-bottom: 14px; }
-  [data-page="social"] .sm-map-city-row { display: flex; align-items: center; gap: 8px; font-size: 12px; padding: 5px 0; border-top: 1px dashed #e6e5ea; }
-  [data-page="social"] .sm-map-city-row:first-child { border-top: none; padding-top: 0; }
-  [data-page="social"] .sm-map-city-dot { width: 10px; height: 10px; border-radius: 3px; flex: none; }
-  [data-page="social"] .sm-map-city-name { flex: 1; color: #262626; }
-  [data-page="social"] .sm-map-city-pct { font-weight: 700; font-variant-numeric: tabular-nums; color: #262626; }
   [data-page="social"] .sm-kpi-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
   [data-page="social"] .sm-mini-kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
   [data-page="social"] .sm-mini-kpi-value { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
@@ -1329,37 +1317,32 @@
             <div class="pie-wrap">
               <svg width="120" height="120" viewBox="0 0 120 120" id="sm-brandPieSvg"></svg>
               <div style="flex:1;">
-                <div class="mix-legend-row"><span class="mix-dot" style="background:#4F52E5"></span><span class="mix-name">Diners Club</span><span class="mix-pct fx" id="sm-brandPctDiners">67%</span></div>
-                <div class="mix-legend-row"><span class="mix-dot" style="background:#2563EB"></span><span class="mix-name">TITANIUM</span><span class="mix-pct fx" id="sm-brandPctTITANIUM">20%</span></div>
-                <div class="mix-legend-row"><span class="mix-dot" style="background:#6E93B0"></span><span class="mix-name">Discover</span><span class="mix-pct fx" id="sm-brandPctDiscover">13%</span></div>
+                <div class="mix-legend-row"><span class="mix-dot" style="background:#4F52E5"></span><span class="mix-name">Diners Club</span><span class="mix-num fx" id="sm-brandNumDiners">190,950</span><span class="mix-pct fx" id="sm-brandPctDiners">67%</span></div>
+                <div class="mix-legend-row"><span class="mix-dot" style="background:#2563EB"></span><span class="mix-name">TITANIUM</span><span class="mix-num fx" id="sm-brandNumTITANIUM">57,000</span><span class="mix-pct fx" id="sm-brandPctTITANIUM">20%</span></div>
+                <div class="mix-legend-row"><span class="mix-dot" style="background:#6E93B0"></span><span class="mix-name">Discover</span><span class="mix-num fx" id="sm-brandNumDiscover">37,050</span><span class="mix-pct fx" id="sm-brandPctDiscover">13%</span></div>
               </div>
             </div>
             <div class="sm-combo-divider"></div>
             <div class="pie-wrap">
               <svg width="120" height="120" viewBox="0 0 120 120" id="sm-networkPieSvg"></svg>
               <div style="flex:1;">
-                <div class="mix-legend-row"><span class="sm-net-icon"><svg viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#E1306C"></rect><rect x="6" y="6" width="12" height="12" rx="3.5" fill="none" stroke="#fff" stroke-width="1.6"></rect><circle cx="12" cy="12" r="3" fill="none" stroke="#fff" stroke-width="1.6"></circle><circle cx="16.2" cy="7.8" r="1" fill="#fff"></circle></svg></span><span class="mix-name">Instagram</span><span class="mix-pct fx" id="sm-netPctInstagram">37%</span></div>
-                <div class="mix-legend-row"><span class="sm-net-icon"><svg viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#1877F2"></rect><path d="M14.5 8.5h-1.7c-.4 0-.8.35-.8.9V11h2.4l-.35 2.3h-2.05V19h-2.4v-5.7H8v-2.3h1.6V9.1c0-1.75 1.05-3.1 2.9-3.1h1.9v2.5z" fill="#fff"></path></svg></span><span class="mix-name">Facebook</span><span class="mix-pct fx" id="sm-netPctFacebook">25%</span></div>
-                <div class="mix-legend-row"><span class="sm-net-icon"><svg viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#000"></rect><path d="M14.2 5.5c.3 1.5 1.3 2.6 3 2.8v2.1c-1.1 0-2.1-.35-3-.95v4.7a4.15 4.15 0 1 1-3.6-4.12v2.2a1.95 1.95 0 1 0 1.5 1.9V5.5h2.1z" fill="#fff"></path></svg></span><span class="mix-name">TikTok</span><span class="mix-pct fx" id="sm-netPctTikTok">24%</span></div>
-                <div class="mix-legend-row"><span class="sm-net-icon"><svg viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#0A66C2"></rect><rect x="6" y="10" width="2.3" height="8" fill="#fff"></rect><circle cx="7.15" cy="7" r="1.35" fill="#fff"></circle><path d="M11 10h2.2v1.15c.45-.7 1.25-1.35 2.6-1.35 1.95 0 3.2 1.25 3.2 3.65V18h-2.3v-4.1c0-1.1-.45-1.85-1.5-1.85-.85 0-1.35.55-1.55 1.1-.08.2-.1.45-.1.72V18H11v-8z" fill="#fff"></path></svg></span><span class="mix-name">LinkedIn</span><span class="mix-pct fx" id="sm-netPctLinkedIn">9%</span></div>
-                <div class="mix-legend-row"><span class="sm-net-icon"><svg viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#000"></rect><path d="M6.5 6.5l11 11M17.5 6.5l-11 11" stroke="#fff" stroke-width="1.8" stroke-linecap="round"></path></svg></span><span class="mix-name">X</span><span class="mix-pct fx" id="sm-netPctX">5%</span></div>
+                <div class="mix-legend-row"><span class="sm-net-icon"><svg viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#E1306C"></rect><rect x="6" y="6" width="12" height="12" rx="3.5" fill="none" stroke="#fff" stroke-width="1.6"></rect><circle cx="12" cy="12" r="3" fill="none" stroke="#fff" stroke-width="1.6"></circle><circle cx="16.2" cy="7.8" r="1" fill="#fff"></circle></svg></span><span class="mix-name">Instagram</span><span class="mix-num fx" id="sm-netNumInstagram">105,450</span><span class="mix-pct fx" id="sm-netPctInstagram">37%</span></div>
+                <div class="mix-legend-row"><span class="sm-net-icon"><svg viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#1877F2"></rect><path d="M14.5 8.5h-1.7c-.4 0-.8.35-.8.9V11h2.4l-.35 2.3h-2.05V19h-2.4v-5.7H8v-2.3h1.6V9.1c0-1.75 1.05-3.1 2.9-3.1h1.9v2.5z" fill="#fff"></path></svg></span><span class="mix-name">Facebook</span><span class="mix-num fx" id="sm-netNumFacebook">71,250</span><span class="mix-pct fx" id="sm-netPctFacebook">25%</span></div>
+                <div class="mix-legend-row"><span class="sm-net-icon"><svg viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#000"></rect><path d="M14.2 5.5c.3 1.5 1.3 2.6 3 2.8v2.1c-1.1 0-2.1-.35-3-.95v4.7a4.15 4.15 0 1 1-3.6-4.12v2.2a1.95 1.95 0 1 0 1.5 1.9V5.5h2.1z" fill="#fff"></path></svg></span><span class="mix-name">TikTok</span><span class="mix-num fx" id="sm-netNumTikTok">68,400</span><span class="mix-pct fx" id="sm-netPctTikTok">24%</span></div>
+                <div class="mix-legend-row"><span class="sm-net-icon"><svg viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#0A66C2"></rect><rect x="6" y="10" width="2.3" height="8" fill="#fff"></rect><circle cx="7.15" cy="7" r="1.35" fill="#fff"></circle><path d="M11 10h2.2v1.15c.45-.7 1.25-1.35 2.6-1.35 1.95 0 3.2 1.25 3.2 3.65V18h-2.3v-4.1c0-1.1-.45-1.85-1.5-1.85-.85 0-1.35.55-1.55 1.1-.08.2-.1.45-.1.72V18H11v-8z" fill="#fff"></path></svg></span><span class="mix-name">LinkedIn</span><span class="mix-num fx" id="sm-netNumLinkedIn">25,650</span><span class="mix-pct fx" id="sm-netPctLinkedIn">9%</span></div>
+                <div class="mix-legend-row"><span class="sm-net-icon"><svg viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#000"></rect><path d="M6.5 6.5l11 11M17.5 6.5l-11 11" stroke="#fff" stroke-width="1.8" stroke-linecap="round"></path></svg></span><span class="mix-name">X</span><span class="mix-num fx" id="sm-netNumX">14,250</span><span class="mix-pct fx" id="sm-netPctX">5%</span></div>
               </div>
             </div>
           </div>
         </div>
 
         <div class="zone zone-pad" style="margin-top:14px;">
-          <div class="zone-title" style="margin-bottom:2px;">Mapa de calor — comunidad por ciudad</div>
-          <div class="hero-caption" style="margin-top:0;margin-bottom:10px;">Distribución geográfica de la comunidad total (agregado de todas las marcas y redes). Mapa ilustrativo, no a escala — pasa el mouse sobre una ciudad para ver el detalle.</div>
-          <div class="sm-map-row">
-            <svg viewBox="0 0 200 400" class="sm-map-svg" id="sm-mapSvg"></svg>
-            <div class="sm-map-legend">
-              <div class="sm-map-legend-title">Intensidad de la comunidad</div>
-              <div class="sm-map-legend-scale"></div>
-              <div class="sm-map-legend-labels"><span>Menor</span><span>Mayor</span></div>
-              <div id="sm-mapCityList"></div>
-            </div>
-          </div>
+          <div class="zone-title" style="margin-bottom:2px;">Comunidad por ciudad</div>
+          <div class="hero-caption" style="margin-top:0;margin-bottom:10px;">Distribución geográfica de la comunidad total (agregado de todas las marcas y redes), corte del mes seleccionado.</div>
+          <table class="network-table">
+            <thead><tr><th>Ciudad</th><th>Seguidores</th><th>% de la comunidad</th></tr></thead>
+            <tbody id="sm-cityTableBody"></tbody>
+          </table>
         </div>
 
         <div class="zone zone-pad" style="margin-top:14px;">
@@ -3574,25 +3557,17 @@
 
   /* ================= MAPA DE CALOR — comunidad por ciudad ================= */
   // % de la comunidad total por ciudad — desglose ilustrativo fijo, aplicado al total real de cada mes (deriva, no autora un dataset nuevo por mes)
+  // % de la comunidad total por ciudad — desglose ilustrativo fijo, aplicado al total real de cada mes (deriva, no autora un dataset nuevo por mes)
   const SM_CITY_SHARE = [
-    { name: 'Quito', prov: 'Pichincha', pct: 32, x: 115, y: 85 },
-    { name: 'Guayaquil', prov: 'Guayas', pct: 28, x: 90, y: 272 },
-    { name: 'Cuenca', prov: 'Azuay', pct: 10, x: 120, y: 310 },
-    { name: 'Ambato', prov: 'Tungurahua', pct: 7, x: 118, y: 175 },
-    { name: 'Manta', prov: 'Manabí', pct: 6, x: 50, y: 175 },
-    { name: 'Machala', prov: 'El Oro', pct: 5, x: 80, y: 325 },
-    { name: 'Loja', prov: 'Loja', pct: 4, x: 95, y: 370 },
-    { name: 'Otras ciudades', prov: '—', pct: 8, x: null, y: null },
+    { name: 'Quito', prov: 'Pichincha', pct: 32 },
+    { name: 'Guayaquil', prov: 'Guayas', pct: 28 },
+    { name: 'Cuenca', prov: 'Azuay', pct: 10 },
+    { name: 'Ambato', prov: 'Tungurahua', pct: 7 },
+    { name: 'Manta', prov: 'Manabí', pct: 6 },
+    { name: 'Machala', prov: 'El Oro', pct: 5 },
+    { name: 'Loja', prov: 'Loja', pct: 4 },
+    { name: 'Otras ciudades', prov: '—', pct: 8 },
   ];
-  // Contorno simplificado de Ecuador continental: golfo de Guayaquil + península de Santa Elena al SO,
-  // ensanche amazónico al E, punta sur angosta (Loja). ViewBox 0 0 200 400.
-  const SM_ECUADOR_PATH = 'M78,10 L120,4 L158,20 L183,60 L188,120 L180,190 L165,250 L145,305 L118,350 L92,385 L78,398 L66,378 L70,340 L56,305 L78,275 L52,258 L30,278 L40,232 L28,178 L36,118 L55,62 Z';
-  function SM_heatColor(pct, maxPct) {
-    const t = Math.max(0, Math.min(1, pct / maxPct));
-    const c1 = [227, 225, 251], c2 = [49, 46, 129];
-    const c = c1.map((v, i) => Math.round(v + (c2[i] - v) * t));
-    return `rgb(${c[0]},${c[1]},${c[2]})`;
-  }
 
   const SM_yoyMonth = m => m.includes('2026') ? m.replace('2026', '2025') : null;
 
@@ -3638,29 +3613,14 @@
     SM_bindBrandClicks(el);
   }
 
-  function SM_renderMap(vd, cd, yd, cmpMonth, yoyMonth) {
-    const cities = SM_CITY_SHARE.filter(c => c.x !== null);
-    const maxPct = Math.max(...cities.map(c => c.pct));
-    const svg = document.getElementById('sm-mapSvg');
-    let out = `<path d="${SM_ECUADOR_PATH}" fill="#F8F7FA" stroke="#dcdae2" stroke-width="1.5"></path>`;
-    cities.forEach(c => {
-      const now = vd.total * (c.pct / 100);
-      const cmp = cd.total * (c.pct / 100);
-      const delta = relDelta(now, cmp);
-      const yoyBase = yd ? yd.total * (c.pct / 100) : null;
-      const yoyDelta = yoyBase !== null ? relDelta(now, yoyBase) : null;
-      const r = 8 + (c.pct / maxPct) * 13;
-      const color = SM_heatColor(c.pct, maxPct);
-      const ttv = `${Math.round(now).toLocaleString('en-US')} seguidores · ${c.pct}% de la comunidad · ${deltaText(delta)} vs. ${cmpMonth.split(' ')[0]}${yoyDelta !== null ? ' · ' + deltaText(yoyDelta) + ' AA' : ''}`;
-      out += `<circle cx="${c.x}" cy="${c.y}" r="${r}" fill="${color}" stroke="#fff" stroke-width="1.5" opacity="0.92" data-tt="${c.name} (${c.prov})" data-ttv="${ttv}"></circle>`;
-    });
-    svg.innerHTML = out;
-
-    const listEl = document.getElementById('sm-mapCityList');
+  function SM_renderCityTable(vd) {
+    const body = document.getElementById('sm-cityTableBody');
     const ranked = [...SM_CITY_SHARE].sort((a, b) => b.pct - a.pct);
-    listEl.innerHTML = ranked.map(c => {
-      const color = c.x !== null ? SM_heatColor(c.pct, maxPct) : '#c7c6d1';
-      return `<div class="sm-map-city-row"><span class="sm-map-city-dot" style="background:${color}"></span><span class="sm-map-city-name">${c.name}</span><span class="sm-map-city-pct">${c.pct}%</span></div>`;
+    body.innerHTML = ranked.map(c => {
+      const now = Math.round(vd.total * (c.pct / 100));
+      return `<tr><td>${c.name}${c.prov !== '—' ? ` <span style="color:#8b8b8b;font-weight:400;">(${c.prov})</span>` : ''}</td>` +
+        `<td class="metric">${now.toLocaleString('en-US')}</td>` +
+        `<td class="metric">${c.pct}%</td></tr>`;
     }).join('');
   }
 
@@ -3779,8 +3739,9 @@
     const bestInfCtr = (bestInf.registros / bestInf.clicks) * 100;
     parts.push(`En influencers, <b>${bestInf.handle}</b> (${bestInf.tipo}) tiene la mejor conversión a registro (${bestInfCtr.toFixed(1)}%).`);
 
-    const topCities = [...SM_CITY_SHARE].filter(c => c.x !== null).sort((a, b) => b.pct - a.pct);
-    parts.push(`Geográficamente, <b>${topCities[0].name}</b> concentra el ${topCities[0].pct}% de la comunidad, seguido de <b>${topCities[1].name}</b> (${topCities[1].pct}%).`);
+    const topCities = [...SM_CITY_SHARE].filter(c => c.name !== 'Otras ciudades').sort((a, b) => b.pct - a.pct);
+    const topCityNum = Math.round(vd.total * (topCities[0].pct / 100));
+    parts.push(`Geográficamente, <b>${topCities[0].name}</b> concentra el ${topCities[0].pct}% de la comunidad (${topCityNum.toLocaleString('en-US')} seguidores), seguido de <b>${topCities[1].name}</b> (${topCities[1].pct}%).`);
 
     document.getElementById('sm-t1Summary').innerHTML = parts.join(' ');
   }
@@ -3823,12 +3784,16 @@
     ['Diners', 'TITANIUM', 'Discover'].forEach(k => {
       const el = document.getElementById('sm-brandPct' + k);
       crossfade(el, () => { el.textContent = vd.brandShare[k] + '%'; });
+      const numEl = document.getElementById('sm-brandNum' + k);
+      crossfade(numEl, () => { numEl.textContent = vd.brands[k].followers.toLocaleString('en-US'); });
     });
     SM_drawBrandPie(vd);
 
     ['Instagram', 'Facebook', 'TikTok', 'LinkedIn', 'X'].forEach(k => {
       const el = document.getElementById('sm-netPct' + k);
       crossfade(el, () => { el.textContent = vd.networkShare[k] + '%'; });
+      const numEl = document.getElementById('sm-netNum' + k);
+      crossfade(numEl, () => { numEl.textContent = vd.networks[k].followers.toLocaleString('en-US'); });
     });
     SM_drawNetworkPie(vd);
 
@@ -3852,7 +3817,7 @@
 
     SM_renderBrandRace(vd, cd, yd);
     SM_applyXf(); // las filas de la carrera se recrean en cada render — reaplicar resaltado de la marca activa
-    SM_renderMap(vd, cd, yd, cmpMonth, yoyMonth);
+    SM_renderCityTable(vd);
     SM_renderNetworkTable(vd, cd, yd);
     SM_renderT1Summary(vd, cd, yd, cmpMonth, yoyMonth, activeBrand);
   }
