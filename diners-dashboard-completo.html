@@ -574,6 +574,10 @@
         <span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.6" y1="10.6" x2="15.4" y2="6.4"></line><line x1="8.6" y1="13.4" x2="15.4" y2="17.6"></line></svg></span>
         Social Media
       </button>
+      <button class="nav-item" data-page="digital">
+        <span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"></rect><line x1="9" y1="18" x2="15" y2="18"></line></svg></span>
+        Activos Digitales
+      </button>
       <button class="nav-item" data-page="own">
         <span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="M2 6l10 7L22 6"></path></svg></span>
         Own Media
@@ -581,10 +585,6 @@
       <button class="nav-item" data-page="rse">
         <span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"></path></svg></span>
         RSE y Revista
-      </button>
-      <button class="nav-item" data-page="digital">
-        <span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"></rect><line x1="9" y1="18" x2="15" y2="18"></line></svg></span>
-        Activos Digitales
       </button>
     </div>
     <div class="sidebar-footer">Mockup interno · datos ilustrativos<br>Analítica RAM</div>
@@ -631,6 +631,15 @@
           <div class="portada-card-kpi"><span class="portada-card-kpi-value">6.8%</span><span class="portada-card-kpi-label">Engagement rate</span></div>
           <div class="portada-card-arrow">Ver tablero →</div>
         </div>
+        <div class="zone portada-card" data-goto-page="digital">
+          <div class="portada-card-icon" style="background:rgba(85,99,122,0.14);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#55637A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 9h.01M15 9h.01M8 13a4 4 0 0 0 8 0"></path><circle cx="12" cy="12" r="10"></circle></svg>
+          </div>
+          <div class="portada-card-title">Activos Digitales</div>
+          <div class="portada-card-desc">APP BLU y Portal Público Diners — usuarios, engagement y cumplimiento de metas.</div>
+          <div class="portada-card-kpi"><span class="portada-card-kpi-value">142,850</span><span class="portada-card-kpi-label">Usuarios Activos (MAU)</span></div>
+          <div class="portada-card-arrow">Ver tablero →</div>
+        </div>
         <div class="zone portada-card" data-goto-page="own">
           <div class="portada-card-icon" style="background:rgba(110,147,176,0.12);">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6E93B0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="M2 6l10 7L22 6"></path></svg>
@@ -647,15 +656,6 @@
           <div class="portada-card-title">RSE y Revista</div>
           <div class="portada-card-desc">Ejecución de iniciativas sociales y desempeño de Revista Mundo Diners.</div>
           <div class="portada-card-kpi"><span class="portada-card-kpi-value">78%</span><span class="portada-card-kpi-label">Avance Educación Financiera</span></div>
-          <div class="portada-card-arrow">Ver tablero →</div>
-        </div>
-        <div class="zone portada-card" data-goto-page="digital">
-          <div class="portada-card-icon" style="background:rgba(85,99,122,0.14);">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#55637A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 9h.01M15 9h.01M8 13a4 4 0 0 0 8 0"></path><circle cx="12" cy="12" r="10"></circle></svg>
-          </div>
-          <div class="portada-card-title">Activos Digitales</div>
-          <div class="portada-card-desc">APP BLU y Portal Público Diners — usuarios, engagement y cumplimiento de metas.</div>
-          <div class="portada-card-kpi"><span class="portada-card-kpi-value">142,850</span><span class="portada-card-kpi-label">Usuarios Activos (MAU)</span></div>
           <div class="portada-card-arrow">Ver tablero →</div>
         </div>
       </div>
@@ -1628,7 +1628,7 @@
 
         <div class="zone zone-pad">
           <div class="zone-title" style="margin-bottom:2px;">Evolución de Usuarios Activos por día</div>
-          <div class="hero-caption" style="margin-top:0;margin-bottom:8px;">Forma diaria ilustrativa, escalada al MAU real del mes seleccionado.</div>
+          <div class="hero-caption" style="margin-top:0;margin-bottom:8px;">Forma diaria ilustrativa, escalada al MAU real del mes seleccionado. Eje X: día del mes · Eje Y: usuarios activos.</div>
           <svg width="100%" height="140" viewBox="0 0 1080 140" id="ad-dailyMauSvg" preserveAspectRatio="none"></svg>
         </div>
 
@@ -1636,7 +1636,7 @@
           <div class="zone-title" style="margin-bottom:2px;">Eventos in-app — cumplimiento vs. meta</div>
           <div class="hero-caption" style="margin-top:0;margin-bottom:10px;">Valor del mes seleccionado vs. meta mensual.<span class="ad-tag ilustrativo">Ilustrativo</span></div>
           <table class="network-table">
-            <thead><tr><th>Evento</th><th>Valor</th><th>Meta</th><th>Cumplimiento</th><th>Estado</th></tr></thead>
+            <thead><tr><th>Evento</th><th>Valor</th><th>vs. mes</th><th>vs. año ant.</th><th>Meta</th><th>Cumplimiento</th><th>Estado</th></tr></thead>
             <tbody id="ad-eventsMetaBody"></tbody>
           </table>
         </div>
@@ -1747,7 +1747,7 @@
 
         <div class="zone zone-pad">
           <div class="zone-title" style="margin-bottom:2px;">Evolución de usuarios — Total vs. Nuevos</div>
-          <div class="hero-caption" style="margin-top:0;margin-bottom:8px;">Forma diaria ilustrativa, escalada a las visitas reales del mes seleccionado.</div>
+          <div class="hero-caption" style="margin-top:0;margin-bottom:8px;">Forma diaria ilustrativa, escalada a las visitas reales del mes seleccionado. Eje X: día del mes · Eje Y: usuarios.</div>
           <svg width="100%" height="140" viewBox="0 0 1080 140" id="ad-dailyPortalSvg" preserveAspectRatio="none"></svg>
         </div>
 
@@ -1755,7 +1755,7 @@
           <div class="zone-title" style="margin-bottom:2px;">Rutas más visitadas — cumplimiento vs. meta</div>
           <div class="hero-caption" style="margin-top:0;margin-bottom:10px;">Valor del mes seleccionado vs. meta mensual.<span class="ad-tag ilustrativo">Ilustrativo</span></div>
           <table class="network-table">
-            <thead><tr><th>Ruta</th><th>Visitas</th><th>Meta</th><th>Cumplimiento</th><th>Estado</th></tr></thead>
+            <thead><tr><th>Ruta</th><th>Visitas</th><th>vs. mes</th><th>vs. año ant.</th><th>Meta</th><th>Cumplimiento</th><th>Estado</th></tr></thead>
             <tbody id="ad-routesMetaBody"></tbody>
           </table>
         </div>
@@ -4254,7 +4254,7 @@
     crossfade(yoyEl, () => { yoyEl.textContent = dy !== null ? `vs. año anterior (${yoyMonth}): ${(dy >= 0 ? '▲ +' : '▼ ') + Math.abs(Math.round(dy * 10) / 10) + unit}` : 'vs. año anterior: Sin histórico'; });
   }
 
-  function AD_metaRow(label, value, meta) {
+  function AD_metaRow(label, value, cmpValue, yoyValue, meta, yoyMonth) {
     const pct = (value / meta) * 100;
     const cumple = pct >= 100;
     const trackPct = Math.min(pct, 130);
@@ -4262,14 +4262,20 @@
     const pill = cumple
       ? '<span class="status-pill" style="background:rgba(0,128,56,0.1);color:#008038;">✅ Cumple meta</span>'
       : '<span class="status-pill" style="background:rgba(233,181,45,0.16);color:#8a6d1f;">⚠️ Bajo meta</span>';
+    const d = relDelta(value, cmpValue);
+    const dColor = d >= 0 ? '#008038' : '#EE0000';
+    const dy = (yoyValue !== null && yoyValue !== undefined) ? relDelta(value, yoyValue) : null;
+    const dyColor = dy !== null ? (dy >= 0 ? '#008038' : '#EE0000') : '#8b8b8b';
     return `<tr><td>${label}</td>` +
       `<td class="metric">${value.toLocaleString('en-US')}</td>` +
+      `<td class="metric" style="color:${dColor};font-weight:700;">${deltaText(d)}</td>` +
+      `<td class="metric" style="color:${dyColor};font-weight:700;">${dy !== null ? deltaText(dy) : 'Sin histórico'}</td>` +
       `<td class="metric" style="color:#8b8b8b;">${meta.toLocaleString('en-US')}</td>` +
       `<td><div class="ad-meta-track"><div class="ad-meta-fill" style="background:${color};transform:scaleX(${trackPct / 130})"></div></div><div style="font-size:10px;color:#8b8b8b;margin-top:2px;">${pct.toFixed(0)}%</div></td>` +
       `<td>${pill}</td></tr>`;
   }
-  function AD_renderMetaTable(bodyId, order, labelMap, valueMap, metaMap) {
-    document.getElementById(bodyId).innerHTML = order.map(k => AD_metaRow(labelMap[k], valueMap[k], metaMap[k])).join('');
+  function AD_renderMetaTable(bodyId, order, labelMap, valueMap, cmpMap, yoyMap, metaMap, yoyMonth) {
+    document.getElementById(bodyId).innerHTML = order.map(k => AD_metaRow(labelMap[k], valueMap[k], cmpMap[k], yoyMap ? yoyMap[k] : null, metaMap[k], yoyMonth)).join('');
   }
   function AD_renderWeeklyTable(bodyId, order, labelMap, weeklyMap) {
     document.getElementById(bodyId).innerHTML = order.map(k => {
@@ -4417,8 +4423,8 @@
     AD_updateKpiAbs('ad-heroSesionesPortal', 'ad-deltaSesionesPortal', 'ad-yoySesionesPortal', vd.sesionesPortal, cd.sesionesPortal, yd ? yd.sesionesPortal : null, yoyMonth, v => v.toLocaleString('en-US'));
     AD_updateKpiRate('ad-heroEventosSesion', 'ad-deltaEventosSesion', 'ad-yoyEventosSesion', vd.eventosPorSesionPortal, cd.eventosPorSesionPortal, yd ? yd.eventosPorSesionPortal : null, yoyMonth, v => v.toFixed(1), '');
 
-    AD_renderMetaTable('ad-eventsMetaBody', AD_EVENT_ORDER, AD_EVENT_LABEL, vd.events, AD_EVENT_META);
-    AD_renderMetaTable('ad-routesMetaBody', AD_RUTA_ORDER, AD_RUTA_LABEL, vd.rutas, AD_RUTAS_META);
+    AD_renderMetaTable('ad-eventsMetaBody', AD_EVENT_ORDER, AD_EVENT_LABEL, vd.events, cd.events, yd ? yd.events : null, AD_EVENT_META, yoyMonth);
+    AD_renderMetaTable('ad-routesMetaBody', AD_RUTA_ORDER, AD_RUTA_LABEL, vd.rutas, cd.rutas, yd ? yd.rutas : null, AD_RUTAS_META, yoyMonth);
 
     const fuenteBody = document.getElementById('ad-fuenteSesionBody');
     fuenteBody.innerHTML = AD_FUENTE_SESION_ORDER.map(k => {
