@@ -387,16 +387,30 @@
   [data-page="paid"] .rank-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 11.5px; border-radius: 6px; padding: 2px 4px; }
   [data-page="paid"] .rank-row:hover { background: #F8F7FC; }
   [data-page="paid"] .rank-dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
-  [data-page="paid"] .rank-name { width: 62px; flex: none; color: #262626; font-weight: 600; }
+  [data-page="paid"] .rank-name { width: 84px; flex: none; color: #262626; font-weight: 600; }
   [data-page="paid"] .rank-track { flex: 1; height: 7px; background: #eef1f3; border-radius: 5px; overflow: hidden; }
   [data-page="paid"] .rank-fill { width: 100%; height: 100%; border-radius: 5px; transform-origin: left; transition: transform 1s cubic-bezier(.16,.84,.32,1); }
-  [data-page="paid"] .rank-value { width: 36px; text-align: right; color: #5C5C5C; font-variant-numeric: tabular-nums; }
+  [data-page="paid"] .rank-value { width: 40px; text-align: right; color: #5C5C5C; font-variant-numeric: tabular-nums; flex: none; }
+  [data-page="paid"] .rank-deltas-col { display: flex; flex-direction: column; align-items: flex-end; width: 76px; flex: none; line-height: 1.35; }
+  [data-page="paid"] .rank-delta { font-size: 9px; font-weight: 700; }
+  [data-page="paid"] .rank-delta-yoy { font-size: 8px; }
+  [data-page="paid"] .rank-delta-yoy.good { color: #2E9560; }
+  [data-page="paid"] .rank-delta-yoy.bad { color: #DE5850; }
+  [data-page="paid"] .rank-delta-yoy.flat { color: #b0b0b0; }
   [data-page="paid"] .t3-right-top { display: grid; grid-template-columns: auto 1fr; gap: 18px; align-items: center; }
   [data-page="paid"] .mix-legend-row:hover { background: #F8F7FC; border-radius: 6px; padding: 2px 4px; }
   [data-page="paid"] .contrib-kpi-row { display: flex; align-items: center; gap: 10px; margin-bottom: 9px; }
   [data-page="paid"] .contrib-kpi-name { width: 78px; flex: none; font-size: 11.5px; font-weight: 600; color: #262626; }
   [data-page="paid"] .contrib-track { flex: 1; height: 16px; border-radius: 5px; overflow: hidden; display: flex; }
   [data-page="paid"] .contrib-seg { height: 100%; display: flex; align-items: center; justify-content: center; font-size: 9.5px; color: #fff; font-weight: 700; }
+  [data-page="paid"] .contrib-delta-strip { display: flex; gap: 10px; margin: 2px 0 10px 88px; flex-wrap: wrap; }
+  [data-page="paid"] .contrib-delta-item { font-size: 9px; display: flex; flex-direction: column; }
+  [data-page="paid"] .contrib-delta-item b { font-weight: 700; color: #8b8b8b; }
+  [data-page="paid"] .contrib-delta-item span.good { color: #008038; }
+  [data-page="paid"] .contrib-delta-item span.bad { color: #EE0000; }
+  [data-page="paid"] .contrib-delta-item span.yoy { font-size: 8px; }
+  [data-page="paid"] .contrib-delta-item span.yoy.good { color: #2E9560; }
+  [data-page="paid"] .contrib-delta-item span.yoy.bad { color: #DE5850; }
   [data-page="paid"] .goal-contrib { margin-top: 10px; padding-top: 10px; border-top: 1px dashed #e6e5ea; display: flex; align-items: center; gap: 12px; }
   [data-page="paid"] .goal-contrib-label { font-size: 9.5px; font-weight: 700; color: #8b8b8b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
   [data-page="paid"] .goal-contrib-pie { flex: none; width: 58px; }
@@ -423,6 +437,28 @@
   [data-page="paid"] .perf-dot { width: 8px; height: 8px; border-radius: 3px; flex: none; }
   [data-page="paid"] .platform-icon { flex: none; display: inline-flex; }
   [data-page="paid"] .drilldown-name .platform-icon, [data-page="paid"] .efficiency-name .platform-icon { vertical-align: -3px; margin-right: 4px; }
+  [data-page="paid"] .perf-row, [data-page="paid"] .perf-type-row { cursor: pointer; }
+  [data-page="paid"] .perf-row:hover, [data-page="paid"] .perf-type-row:hover { background: #F8F7FC; }
+  [data-page="paid"] .perf-expand-icon { display: inline-block; width: 12px; font-size: 9px; color: #8b8b8b; transition: transform 0.15s ease; }
+  [data-page="paid"] .perf-metric-delta { display: flex; flex-direction: column; font-size: 8.5px; font-weight: 500; margin-top: 2px; }
+  [data-page="paid"] .perf-metric-delta .good { color: #008038; }
+  [data-page="paid"] .perf-metric-delta .bad { color: #EE0000; }
+  [data-page="paid"] .perf-metric-delta .yoy.good { color: #2E9560; }
+  [data-page="paid"] .perf-metric-delta .yoy.bad { color: #DE5850; }
+  [data-page="paid"] .perf-metric-delta .yoy { color: #b0b0b0; }
+  [data-page="paid"] .perf-type-cell { display: flex; align-items: center; gap: 9px; padding-left: 20px; font-size: 11px; }
+  [data-page="paid"] .perf-type-summary { color: #6b6b6b; }
+  [data-page="paid"] .perf-campaign-cell { display: flex; align-items: center; gap: 12px; padding-left: 40px; font-size: 11px; flex-wrap: wrap; }
+  [data-page="paid"] .perf-campaign-name { font-weight: 600; color: #262626; min-width: 140px; }
+  [data-page="paid"] .perf-campaign-period { color: #8b8b8b; min-width: 110px; }
+  [data-page="paid"] .perf-campaign-spend { font-weight: 600; font-variant-numeric: tabular-nums; min-width: 50px; }
+  [data-page="paid"] .perf-campaign-result { color: #5C5C5C; min-width: 100px; }
+  [data-page="paid"] .campaign-rank-row { display: flex; align-items: center; gap: 12px; padding: 9px 4px; border-bottom: 1px dashed #eee; flex-wrap: wrap; }
+  [data-page="paid"] .campaign-rank-row:last-child { border-bottom: none; }
+  [data-page="paid"] .campaign-rank-badge { font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 6px; flex: none; }
+  [data-page="paid"] .campaign-rank-name { font-weight: 600; color: #262626; font-size: 12px; min-width: 160px; }
+  [data-page="paid"] .campaign-rank-kpi { font-size: 11px; color: #5C5C5C; }
+  [data-page="paid"] .campaign-rank-medios { font-size: 10.5px; color: #8b8b8b; margin-left: auto; }
   [data-page="paid"] .perf-best { color: #008038; }
   [data-page="paid"] .xf-hint { font-size: 10.5px; color: #8b8b8b; margin-bottom: 10px; }
 
@@ -623,7 +659,6 @@
     <button class="tab" data-tab="t1" data-active="true"><span class="tab-num">1</span>Resumen · Objetivo y Plan</button>
     <button class="tab" data-tab="t2"><span class="tab-num">2</span>Seguimiento y Cumplimiento</button>
     <button class="tab" data-tab="t3"><span class="tab-num">3</span>Composición y Plataformas</button>
-    <button class="tab" data-tab="t4"><span class="tab-num">4</span>Campañas</button>
   </div>
 
   <!-- ============ TAB 1 — RESUMEN ============ -->
@@ -880,11 +915,9 @@
           <div class="pacing-caption"><span class="fx" id="pm-t3PacingCaption"><b>$410,500</b> a la fecha</span><span class="fx" id="pm-t3PacingPct">48.3%</span></div>
         </div>
         <div class="zone zone-pad">
-          <div class="zone-title" style="margin-bottom:10px;">Eficiencia de inversión por plataforma</div>
-          <div class="rank-row" data-platform="Meta" data-tt="Meta" data-ttv="Índice de eficiencia 1.00× (referencia)"><span class="rank-dot" style="background:#6E93B0"></span><span class="rank-name">Meta</span><div class="rank-track"><div class="rank-fill" style="transform:scaleX(0.92);background:#6E93B0"></div></div><span class="rank-value">1.00×</span></div>
-          <div class="rank-row" data-platform="TikTok" data-tt="TikTok" data-ttv="Índice de eficiencia 0.85×"><span class="rank-dot" style="background:#2563EB"></span><span class="rank-name">TikTok</span><div class="rank-track"><div class="rank-fill" style="transform:scaleX(0.78);background:#2563EB"></div></div><span class="rank-value">0.85×</span></div>
-          <div class="rank-row" data-platform="Google" data-tt="Google" data-ttv="Índice de eficiencia 0.66×"><span class="rank-dot" style="background:#4F52E5"></span><span class="rank-name">Google</span><div class="rank-track"><div class="rank-fill" style="transform:scaleX(0.61);background:#4F52E5"></div></div><span class="rank-value">0.66×</span></div>
-          <div class="rank-row" data-platform="DV360" data-tt="DV360" data-ttv="Índice de eficiencia 0.48×"><span class="rank-dot" style="background:#00618C"></span><span class="rank-name">DV360</span><div class="rank-track"><div class="rank-fill" style="transform:scaleX(0.44);background:#00618C"></div></div><span class="rank-value">0.48×</span></div>
+          <div class="zone-title" style="margin-bottom:4px;">Eficiencia de inversión por medio</div>
+          <div class="hero-caption" style="margin-bottom:10px;">Índice de eficiencia (aporte agregado vs. % del gasto), con comparativos vs. el mes seleccionado y vs. el mismo mes del año anterior.</div>
+          <div id="pm-t3EfficiencyRanking"></div>
         </div>
       </div>
       <div class="zone zone-pad">
@@ -899,41 +932,41 @@
           </div>
         </div>
         <div style="border-top:1px dashed #e6e5ea; margin:14px 0 12px;"></div>
-        <div class="zone-title" style="margin-bottom:9px;">Contribución de cada plataforma por resultado</div>
-        <div class="contrib-kpi-row"><span class="contrib-kpi-name">Alcance</span><div class="contrib-track">
-          <div class="contrib-seg" data-platform="Meta" data-tt="Meta · Alcance" data-ttv="38% del alcance total" style="width:38%;background:#6E93B0">38%</div>
-          <div class="contrib-seg" data-platform="Google" data-tt="Google · Alcance" data-ttv="25% del alcance total" style="width:25%;background:#4F52E5">25%</div>
-          <div class="contrib-seg" data-platform="TikTok" data-tt="TikTok · Alcance" data-ttv="22% del alcance total" style="width:22%;background:#2563EB">22%</div>
-          <div class="contrib-seg" data-platform="DV360" data-tt="DV360 · Alcance" data-ttv="15% del alcance total" style="width:15%;background:#00618C">15%</div>
-        </div></div>
-        <div class="contrib-kpi-row"><span class="contrib-kpi-name">Clics</span><div class="contrib-track">
-          <div class="contrib-seg" data-platform="Meta" data-tt="Meta · Clics" data-ttv="45% de los clics totales" style="width:45%;background:#6E93B0">45%</div>
-          <div class="contrib-seg" data-platform="Google" data-tt="Google · Clics" data-ttv="20% de los clics totales" style="width:20%;background:#4F52E5">20%</div>
-          <div class="contrib-seg" data-platform="TikTok" data-tt="TikTok · Clics" data-ttv="25% de los clics totales" style="width:25%;background:#2563EB">25%</div>
-          <div class="contrib-seg" data-platform="DV360" data-tt="DV360 · Clics" data-ttv="10% de los clics totales" style="width:10%;background:#00618C">10%</div>
-        </div></div>
-        <div class="contrib-kpi-row"><span class="contrib-kpi-name">Conversiones</span><div class="contrib-track">
-          <div class="contrib-seg" data-platform="Meta" data-tt="Meta · Conversiones" data-ttv="52% de las conversiones" style="width:52%;background:#6E93B0">52%</div>
-          <div class="contrib-seg" data-platform="Google" data-tt="Google · Conversiones" data-ttv="18% de las conversiones" style="width:18%;background:#4F52E5">18%</div>
-          <div class="contrib-seg" data-platform="TikTok" data-tt="TikTok · Conversiones" data-ttv="20% de las conversiones" style="width:20%;background:#2563EB">20%</div>
-          <div class="contrib-seg" data-platform="DV360" data-tt="DV360 · Conversiones" data-ttv="10% de las conversiones" style="width:10%;background:#00618C">10%</div>
-        </div></div>
-        <div class="insight-box"><span>💡</span><span>Meta recibe 42% del presupuesto pero aporta 52% de las conversiones, sobre-indexado en resultado. Google es lo opuesto: 28% del gasto, solo 18% de conversiones.</span></div>
+        <div class="zone-title" style="margin-bottom:2px;">Contribución de cada plataforma por resultado</div>
+        <div class="hero-caption" style="margin-bottom:9px;">Debajo de cada barra: variación en puntos porcentuales vs. el mes comparado y vs. el mismo mes del año anterior.</div>
+        <div class="contrib-kpi-row"><span class="contrib-kpi-name">Alcance</span><div class="contrib-track" id="pm-contribRowAlcance"></div></div>
+        <div class="contrib-delta-strip" id="pm-contribDeltaAlcance"></div>
+        <div class="contrib-kpi-row"><span class="contrib-kpi-name">Clics</span><div class="contrib-track" id="pm-contribRowClics"></div></div>
+        <div class="contrib-delta-strip" id="pm-contribDeltaClics"></div>
+        <div class="contrib-kpi-row"><span class="contrib-kpi-name">Conversiones</span><div class="contrib-track" id="pm-contribRowConversiones"></div></div>
+        <div class="contrib-delta-strip" id="pm-contribDeltaConversiones"></div>
+        <div class="insight-box fx" id="pm-t3ContribInsight" style="margin-top:4px;"><span>💡</span><span></span></div>
       </div>
     </div>
 
     <div class="t3-bottom">
       <div class="zone zone-pad">
-        <div class="zone-title" style="margin-bottom:8px;">Cómo se invierte en el tiempo — picos por tipo de campaña</div>
-        <div class="legend-row">
+        <div class="funnel-header" style="margin-bottom:6px;">
+          <div class="zone-title" style="margin-bottom:0;">Cómo se invierte en el tiempo — inversión vs. objetivo</div>
+          <div class="funnel-controls">
+            <div class="obj-filter" id="pm-timelineFilter">
+              <button class="obj-filter-btn" data-obj="ALL" data-active="true">Todos</button>
+              <button class="obj-filter-btn" data-obj="Season">Season</button>
+              <button class="obj-filter-btn" data-obj="Establecimientos">Establecimientos</button>
+              <button class="obj-filter-btn" data-obj="Onboarding">Onboarding</button>
+            </div>
+            <select class="month-select" id="pm-timelineMedioSelect" style="display:none;"></select>
+          </div>
+        </div>
+        <div class="legend-row" id="pm-timelineLegend">
           <div class="legend-item"><span class="legend-swatch" style="background:#141414"></span>Season</div>
           <div class="legend-item"><span class="legend-swatch" style="background:#00618C"></span>Establecimientos</div>
           <div class="legend-item"><span class="legend-swatch" style="background:#4F52E5"></span>Onboarding</div>
         </div>
         <div style="position:relative;">
           <svg width="100%" height="140" viewBox="0 0 1080 140" id="pm-timelineSvg" preserveAspectRatio="none"></svg>
-          <div class="annotation" style="top:2px; left:44%;">
-            <div class="annotation-flag">Pico: 3 campañas activas a la vez</div>
+          <div class="annotation fx" id="pm-timelinePeakAnnotation" style="top:2px; left:44%;">
+            <div class="annotation-flag" id="pm-timelinePeakFlag"></div>
           </div>
         </div>
         <div class="caveat-box" style="margin-top:10px;"><span>💡</span><span>No se contrasta con facturación: la inversión en pauta es soporte a la venta, no 100% atribuible.</span></div>
@@ -941,94 +974,27 @@
       <div class="zone zone-pad">
         <div class="zone-label">Plataformas</div>
         <div class="zone-title" style="margin-bottom:10px;">Desempeño por plataforma — qué funciona y por qué</div>
-        <div class="insight-box" style="margin-bottom:12px;"><span>💡</span><span><b>Meta</b> lidera en CTR y CVR este periodo — la segmentación por intereses funciona mejor que la programática (DV360) para conversión.</span></div>
+        <div class="insight-box fx" id="pm-perfInsight" style="margin-bottom:12px;"><span>💡</span><span></span></div>
+        <div class="hero-caption" style="margin-bottom:8px;">Clic en una plataforma para ver sus campañas por tipo de objetivo, y en un tipo para ver cada campaña.</div>
         <table class="perf-table">
           <thead><tr><th>Plataforma</th><th>CTR</th><th>VTR</th><th>CVR</th><th>Alcance</th></tr></thead>
-          <tbody>
-            <tr data-platform="Meta"><td><div class="perf-platform"><span class="perf-dot" style="background:#6E93B0"></span>Meta</div></td><td class="metric perf-best">0.67%</td><td class="metric">5.32%</td><td class="metric perf-best">16.12%</td><td class="metric">92%</td></tr>
-            <tr data-platform="Google"><td><div class="perf-platform"><span class="perf-dot" style="background:#4F52E5"></span>Google</div></td><td class="metric">0.41%</td><td class="metric">4.10%</td><td class="metric">11.80%</td><td class="metric">70%</td></tr>
-            <tr data-platform="TikTok"><td><div class="perf-platform"><span class="perf-dot" style="background:#2563EB"></span>TikTok</div></td><td class="metric">0.53%</td><td class="metric perf-best">7.20%</td><td class="metric">9.40%</td><td class="metric">64%</td></tr>
-            <tr data-platform="DV360"><td><div class="perf-platform"><span class="perf-dot" style="background:#00618C"></span>DV360</div></td><td class="metric">0.29%</td><td class="metric">3.85%</td><td class="metric">7.60%</td><td class="metric">48%</td></tr>
-          </tbody>
+          <tbody id="pm-perfTableBody"></tbody>
         </table>
       </div>
-    </div>
-  </div>
-
-  <!-- ============ TAB 4 — CAMPAÑAS ============ -->
-  <div class="panel" data-panel="t4">
-    <div class="zone zone-pad campaign-group">
-      <div class="campaign-group-head">
-        <span class="campaign-badge" style="background:#f0f0f0;color:#141414">Season</span>
-        <div class="campaign-group-title">Movilización masiva<span class="campaign-group-count">3 campañas</span></div>
-        <div class="campaign-group-totals">
-          <div><div class="campaign-stat-value">$320K</div><div class="campaign-stat-label">37.6% del presupuesto</div></div>
-          <span class="delta-chip">▲ +8% mes</span>
-          <span class="delta-chip">▲ +15% año</span>
-        </div>
+      <div class="zone zone-pad">
+        <div class="zone-label">Ranking</div>
+        <div class="zone-title" style="margin-bottom:4px;">Mejores campañas por objetivo</div>
+        <div class="hero-caption" style="margin-bottom:10px;">La campaña líder de cada objetivo, según su propio KPI, y en qué medio corrió.</div>
+        <div id="pm-campaignRanking"></div>
       </div>
-      <div class="campaign-group-meta">
-        <div><div class="campaign-block-label">Objetivo</div><div class="campaign-objective">Maximizar alcance en picos estacionales y sostener top of mind.</div></div>
-        <div><div class="campaign-block-label">Qué se mide y por qué</div><div class="campaign-metric">Alcance, frecuencia y VTR — cobertura, no conversión directa.</div></div>
-        <div><div class="campaign-block-label">Canales relevantes</div><div class="channel-fit-row"><span class="channel-chip">TV</span><span class="channel-chip">Meta</span><span class="channel-chip">Google</span><span class="channel-chip">TikTok</span></div></div>
-      </div>
-      <table class="campaign-table">
-        <thead><tr><th>Campaña</th><th>Periodo</th><th>Inversión</th><th>% del grupo</th><th>Resultado clave</th><th>Estado</th></tr></thead>
-        <tbody>
-          <tr><td class="name">Black Friday 2026</td><td>Noviembre 2026</td><td class="metric">$145K</td><td class="metric">45%</td><td class="metric">280K alcance</td><td><span class="status-chip planned">Planificada</span></td></tr>
-          <tr><td class="name">Día de la Madre</td><td>Mayo 2026</td><td class="metric">$98K</td><td class="metric">31%</td><td class="metric">210K alcance</td><td><span class="status-chip finished">Finalizada</span></td></tr>
-          <tr><td class="name">Regreso a Clases</td><td>Enero–Febrero 2026</td><td class="metric">$77K</td><td class="metric">24%</td><td class="metric">130K alcance</td><td><span class="status-chip finished">Finalizada</span></td></tr>
-        </tbody>
-      </table>
     </div>
 
-    <div class="zone zone-pad campaign-group">
-      <div class="campaign-group-head">
-        <span class="campaign-badge" style="background:rgba(233,181,45,0.16);color:#8a6d1f">Establecimientos</span>
-        <div class="campaign-group-title">Activación por sector afiliado<span class="campaign-group-count">3 campañas</span></div>
-        <div class="campaign-group-totals">
-          <div><div class="campaign-stat-value">$180K</div><div class="campaign-stat-label">21.2% del presupuesto</div></div>
-          <span class="delta-chip" style="background:rgba(238,0,0,0.1);color:#EE0000;">▼ -3% mes</span>
-          <span class="delta-chip">▲ +22% año</span>
-        </div>
+    <div class="zone zone-pad" style="margin-top:14px;">
+      <div class="zone-label">Análisis general</div>
+      <div class="insight-box" style="font-size:12px; line-height:1.5;">
+        <span>💡</span>
+        <span class="fx" id="pm-t3Summary"></span>
       </div>
-      <div class="campaign-group-meta">
-        <div><div class="campaign-block-label">Objetivo</div><div class="campaign-objective">Reactivar consumo con la tarjeta en un sector, con comercios de acuerdo vigente.</div></div>
-        <div><div class="campaign-block-label">Qué se mide y por qué</div><div class="campaign-metric">Clics y transacciones — activar consumo, no solo tráfico.</div></div>
-        <div><div class="campaign-block-label">Canales relevantes</div><div class="channel-fit-row"><span class="channel-chip">Meta</span><span class="channel-chip">Google</span></div></div>
-      </div>
-      <table class="campaign-table">
-        <thead><tr><th>Campaña</th><th>Periodo</th><th>Inversión</th><th>% del grupo</th><th>Resultado clave</th><th>Estado</th></tr></thead>
-        <tbody>
-          <tr><td class="name">Gastronomía Quito</td><td>Junio 2026</td><td class="metric">$65K</td><td class="metric">36%</td><td class="metric">890 transacciones</td><td><span class="status-chip active">Activa</span></td></tr>
-          <tr><td class="name">Retail Guayaquil</td><td>Mayo–Junio 2026</td><td class="metric">$58K</td><td class="metric">32%</td><td class="metric">720 transacciones</td><td><span class="status-chip active">Activa</span></td></tr>
-          <tr><td class="name">Entretenimiento Nacional</td><td>Abril 2026</td><td class="metric">$57K</td><td class="metric">32%</td><td class="metric">530 transacciones</td><td><span class="status-chip finished">Finalizada</span></td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="zone zone-pad campaign-group">
-      <div class="campaign-group-head">
-        <span class="campaign-badge" style="background:rgba(79,82,229,0.1);color:#3730A3">Onboarding <span style="font-weight:600;text-transform:none;">· nueva</span></span>
-        <div class="campaign-group-title">Apertura de cuenta de ahorro<span class="campaign-group-count">2 campañas</span></div>
-        <div class="campaign-group-totals">
-          <div><div class="campaign-stat-value">$350K</div><div class="campaign-stat-label">41.2% del presupuesto</div></div>
-          <span class="delta-chip">▲ +12% mes</span>
-          <span class="delta-chip" style="background:#eef1f3;color:#6b6b6b;">Sin histórico</span>
-        </div>
-      </div>
-      <div class="campaign-group-meta">
-        <div><div class="campaign-block-label">Objetivo</div><div class="campaign-objective">Generar solicitudes de apertura y acompañar el onboarding hasta la activación.</div></div>
-        <div><div class="campaign-block-label">Qué se mide y por qué</div><div class="campaign-metric">Clics, registros y cuentas abiertas — colocación, no solo tráfico.</div></div>
-        <div><div class="campaign-block-label">Canales relevantes</div><div class="channel-fit-row"><span class="channel-chip">Meta</span><span class="channel-chip">Google</span><span class="channel-chip">Digital propio</span></div></div>
-      </div>
-      <table class="campaign-table">
-        <thead><tr><th>Campaña</th><th>Periodo</th><th>Inversión</th><th>% del grupo</th><th>Resultado clave</th><th>Estado</th></tr></thead>
-        <tbody>
-          <tr><td class="name">Apertura Digital blu</td><td>Todo el año</td><td class="metric">$210K</td><td class="metric">60%</td><td class="metric">410 cuentas</td><td><span class="status-chip active">Activa</span></td></tr>
-          <tr><td class="name">Referidos Cuenta Ahorro</td><td>Marzo–Junio 2026</td><td class="metric">$140K</td><td class="metric">40%</td><td class="metric">230 cuentas</td><td><span class="status-chip active">Activa</span></td></tr>
-        </tbody>
-      </table>
     </div>
   </div>
     </div>
@@ -2001,6 +1967,257 @@
     stages.forEach(s => { out[s.key] = baseF[s.key] * share; });
     return { out, stages };
   }
+  // Tab 3's "Eficiencia de inversión" ranking spans EVERY medio (not just the 4 digital platforms) —
+  // a blended index independent of any single objective, so channels that never appear in
+  // PM_GOAL_EFFICIENCY (TV, Radio, print, DV360) still get one. Same derive + dual-independent-wobble
+  // technique as the rest of the tab, so every entity is reactive with its own genuine delta.
+  const PM_ALL_MEDIO_ORDER = ['TV', 'Radio', 'PrensaEscrita', 'Revistas', 'Eventos', 'Meta', 'Google', 'TikTok', 'DV360'];
+  const PM_ALL_MEDIO_LABEL = { TV: PM_CHANNEL_LABEL.TV, Radio: PM_CHANNEL_LABEL.Radio, PrensaEscrita: PM_CHANNEL_LABEL.PrensaEscrita, Revistas: PM_CHANNEL_LABEL.Revistas, Eventos: PM_CHANNEL_LABEL.Eventos, Meta: 'Meta', Google: 'Google', TikTok: 'TikTok', DV360: 'DV360' };
+  const PM_ALL_MEDIO_COLOR = { TV: PM_CHANNEL_COLOR.TV, Radio: PM_CHANNEL_COLOR.Radio, PrensaEscrita: PM_CHANNEL_COLOR.PrensaEscrita, Revistas: PM_CHANNEL_COLOR.Revistas, Eventos: PM_CHANNEL_COLOR.Eventos, Meta: PM_PLATFORM_COLOR.Meta, Google: PM_PLATFORM_COLOR.Google, TikTok: PM_PLATFORM_COLOR.TikTok, DV360: PM_PLATFORM_COLOR.DV360 };
+  // Baselines are directional, not benchmarks: digital platforms (esp. TikTok/Meta) skew higher on a
+  // direct-response efficiency index; traditional/offline media (TV, print) skew lower on THIS index
+  // even though they're doing a different job (reach/brand) that this single number doesn't capture.
+  const PM_MEDIO_EFF_BASE = { TV: 0.55, Radio: 0.60, PrensaEscrita: 0.50, Revistas: 0.45, Eventos: 0.70, Meta: 1.15, Google: 0.85, TikTok: 1.25, DV360: 0.60 };
+  function PM_computeMedioEfficiency(key, vd) {
+    if (!vd) return null;
+    const base = PM_MEDIO_EFF_BASE[key];
+    const isPlatform = PM_PLATFORM_COLOR[key] !== undefined;
+    const shareRaw = isPlatform ? vd.mix[key] : vd.channels[key];
+    if (shareRaw === undefined || shareRaw === null) return null;
+    // This entity's OWN share of its budget pool (mix% for platforms, channel% for media) already
+    // moves independently per entity per month — used alongside overall pacing so no two entities'
+    // index ever moves in lockstep just because they share the same base constant.
+    const shareFactor = 0.85 + 0.3 * Math.min(Math.max(shareRaw / 30, 0), 1.4);
+    const pacing = (vd.pct === null || vd.pct === undefined) ? 50 : vd.pct;
+    const reachWobble = 0.92 + 0.16 * Math.min(Math.max(pacing / 100, 0), 1.2);
+    return base * shareFactor * reachWobble;
+  }
+  function PM_renderMedioRanking(vd, cd, yd, cmpMonth, yoyMonth) {
+    const container = document.getElementById('pm-t3EfficiencyRanking');
+    if (!container) return;
+    const rows = PM_ALL_MEDIO_ORDER.map(key => ({
+      key, v: PM_computeMedioEfficiency(key, vd), c: PM_computeMedioEfficiency(key, cd), y: yd ? PM_computeMedioEfficiency(key, yd) : null,
+    })).sort((a, b) => b.v - a.v);
+    const maxV = rows[0].v;
+    container.innerHTML = rows.map(r => {
+      const d = relDelta(r.v, r.c);
+      const dy = r.y !== null ? relDelta(r.v, r.y) : null;
+      const color = PM_ALL_MEDIO_COLOR[r.key];
+      const chipColor = d >= 0 ? '#008038' : '#EE0000';
+      const yoyHtml = yd ? `<span class="rank-delta-yoy ${dy >= 0 ? 'good' : 'bad'}">${deltaText(dy)} AA</span>` : `<span class="rank-delta-yoy flat">Sin histórico</span>`;
+      return `<div class="rank-row" data-platform="${r.key}" data-tt="${PM_ALL_MEDIO_LABEL[r.key]}" data-ttv="Índice de eficiencia ${r.v.toFixed(2)}×">
+        <span class="rank-dot" style="background:${color}"></span>
+        <span class="rank-name">${PM_ALL_MEDIO_LABEL[r.key]}</span>
+        <div class="rank-track"><div class="rank-fill" style="transform:scaleX(${(r.v / maxV).toFixed(3)});background:${color}"></div></div>
+        <span class="rank-value">${r.v.toFixed(2)}×</span>
+        <div class="rank-deltas-col">
+          <span class="rank-delta" style="color:${chipColor};">${deltaText(d)}</span>
+          ${yoyHtml}
+        </div>
+      </div>`;
+    }).join('');
+  }
+  // Platform contribution to Alcance/Clics/Conversiones — over/under-index baked in as a fixed ratio
+  // vs. spend share (Meta historically over-indexes on conversions, Google under-indexes, etc.), then
+  // applied to that month's REAL `vd.mix` (already independently varying per platform per month) — so
+  // contribution % is reactive without a new hand-authored dataset, and never moves in lockstep across
+  // platforms since the underlying mix% doesn't either.
+  const PM_CONTRIB_INDEX = {
+    Alcance: { Meta: 0.90, Google: 0.89, TikTok: 1.22, DV360: 1.25 },
+    Clics: { Meta: 1.07, Google: 0.71, TikTok: 1.39, DV360: 0.83 },
+    Conversiones: { Meta: 1.24, Google: 0.64, TikTok: 1.11, DV360: 0.83 },
+  };
+  function PM_computeContribShares(metric, vd) {
+    const idx = PM_CONTRIB_INDEX[metric];
+    const raw = {}; let sum = 0;
+    ['Meta', 'Google', 'TikTok', 'DV360'].forEach(p => { raw[p] = vd.mix[p] * idx[p]; sum += raw[p]; });
+    const out = {};
+    ['Meta', 'Google', 'TikTok', 'DV360'].forEach(p => { out[p] = raw[p] / sum * 100; });
+    return out;
+  }
+  function PM_renderContribRows(vd, cd, yd, cmpMonth, yoyMonth) {
+    ['Alcance', 'Clics', 'Conversiones'].forEach(metric => {
+      const v = PM_computeContribShares(metric, vd), c = PM_computeContribShares(metric, cd), y = yd ? PM_computeContribShares(metric, yd) : null;
+      const rowEl = document.getElementById('pm-contribRow' + metric);
+      if (rowEl) {
+        rowEl.innerHTML = ['Meta', 'Google', 'TikTok', 'DV360'].map(p => {
+          const pct = v[p];
+          return `<div class="contrib-seg" data-platform="${p}" data-tt="${p} · ${metric}" data-ttv="${pct.toFixed(0)}% de ${metric.toLowerCase()}" style="width:${pct}%;background:${PM_PLATFORM_COLOR[p]}">${pct.toFixed(0)}%</div>`;
+        }).join('');
+      }
+      const deltaEl = document.getElementById('pm-contribDelta' + metric);
+      if (deltaEl) {
+        deltaEl.innerHTML = ['Meta', 'Google', 'TikTok', 'DV360'].map(p => {
+          const d = v[p] - c[p];
+          const dy = y ? v[p] - y[p] : null;
+          const cls = Math.abs(d) < 0.05 ? '' : (d >= 0 ? 'good' : 'bad');
+          const clsY = dy === null ? '' : (Math.abs(dy) < 0.05 ? '' : (dy >= 0 ? 'good' : 'bad'));
+          return `<div class="contrib-delta-item"><b>${p}</b><span class="${cls}">${d >= 0 ? '▲+' : '▼'}${Math.abs(d).toFixed(1)}pp vs. ${cmpMonth.split(' ')[0]}</span>${y ? `<span class="yoy ${clsY}">${dy >= 0 ? '▲+' : '▼'}${Math.abs(dy).toFixed(1)}pp AA</span>` : `<span class="yoy">Sin histórico</span>`}</div>`;
+        }).join('');
+      }
+    });
+    const insightEl = document.getElementById('pm-t3ContribInsight');
+    if (insightEl) {
+      const conv = PM_computeContribShares('Conversiones', vd);
+      const bestP = ['Meta', 'Google', 'TikTok', 'DV360'].reduce((a, b) => (conv[a] / vd.mix[a]) >= (conv[b] / vd.mix[b]) ? a : b);
+      const worstP = ['Meta', 'Google', 'TikTok', 'DV360'].reduce((a, b) => (conv[a] / vd.mix[a]) <= (conv[b] / vd.mix[b]) ? a : b);
+      insightEl.querySelector('span:last-child').innerHTML = `<b>${bestP}</b> recibe ${vd.mix[bestP]}% del presupuesto pero aporta ${conv[bestP].toFixed(0)}% de las conversiones, sobre-indexado en resultado. <b>${worstP}</b> es lo opuesto: ${vd.mix[worstP]}% del gasto, solo ${conv[worstP].toFixed(0)}% de conversiones.`;
+    }
+  }
+  // Campaign data (merged in from the former Tab 4) grouped by objective — "canales relevantes" per
+  // group is the SAME channel set PM_GOAL_CONTRIB already uses per objective, so the platform↔type
+  // association below isn't a new invented mapping, it's the one already established on this tab.
+  // Declared here (not down in the TIMELINE section where they're conceptually grouped) because
+  // PM_updateComparison() — which runs at page load, before that section's code is reached — already
+  // calls PM_renderPerfTable/PM_renderCampaignRanking/PM_renderT3Summary, and those need these three
+  // constants immediately. Referencing a const before its own declaration line throws a silent TDZ
+  // ReferenceError that aborts the rest of the script — the same bug class already logged in memory.
+  const PM_TIMELINE_MONTHS = ['Enero 2026', 'Febrero 2026', 'Marzo 2026', 'Abril 2026', 'Mayo 2026', 'Junio 2026'];
+  const PM_TIMELINE_MONTH_SHORT = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'];
+  const PM_TIMELINE_TYPES = ['Season', 'Establecimientos', 'Onboarding'];
+  const PM_CAMPAIGN_GROUPS = {
+    Season: {
+      channels: ['TV', 'Meta', 'Google', 'TikTok'], kpiLabel: 'Alcance', kpiKey: 'alcance',
+      campaigns: [
+        { name: 'Black Friday 2026', period: 'Noviembre 2026', spend: '$145K', pctGroup: '45%', result: '280K alcance', kpiValue: 280000, status: 'planned', statusLabel: 'Planificada' },
+        { name: 'Día de la Madre', period: 'Mayo 2026', spend: '$98K', pctGroup: '31%', result: '210K alcance', kpiValue: 210000, status: 'finished', statusLabel: 'Finalizada' },
+        { name: 'Regreso a Clases', period: 'Enero–Febrero 2026', spend: '$77K', pctGroup: '24%', result: '130K alcance', kpiValue: 130000, status: 'finished', statusLabel: 'Finalizada' },
+      ],
+    },
+    Establecimientos: {
+      channels: ['Meta', 'Google'], kpiLabel: 'Transacciones', kpiKey: 'transacciones',
+      campaigns: [
+        { name: 'Gastronomía Quito', period: 'Junio 2026', spend: '$65K', pctGroup: '36%', result: '890 transacciones', kpiValue: 890, status: 'active', statusLabel: 'Activa' },
+        { name: 'Retail Guayaquil', period: 'Mayo–Junio 2026', spend: '$58K', pctGroup: '32%', result: '720 transacciones', kpiValue: 720, status: 'active', statusLabel: 'Activa' },
+        { name: 'Entretenimiento Nacional', period: 'Abril 2026', spend: '$57K', pctGroup: '32%', result: '530 transacciones', kpiValue: 530, status: 'finished', statusLabel: 'Finalizada' },
+      ],
+    },
+    Onboarding: {
+      channels: ['Meta', 'Google', 'Digital propio'], kpiLabel: 'Cuentas abiertas', kpiKey: 'cuentas',
+      campaigns: [
+        { name: 'Apertura Digital blu', period: 'Todo el año', spend: '$210K', pctGroup: '60%', result: '410 cuentas', kpiValue: 410, status: 'active', statusLabel: 'Activa' },
+        { name: 'Referidos Cuenta Ahorro', period: 'Marzo–Junio 2026', spend: '$140K', pctGroup: '40%', result: '230 cuentas', kpiValue: 230, status: 'active', statusLabel: 'Activa' },
+      ],
+    },
+  };
+  // Reactive CTR/VTR/CVR/Alcance per platform — scaled off each platform's OWN mix% deviation from
+  // a baseline (mix% already varies independently per platform per month, real data), so every
+  // metric is reactive and no two platforms' deltas move in lockstep.
+  const PM_PERF_BASE = {
+    Meta: { ctr: 0.67, vtr: 5.32, cvr: 16.12, alcance: 92 },
+    Google: { ctr: 0.41, vtr: 4.10, cvr: 11.80, alcance: 70 },
+    TikTok: { ctr: 0.53, vtr: 7.20, cvr: 9.40, alcance: 64 },
+    DV360: { ctr: 0.29, vtr: 3.85, cvr: 7.60, alcance: 48 },
+  };
+  const PM_PERF_MIX_BASELINE = { Meta: 42, Google: 28, TikTok: 18, DV360: 12 };
+  function PM_computePerfMetric(p, metric, vd) {
+    const factor = 1 + ((vd.mix[p] - PM_PERF_MIX_BASELINE[p]) / PM_PERF_MIX_BASELINE[p]) * 0.4;
+    return PM_PERF_BASE[p][metric] * factor;
+  }
+  function PM_renderPerfTable(vd, cd, yd, cmpMonth, yoyMonth) {
+    const body = document.getElementById('pm-perfTableBody');
+    if (!body) return;
+    const metrics = ['ctr', 'vtr', 'cvr', 'alcance'];
+    const platforms = ['Meta', 'Google', 'TikTok', 'DV360'];
+    const values = {};
+    platforms.forEach(p => { values[p] = {}; metrics.forEach(m => { values[p][m] = PM_computePerfMetric(p, m, vd); }); });
+    const bestByMetric = {};
+    metrics.forEach(m => { bestByMetric[m] = platforms.reduce((a, b) => values[a][m] >= values[b][m] ? a : b); });
+
+    let html = '';
+    platforms.forEach(p => {
+      const types = PM_TIMELINE_TYPES.filter(t => PM_CAMPAIGN_GROUPS[t].channels.includes(p));
+      const fmt = (m, v) => m === 'alcance' ? v.toFixed(0) + '%' : v.toFixed(2) + '%';
+      const cells = metrics.map(m => {
+        const v = values[p][m];
+        const c = PM_computePerfMetric(p, m, cd);
+        const y = yd ? PM_computePerfMetric(p, m, yd) : null;
+        const d = relDelta(v, c), dy = y !== null ? relDelta(v, y) : null;
+        const cls = bestByMetric[m] === p ? ' perf-best' : '';
+        return `<td class="metric${cls}">${fmt(m, v)}<div class="perf-metric-delta"><span class="${d >= 0 ? 'good' : 'bad'}">${deltaText(d)}</span><span class="yoy ${dy !== null ? (dy >= 0 ? 'good' : 'bad') : ''}">${dy !== null ? deltaText(dy) + ' AA' : 'Sin histórico'}</span></div></td>`;
+      }).join('');
+      html += `<tr class="perf-row" data-platform="${p}" data-expand-target="platform-${p}">
+        <td><div class="perf-platform"><span class="perf-expand-icon">▸</span>${PM_platformIcon(p, PM_PLATFORM_COLOR[p])}${p}</div></td>
+        ${cells}
+      </tr>`;
+      types.forEach(t => {
+        const group = PM_CAMPAIGN_GROUPS[t];
+        const activeCount = group.campaigns.filter(c => c.status === 'active').length;
+        const closedCount = group.campaigns.filter(c => c.status === 'finished').length;
+        html += `<tr class="perf-type-row" data-parent="platform-${p}" data-expand-target="type-${p}-${t}" style="display:none;">
+          <td colspan="5"><div class="perf-type-cell"><span class="perf-expand-icon">▸</span><span class="campaign-badge" style="background:${PM_OBJ_COLOR[t]}22;color:${PM_OBJ_COLOR[t]};">${t}</span><span class="perf-type-summary">${group.campaigns.length} campañas · ${activeCount} activas · ${closedCount} cerradas</span></div></td>
+        </tr>`;
+        group.campaigns.forEach(camp => {
+          html += `<tr class="perf-campaign-row" data-parent="type-${p}-${t}" style="display:none;">
+            <td colspan="5"><div class="perf-campaign-cell">
+              <span class="perf-campaign-name">${camp.name}</span>
+              <span class="perf-campaign-period">${camp.period}</span>
+              <span class="perf-campaign-spend">${camp.spend}</span>
+              <span class="perf-campaign-result">${camp.result}</span>
+              <span class="status-chip ${camp.status}">${camp.statusLabel}</span>
+            </div></td>
+          </tr>`;
+        });
+      });
+    });
+    body.innerHTML = html;
+    body.querySelectorAll('[data-expand-target]').forEach(row => {
+      row.addEventListener('click', () => {
+        const icon = row.querySelector('.perf-expand-icon');
+        const target = row.getAttribute('data-expand-target');
+        const opening = icon.textContent === '▸';
+        icon.textContent = opening ? '▾' : '▸';
+        body.querySelectorAll(`[data-parent="${target}"]`).forEach(child => { child.style.display = opening ? '' : 'none'; });
+        if (!opening) {
+          // collapsing a platform/type also collapses anything nested under its children
+          body.querySelectorAll(`[data-parent="${target}"]`).forEach(child => {
+            const childTarget = child.getAttribute('data-expand-target');
+            if (childTarget) {
+              const childIcon = child.querySelector('.perf-expand-icon');
+              if (childIcon) childIcon.textContent = '▸';
+              body.querySelectorAll(`[data-parent="${childTarget}"]`).forEach(grandchild => { grandchild.style.display = 'none'; });
+            }
+          });
+        }
+      });
+    });
+    const insightEl = document.getElementById('pm-perfInsight');
+    if (insightEl) {
+      insightEl.querySelector('span:last-child').innerHTML = `<b>${bestByMetric.ctr}</b> lidera en CTR y <b>${bestByMetric.cvr}</b> en CVR este periodo. <b>${bestByMetric.alcance}</b> tiene el mayor alcance.`;
+    }
+  }
+  function PM_renderCampaignRanking(vd, cd, yd, cmpMonth, yoyMonth) {
+    const container = document.getElementById('pm-campaignRanking');
+    if (!container) return;
+    const html = PM_TIMELINE_TYPES.map(t => {
+      const group = PM_CAMPAIGN_GROUPS[t];
+      const best = group.campaigns.reduce((a, b) => a.kpiValue >= b.kpiValue ? a : b);
+      const medios = group.channels.filter(c => c !== 'TV' && c !== 'Digital propio');
+      return `<div class="campaign-rank-row">
+        <span class="campaign-rank-badge" style="background:${PM_OBJ_COLOR[t]}22;color:${PM_OBJ_COLOR[t]};">${t}</span>
+        <span class="campaign-rank-name">${best.name}</span>
+        <span class="campaign-rank-kpi">${group.kpiLabel}: <b>${best.result.split(' ').slice(0, 1)[0]}</b></span>
+        <span class="campaign-rank-medios">Medios: ${medios.join(', ') || group.channels.join(', ')}</span>
+      </div>`;
+    }).join('');
+    container.innerHTML = html;
+  }
+  // Executive summary at the foot of Tab 3 — leading medio overall, the over/under-indexed platform
+  // on conversions, and which campaign group is closing out its budget/status the most notably.
+  function PM_renderT3Summary(vd, cd, yd, cmpMonth, yoyMonth) {
+    const el = document.getElementById('pm-t3Summary');
+    if (!el) return;
+    const effRows = PM_ALL_MEDIO_ORDER.map(k => ({ key: k, v: PM_computeMedioEfficiency(k, vd) })).sort((a, b) => b.v - a.v);
+    const leader = effRows[0], laggard = effRows[effRows.length - 1];
+    const conv = PM_computeContribShares('Conversiones', vd);
+    const bestP = ['Meta', 'Google', 'TikTok', 'DV360'].reduce((a, b) => (conv[a] / vd.mix[a]) >= (conv[b] / vd.mix[b]) ? a : b);
+    const totalActive = PM_TIMELINE_TYPES.reduce((n, t) => n + PM_CAMPAIGN_GROUPS[t].campaigns.filter(c => c.status === 'active').length, 0);
+    const pacingWord = (vd.pct === null ? 0 : vd.pct) >= 45 ? 'en línea' : 'por debajo del plan';
+    const html = `<b>${PM_ALL_MEDIO_LABEL[leader.key]}</b> es el medio más eficiente este periodo (${leader.v.toFixed(2)}×) y <b>${PM_ALL_MEDIO_LABEL[laggard.key]}</b> el menos (${laggard.v.toFixed(2)}×). ` +
+      `<b>${bestP}</b> sobre-indexa en conversiones frente a su % de gasto — el mejor candidato para recibir más presupuesto. ` +
+      `El presupuesto Paid Media va ${pacingWord} (${vd.pct === null ? '—' : vd.pct + '%'} a la fecha), con <b>${totalActive}</b> campañas activas en este momento entre los 3 objetivos.`;
+    crossfade(el, () => { el.innerHTML = html; });
+  }
   // A real tapered 3D-looking funnel (stacked frustum segments with elliptical rims and a left-to-
   // right highlight gradient per segment, like looking into a tilted cone) instead of flat trapezoids.
   // Geometry is computed once and reused by both the SVG markup AND the dot animation, so a dot's
@@ -2502,6 +2719,11 @@
     // every indicator below, so the baseline you picked always carries its own year-over-year context.
     const yoyMonthName = PM_yoyMonth(cmpMonth);
     const yd = yoyMonthName ? PM_MONTH_DATA[yoyMonthName] : null;
+    PM_renderMedioRanking(vd, cd, yd, cmpMonth, yoyMonthName);
+    PM_renderContribRows(vd, cd, yd, cmpMonth, yoyMonthName);
+    PM_renderPerfTable(vd, cd, yd, cmpMonth, yoyMonthName);
+    PM_renderCampaignRanking(vd, cd, yd, cmpMonth, yoyMonthName);
+    PM_renderT3Summary(vd, cd, yd, cmpMonth, yoyMonthName);
 
     // Tab 1 channel distribution pie (6 canales) — driven by "Ver" month; each channel shows pp vs
     // "Comparar" AND pp vs the same month last year (AA), so both comparisons are always visible.
@@ -2778,40 +3000,127 @@
   }
   PM_drawDonut(PM_MONTH_DATA['Junio 2026'].mix, PM_MONTH_DATA['Junio 2026'].invested);
 
-  /* ================= TIMELINE ================= */
-  (function () {
-    const months = ['Ene','Feb','Mar','Abr','May','Jun'];
-    const series = [ [28,10,18],[32,12,20],[58,14,22],[40,22,24],[34,30,26],[30,24,30] ];
-    const labels = ['Season', 'Establecimientos', 'Onboarding'];
-    const colors = ['#141414', '#00618C', '#4F52E5'];
-    const W = 1080, H = 140, padL = 34, padR = 10, padT = 8, padB = 22;
-    const plotW = W - padL - padR, plotH = H - padT - padB;
-    const maxTotal = Math.max(...series.map(s => s.reduce((a,b)=>a+b,0))) * 1.15;
-    const stepX = plotW / (months.length - 1);
-    const svg = document.getElementById('pm-timelineSvg');
-    let out = '';
-    for (let g = 0; g <= 3; g++) { const y = padT + (plotH/3)*g; out += `<line x1="${padL}" y1="${y}" x2="${W-padR}" y2="${y}" stroke="#eef1f3" stroke-width="1"></line>`; }
-    for (let s = 0; s < 3; s++) {
-      let topPts = [], basePts = [];
-      let cumBase = months.map((_, i) => series[i].slice(0, s).reduce((a,b)=>a+b, 0));
-      let cumTop = months.map((_, i) => series[i].slice(0, s+1).reduce((a,b)=>a+b, 0));
-      months.forEach((_, i) => {
-        const x = padL + i * stepX;
-        topPts.push([x, padT + plotH - (cumTop[i] / maxTotal) * plotH]);
-        basePts.push([x, padT + plotH - (cumBase[i] / maxTotal) * plotH]);
-      });
-      const d = 'M' + topPts.map(p => p.join(',')).join(' L') + ' L' + basePts.slice().reverse().map(p => p.join(',')).join(' L') + ' Z';
-      out += `<path d="${d}" fill="${colors[s]}" opacity="0.85"></path>`;
-    }
-    months.forEach((m, i) => {
-      const x = padL + i * stepX;
-      out += `<text x="${x}" y="${H-6}" text-anchor="middle" font-size="10.5" fill="#8b8b8b">${m}</text>`;
-      const total = series[i].reduce((a,b)=>a+b,0);
-      const detail = labels.map((l, k) => l + ': $' + series[i][k] + 'K').join(' · ');
-      out += `<rect data-tt="${m} 2026 · Inversión $${total}K" data-ttv="${detail}" x="${x - stepX/2}" y="0" width="${stepX}" height="${H}" fill="transparent"></rect>`;
+  /* ================= TIMELINE — inversión real por mes vs. objetivo, con filtro por tipo de ============ */
+  /* campaña y filtro anidado por medio dentro del tipo (mismo patrón que el funnel de Tab 2). ============ */
+  // Real per-month spend by campaign type — the SAME fixed share (PM_OBJ_SPEND_SHARE) already used by
+  // the Tab 2 funnel, applied to each month's real `invested`/totalMedia, so this is a genuine time
+  // series across all 6 months with zero new hand-typed numbers.
+  function PM_timelineTypeSeries(type) {
+    return PM_TIMELINE_MONTHS.map(m => {
+      const vd = PM_MONTH_DATA[m];
+      const base = type === 'Season' ? vd.invested / (vd.channels.Paid / 100) : vd.invested;
+      return base * PM_OBJ_SPEND_SHARE[type];
     });
+  }
+  // A medio's slice within a type reuses PM_GOAL_CONTRIB's contribution % (only a single fixed
+  // snapshot, not per-month) applied across every month — the same simplification already made for
+  // the Tab 2 funnel's nested medio drill-down, kept consistent rather than inventing a second,
+  // differently-shaped per-month contribution dataset just for this chart.
+  function PM_timelineMedioSeries(type, medioKey) {
+    const share = PM_GOAL_CONTRIB[type] && PM_GOAL_CONTRIB[type].view[medioKey];
+    if (share === undefined) return null;
+    return PM_timelineTypeSeries(type).map(v => v * (share / 100));
+  }
+  let PM_timelineType = 'ALL';
+  let PM_timelineMedio = 'ALL';
+  function PM_populateTimelineMedioOptions(type) {
+    const sel = document.getElementById('pm-timelineMedioSelect');
+    if (!sel) return;
+    if (type === 'ALL' || !PM_GOAL_CONTRIB[type]) { sel.style.display = 'none'; return; }
+    sel.style.display = '';
+    const channels = Object.keys(PM_GOAL_CONTRIB[type].view);
+    sel.innerHTML = `<option value="ALL">Todos los medios</option>` + channels.map(k => `<option value="${k}">${PM_MEDIO_LABEL[k] || k}</option>`).join('');
+    sel.value = 'ALL';
+  }
+  function PM_renderTimeline() {
+    const svg = document.getElementById('pm-timelineSvg');
+    const legendEl = document.getElementById('pm-timelineLegend');
+    const peakFlagEl = document.getElementById('pm-timelinePeakFlag');
+    const peakAnnotEl = document.getElementById('pm-timelinePeakAnnotation');
+    if (!svg) return;
+    const W = 1080, H = 140, padL = 44, padR = 10, padT = 8, padB = 22;
+    const plotW = W - padL - padR, plotH = H - padT - padB;
+    const stepX = plotW / (PM_TIMELINE_MONTHS.length - 1);
+    const targetMonthly = 850000 / 12; // annual Paid Media budget already shown at the top of this tab
+    let out = '';
+    let seriesForTooltip; // [{label, color, values}]
+
+    if (PM_timelineType === 'ALL') {
+      legendEl.style.display = '';
+      const seriesVals = PM_TIMELINE_TYPES.map(t => PM_timelineTypeSeries(t));
+      const totals = PM_TIMELINE_MONTHS.map((_, i) => seriesVals.reduce((a, s) => a + s[i], 0));
+      const maxTotal = Math.max(Math.max(...totals), targetMonthly) * 1.15;
+      for (let g = 0; g <= 3; g++) { const y = padT + (plotH / 3) * g; out += `<line x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}" stroke="#eef1f3" stroke-width="1"></line>`; }
+      PM_TIMELINE_TYPES.forEach((t, s) => {
+        const color = PM_OBJ_COLOR[t];
+        let topPts = [], basePts = [];
+        PM_TIMELINE_MONTHS.forEach((_, i) => {
+          const cumBase = seriesVals.slice(0, s).reduce((a, arr) => a + arr[i], 0);
+          const cumTop = cumBase + seriesVals[s][i];
+          const x = padL + i * stepX;
+          topPts.push([x, padT + plotH - (cumTop / maxTotal) * plotH]);
+          basePts.push([x, padT + plotH - (cumBase / maxTotal) * plotH]);
+        });
+        const d = 'M' + topPts.map(p => p.join(',')).join(' L') + ' L' + basePts.slice().reverse().map(p => p.join(',')).join(' L') + ' Z';
+        out += `<path d="${d}" fill="${color}" opacity="0.85"></path>`;
+      });
+      const targetY = padT + plotH - (targetMonthly / maxTotal) * plotH;
+      out += `<line x1="${padL}" y1="${targetY}" x2="${W - padR}" y2="${targetY}" stroke="#EE0000" stroke-width="1.5" stroke-dasharray="5,4"></line>`;
+      seriesForTooltip = { totals, maxTotal };
+      const peakIdx = totals.indexOf(Math.max(...totals));
+      peakFlagEl.textContent = `Pico de inversión: ${PM_TIMELINE_MONTH_SHORT[peakIdx]} 2026 (${PM_fmtCompactUSD(totals[peakIdx])})`;
+      peakAnnotEl.style.left = (5 + (peakIdx / (PM_TIMELINE_MONTHS.length - 1)) * 88) + '%';
+    } else {
+      legendEl.style.display = 'none';
+      const values = PM_timelineMedio !== 'ALL' ? PM_timelineMedioSeries(PM_timelineType, PM_timelineMedio) : PM_timelineTypeSeries(PM_timelineType);
+      const color = PM_timelineMedio !== 'ALL' ? (PM_GOAL_CONTRIB_COLOR[PM_timelineMedio] || PM_OBJ_COLOR[PM_timelineType]) : PM_OBJ_COLOR[PM_timelineType];
+      const maxV = Math.max(Math.max(...values), targetMonthly) * 1.15;
+      for (let g = 0; g <= 3; g++) { const y = padT + (plotH / 3) * g; out += `<line x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}" stroke="#eef1f3" stroke-width="1"></line>`; }
+      const areaPts = PM_TIMELINE_MONTHS.map((_, i) => [padL + i * stepX, padT + plotH - (values[i] / maxV) * plotH]);
+      const areaD = 'M' + areaPts.map(p => p.join(',')).join(' L') + ` L${W - padR},${padT + plotH} L${padL},${padT + plotH} Z`;
+      out += `<path d="${areaD}" fill="${color}" opacity="0.18"></path>`;
+      out += `<path d="M${areaPts.map(p => p.join(',')).join(' L')}" fill="none" stroke="${color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path>`;
+      areaPts.forEach(([x, y]) => { out += `<circle cx="${x}" cy="${y}" r="3.5" fill="${color}"></circle>`; });
+      const targetY = padT + plotH - (targetMonthly / maxV) * plotH;
+      out += `<line x1="${padL}" y1="${targetY}" x2="${W - padR}" y2="${targetY}" stroke="#EE0000" stroke-width="1.5" stroke-dasharray="5,4"></line>`;
+      seriesForTooltip = { values, maxV };
+      const peakIdx = values.indexOf(Math.max(...values));
+      const label = PM_timelineMedio !== 'ALL' ? (PM_MEDIO_LABEL[PM_timelineMedio] || PM_timelineMedio) : PM_timelineType;
+      peakFlagEl.textContent = `Pico de ${label}: ${PM_TIMELINE_MONTH_SHORT[peakIdx]} 2026 (${PM_fmtCompactUSD(values[peakIdx])})`;
+      peakAnnotEl.style.left = (5 + (peakIdx / (PM_TIMELINE_MONTHS.length - 1)) * 88) + '%';
+    }
+
+    PM_TIMELINE_MONTHS.forEach((m, i) => {
+      const x = padL + i * stepX;
+      out += `<text x="${x}" y="${H - 6}" text-anchor="middle" font-size="10.5" fill="#8b8b8b">${PM_TIMELINE_MONTH_SHORT[i]}</text>`;
+      const total = PM_timelineType === 'ALL' ? seriesForTooltip.totals[i] : seriesForTooltip.values[i];
+      const detail = PM_timelineType === 'ALL' ? PM_TIMELINE_TYPES.map(t => t + ': ' + PM_fmtCompactUSD(PM_timelineTypeSeries(t)[i])).join(' · ') : `Objetivo mensual: ${PM_fmtCompactUSD(targetMonthly)}`;
+      out += `<rect data-tt="${m} · Inversión ${PM_fmtCompactUSD(total)}" data-ttv="${detail}" x="${x - stepX / 2}" y="0" width="${stepX}" height="${H}" fill="transparent"></rect>`;
+    });
+    out += `<text x="${W - padR}" y="${padT + plotH - (targetMonthly / (PM_timelineType === 'ALL' ? seriesForTooltip.maxTotal : seriesForTooltip.maxV)) * plotH - 4}" text-anchor="end" font-size="9" fill="#EE0000">Objetivo mensual: ${PM_fmtCompactUSD(targetMonthly)}</text>`;
     svg.innerHTML = out;
-  })();
+  }
+  PM_renderTimeline();
+  const PM_timelineFilterEl = document.getElementById('pm-timelineFilter');
+  if (PM_timelineFilterEl) {
+    PM_timelineFilterEl.querySelectorAll('.obj-filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        PM_timelineFilterEl.querySelectorAll('.obj-filter-btn').forEach(b => b.removeAttribute('data-active'));
+        btn.setAttribute('data-active', 'true');
+        PM_timelineType = btn.getAttribute('data-obj');
+        PM_timelineMedio = 'ALL';
+        PM_populateTimelineMedioOptions(PM_timelineType);
+        PM_renderTimeline();
+      });
+    });
+  }
+  const PM_timelineMedioSelectEl = document.getElementById('pm-timelineMedioSelect');
+  if (PM_timelineMedioSelectEl) {
+    PM_timelineMedioSelectEl.addEventListener('change', () => {
+      PM_timelineMedio = PM_timelineMedioSelectEl.value;
+      PM_renderTimeline();
+    });
+  }
 
   })();
 </script>
