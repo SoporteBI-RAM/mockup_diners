@@ -143,6 +143,23 @@
   .portada-card-kpi-value { font-size: 18px; font-weight: 700; }
   .portada-card-kpi-label { font-size: 10px; color: #8b8b8b; }
   .portada-card-arrow { font-size: 11.5px; font-weight: 600; color: #4F52E5; margin-top: 10px; display: flex; align-items: center; gap: 4px; }
+  .portada-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+  .health-list-title { display: flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+  .health-item { display: flex; gap: 10px; padding: 11px 0; border-top: 1px dashed #e6e5ea; }
+  .health-item:first-of-type { border-top: none; }
+  .health-item-dot { width: 8px; height: 8px; border-radius: 50%; flex: none; margin-top: 5px; }
+  .health-item-dot.good { background: #008038; }
+  .health-item-dot.warn { background: #8a6d1f; }
+  .health-item-dot.bad { background: #EE0000; }
+  .health-item-body { flex: 1; min-width: 0; }
+  .health-item-area { font-size: 11px; font-weight: 700; color: #141414; margin-bottom: 2px; }
+  .health-item-note { font-size: 11.5px; color: #5a5a5a; line-height: 1.5; }
+  .health-item-note b { color: #262626; }
+  .opportunity-list { display: flex; flex-direction: column; gap: 9px; }
+  .opportunity-item { display: flex; gap: 11px; background: #F8F7FC; border: 1px solid #EDEBFB; border-radius: 9px; padding: 11px 13px; }
+  .opportunity-num { font-family: var(--font-display); font-size: 14px; font-weight: 700; color: #4F52E5; flex: none; width: 18px; }
+  .opportunity-text { font-size: 12px; line-height: 1.55; color: #3d3d3d; }
+  .opportunity-text b { color: #262166; }
 
   /* ================= SOCIAL MEDIA ================= */
   .brand-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 14px; }
@@ -619,55 +636,71 @@
           <div class="portada-hero-sub">Vista ejecutiva de las 5 sub-áreas de marketing: inversión, desempeño y cumplimiento de objetivos en un solo lugar.</div>
           <div class="portada-stats-row">
             <div><div class="portada-stat-value">$1,545,000</div><div class="portada-stat-label">Presupuesto total de medios 2026</div></div>
-            <div><div class="portada-stat-value">58.9</div><div class="portada-stat-label">Índice compuesto general</div></div>
+            <div><div class="portada-stat-value fx" id="portada-indice">—</div><div class="portada-stat-label">Índice compuesto general</div></div>
             <div><div class="portada-stat-value">5</div><div class="portada-stat-label">Sub-áreas activas</div></div>
           </div>
         </div>
       </div>
+
+      <div class="portada-2col">
+        <div class="zone zone-pad">
+          <div class="health-list-title">✅ Qué está funcionando</div>
+          <div class="fx" id="portada-goodList"></div>
+        </div>
+        <div class="zone zone-pad">
+          <div class="health-list-title">⚠️ Qué requiere atención</div>
+          <div class="fx" id="portada-warnList"></div>
+        </div>
+      </div>
+      <div class="zone zone-pad" style="margin-bottom:14px;">
+        <div class="zone-title" style="margin-bottom:10px;">Oportunidades — por dónde mejorar</div>
+        <div class="opportunity-list fx" id="portada-opportunities"></div>
+      </div>
+
       <div class="portada-grid">
         <div class="zone portada-card" data-goto-page="paid">
           <div class="portada-card-icon" style="background:rgba(79,82,229,0.1);">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4F52E5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l18-6v14L3 15v-4z"></path><path d="M11.5 17a3 3 0 1 1-5.8-1.5"></path></svg>
           </div>
-          <div class="portada-card-title">Paid Media</div>
+          <div class="portada-card-title"><span class="health-item-dot fx" id="portada-dot-paid" style="display:inline-block;margin-top:0;"></span> Paid Media</div>
           <div class="portada-card-desc">Inversión, mix de plataformas y cumplimiento de Season, Establecimientos y Onboarding.</div>
-          <div class="portada-card-kpi"><span class="portada-card-kpi-value">103%</span><span class="portada-card-kpi-label">Cumplimiento Season</span></div>
+          <div class="portada-card-kpi"><span class="portada-card-kpi-value fx" id="portada-kpi-paid">103%</span><span class="portada-card-kpi-label" id="portada-kpi-paid-label">Cumplimiento Season</span></div>
           <div class="portada-card-arrow">Ver tablero →</div>
         </div>
         <div class="zone portada-card" data-goto-page="social">
           <div class="portada-card-icon" style="background:rgba(0,97,140,0.12);">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00618C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.6" y1="10.6" x2="15.4" y2="6.4"></line><line x1="8.6" y1="13.4" x2="15.4" y2="17.6"></line></svg>
           </div>
-          <div class="portada-card-title">Social Media</div>
+          <div class="portada-card-title"><span class="health-item-dot fx" id="portada-dot-social" style="display:inline-block;margin-top:0;"></span> Social Media</div>
           <div class="portada-card-desc">Crecimiento de comunidad y engagement por marca (Diners, TITANIUM, Discover) y red.</div>
-          <div class="portada-card-kpi"><span class="portada-card-kpi-value">6.8%</span><span class="portada-card-kpi-label">Engagement rate</span></div>
+          <div class="portada-card-kpi"><span class="portada-card-kpi-value fx" id="portada-kpi-social">6.8%</span><span class="portada-card-kpi-label">Engagement rate</span></div>
           <div class="portada-card-arrow">Ver tablero →</div>
         </div>
         <div class="zone portada-card" data-goto-page="digital">
           <div class="portada-card-icon" style="background:rgba(85,99,122,0.14);">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#55637A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 9h.01M15 9h.01M8 13a4 4 0 0 0 8 0"></path><circle cx="12" cy="12" r="10"></circle></svg>
           </div>
-          <div class="portada-card-title">Activos Digitales</div>
+          <div class="portada-card-title"><span class="health-item-dot fx" id="portada-dot-digital" style="display:inline-block;margin-top:0;"></span> Activos Digitales</div>
           <div class="portada-card-desc">APP BLU y Portal Público Diners — usuarios, engagement y cumplimiento de metas.</div>
-          <div class="portada-card-kpi"><span class="portada-card-kpi-value">142,850</span><span class="portada-card-kpi-label">Usuarios Activos (MAU)</span></div>
+          <div class="portada-card-kpi"><span class="portada-card-kpi-value fx" id="portada-kpi-digital">142,850</span><span class="portada-card-kpi-label">Usuarios Activos (MAU)</span></div>
           <div class="portada-card-arrow">Ver tablero →</div>
         </div>
         <div class="zone portada-card" data-goto-page="own">
           <div class="portada-card-icon" style="background:rgba(110,147,176,0.12);">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6E93B0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="M2 6l10 7L22 6"></path></svg>
           </div>
-          <div class="portada-card-title">Own Media</div>
+          <div class="portada-card-title"><span class="health-item-dot fx" id="portada-dot-own" style="display:inline-block;margin-top:0;"></span> Own Media</div>
           <div class="portada-card-desc">Email, SMS, Push y WhatsApp — desempeño, salud de canal y ranking de campañas.</div>
-          <div class="portada-card-kpi"><span class="portada-card-kpi-value">45,200</span><span class="portada-card-kpi-label">Aperturas de email</span></div>
+          <div class="portada-card-kpi"><span class="portada-card-kpi-value fx" id="portada-kpi-own">45,200</span><span class="portada-card-kpi-label" id="portada-kpi-own-label">Aperturas de email</span></div>
           <div class="portada-card-arrow">Ver tablero →</div>
         </div>
         <div class="zone portada-card" data-goto-page="rse">
           <div class="portada-card-icon" style="background:rgba(233,181,45,0.16);">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8a6d1f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"></path></svg>
           </div>
-          <div class="portada-card-title">RSE y Revista</div>
+          <div class="portada-card-title"><span class="health-item-dot fx" id="portada-dot-rse" style="display:inline-block;margin-top:0;"></span> RSE y Revista</div>
           <div class="portada-card-desc">Ejecución de iniciativas sociales y desempeño de Revista Mundo Diners.</div>
-          <div class="portada-card-kpi"><span class="portada-card-kpi-value">78%</span><span class="portada-card-kpi-label">Avance Educación Financiera</span></div>
+          <div class="portada-card-kpi"><span class="portada-card-kpi-value fx" id="portada-kpi-rse">78%</span><span class="portada-card-kpi-label" id="portada-kpi-rse-label">Avance Educación Financiera</span></div>
           <div class="portada-card-arrow">Ver tablero →</div>
         </div>
       </div>
@@ -3116,6 +3149,7 @@
     PM_renderT2Summary(vd);
 
     // Per-goal: current value, % of target, verdict, delta vs compare month
+    const PM_goalHealth = [];
     ['Season', 'Establecimientos', 'Onboarding'].forEach(g => {
       const current = vd.goals[g];
       const pctTarget = current === null ? null : (current / PM_TARGETS[g]) * 100;
@@ -3151,9 +3185,22 @@
             objStatusEl.textContent = icon + ' ' + pctTarget.toFixed(0) + '% de la meta';
           });
         }
+        PM_goalHealth.push({ g, pctTarget, statusClass, delta });
       }
       [goalDeltaEl, fulfilDeltaEl].forEach(el => { crossfade(el, () => { el.textContent = PM_deltaText(delta); PM_deltaStyle(el, delta); }); });
     });
+
+    if (PM_goalHealth.length) {
+      const best = PM_goalHealth.reduce((a, b) => a.pctTarget >= b.pctTarget ? a : b);
+      const worst = PM_goalHealth.reduce((a, b) => a.pctTarget <= b.pctTarget ? a : b);
+      const overallStatus = PM_goalHealth.some(x => x.statusClass === 'bad') ? 'bad' : (PM_goalHealth.every(x => x.statusClass === 'good') ? 'good' : 'warn');
+      window.DINERS_HEALTH = window.DINERS_HEALTH || {};
+      window.DINERS_HEALTH.paid = {
+        label: 'Paid Media', kpiValue: best.pctTarget.toFixed(0) + '%', kpiLabel: 'Cumplimiento ' + best.g, status: overallStatus,
+        note: `<b>${best.g}</b> lidera el cumplimiento con ${best.pctTarget.toFixed(0)}% de meta (${PM_deltaText(best.delta)}); <b>${worst.g}</b> viene más rezagado con ${worst.pctTarget.toFixed(0)}%.`,
+        opportunity: overallStatus === 'good' ? null : `<b>Paid Media</b>: reforzar <b>${worst.g}</b> — está al ${worst.pctTarget.toFixed(0)}% de su meta, el objetivo más rezagado de los tres.`,
+      };
+    }
 
     PM_renderT1Summary(vd, cd, t1TotalMedia, pacingPct, relDelta(t1TotalMedia, t1CmpTotalMedia), viewMonth, cmpMonth);
   }
@@ -3636,6 +3683,13 @@
       ? `<b>${declining.name}</b> es el único canal con CTR a la baja este mes (${deltaText(declining.d, 'pp')}) — vale la pena revisar contenido o segmentación.`
       : `Todos los canales con CTR medible mejoran o se mantienen vs. el mes de comparación.`);
     el.innerHTML = parts.join(' ');
+
+    window.DINERS_HEALTH = window.DINERS_HEALTH || {};
+    window.DINERS_HEALTH.own = {
+      label: 'Own Media', kpiValue: vd.email.aperturas.toLocaleString('en-US'), kpiLabel: 'Aperturas de email', status: declining ? 'warn' : 'good',
+      note: `<b>${best.name}</b> tiene el mejor CTR (${best.v}%, ${deltaText(best.d, 'pp')}).${declining ? ` <b>${declining.name}</b> es el único canal con CTR a la baja (${deltaText(declining.d, 'pp')}).` : ' Todos los canales mejoran o se mantienen.'}`,
+      opportunity: declining ? `<b>Own Media</b>: revisar contenido o segmentación de <b>${declining.name}</b> — único canal con CTR a la baja este mes (${deltaText(declining.d, 'pp')}).` : null,
+    };
   }
 
   /* ================= SALUD DEL CANAL — barra con zonas de umbral (verde/ámbar/rojo), no reactiva al mes ================= */
@@ -4150,6 +4204,20 @@
     parts.push(`Geográficamente, <b>${topCities[0].name}</b> concentra el ${topCities[0].pct}% de la comunidad (${topCityNum.toLocaleString('en-US')} seguidores), seguido de <b>${topCities[1].name}</b> (${topCities[1].pct}%).`);
 
     document.getElementById('sm-t1Summary').innerHTML = parts.join(' ');
+
+    // Resumen para la portada — solo en el estado agregado (sin marca activa), corte por defecto
+    const totalGrowth = relDelta(vd.total, cd.total);
+    const socialStatus = (engDelta < 0 && totalGrowth < 0) ? 'bad' : ((engDelta < 0 || totalGrowth < 0) ? 'warn' : 'good');
+    window.DINERS_HEALTH = window.DINERS_HEALTH || {};
+    window.DINERS_HEALTH.social = {
+      label: 'Social Media', kpiValue: vd.engagement + '%', status: socialStatus,
+      note: `<b>${brandLabel[leaderBrand]}</b> lidera en volumen (${vd.brandShare[leaderBrand]}%); <b>${brandLabel[fastestBrand]}</b> crece más rápido (${deltaText(fastestBrandGrowth)}). Engagement agregado ${vd.engagement}% (${deltaText(engDelta, 'pp')}).`,
+      opportunity: socialStatus === 'good' ? null : (
+        engDelta < 0
+          ? `<b>Social Media</b>: el engagement rate agregado cayó ${deltaText(engDelta, 'pp')} vs. ${cmpMonth.split(' ')[0]} — revisar el tipo de contenido publicado ese mes.`
+          : `<b>Social Media</b>: la comunidad total decreció ${deltaText(totalGrowth)} este mes — investigar la causa (bajas orgánicas, cambio de red) antes de invertir en adquisición.`
+      ),
+    };
   }
 
   function SM_updateComparison() {
@@ -4252,9 +4320,12 @@
     PAGE_ROOT.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => RSE_showTab(t.dataset.tab)));
 
   /* ================= GAUGES — avance de iniciativas (estático, corte junio 2026 — métrica anual acumulada, sin base mes a mes) ================= */
-  document.getElementById('rse-gaugeEducacion').innerHTML = gaugeMarkup(78);
-  document.getElementById('rse-gaugeOrigenes').innerHTML = gaugeMarkup(92);
-  document.getElementById('rse-gaugeCultural').innerHTML = gaugeMarkup(61);
+  const RSE_GAUGES = {
+    Educacion: { value: 78, label: 'Educación Financiera', status: 'good' },
+    Origenes: { value: 92, label: 'Iniciativa Orígenes', status: 'good' },
+    Cultural: { value: 61, label: 'Iniciativa Cultural', status: 'warn' },
+  };
+  Object.keys(RSE_GAUGES).forEach(k => { document.getElementById('rse-gauge' + k).innerHTML = gaugeMarkup(RSE_GAUGES[k].value); });
 
   /* ================= ENCUESTA SEMESTRAL — fuente única para tiles + insight, sin atribución causal no verificada ================= */
   const RSE_SEMESTER = { h1: 34, h2: 41, h1Label: 'H1 2026', h2Label: 'H2 2026 (parcial)' };
@@ -4345,6 +4416,17 @@
     const yoyVis = document.getElementById('rse-yoyVisitas');
     const visYoyDelta = yd ? relDelta(vd.visitas, yd.visitas) : null;
     crossfade(yoyVis, () => { yoyVis.textContent = visYoyDelta !== null ? `vs. año anterior (${yoyMonth}): ${deltaText(visYoyDelta)}` : 'vs. año anterior: Sin histórico'; });
+
+    const gaugeKeys = Object.keys(RSE_GAUGES);
+    const worstGauge = gaugeKeys.reduce((a, b) => RSE_GAUGES[b].value <= RSE_GAUGES[a].value ? b : a);
+    const wg = RSE_GAUGES[worstGauge];
+    const overallStatus = gaugeKeys.some(k => RSE_GAUGES[k].status === 'bad') ? 'bad' : (gaugeKeys.every(k => RSE_GAUGES[k].status === 'good') ? 'good' : 'warn');
+    window.DINERS_HEALTH = window.DINERS_HEALTH || {};
+    window.DINERS_HEALTH.rse = {
+      label: 'RSE y Revista', kpiValue: wg.value + '%', kpiLabel: 'Avance ' + wg.label, status: overallStatus,
+      note: `<b>${wg.label}</b> va al ${wg.value}%, la más rezagada de las tres iniciativas RSE. Revista Mundo Diners: ${vd.suscriptores.toLocaleString('en-US')} suscriptores (${deltaText(suscDelta)}).`,
+      opportunity: overallStatus === 'good' ? null : `<b>RSE</b>: reprogramar las actividades pendientes de <b>${wg.label}</b> (${wg.value}% de avance) antes del cierre de año para no comprometer la meta anual.`,
+    };
   }
   RSE_viewSel.addEventListener('change', () => { ensureMonthsDiffer(RSE_viewSel, RSE_cmpSel); RSE_updateComparison(); });
   RSE_cmpSel.addEventListener('change', () => { ensureMonthsDiffer(RSE_cmpSel, RSE_viewSel); RSE_updateComparison(); });
@@ -4693,6 +4775,17 @@
     parts.push(`<b>${AD_EVENT_LABEL[bestEvent]}</b> es el evento con mejor cumplimiento de meta (${(vd.events[bestEvent] / AD_EVENT_META[bestEvent] * 100).toFixed(0)}%), mientras <b>${AD_EVENT_LABEL[worstEvent]}</b> queda más rezagado (${(vd.events[worstEvent] / AD_EVENT_META[worstEvent] * 100).toFixed(0)}%).`);
     parts.push(`Android concentra el 64% de los usuarios; el segmento de 25-34 años es el más numeroso y el de mayor re-engagement (52%)${chLabel ? ' — tasas agregadas de todos los canales' : ''}.`);
     document.getElementById('ad-appSummary').innerHTML = parts.join(' ');
+
+    if (!chLabel) {
+      const bestPct = (vd.events[bestEvent] / AD_EVENT_META[bestEvent]) * 100, worstPct = (vd.events[worstEvent] / AD_EVENT_META[worstEvent]) * 100;
+      const adStatus = worstPct >= 100 ? 'good' : (worstPct >= 85 ? 'warn' : 'bad');
+      window.DINERS_HEALTH = window.DINERS_HEALTH || {};
+      window.DINERS_HEALTH.digital = {
+        label: 'Activos Digitales', kpiValue: Math.round(mauEff).toLocaleString('en-US'), status: adStatus,
+        note: `MAU llega a ${Math.round(mauEff).toLocaleString('en-US')} (${deltaText(mauDelta)}). <b>${AD_EVENT_LABEL[bestEvent]}</b> tiene el mejor cumplimiento de meta (${bestPct.toFixed(0)}%), <b>${AD_EVENT_LABEL[worstEvent]}</b> el más rezagado (${worstPct.toFixed(0)}%).`,
+        opportunity: adStatus === 'good' ? null : `<b>Activos Digitales</b>: reforzar <b>${AD_EVENT_LABEL[worstEvent]}</b> en APP BLU — ${worstPct.toFixed(0)}% de cumplimiento de meta, el evento más rezagado.`,
+      };
+    }
   }
   function AD_renderPortalSummary(vd, cd, yd, cmpMonth, yoyMonth, fuShare, fuLabel) {
     fuShare = fuShare || 1;
@@ -4948,6 +5041,63 @@
   }
   AD_updateComparison();
 
+  })();
+</script>
+
+<!-- ================= PORTADA SCRIPT ================= -->
+<!-- Corre al final a propósito: lee window.DINERS_HEALTH, que cada una de las 5 páginas anteriores
+     ya llenó con su propio estado por defecto (agregado, sin filtro) al ejecutar su primer render. -->
+<script>
+  (function () {
+    const AREA_ORDER = ['paid', 'social', 'digital', 'own', 'rse'];
+    const SCORE = { good: 100, warn: 65, bad: 35 };
+    const SEVERITY = { bad: 0, warn: 1, good: 2 };
+
+    function healthItemHTML(a) {
+      return `<div class="health-item"><span class="health-item-dot ${a.status}"></span><div class="health-item-body"><div class="health-item-area">${a.label}</div><div class="health-item-note">${a.note}</div></div></div>`;
+    }
+
+    function renderPortada() {
+      const H = window.DINERS_HEALTH || {};
+      const areas = AREA_ORDER.map(k => H[k]).filter(Boolean);
+      if (!areas.length) return; // páginas aún no han corrido su primer render
+
+      const idxEl = document.getElementById('portada-indice');
+      if (idxEl) idxEl.textContent = (areas.reduce((s, a) => s + SCORE[a.status], 0) / areas.length).toFixed(1);
+
+      const goodAreas = areas.filter(a => a.status === 'good');
+      const warnAreas = areas.filter(a => a.status !== 'good');
+      const goodEl = document.getElementById('portada-goodList');
+      const warnEl = document.getElementById('portada-warnList');
+      if (goodEl) goodEl.innerHTML = goodAreas.length ? goodAreas.map(healthItemHTML).join('') : '<div class="health-item-note">Ninguna sub-área destaca especialmente por encima del resto este mes.</div>';
+      if (warnEl) warnEl.innerHTML = warnAreas.length ? warnAreas.map(healthItemHTML).join('') : '<div class="health-item-note">Ninguna sub-área requiere atención inmediata este mes.</div>';
+
+      const opportunities = areas.filter(a => a.opportunity).sort((a, b) => SEVERITY[a.status] - SEVERITY[b.status]);
+      const oppEl = document.getElementById('portada-opportunities');
+      if (oppEl) {
+        oppEl.innerHTML = opportunities.length
+          ? opportunities.map((a, i) => `<div class="opportunity-item"><span class="opportunity-num">${i + 1}</span><span class="opportunity-text">${a.opportunity}</span></div>`).join('')
+          : '<div class="opportunity-item"><span class="opportunity-num">✓</span><span class="opportunity-text">Todas las sub-áreas están al día con su meta este mes — sin oportunidades urgentes que priorizar.</span></div>';
+      }
+
+      // Tarjetas de navegación — mismos números que ya se muestran dentro de cada página, una sola fuente
+      AREA_ORDER.forEach(k => {
+        const a = H[k];
+        if (!a) return;
+        const dot = document.getElementById('portada-dot-' + k);
+        if (dot) dot.className = 'health-item-dot fx ' + a.status;
+        const kpi = document.getElementById('portada-kpi-' + k);
+        if (kpi) kpi.textContent = a.kpiValue;
+        if (a.kpiLabel) {
+          const kpiLabelEl = document.getElementById('portada-kpi-' + k + '-label');
+          if (kpiLabelEl) kpiLabelEl.textContent = a.kpiLabel;
+        }
+      });
+    }
+
+    renderPortada();
+    const portadaNav = document.querySelector('.nav-item[data-page="portada"]');
+    if (portadaNav) portadaNav.addEventListener('click', renderPortada);
   })();
 </script>
 </body>
