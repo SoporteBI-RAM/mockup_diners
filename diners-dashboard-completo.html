@@ -316,7 +316,7 @@
   [data-page="paid"] .obj-text b { color: #141414; }
   [data-page="paid"] .fulfil-block { margin-bottom: 14px; animation: fadein 0.4s ease backwards; }
   [data-page="paid"] .fulfil-block:last-of-type { margin-bottom: 0; }
-  [data-page="paid"] .fulfil-secondary-goal { display: flex; align-items: center; gap: 16px; margin-top: 12px; padding: 12px 8px 0; border-top: 1px dashed #e6e5ea; }
+  [data-page="paid"] .fulfil-secondary-goal { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; margin-top: 12px; padding: 12px 8px 0; border-top: 1px dashed #e6e5ea; }
   [data-page="paid"] .gauge-box-mini { width: 76px; }
   [data-page="paid"] .fulfil-pct-mini { font-size: 18px; }
   [data-page="paid"] .fulfil-metrics { margin-top: 12px; padding-top: 12px; border-top: 1px dashed #e6e5ea; }
@@ -911,11 +911,24 @@
           </div>
         </div>
         <div class="fulfil-secondary-goal">
-          <div class="gauge-box gauge-box-mini"><svg viewBox="-12 -14 144 84" id="pm-gaugeTarjetasT1"></svg></div>
-          <div class="fulfil-info">
-            <div class="fulfil-name">Onboarding — Colocación de tarjetas</div>
-            <div class="fulfil-pct-big fulfil-pct-mini fx" id="pm-fulfilPctTarjetas">—</div>
-            <span class="delta-chip fx fulfil-delta" id="pm-fulfilDeltaTarjetas">—</span>
+          <div class="fulfil-viz-left">
+            <div class="gauge-box gauge-box-mini"><svg viewBox="-12 -14 144 84" id="pm-gaugeTarjetasT1"></svg></div>
+            <div class="fulfil-info">
+              <div class="fulfil-name">Onboarding — Colocación de tarjetas</div>
+              <div class="fulfil-pct-big fulfil-pct-mini fx" id="pm-fulfilPctTarjetas">—</div>
+              <span class="delta-chip fx fulfil-delta" id="pm-fulfilDeltaTarjetas">—</span>
+            </div>
+            <div class="pie-box"><svg viewBox="0 0 70 70" id="pm-pieTarjetasT1"></svg></div>
+            <div class="pie-legend-col">
+              <div class="pie-legend-title">Aporte a Tarjetas colocadas</div>
+              <div id="pm-contribLegendTarjetas"></div>
+            </div>
+          </div>
+          <div class="fulfil-viz-divider"></div>
+          <div class="fulfil-viz-efficiency">
+            <div class="efficiency-title">Eficiencia por canal <span class="efficiency-hint">(aporte a Tarjetas colocadas vs. % del gasto)</span></div>
+            <div class="efficiency-legend"><b>1.0×</b> = aporta justo lo que le toca por su % de inversión · más = rinde de más · menos = rinde de menos</div>
+            <div id="pm-efficiencyRowsTarjetas"></div>
           </div>
         </div>
         <div class="fulfil-metrics">
@@ -2492,7 +2505,7 @@
   // con la misma lógica que ya usa Cuentas de ahorro: un poco por encima del ritmo actual (900 en
   // junio → 90% de cumplimiento, casi idéntico al 91% de Cuentas de ahorro), no un número arbitrario.
   const PM_TARJETAS_TARGET = 1000;
-  function PM_renderTarjetasGoal(viewMonth, cmpMonth) {
+  function PM_renderTarjetasGoal(viewMonth, cmpMonth, yoyMonthName) {
     const gaugeEl = document.getElementById('pm-gaugeTarjetasT1');
     const pctEl = document.getElementById('pm-fulfilPctTarjetas');
     const deltaEl = document.getElementById('pm-fulfilDeltaTarjetas');
@@ -2505,6 +2518,7 @@
     crossfade(pctEl, () => { pctEl.textContent = pctTarget.toFixed(0) + '%'; });
     const delta = cf ? relDelta(vf.end, cf.end) : null;
     crossfade(deltaEl, () => { deltaEl.textContent = deltaText(delta); deltaStyle(deltaEl, delta); });
+    PM_renderGoalContrib('Tarjetas', cmpMonth, yoyMonthName);
   }
   function PM_fmtObjMetric(metricKey, value) {
     if (value === null || value === undefined || isNaN(value)) return '—';
@@ -3196,6 +3210,11 @@
       cmp:  { Meta: 52, Google: 30, 'Digital propio': 18 },
       yoy:  { Meta: 55, Google: 32, 'Digital propio': 13 },
     },
+    Tarjetas: {
+      view: { Meta: 44, Google: 26, 'Digital propio': 30 },
+      cmp:  { Meta: 46, Google: 27, 'Digital propio': 27 },
+      yoy:  { Meta: 49, Google: 30, 'Digital propio': 21 },
+    },
   };
   // Efficiency index (aporte % ÷ % del gasto) by channel, per objective, per period — hand-authored like
   // the Tab 3 platform-efficiency ranking, but now with real period-to-period movement instead of one
@@ -3215,6 +3234,11 @@
       view: { Meta: 1.05, Google: 0.80, 'Digital propio': 1.40 },
       cmp:  { Meta: 1.08, Google: 0.82, 'Digital propio': 1.35 },
       yoy:  { Meta: 1.10, Google: 0.90, 'Digital propio': 1.15 },
+    },
+    Tarjetas: {
+      view: { Meta: 0.90, Google: 0.85, 'Digital propio': 1.35 },
+      cmp:  { Meta: 0.93, Google: 0.88, 'Digital propio': 1.28 },
+      yoy:  { Meta: 1.00, Google: 1.00, 'Digital propio': 1.05 },
     },
   };
   function PM_renderGoalContrib(g, cmpMonthLabel, yoyMonthLabel) {
@@ -3420,7 +3444,7 @@
 
     PM_renderT1Summary(vd, cd, t1TotalMedia, pacingPct, relDelta(t1TotalMedia, t1CmpTotalMedia), viewMonth, cmpMonth);
     PM_renderAllObjMetricPanels(viewMonth, cmpMonth);
-    PM_renderTarjetasGoal(viewMonth, cmpMonth);
+    PM_renderTarjetasGoal(viewMonth, cmpMonth, yoyMonthName);
   }
   PM_viewSel.addEventListener('change', () => { ensureMonthsDiffer(PM_viewSel, PM_cmpSel); PM_updateComparison(); });
   PM_cmpSel.addEventListener('change', () => { ensureMonthsDiffer(PM_cmpSel, PM_viewSel); PM_updateComparison(); });
