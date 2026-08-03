@@ -3413,7 +3413,8 @@
     const svg = document.getElementById('pm-channelPieSvg');
     const legend = document.getElementById('pm-channelLegend');
     let paths = '', legendRows = '';
-    PM_CHANNEL_ORDER.forEach((key, i) => {
+    const orderedKeys = PM_CHANNEL_ORDER.slice().sort((a, b) => PM_ANNUAL_MIX_2026[b] - PM_ANNUAL_MIX_2026[a]);
+    orderedKeys.forEach((key, i) => {
       const pct = PM_ANNUAL_MIX_2026[key];
       const pctRounded = pct.toFixed(1);
       const dollars = PM_annualChannelBudget(key, PM_ANNUAL_MIX_2026);
