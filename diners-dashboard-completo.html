@@ -127,9 +127,9 @@
   /* ================= PORTADA ================= */
   .portada-hero { background: #141414; border-radius: 16px; padding: 34px 32px; color: #fff; margin-bottom: 18px; position: relative; overflow: hidden; }
   .portada-hero::before { content: ""; position: absolute; inset: 0; background: radial-gradient(600px circle at 85% -10%, rgba(79,82,229,0.35), transparent 60%); }
-  .portada-hero-inner { position: relative; z-index: 1; }
-  .portada-hero-logo { width: 44px; height: 44px; margin-bottom: 16px; }
-  .portada-hero-title { font-family: var(--font-display); font-size: 28px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 6px; }
+  .portada-hero-inner { position: relative; z-index: 1; display: flex; align-items: center; gap: 18px; }
+  .portada-hero-logo { width: 44px; height: 44px; flex: none; }
+  .portada-hero-title { font-family: var(--font-display); font-size: 28px; font-weight: 700; letter-spacing: -0.01em; }
   .portada-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
   .portada-card { padding: 18px 20px; cursor: pointer; }
   .portada-card-icon { width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; }
@@ -187,17 +187,15 @@
   .rse-semester-arrow { font-size: 18px; color: #8b8b8b; }
 
   /* ================= MARCA Y COMUNICACIÓN ================= */
-  .marca-kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .marca-kpi-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
   .marca-kpi-card { padding: 16px 18px; }
   .marca-kpi-name { font-size: 12px; font-weight: 700; color: #141414; margin-bottom: 10px; display: flex; align-items: center; gap: 7px; }
   .marca-kpi-value { font-family: var(--font-display); font-size: 27px; font-weight: 700; font-variant-numeric: tabular-nums; margin-bottom: 8px; }
   .marca-kpi-cmp-row { margin-bottom: 5px; }
   .marca-kpi-yoy { font-size: 11px; color: #8b8b8b; margin-bottom: 11px; }
   .marca-kpi-yoy b { color: #262626; font-variant-numeric: tabular-nums; }
-  .marca-kpi-desc { font-size: 11px; color: #8b8b8b; line-height: 1.5; padding-top: 11px; border-top: 1px dashed #e6e5ea; }
-  .marca-trend-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-  .marca-trend-card { padding: 14px 16px; }
-  .marca-trend-title { font-size: 12px; font-weight: 700; margin-bottom: 8px; }
+  .marca-kpi-desc { font-size: 11px; color: #8b8b8b; line-height: 1.5; padding-top: 11px; border-top: 1px dashed #e6e5ea; margin-bottom: 12px; }
+  .marca-kpi-chart-title { font-size: 9.5px; font-weight: 700; color: #8b8b8b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
 
   /* ================= ACTIVOS DIGITALES ================= */
   [data-page="digital"] .ad-mini-kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 14px; }
@@ -270,40 +268,36 @@
   [data-page="paid"] .pacing-compare-row { display: flex; justify-content: space-between; align-items: center; margin-top: 9px; font-size: 11px; color: #5C5C5C; }
   [data-page="paid"] .pacing-yoy { font-size: 10px; color: #8b8b8b; margin-top: 6px; }
   [data-page="paid"] .t1-mix-body { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; }
-  [data-page="paid"] .channel-legend-key { font-size: 9.5px; color: #b0b0b0; }
-  [data-page="paid"] .channel-legend-row { cursor: pointer; border-radius: 8px; padding: 4px 6px; margin: 0 -6px; transition: background 0.15s ease; }
+  [data-page="paid"] .channel-legend-row { border-radius: 8px; padding: 4px 6px; margin: 0 -6px; cursor: pointer; transition: background 0.15s ease; }
   [data-page="paid"] .channel-legend-row:hover, [data-page="paid"] .channel-legend-row.is-active { background: #F8F7FC; }
+  [data-page="paid"] #pm-channelPieSvg path { cursor: pointer; }
   [data-page="paid"] .channel-legend-value { display: flex; flex-direction: column; align-items: flex-end; line-height: 1.25; }
-  /* Both comparisons spelled out and always visible — not hidden behind a hover, so the numbers still
-     mean something in a screenshot or export, not just live in the browser. The year-ago line is a size
-     step down so it reads as secondary context, not competing with the primary vs.-Comparar delta. */
   [data-page="paid"] .channel-legend-delta { display: block; font-size: 10px; font-weight: 600; margin-top: 2px; white-space: nowrap; }
   [data-page="paid"] .channel-legend-delta.good { color: #008038; }
   [data-page="paid"] .channel-legend-delta.bad { color: #EE0000; }
-  [data-page="paid"] .channel-legend-delta.flat { color: #8b8b8b; }
-  [data-page="paid"] .channel-legend-delta-yoy { display: block; font-size: 8.5px; font-weight: 500; color: #b0b0b0; white-space: nowrap; margin-top: 1px; }
-  [data-page="paid"] .channel-legend-delta-yoy.good { color: #2E9560; }
-  [data-page="paid"] .channel-legend-delta-yoy.bad { color: #DE5850; }
   [data-page="paid"] .channel-legend-usd { font-size: 9.5px; font-weight: 500; color: #8b8b8b; }
-  [data-page="paid"] .channel-drilldown { background: #F8F7FC; border-radius: 10px; padding: 14px 16px; min-height: 168px; }
-  [data-page="paid"] .drilldown-title { font-size: 10.5px; font-weight: 700; color: #4F52E5; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 3px; }
-  [data-page="paid"] .drilldown-key { font-size: 9px; color: #b0b0b0; margin-bottom: 12px; }
-  [data-page="paid"] .drilldown-legend { display: flex; gap: 14px; font-size: 10px; color: #5C5C5C; margin-bottom: 14px; flex-wrap: wrap; }
-  [data-page="paid"] .drilldown-legend-item { display: flex; align-items: center; gap: 5px; }
-  [data-page="paid"] .drilldown-legend-dot { width: 8px; height: 8px; flex: none; }
-  [data-page="paid"] .drilldown-row { display: flex; align-items: center; gap: 10px; padding: 9px 0; font-size: 11px; border-top: 1px solid #eceaf5; }
-  [data-page="paid"] .drilldown-row:first-of-type { border-top: none; padding-top: 0; }
-  [data-page="paid"] .drilldown-name-col { width: 92px; flex: none; }
-  [data-page="paid"] .drilldown-name { color: #262626; font-weight: 600; display: block; }
-  [data-page="paid"] .drilldown-yoy-note { font-size: 9px; color: #8b8b8b; margin-top: 2px; display: block; }
-  /* Bar = current period (the whole story is the bar's length). Tick = a reference mark for the
-     compare period, same visual language as the target tick on the gauges elsewhere in this dashboard. */
-  [data-page="paid"] .drilldown-track-wrap { flex: 1; position: relative; height: 18px; background: #eceaf5; border-radius: 5px; }
-  [data-page="paid"] .drilldown-fill { position: absolute; top: 0; left: 0; height: 100%; border-radius: 5px; transition: width 0.6s cubic-bezier(0.16,1,0.3,1); }
-  [data-page="paid"] .drilldown-fill-value { position: absolute; top: 50%; transform: translateY(-50%); margin-left: 10px; font-size: 10.5px; font-weight: 700; color: #262626; white-space: nowrap; font-variant-numeric: tabular-nums; transition: left 0.6s cubic-bezier(0.16,1,0.3,1); }
-  [data-page="paid"] .drilldown-tick { position: absolute; top: -3px; width: 3px; height: 24px; background: #fff; border-radius: 2px; box-shadow: 0 0 0 1px rgba(20,20,20,0.35); transform: translateX(-50%); transition: left 0.6s cubic-bezier(0.16,1,0.3,1); cursor: help; }
-  [data-page="paid"] .drilldown-delta-col { width: 76px; flex: none; text-align: right; }
-  [data-page="paid"] .drilldown-delta-col .delta-chip { font-size: 10px; }
+  [data-page="paid"] .channel-annual-bars { background: #F8F7FC; border-radius: 10px; padding: 14px 16px; }
+  [data-page="paid"] .channel-annual-title { font-size: 10.5px; font-weight: 700; color: #4F52E5; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; }
+  [data-page="paid"] .channel-annual-row { padding: 9px 0; border-top: 1px solid #eceaf5; }
+  [data-page="paid"] .channel-annual-row:first-of-type { border-top: none; padding-top: 0; }
+  [data-page="paid"] .channel-annual-head { display: flex; align-items: center; gap: 7px; margin-bottom: 6px; }
+  [data-page="paid"] .channel-annual-name { font-size: 11.5px; font-weight: 600; color: #262626; flex: 1; }
+  [data-page="paid"] .channel-annual-budget { font-size: 9.5px; font-weight: 500; color: #8b8b8b; white-space: nowrap; }
+  [data-page="paid"] .channel-annual-yoy { font-size: 9.5px; font-weight: 600; white-space: nowrap; }
+  [data-page="paid"] .channel-annual-yoy.good { color: #008038; }
+  [data-page="paid"] .channel-annual-yoy.bad { color: #EE0000; }
+  [data-page="paid"] .channel-annual-track { height: 10px; border-radius: 5px; background: #eceaf5; overflow: hidden; }
+  [data-page="paid"] .channel-annual-fill { height: 100%; border-radius: 5px; transition: width 0.6s cubic-bezier(0.16,1,0.3,1); }
+  [data-page="paid"] .channel-annual-caption { display: flex; justify-content: space-between; font-size: 10.5px; color: #5C5C5C; margin-top: 6px; }
+  [data-page="paid"] .channel-annual-caption b { color: #262626; font-variant-numeric: tabular-nums; }
+  [data-page="paid"] .channel-outlet-list { margin: 6px 0 4px 21px; padding-left: 12px; border-left: 2px solid #eceaf5; }
+  [data-page="paid"] .channel-outlet-row { padding: 7px 0; }
+  [data-page="paid"] .channel-outlet-row:first-child { padding-top: 2px; }
+  [data-page="paid"] .channel-outlet-head { display: flex; align-items: center; gap: 6px; margin-bottom: 5px; }
+  [data-page="paid"] .channel-outlet-name { font-size: 11px; font-weight: 600; color: #3f3f3f; flex: 1; display: flex; align-items: center; gap: 5px; }
+  [data-page="paid"] .channel-outlet-track { height: 7px; border-radius: 4px; background: #eef1f3; overflow: hidden; }
+  [data-page="paid"] .channel-outlet-fill { height: 100%; border-radius: 4px; transition: width 0.6s cubic-bezier(0.16,1,0.3,1); }
+  [data-page="paid"] .channel-outlet-row .channel-annual-caption { font-size: 9.5px; margin-top: 4px; }
   [data-page="paid"] .channel-pie-slice { transform-origin: 60px 60px; animation: channelSliceIn 0.55s cubic-bezier(0.16,1,0.3,1) backwards; }
   @keyframes channelSliceIn { from { opacity: 0; transform: scale(0.6); } to { opacity: 1; transform: scale(1); } }
   /* auto-fit (not a fixed repeat(3,...)) so 2, 4, 5+ objectives all reflow evenly — a short last row
@@ -322,6 +316,11 @@
   [data-page="paid"] .obj-text b { color: #141414; }
   [data-page="paid"] .fulfil-block { margin-bottom: 14px; animation: fadein 0.4s ease backwards; }
   [data-page="paid"] .fulfil-block:last-of-type { margin-bottom: 0; }
+  [data-page="paid"] .fulfil-metrics { margin-top: 12px; padding-top: 12px; border-top: 1px dashed #e6e5ea; }
+  [data-page="paid"] .fulfil-metrics-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 9px; flex-wrap: wrap; }
+  [data-page="paid"] .fulfil-metrics-label { font-size: 10.5px; font-weight: 700; color: #8b8b8b; text-transform: uppercase; letter-spacing: 0.05em; }
+  [data-page="paid"] .fulfil-metric-value-row { display: flex; align-items: baseline; gap: 9px; margin-bottom: 6px; }
+  [data-page="paid"] .fulfil-metric-value { font-size: 20px; font-weight: 700; color: #262626; font-variant-numeric: tabular-nums; }
   [data-page="paid"] .fulfil-viz-row { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; padding: 4px 8px; }
   [data-page="paid"] .fulfil-block + .fulfil-block .fulfil-viz-row { border-top: 1px solid #f0f0f2; padding-top: 14px; }
   [data-page="paid"] .fulfil-viz-left { display: flex; align-items: center; gap: 16px; flex: 0 0 auto; }
@@ -471,7 +470,7 @@
   [data-page="paid"] .perf-platform { display: flex; align-items: center; gap: 7px; font-weight: 600; }
   [data-page="paid"] .perf-dot { width: 8px; height: 8px; border-radius: 3px; flex: none; }
   [data-page="paid"] .platform-icon { flex: none; display: inline-flex; }
-  [data-page="paid"] .drilldown-name .platform-icon, [data-page="paid"] .efficiency-name .platform-icon { vertical-align: -3px; margin-right: 4px; }
+  [data-page="paid"] .efficiency-name .platform-icon { vertical-align: -3px; margin-right: 4px; }
   [data-page="paid"] .perf-row, [data-page="paid"] .perf-type-row { cursor: pointer; }
   [data-page="paid"] .perf-row:hover, [data-page="paid"] .perf-type-row:hover { background: #F8F7FC; }
   [data-page="paid"] .perf-expand-icon { display: inline-block; width: 12px; font-size: 9px; color: #8b8b8b; transition: transform 0.15s ease; }
@@ -727,29 +726,11 @@
         </div>
       </div>
 
-      <div class="tab-rail" id="marca-tabRail">
-        <button class="tab" data-tab="t1" data-active="true"><span class="tab-num">1</span>Resumen de marca</button>
-        <button class="tab" data-tab="t2"><span class="tab-num">2</span>Evolución histórica</button>
-      </div>
-
-      <!-- ============ TAB 1 — RESUMEN DE MARCA ============ -->
-      <div class="panel" data-panel="t1" data-visible="true">
-        <div class="section-note">Corte Q2 2026 (cierre junio) — resultados de tracking de marca, publicados julio 2026. Cada indicador se compara contra el promedio de los últimos 10 trimestres y contra el mismo corte del año anterior.</div>
-        <div class="marca-kpi-grid fx" id="marca-kpiGrid"></div>
-        <div class="zone zone-pad" style="margin-top:14px;">
-          <div class="zone-title" style="margin-bottom:8px;">Análisis resumen</div>
-          <div class="fx" id="marca-t1Summary" style="font-size:12.5px;line-height:1.65;color:#3d3d3d;"></div>
-        </div>
-      </div>
-
-      <!-- ============ TAB 2 — EVOLUCIÓN HISTÓRICA ============ -->
-      <div class="panel" data-panel="t2">
-        <div class="zone zone-pad" style="margin-bottom:14px;">
-          <div class="zone-title" style="margin-bottom:2px;">Top Of Mind — Socios DC</div>
-          <div class="section-note" style="margin-top:0;margin-bottom:8px;">Últimos 12 trimestres. Recordación espontánea de Diners Club como primera marca de la categoría, medida entre los propios socios DC.</div>
-          <svg width="100%" height="170" viewBox="0 0 1080 170" id="marca-tomSvg" preserveAspectRatio="none"></svg>
-        </div>
-        <div class="marca-trend-grid fx" id="marca-trendGrid"></div>
+      <div class="section-note">Corte Q2 2026 (cierre junio) — resultados de tracking de marca, publicados julio 2026. Cada indicador se compara contra el promedio de los últimos 10 trimestres y contra el mismo corte del año anterior; el gráfico dentro de cada tarjeta muestra su evolución histórica.</div>
+      <div class="marca-kpi-grid fx" id="marca-kpiGrid"></div>
+      <div class="zone zone-pad" style="margin-top:14px;">
+        <div class="zone-title" style="margin-bottom:8px;">Análisis resumen</div>
+        <div class="fx" id="marca-t1Summary" style="font-size:12.5px;line-height:1.65;color:#3d3d3d;"></div>
       </div>
     </div>
 
@@ -792,34 +773,33 @@
         </div>
         <div class="t1-media-pacing">
           <div class="pacing-track"><div class="pacing-fill" id="pm-t1MediaPacingFill" style="transform:scaleX(0)"></div></div>
-          <div class="pacing-caption"><span class="fx" id="pm-t1MediaPacingCaption"><b>$746K</b> invertido a la fecha (todos los canales)</span><span class="fx" id="pm-t1MediaPacingPct">48%</span></div>
+          <div class="pacing-caption"><span class="fx" id="pm-t1MediaPacingCaption"><b>$746K</b> acumulado enero–junio 2026 (todos los canales)</span><span class="fx" id="pm-t1MediaPacingPct">48%</span></div>
           <div class="pacing-compare-row">
-            <span class="fx" id="pm-t1MediaPacingCmpLabel">Comparado con Mayo 2026</span>
+            <span class="fx" id="pm-t1MediaPacingCmpLabel">vs. acumulado enero–mayo 2026</span>
             <span class="delta-chip fx" id="pm-t1MediaPacingCmpDelta">▲ +14.7%</span>
           </div>
-          <div class="pacing-yoy fx" id="pm-t1MediaPacingYoy">Mayo 2026 vs. Mayo 2025 (año anterior): ▲ +12.6%</div>
+          <div class="pacing-yoy fx" id="pm-t1MediaPacingYoy">Acumulado enero–mayo 2026 vs. enero–mayo 2025 (año anterior): ▲ +12.6%</div>
         </div>
       </div>
       <div class="zone zone-pad t1-mix">
         <div class="zone-label">Composición</div>
         <div class="zone-title">Distribución de la inversión por canal</div>
-        <div class="hero-caption" style="margin-top:-2px;margin-bottom:4px;">% y monto invertido por canal, corte del mes seleccionado. Pasa el mouse sobre un canal para ver su desglose por medio específico.</div>
-        <div class="channel-legend-key fx" id="pm-channelLegendKey" style="margin-bottom:10px;">Cada canal muestra dos comparaciones: vs. el mes seleccionado y vs. el mismo mes del año anterior</div>
+        <div class="hero-caption" style="margin-top:-2px;margin-bottom:10px;">Izquierda: cómo se reparte el presupuesto anual 2026 entre canales. Pasa el mouse (o da clic) sobre un canal para ver a la derecha cuánto se ha consumido y su desglose por medio específico.</div>
         <div class="t1-mix-body">
           <div class="pie-wrap">
             <svg width="140" height="140" viewBox="0 0 120 120" id="pm-channelPieSvg"></svg>
             <div id="pm-channelLegend" style="flex:1;"></div>
           </div>
-          <div class="channel-drilldown" id="pm-channelDrilldown"></div>
+          <div class="channel-annual-bars" id="pm-channelAnnualBars"></div>
         </div>
       </div>
       <div class="zone zone-pad t1-objective">
         <div class="zone-label">Objetivo</div>
         <div class="zone-title" style="margin-bottom:10px;">Qué buscamos este periodo</div>
         <div class="obj-list">
-          <div class="obj-item"><span class="obj-icon">1</span><div><span class="obj-text">Sostener el <b>top of mind</b> de marca en temporadas clave (Season) con cobertura masiva.</span><br><span class="obj-status good fx" id="pm-objStatusSeason">✓ 103% de la meta</span></div></div>
-          <div class="obj-item"><span class="obj-icon">2</span><div><span class="obj-text">Reactivar consumo en sectores específicos vía comercios afiliados (Establecimientos).</span><br><span class="obj-status warn fx" id="pm-objStatusEstablecimientos">△ 89% de la meta</span></div></div>
-          <div class="obj-item"><span class="obj-icon">3</span><div><span class="obj-text">Acelerar la <b>apertura de cuentas de ahorro digitales</b> (Onboarding, iniciativa nueva).</span><br><span class="obj-status warn fx" id="pm-objStatusOnboarding">△ 91% de la meta</span></div></div>
+          <div class="obj-item"><span class="obj-icon">1</span><div><span class="obj-text">Sostener el <b>top of mind</b> de marca en temporadas clave (Season) con cobertura masiva.</span><br><span class="obj-status good fx" id="pm-objStatusSeason">✓ 103% de la meta de alcance (620K de 600K)</span></div></div>
+          <div class="obj-item"><span class="obj-icon">2</span><div><span class="obj-text">Reactivar consumo en sectores específicos vía comercios afiliados (Establecimientos).</span><br><span class="obj-status warn fx" id="pm-objStatusEstablecimientos">△ 89% de la meta de transacciones activadas (2,140 de 2,400)</span></div></div>
+          <div class="obj-item"><span class="obj-icon">3</span><div><span class="obj-text">Acelerar la <b>apertura de cuentas de ahorro digitales</b> (Onboarding, iniciativa nueva).</span><br><span class="obj-status warn fx" id="pm-objStatusOnboarding">△ 91% de la meta de cuentas de ahorro abiertas (640 de 700)</span></div></div>
         </div>
       </div>
     </div>
@@ -832,7 +812,7 @@
           <div class="fulfil-viz-left">
             <div class="gauge-box"><svg viewBox="-12 -14 144 84" id="pm-gaugeSeasonT1"></svg></div>
             <div class="fulfil-info">
-              <div class="fulfil-name">Season</div>
+              <div class="fulfil-name">Season — Alcance</div>
               <div class="fulfil-pct-big fx" id="pm-fulfilPctSeason">103%</div>
               <span class="delta-chip fx fulfil-delta" id="pm-fulfilDeltaSeason">▲ +15%</span>
             </div>
@@ -849,13 +829,28 @@
             <div id="pm-efficiencyRowsSeason"></div>
           </div>
         </div>
+        <div class="fulfil-metrics">
+          <div class="fulfil-metrics-head">
+            <span class="fulfil-metrics-label">Otras métricas de Season</span>
+            <div class="obj-filter" id="pm-metricFilterSeason">
+              <button class="obj-filter-btn" data-metric="impresiones" data-active="true">Impresiones</button>
+              <button class="obj-filter-btn" data-metric="frecuencia">Frecuencia</button>
+              <button class="obj-filter-btn" data-metric="ctr">CTR</button>
+            </div>
+          </div>
+          <div class="fulfil-metric-value-row">
+            <span class="fulfil-metric-value fx" id="pm-metricValueSeason">—</span>
+            <span class="delta-chip fx" id="pm-metricDeltaSeason">—</span>
+          </div>
+          <svg width="100%" height="60" viewBox="0 0 1080 60" id="pm-metricTrendSeason" preserveAspectRatio="none"></svg>
+        </div>
       </div>
       <div class="fulfil-block" style="animation-delay:0.1s;">
         <div class="fulfil-viz-row">
           <div class="fulfil-viz-left">
             <div class="gauge-box"><svg viewBox="-12 -14 144 84" id="pm-gaugeEstablecimientosT1"></svg></div>
             <div class="fulfil-info">
-              <div class="fulfil-name">Establecimientos</div>
+              <div class="fulfil-name">Establecimientos — Transacciones activadas</div>
               <div class="fulfil-pct-big fx" id="pm-fulfilPctEstablecimientos">89%</div>
               <span class="delta-chip fx fulfil-delta" id="pm-fulfilDeltaEstablecimientos">▲ +22%</span>
             </div>
@@ -872,13 +867,30 @@
             <div id="pm-efficiencyRowsEstablecimientos"></div>
           </div>
         </div>
+        <div class="fulfil-metrics">
+          <div class="fulfil-metrics-head">
+            <span class="fulfil-metrics-label">Otras métricas de Establecimientos</span>
+            <div class="obj-filter" id="pm-metricFilterEstablecimientos">
+              <button class="obj-filter-btn" data-metric="reach" data-active="true">Alcance</button>
+              <button class="obj-filter-btn" data-metric="impresiones">Impresiones</button>
+              <button class="obj-filter-btn" data-metric="frecuencia">Frecuencia</button>
+              <button class="obj-filter-btn" data-metric="ctr">CTR</button>
+              <button class="obj-filter-btn" data-metric="costoTx">Costo/transacción</button>
+            </div>
+          </div>
+          <div class="fulfil-metric-value-row">
+            <span class="fulfil-metric-value fx" id="pm-metricValueEstablecimientos">—</span>
+            <span class="delta-chip fx" id="pm-metricDeltaEstablecimientos">—</span>
+          </div>
+          <svg width="100%" height="60" viewBox="0 0 1080 60" id="pm-metricTrendEstablecimientos" preserveAspectRatio="none"></svg>
+        </div>
       </div>
       <div class="fulfil-block" style="animation-delay:0.18s;">
         <div class="fulfil-viz-row">
           <div class="fulfil-viz-left">
             <div class="gauge-box"><svg viewBox="-12 -14 144 84" id="pm-gaugeOnboardingT1"></svg></div>
             <div class="fulfil-info">
-              <div class="fulfil-name">Onboarding</div>
+              <div class="fulfil-name">Onboarding — Cuentas de ahorro abiertas</div>
               <div class="fulfil-pct-big fx" id="pm-fulfilPctOnboarding">91%</div>
               <span class="delta-chip fx fulfil-delta" id="pm-fulfilDeltaOnboarding" style="background:#eef1f3;color:#6b6b6b;">Sin histórico</span>
             </div>
@@ -895,8 +907,24 @@
             <div id="pm-efficiencyRowsOnboarding"></div>
           </div>
         </div>
+        <div class="fulfil-metrics">
+          <div class="fulfil-metrics-head">
+            <span class="fulfil-metrics-label">Otras métricas de Onboarding</span>
+            <div class="obj-filter" id="pm-metricFilterOnboarding">
+              <button class="obj-filter-btn" data-metric="reach" data-active="true">Alcance</button>
+              <button class="obj-filter-btn" data-metric="impresiones">Impresiones</button>
+              <button class="obj-filter-btn" data-metric="frecuencia">Frecuencia</button>
+              <button class="obj-filter-btn" data-metric="ctr">CTR</button>
+            </div>
+          </div>
+          <div class="fulfil-metric-value-row">
+            <span class="fulfil-metric-value fx" id="pm-metricValueOnboarding">—</span>
+            <span class="delta-chip fx" id="pm-metricDeltaOnboarding">—</span>
+          </div>
+          <svg width="100%" height="60" viewBox="0 0 1080 60" id="pm-metricTrendOnboarding" preserveAspectRatio="none"></svg>
+        </div>
       </div>
-      <div class="filter-hint" style="margin-top:4px;">Ver pestaña Seguimiento y Cumplimiento para el detalle y las métricas secundarias.</div>
+      <div class="filter-hint" style="margin-top:4px;">Ver pestaña Seguimiento y Cumplimiento para el detalle de campañas.</div>
     </div>
 
     <div class="zone zone-pad" style="margin-top:14px;">
@@ -1025,7 +1053,7 @@
       <div class="t3-left">
         <div class="zone zone-pad">
           <div class="zone-label">Composición</div>
-          <div class="zone-title">Presupuesto Paid Media</div>
+          <div class="zone-title">Presupuesto Digital</div>
           <div class="hero-number fx" id="pm-t3Invested" style="font-size:30px;">$850,000</div>
           <div class="hero-caption">Aprobado 2026</div>
           <div class="pacing-track"><div class="pacing-fill" id="pm-t3PacingFill" style="transform:scaleX(0.483)"></div></div>
@@ -2181,6 +2209,7 @@
     Establecimientos: v => v.toLocaleString('en-US'),
     Onboarding: v => v.toLocaleString('en-US'),
   };
+  const PM_GOAL_METRIC_LABEL = { Season: 'alcance', Establecimientos: 'transacciones activadas', Onboarding: 'cuentas de ahorro abiertas' };
   const PM_fmtUSD = n => '$' + n.toLocaleString('en-US');
   const PM_PLATFORM_COLOR = { Meta: '#6E93B0', Google: '#4F52E5', TikTok: '#2563EB', DV360: '#00618C' };
   // Real brand marks (Simple Icons, CC0) so Meta/Google/TikTok read as the actual logo, not a generic glyph.
@@ -2215,7 +2244,7 @@
     });
   }
   const PM_CHANNEL_ORDER = ['TV', 'Radio', 'PrensaEscrita', 'Revistas', 'Paid', 'Eventos'];
-  const PM_CHANNEL_LABEL = { TV: 'Televisión', Radio: 'Radio', PrensaEscrita: 'Prensa escrita', Revistas: 'Revistas', Paid: 'Paid Media', Eventos: 'Eventos' };
+  const PM_CHANNEL_LABEL = { TV: 'Televisión', Radio: 'Radio', PrensaEscrita: 'Prensa escrita', Revistas: 'Revistas', Paid: 'Digital', Eventos: 'Eventos' };
   const PM_CHANNEL_COLOR = { TV: '#141414', Radio: '#55637A', PrensaEscrita: '#2563EB', Revistas: '#00618C', Paid: '#4F52E5', Eventos: '#6E93B0' };
   const PM_CHANNEL_ICON = {
     TV: '<rect x="2" y="4" width="20" height="14" rx="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="18" x2="12" y2="21"></line>',
@@ -2225,37 +2254,75 @@
     Paid: '<path d="M3 11l18-6v14L3 15v-4z"></path><path d="M11.5 17a3 3 0 1 1-5.8-1.5"></path>',
     Eventos: '<rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>',
   };
-  // Per-outlet share WITHIN its channel, for each of the three periods (view/cmp/yoy) — some outlets
-  // gain share over time, some lose it, independent of the channel total. This is what makes each
-  // outlet's delta genuinely its own instead of every row inheriting the parent channel's exact delta.
-  // (Paid Media is handled separately in PM_renderDrilldown using the real per-month platform `mix`.)
-  const PM_CHANNEL_BREAKDOWN = {
-    TV: {
-      view: [{ name: 'Teleamazonas', pct: 40 }, { name: 'Ecuavisa', pct: 31 }, { name: 'RTS', pct: 17 }, { name: 'Canal Uno', pct: 12 }],
-      cmp:  [{ name: 'Teleamazonas', pct: 37 }, { name: 'Ecuavisa', pct: 32 }, { name: 'RTS', pct: 19 }, { name: 'Canal Uno', pct: 12 }],
-      yoy:  [{ name: 'Teleamazonas', pct: 30 }, { name: 'Ecuavisa', pct: 35 }, { name: 'RTS', pct: 23 }, { name: 'Canal Uno', pct: 12 }],
-    },
-    Radio: {
-      view: [{ name: 'Radio Disney', pct: 32 }, { name: 'JC Radio', pct: 27 }, { name: 'Radio Exa', pct: 23 }, { name: 'Radio Sonorama', pct: 18 }],
-      cmp:  [{ name: 'Radio Disney', pct: 30 }, { name: 'JC Radio', pct: 28 }, { name: 'Radio Exa', pct: 24 }, { name: 'Radio Sonorama', pct: 18 }],
-      yoy:  [{ name: 'Radio Disney', pct: 24 }, { name: 'JC Radio', pct: 30 }, { name: 'Radio Exa', pct: 26 }, { name: 'Radio Sonorama', pct: 20 }],
-    },
-    PrensaEscrita: {
-      view: [{ name: 'El Comercio', pct: 47 }, { name: 'El Universo', pct: 36 }, { name: 'Expreso', pct: 17 }],
-      cmp:  [{ name: 'El Comercio', pct: 45 }, { name: 'El Universo', pct: 38 }, { name: 'Expreso', pct: 17 }],
-      yoy:  [{ name: 'El Comercio', pct: 40 }, { name: 'El Universo', pct: 40 }, { name: 'Expreso', pct: 20 }],
-    },
-    Revistas: {
-      view: [{ name: 'Vistazo', pct: 44 }, { name: 'Cosas', pct: 32 }, { name: 'Gestión Digital', pct: 24 }],
-      cmp:  [{ name: 'Vistazo', pct: 42 }, { name: 'Cosas', pct: 33 }, { name: 'Gestión Digital', pct: 25 }],
-      yoy:  [{ name: 'Vistazo', pct: 36 }, { name: 'Cosas', pct: 36 }, { name: 'Gestión Digital', pct: 28 }],
-    },
-    Eventos: {
-      view: [{ name: 'Copa Diners Golf', pct: 42 }, { name: 'Feria Aniversario Quito', pct: 34 }, { name: 'Rock the Park', pct: 24 }],
-      cmp:  [{ name: 'Copa Diners Golf', pct: 40 }, { name: 'Feria Aniversario Quito', pct: 35 }, { name: 'Rock the Park', pct: 25 }],
-      yoy:  [{ name: 'Copa Diners Golf', pct: 33 }, { name: 'Feria Aniversario Quito', pct: 37 }, { name: 'Rock the Park', pct: 30 }],
-    },
+  // Presupuesto anual por canal — no existe un dato "anual" separado, así que se deriva promediando
+  // el mix real de los 6 meses del año (no solo el mes más reciente — usar un único mes como "el plan
+  // anual" hace que ese mes en particular siempre muestre el mismo % consumido en los 6 canales, porque
+  // coincide consigo mismo por definición). Digital se ancla exacto al único total anual real que
+  // tenemos ($850K de $1,545K) y el resto de canales se reparte proporcional a su propio promedio.
+  const PM_ANNUAL_TOTAL = 1545000;
+  const PM_PAID_ANNUAL_REAL = 850000;
+  function PM_computeAnnualMix(monthKeys, paidAnchorPct) {
+    const keys = PM_CHANNEL_ORDER;
+    const months = monthKeys.map(m => PM_MONTH_DATA[m]);
+    const avg = {};
+    keys.forEach(k => { avg[k] = months.reduce((s, m) => s + m.channels[k], 0) / months.length; });
+    const nonPaidKeys = keys.filter(k => k !== 'Paid');
+    const targetPaidPct = paidAnchorPct !== undefined ? paidAnchorPct : avg.Paid;
+    const scale = (100 - targetPaidPct) / nonPaidKeys.reduce((s, k) => s + avg[k], 0);
+    const mix = { Paid: targetPaidPct };
+    nonPaidKeys.forEach(k => { mix[k] = avg[k] * scale; });
+    return mix;
+  }
+  const PM_ANNUAL_MIX_2026 = PM_computeAnnualMix(['Enero 2026', 'Febrero 2026', 'Marzo 2026', 'Abril 2026', 'Mayo 2026', 'Junio 2026'], (PM_PAID_ANNUAL_REAL / PM_ANNUAL_TOTAL) * 100);
+  const PM_ANNUAL_MIX_2025 = PM_computeAnnualMix(['Enero 2025', 'Febrero 2025', 'Marzo 2025', 'Abril 2025', 'Mayo 2025', 'Junio 2025']);
+  const PM_annualChannelBudget = (key, mix) => PM_ANNUAL_TOTAL * (mix[key] / 100);
+
+  // Desglose por medio específico dentro de cada canal — un share anual (participación dentro del
+  // canal) + un índice de ritmo de consumo (algunos medios gastan más rápido que su participación de
+  // presupuesto, otros más lento) — mismo patrón de índice ya usado en Activos Digitales para que cada
+  // medio tenga variación propia en vez de heredar el % exacto del canal. Digital no necesita índice
+  // inventado: usa el mix mensual REAL por plataforma, ya existente en los datos.
+  // `index` pondera la participación ACTUAL dentro del canal; `yoyIndex` pondera la de hace un año —
+  // deliberadamente distinto, para que ningún medio herede el delta exacto del canal (algunos ganaron
+  // participación desde entonces, otros la perdieron).
+  const PM_CHANNEL_OUTLETS = {
+    TV: [
+      { name: 'Teleamazonas', share: 40, index: 1.08, yoyIndex: 0.90 },
+      { name: 'Ecuavisa', share: 31, index: 0.97, yoyIndex: 1.05 },
+      { name: 'RTS', share: 17, index: 0.85, yoyIndex: 1.15 },
+      { name: 'Canal Uno', share: 12, index: 1.05, yoyIndex: 0.95 },
+    ],
+    Radio: [
+      { name: 'Radio Disney', share: 32, index: 1.1, yoyIndex: 0.88 },
+      { name: 'JC Radio', share: 27, index: 0.92, yoyIndex: 1.08 },
+      { name: 'Radio Exa', share: 23, index: 0.88, yoyIndex: 1.12 },
+      { name: 'Radio Sonorama', share: 18, index: 1.0, yoyIndex: 0.98 },
+    ],
+    PrensaEscrita: [
+      { name: 'El Comercio', share: 47, index: 1.03, yoyIndex: 0.96 },
+      { name: 'El Universo', share: 36, index: 0.98, yoyIndex: 1.02 },
+      { name: 'Expreso', share: 17, index: 0.95, yoyIndex: 1.04 },
+    ],
+    Revistas: [
+      { name: 'Vistazo', share: 44, index: 1.02, yoyIndex: 0.94 },
+      { name: 'Cosas', share: 32, index: 0.97, yoyIndex: 1.06 },
+      { name: 'Gestión Digital', share: 24, index: 1.05, yoyIndex: 1.0 },
+    ],
+    Eventos: [
+      { name: 'Copa Diners Golf', share: 42, index: 1.1, yoyIndex: 0.85 },
+      { name: 'Feria Aniversario Quito', share: 34, index: 0.95, yoyIndex: 1.1 },
+      { name: 'Rock the Park', share: 24, index: 0.9, yoyIndex: 1.08 },
+    ],
   };
+  // Participación anual real de cada plataforma dentro de Digital — promedio del mix mensual real
+  // Ene-Jun 2026 (no un índice inventado, ya que sí existe el dato real mes a mes).
+  const PM_PAID_OUTLET_SHARE = (() => {
+    const platforms = ['Meta', 'Google', 'TikTok', 'DV360'];
+    const months = ['Enero 2026', 'Febrero 2026', 'Marzo 2026', 'Abril 2026', 'Mayo 2026', 'Junio 2026'].map(m => PM_MONTH_DATA[m]);
+    const share = {};
+    platforms.forEach(p => { share[p] = months.reduce((s, m) => s + m.mix[p], 0) / months.length; });
+    return share;
+  })();
   const PM_fmtCompactUSD = n => n >= 1000000 ? '$' + (n / 1000000).toFixed(2) + 'M' : '$' + Math.round(n / 1000) + 'K';
   const PM_fmtCompactNum = n => n >= 1000000 ? (n / 1000000).toFixed(2) + 'M' : (n >= 1000 ? Math.round(n / 1000) + 'K' : Math.round(n).toLocaleString('en-US'));
   const PM_OBJ_COLOR = { Season: '#141414', Establecimientos: '#00618C', Onboarding: '#4F52E5' };
@@ -2279,19 +2346,19 @@
   // named campaigns are a MINORITY of total media spend (most of the budget is always-on, not tied to
   // a specific push) — shares are deliberately small, not a 100% split of the whole budget. Season
   // spans TV + digital, so its base is `totalMedia` (all channels); Establecimientos/Onboarding are
-  // Meta+Google only, so their base is `vd.invested` (Paid Media digital total).
+  // Meta+Google only, so their base is `vd.invested` (Digital channel total).
   const PM_OBJ_SPEND_SHARE = { Season: 0.08, Establecimientos: 0.06, Onboarding: 0.035 };
   const PM_ONB_SPEND_SHARE = { cuentas: 0.6, tarjetas: 0.4 };
   const PM_FUNNEL_STAGES = {
     Season: [
       { key: 'impresiones', label: 'Impresiones' },
-      { key: 'clics', label: 'Clics' },
       { key: 'reach', label: 'Alcance', withFreq: true },
+      { key: 'clics', label: 'Clics' },
     ],
     Establecimientos: [
       { key: 'impresiones', label: 'Impresiones' },
-      { key: 'clics', label: 'Clics' },
       { key: 'reach', label: 'Alcance', withFreq: true },
+      { key: 'clics', label: 'Clics' },
       { key: 'transacciones', label: 'Transacciones' },
     ],
   };
@@ -2303,8 +2370,8 @@
   ];
   const PM_ONB_STAGES = [
     { key: 'impresiones', label: 'Impresiones' },
-    { key: 'clics', label: 'Clics' },
     { key: 'reach', label: 'Alcance', withFreq: true },
+    { key: 'clics', label: 'Clics' },
     { key: 'end', label: null },
   ];
   function PM_computeFunnel(g, vd) {
@@ -2384,6 +2451,79 @@
     stages.forEach(s => { out[s.key] = baseF[s.key] * share; });
     return { out, stages };
   }
+
+  /* ================= OTRAS MÉTRICAS POR OBJETIVO (Tab 1, "¿Vamos bien contra la meta?") — reutiliza
+     el mismo funnel derivado arriba (nada autorado de cero): Impresiones/Frecuencia/CTR/Alcance/
+     Costo-por-transacción ya se calculaban internamente para el funnel de Tab 2; aquí solo se exponen
+     como vista explorable con selector + gráfico evolutivo de 6 meses. ================= */
+  const PM_OBJ_METRIC_LABEL = { reach: 'Alcance', impresiones: 'Impresiones', frecuencia: 'Frecuencia', ctr: 'CTR', costoTx: 'Costo/transacción' };
+  const PM_ONB_CUENTAS_SUB = PM_ONB_SUBFUNNELS.find(s => s.id === 'cuentas');
+  const PM_ALL_2026_MONTHS = ['Enero 2026', 'Febrero 2026', 'Marzo 2026', 'Abril 2026', 'Mayo 2026', 'Junio 2026'];
+  let PM_activeObjMetric = { Season: 'impresiones', Establecimientos: 'reach', Onboarding: 'reach' };
+  function PM_objMetricRaw(g, monthKey, metricKey) {
+    const vd = PM_MONTH_DATA[monthKey];
+    const f = g === 'Onboarding' ? PM_computeOnbSubfunnel(PM_ONB_CUENTAS_SUB, vd) : PM_computeFunnel(g, vd);
+    if (!f) return null;
+    if (metricKey === 'ctr') return (f.clics / f.impresiones) * 100;
+    if (metricKey === 'costoTx') return f.spend / f.transacciones;
+    return f[metricKey] !== undefined ? f[metricKey] : null;
+  }
+  function PM_fmtObjMetric(metricKey, value) {
+    if (value === null || value === undefined || isNaN(value)) return '—';
+    if (metricKey === 'frecuencia') return value.toFixed(1) + '×';
+    if (metricKey === 'ctr') return value.toFixed(2) + '%';
+    if (metricKey === 'costoTx') return '$' + value.toFixed(2);
+    return PM_fmtCompactNum(value);
+  }
+  function PM_drawObjMetricTrend(svgId, series, months, color) {
+    const svg = document.getElementById(svgId);
+    if (!svg) return;
+    const W = 1080, H = 60, padL = 6, padR = 6, padT = 8, padB = 16;
+    const plotW = W - padL - padR, plotH = H - padT - padB;
+    const validVals = series.filter(v => v !== null);
+    if (!validVals.length) { svg.innerHTML = ''; return; }
+    const maxV = Math.max(...validVals) * 1.15, minV = Math.min(0, Math.min(...validVals) * 0.9);
+    const stepX = plotW / (months.length - 1);
+    const pts = [];
+    series.forEach((v, i) => { if (v !== null) pts.push([padL + i * stepX, padT + plotH - ((v - minV) / (maxV - minV)) * plotH, i, v]); });
+    let out = '';
+    if (pts.length > 1) {
+      const areaPath = 'M' + pts.map(p => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' L') + ` L${pts[pts.length - 1][0]},${padT + plotH} L${pts[0][0]},${padT + plotH} Z`;
+      out += `<path d="${areaPath}" fill="${color}" opacity="0.1"></path>`;
+      out += `<path d="M${pts.map(p => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' L')}" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>`;
+    }
+    pts.forEach(([x, y, i, v]) => { out += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="2.6" fill="${color}" data-tt="${months[i]}" data-ttv="${PM_fmtCompactNum(v)}"></circle>`; });
+    months.forEach((m, i) => { const x = padL + i * stepX; out += `<text x="${x}" y="${H - 3}" text-anchor="middle" font-size="8.5" fill="#b0b0b0">${m.split(' ')[0].slice(0, 3)}</text>`; });
+    svg.innerHTML = out;
+  }
+  function PM_renderObjMetricPanel(g, viewMonth, cmpMonth) {
+    const valueEl = document.getElementById('pm-metricValue' + g);
+    if (!valueEl) return;
+    const metricKey = PM_activeObjMetric[g];
+    const deltaEl = document.getElementById('pm-metricDelta' + g);
+    const viewVal = PM_objMetricRaw(g, viewMonth, metricKey);
+    const cmpVal = PM_objMetricRaw(g, cmpMonth, metricKey);
+    const delta = (viewVal !== null && cmpVal !== null) ? relDelta(viewVal, cmpVal) : null;
+    crossfade(valueEl, () => { valueEl.textContent = PM_OBJ_METRIC_LABEL[metricKey] + ': ' + PM_fmtObjMetric(metricKey, viewVal); });
+    crossfade(deltaEl, () => { deltaEl.textContent = deltaText(delta); deltaStyle(deltaEl, delta); });
+    const series = PM_ALL_2026_MONTHS.map(m => PM_objMetricRaw(g, m, metricKey));
+    PM_drawObjMetricTrend('pm-metricTrend' + g, series, PM_ALL_2026_MONTHS, PM_OBJ_COLOR[g]);
+  }
+  function PM_renderAllObjMetricPanels(viewMonth, cmpMonth) {
+    ['Season', 'Establecimientos', 'Onboarding'].forEach(g => PM_renderObjMetricPanel(g, viewMonth, cmpMonth));
+  }
+  ['Season', 'Establecimientos', 'Onboarding'].forEach(g => {
+    const filterEl = document.getElementById('pm-metricFilter' + g);
+    if (!filterEl) return;
+    filterEl.querySelectorAll('.obj-filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterEl.querySelectorAll('.obj-filter-btn').forEach(b => b.dataset.active = 'false');
+        btn.dataset.active = 'true';
+        PM_activeObjMetric[g] = btn.getAttribute('data-metric');
+        PM_renderObjMetricPanel(g, PM_viewSel.value, PM_cmpSel.value);
+      });
+    });
+  });
   // Tab 3's "Eficiencia de inversión" ranking spans EVERY medio (not just the 4 digital platforms) —
   // a blended index independent of any single objective, so channels that never appear in
   // PM_GOAL_EFFICIENCY (TV, Radio, print, DV360) still get one. Same derive + dual-independent-wobble
@@ -2541,7 +2681,7 @@
     const bestByMetric = {};
     metrics.forEach(m => { bestByMetric[m] = platforms.reduce((a, b) => values[a][m] >= values[b][m] ? a : b); });
 
-    // Real $ spend per platform (vd.mix[p] × total Paid Media invested) — the same anchor already
+    // Real $ spend per platform (vd.mix[p] × total Digital invested) — the same anchor already
     // used everywhere else on this tab, so Gasto is never a separate invented number.
     const spendOf = (p, vd_) => vd_.invested * (vd_.mix[p] / 100);
     let html = '';
@@ -2642,7 +2782,7 @@
     const pacingWord = (vd.pct === null ? 0 : vd.pct) >= 45 ? 'en línea' : 'por debajo del plan';
     const html = `<b>${PM_ALL_MEDIO_LABEL[leader.key]}</b> es el medio más eficiente este periodo (${leader.v.toFixed(2)}×) y <b>${PM_ALL_MEDIO_LABEL[laggard.key]}</b> el menos (${laggard.v.toFixed(2)}×). ` +
       `<b>${bestP}</b> sobre-indexa en conversiones frente a su % de gasto — el mejor candidato para recibir más presupuesto. ` +
-      `El presupuesto Paid Media va ${pacingWord} (${vd.pct === null ? '—' : vd.pct + '%'} a la fecha), con <b>${totalActive}</b> campañas activas en este momento entre los 3 objetivos.`;
+      `El presupuesto Digital va ${pacingWord} (${vd.pct === null ? '—' : vd.pct + '%'} a la fecha), con <b>${totalActive}</b> campañas activas en este momento entre los 3 objetivos.`;
     crossfade(el, () => { el.innerHTML = html; });
   }
   // A real tapered 3D-looking funnel (stacked frustum segments with elliptical rims and a left-to-
@@ -2952,12 +3092,8 @@
       `<b>Sugerencia:</b> reforzar <b>${weakest.g}</b> (${weakest.pctTarget.toFixed(0)}% de meta) moviendo presupuesto de <b>${weakest.worstCh}</b> hacia <b>${weakest.bestCh}</b> — el mismo patrón que ya funciona en <b>${strongest.g}</b>.`;
     crossfade(el, () => { el.innerHTML = html; });
   }
-  let PM_channelActive = 'Paid';
-  let PM_lastChannelDollars = {};
-  // Snapshot of the current Ver/Comparar/año-anterior context, refreshed once per PM_updateComparison
-  // call, so the drill-down (built on hover, independent of that call) can always compare all three.
-  let PM_ddContext = null;
-  let PM_channelPieDrawnOnce = false;
+  let PM_activeAnnualChannel = 'Paid';
+  let PM_lastAnnualViewMonth = null, PM_lastAnnualTotalMedia = null;
   function PM_deltaText(v) {
     if (v === null || v === undefined || isNaN(v)) return 'Sin histórico';
     const r = Math.round(v * 10) / 10;
@@ -3112,7 +3248,7 @@
     const worstCh = effChannels.reduce((a, b) => effView[a] <= effView[b] ? a : b);
 
     const pacingWord = pacingPct >= 45 ? 'en línea con' : 'por debajo de';
-    const html = `La inversión total de <b>${viewMonth}</b> suma <b>${PM_fmtCompactUSD(t1TotalMedia)}</b> — ${pacingPct.toFixed(0)}% del plan anual, ${pacingWord} lo esperado (${deltaText(pacingDelta)} vs. ${cmpMonth}). ` +
+    const html = `La inversión acumulada de enero a <b>${viewMonth}</b> suma <b>${PM_fmtCompactUSD(t1TotalMedia)}</b> — ${pacingPct.toFixed(0)}% del plan anual, ${pacingWord} lo esperado (${deltaText(pacingDelta)} vs. acumulado a ${cmpMonth}). ` +
       `De los 3 objetivos, <b>${bestObj}</b> lidera el cumplimiento con ${pctTargets[bestObj].toFixed(0)}% de la meta (${deltaText(bestObjDelta)}), mientras <b>${worstObj}</b> viene más rezagado con ${pctTargets[worstObj].toFixed(0)}% (${deltaText(worstObjDelta)}). ` +
       `En eficiencia de gasto, <b>${bestCh}</b> es el canal que más rinde por cada dólar invertido y <b>${worstCh}</b> el que menos — candidato a mover presupuesto entre ambos.`;
     crossfade(el, () => { el.innerHTML = html; });
@@ -3152,24 +3288,17 @@
     PM_renderCampaignRanking(vd, cd, yd, cmpMonth, yoyMonthName);
     PM_renderT3Summary(vd, cd, yd, cmpMonth, yoyMonthName);
 
-    // Tab 1 channel distribution pie (6 canales) — driven by "Ver" month; each channel shows pp vs
-    // "Comparar" AND pp vs the same month last year (AA), so both comparisons are always visible.
+    // Cuánto se ha consumido de cada canal — cumulativo enero→"Ver", contra el presupuesto ANUAL fijo
+    // de cada canal (la torta ya no cambia con el filtro: se pinta una sola vez en PM_renderAnnualMix).
     const t1TotalMedia = vd.invested / (vd.channels.Paid / 100);
     const t1CmpTotalMedia = cd.invested / (cd.channels.Paid / 100);
-    PM_ddContext = {
-      viewMonth, cmpMonth, yoyMonth: yoyMonthName, vd, cd, yd,
-      totalMediaView: t1TotalMedia, totalMediaCmp: t1CmpTotalMedia,
-      totalMediaYoy: yd ? yd.invested / (yd.channels.Paid / 100) : null,
-    };
-    PM_drawChannelPie(vd.channels, t1TotalMedia, cd.channels, cmpMonth, yd ? yd.channels : null, yoyMonthName);
-    const legendKey = document.getElementById('pm-channelLegendKey');
-    if (legendKey) crossfade(legendKey, () => { legendKey.textContent = 'Cada canal muestra dos comparaciones: vs. el mes seleccionado y vs. el mismo mes del año anterior'; });
+    PM_renderChannelAnnualBars(viewMonth, t1TotalMedia);
 
     let yoyTotalMediaDelta = null;
     if (yd) { yoyTotalMediaDelta = relDelta(t1CmpTotalMedia, yd.invested / (yd.channels.Paid / 100)); }
 
-    // Annual media pacing bar (all channels, not just Paid Media digital) — Ver vs Comparar, plus auto-YoY
-    const pacingPct = Math.min((t1TotalMedia / 1545000) * 100, 100);
+    // Annual media pacing bar (all channels, not just Digital) — Ver vs Comparar, plus auto-YoY
+    const pacingPct = Math.min((t1TotalMedia / PM_ANNUAL_TOTAL) * 100, 100);
     const pacingFill = document.getElementById('pm-t1MediaPacingFill');
     const pacingCaption = document.getElementById('pm-t1MediaPacingCaption');
     const pacingPctEl = document.getElementById('pm-t1MediaPacingPct');
@@ -3177,15 +3306,16 @@
     const pacingCmpDelta = document.getElementById('pm-t1MediaPacingCmpDelta');
     const pacingYoy = document.getElementById('pm-t1MediaPacingYoy');
     if (pacingFill) pacingFill.style.transform = 'scaleX(' + (pacingPct / 100) + ')';
-    crossfade(pacingCaption, () => { pacingCaption.innerHTML = '<b>' + PM_fmtCompactUSD(t1TotalMedia) + '</b> invertido a la fecha (todos los canales)'; });
+    const PM_ytdRange = (m, year) => { const mesLC = m.split(' ')[0].toLowerCase(); return mesLC === 'enero' ? ('enero ' + year) : ('enero–' + mesLC + ' ' + year); };
+    crossfade(pacingCaption, () => { pacingCaption.innerHTML = '<b>' + PM_fmtCompactUSD(t1TotalMedia) + '</b> acumulado ' + PM_ytdRange(viewMonth, 2026) + ' (todos los canales)'; });
     crossfade(pacingPctEl, () => { pacingPctEl.textContent = pacingPct.toFixed(0) + '%'; });
-    crossfade(pacingCmpLabel, () => { pacingCmpLabel.textContent = 'Comparado con ' + cmpMonth; });
+    crossfade(pacingCmpLabel, () => { pacingCmpLabel.textContent = 'vs. acumulado ' + PM_ytdRange(cmpMonth, 2026); });
     crossfade(pacingCmpDelta, () => { const d = relDelta(t1TotalMedia, t1CmpTotalMedia); pacingCmpDelta.textContent = deltaText(d); deltaStyle(pacingCmpDelta, d); });
     if (pacingYoy) {
       crossfade(pacingYoy, () => {
         if (!yd) { pacingYoy.textContent = ''; pacingYoy.style.display = 'none'; return; }
         pacingYoy.style.display = '';
-        pacingYoy.innerHTML = '<b>' + cmpMonth + '</b> vs. <b>' + yoyMonthName + '</b> (año anterior): ' + deltaText(yoyTotalMediaDelta);
+        pacingYoy.innerHTML = 'Acumulado ' + PM_ytdRange(cmpMonth, 2026) + ' vs. ' + PM_ytdRange(yoyMonthName, 2025) + ' (año anterior): ' + deltaText(yoyTotalMediaDelta);
       });
     }
 
@@ -3230,7 +3360,7 @@
           crossfade(objStatusEl, () => {
             const icon = statusClass === 'good' ? '✓' : (statusClass === 'warn' ? '△' : '✕');
             objStatusEl.className = 'obj-status fx ' + statusClass;
-            objStatusEl.textContent = icon + ' ' + pctTarget.toFixed(0) + '% de la meta';
+            objStatusEl.textContent = icon + ' ' + pctTarget.toFixed(0) + '% de la meta de ' + PM_GOAL_METRIC_LABEL[g] + ' (' + PM_GOAL_FMT[g](current) + ' de ' + PM_GOAL_FMT[g](PM_TARGETS[g]) + ')';
           });
         }
         PM_goalHealth.push({ g, pctTarget, statusClass, delta });
@@ -3251,6 +3381,7 @@
     }
 
     PM_renderT1Summary(vd, cd, t1TotalMedia, pacingPct, relDelta(t1TotalMedia, t1CmpTotalMedia), viewMonth, cmpMonth);
+    PM_renderAllObjMetricPanels(viewMonth, cmpMonth);
   }
   PM_viewSel.addEventListener('change', () => { ensureMonthsDiffer(PM_viewSel, PM_cmpSel); PM_updateComparison(); });
   PM_cmpSel.addEventListener('change', () => { ensureMonthsDiffer(PM_cmpSel, PM_viewSel); PM_updateComparison(); });
@@ -3275,105 +3406,26 @@
     });
   }
 
-  /* ================= CHANNEL DISTRIBUTION PIE (Tab 1) — reactive to Ver month ================= */
-  function PM_renderDrilldown(key) {
-    const container = document.getElementById('pm-channelDrilldown');
-    if (!container || !PM_ddContext) return;
-    const ctx = PM_ddContext;
-
-    // Paid Media has real per-month platform data (the same `mix` used by the Tab 3 donut) — use it
-    // directly instead of the static within-channel shares, so this one channel's comparison is exact,
-    // not illustrative. Other channels (no station-level monthly data exists) use a per-outlet share
-    // that itself varies by period (some outlets gain share, some lose it) applied to that channel's
-    // real $ total each period — so every outlet gets a genuinely different delta, not a copy of the
-    // channel's own delta.
-    let outlets;
-    if (key === 'Paid') {
-      const platforms = ['Meta', 'Google', 'TikTok', 'DV360'];
-      outlets = platforms.map(p => ({
-        name: p, color: PM_PLATFORM_COLOR[p], icon: PM_platformIcon(p, PM_PLATFORM_COLOR[p], 15),
-        view: ctx.vd.invested * (ctx.vd.mix[p] / 100),
-        cmp: ctx.cd.invested * (ctx.cd.mix[p] / 100),
-        yoy: ctx.yd ? ctx.yd.invested * (ctx.yd.mix[p] / 100) : null,
-      }));
-    } else {
-      const bd = PM_CHANNEL_BREAKDOWN[key];
-      const viewChTotal = ctx.totalMediaView * (ctx.vd.channels[key] / 100);
-      const cmpChTotal = ctx.totalMediaCmp * (ctx.cd.channels[key] / 100);
-      const yoyChTotal = ctx.yd ? ctx.totalMediaYoy * (ctx.yd.channels[key] / 100) : null;
-      outlets = bd.view.map((o, i) => ({
-        name: o.name, color: PM_CHANNEL_COLOR[key],
-        view: viewChTotal * (o.pct / 100),
-        cmp: cmpChTotal * (bd.cmp[i].pct / 100),
-        yoy: yoyChTotal !== null ? yoyChTotal * (bd.yoy[i].pct / 100) : null,
-      }));
-    }
-    const maxVal = Math.max(...outlets.flatMap(o => [o.view, o.cmp, o.yoy || 0]));
-
-    const rows = outlets.map(o => {
-      const viewPct = (o.view / maxVal) * 100, cmpPct = (o.cmp / maxVal) * 100;
-      const delta = relDelta(o.view, o.cmp);
-      const yoyDelta = o.yoy !== null ? relDelta(o.view, o.yoy) : null;
-      const deltaClass = delta >= 0 ? 'good' : 'bad';
-      return `<div class="drilldown-row">
-        <div class="drilldown-name-col">
-          <span class="drilldown-name">${o.icon || ''}${o.name}</span>
-          ${yoyDelta !== null ? `<span class="drilldown-yoy-note">AA: ${deltaText(yoyDelta)}</span>` : ''}
-        </div>
-        <div class="drilldown-track-wrap" data-tt="${o.name} — mes de comparación (${ctx.cmpMonth})" data-ttv="${PM_fmtCompactUSD(o.cmp)}">
-          <div class="drilldown-fill" style="width:${viewPct}%;background:${o.color}"></div>
-          <div class="drilldown-tick" style="left:${cmpPct}%;"></div>
-          <span class="drilldown-fill-value" style="left:${Math.max(viewPct, cmpPct)}%">${PM_fmtCompactUSD(o.view)}</span>
-        </div>
-        <div class="drilldown-delta-col"><span class="delta-chip fx ${deltaClass}">${deltaText(delta)}</span></div>
-      </div>`;
-    }).join('');
-    container.innerHTML = `
-      <div class="drilldown-title">${PM_CHANNEL_LABEL[key]} — desglose por medio</div>
-      <div class="drilldown-key">Comparando ${ctx.viewMonth} vs. ${ctx.cmpMonth}${ctx.yoyMonth ? ' · AA = vs. ' + ctx.yoyMonth : ''}</div>
-      <div class="drilldown-legend">
-        <span class="drilldown-legend-item"><span class="drilldown-legend-dot" style="background:${PM_CHANNEL_COLOR[key] || '#4F52E5'};border-radius:3px;"></span>Barra = ${ctx.viewMonth} (mes actual)</span>
-        <span class="drilldown-legend-item"><span class="drilldown-legend-dot" style="background:#fff;border-radius:2px;box-shadow:0 0 0 1px rgba(20,20,20,0.35);"></span>Marca = ${ctx.cmpMonth} (dónde estaba antes)</span>
-      </div>
-      ${rows}`;
-  }
-
-  function PM_bindChannelHover() {
-    PAGE_ROOT.querySelectorAll('#pm-channelLegend [data-channel], #pm-channelPieSvg [data-channel]').forEach(el => {
-      el.addEventListener('mouseenter', () => {
-        const key = el.getAttribute('data-channel');
-        PM_channelActive = key;
-        PAGE_ROOT.querySelectorAll('#pm-channelLegend .channel-legend-row').forEach(r => r.classList.toggle('is-active', r.getAttribute('data-channel') === key));
-        PM_renderDrilldown(key);
-      });
-    });
-  }
-
-  function PM_drawChannelPie(ch, totalMedia, chCompare, cmpMonthLabel, chYoy, yoyMonthLabel) {
-    ch = ch || { TV: 26, Radio: 8, PrensaEscrita: 6, Revistas: 3, Eventos: 2, Paid: 55 };
-    totalMedia = totalMedia || 746364;
+  /* ================= CHANNEL DISTRIBUTION PIE (Tab 1) — presupuesto ANUAL fijo, no reactivo al filtro ================= */
+  function PM_renderAnnualMix() {
     const cx = 60, cy = 60, r = 56;
     let angleStart = -90;
     const svg = document.getElementById('pm-channelPieSvg');
     const legend = document.getElementById('pm-channelLegend');
-    // Only the first render gets the staggered entrance animation — replaying it on every
-    // month-filter change would be motion for motion's sake, not "the data feels alive."
-    const animate = !PM_channelPieDrawnOnce;
-    PM_channelPieDrawnOnce = true;
     let paths = '', legendRows = '';
     PM_CHANNEL_ORDER.forEach((key, i) => {
-      const pct = ch[key];
-      const dollars = totalMedia * (pct / 100);
-      PM_lastChannelDollars[key] = dollars;
+      const pct = PM_ANNUAL_MIX_2026[key];
+      const pctRounded = pct.toFixed(1);
+      const dollars = PM_annualChannelBudget(key, PM_ANNUAL_MIX_2026);
+      const dollarsYoy = PM_annualChannelBudget(key, PM_ANNUAL_MIX_2025);
+      const yoyDelta = relDelta(dollars, dollarsYoy);
       const angle = (pct / 100) * 360;
       const angleEnd = angleStart + angle;
       const toRad = a => (a * Math.PI) / 180;
       const x1 = cx + r * Math.cos(toRad(angleStart)), y1 = cy + r * Math.sin(toRad(angleStart));
       const x2 = cx + r * Math.cos(toRad(angleEnd)), y2 = cy + r * Math.sin(toRad(angleEnd));
       const largeArc = angle > 180 ? 1 : 0;
-      const sliceClass = animate ? 'channel-pie-slice' : '';
-      const sliceStyle = animate ? `animation-delay:${i * 70}ms` : '';
-      paths += `<path class="${sliceClass}" style="${sliceStyle}" data-channel="${key}" data-tt="${PM_CHANNEL_LABEL[key]}" data-ttv="${pct}% · ${PM_fmtCompactUSD(dollars)}" d="M${cx},${cy} L${x1.toFixed(2)},${y1.toFixed(2)} A${r},${r} 0 ${largeArc} 1 ${x2.toFixed(2)},${y2.toFixed(2)} Z" fill="${PM_CHANNEL_COLOR[key]}" stroke="#fff" stroke-width="2"></path>`;
+      paths += `<path class="channel-pie-slice" style="animation-delay:${i * 70}ms" data-channel="${key}" data-tt="${PM_CHANNEL_LABEL[key]}" data-ttv="${pctRounded}% · ${PM_fmtCompactUSD(dollars)} anual" d="M${cx},${cy} L${x1.toFixed(2)},${y1.toFixed(2)} A${r},${r} 0 ${largeArc} 1 ${x2.toFixed(2)},${y2.toFixed(2)} Z" fill="${PM_CHANNEL_COLOR[key]}" stroke="#fff" stroke-width="2"></path>`;
       angleStart = angleEnd;
       legendRows += `<div class="channel-legend-row" data-channel="${key}">
         <span class="channel-icon-badge" style="background:${PM_CHANNEL_COLOR[key]}22;">
@@ -3381,29 +3433,122 @@
         </span>
         <span class="channel-legend-name">${PM_CHANNEL_LABEL[key]}</span>
         <span class="channel-legend-value">
-          <span class="channel-legend-pct fx" id="pm-chPct${key}">${pct}%</span><span class="channel-legend-usd fx" id="pm-chUsd${key}">${PM_fmtCompactUSD(dollars)}</span>
-          ${chCompare ? (() => {
-            const d = pct - chCompare[key];
-            const cmpShort = cmpMonthLabel.split(' ')[0];
-            const cmpText = d === 0 ? `Sin cambio vs. ${cmpShort}` : `${d > 0 ? '▲ +' : '▼ '}${Math.abs(d)}pp vs. ${cmpShort}`;
-            let yoyLine = '';
-            if (chYoy) {
-              const dy = pct - chYoy[key];
-              const yoyText = dy === 0 ? `Sin cambio vs. ${yoyMonthLabel}` : `${dy > 0 ? '▲ +' : '▼ '}${Math.abs(dy)}pp vs. ${yoyMonthLabel}`;
-              yoyLine = `<span class="channel-legend-delta-yoy fx ${dy > 0 ? 'good' : (dy < 0 ? 'bad' : 'flat')}" id="pm-chDeltaYoy${key}">${yoyText} (año anterior)</span>`;
-            }
-            return `<span class="channel-legend-delta fx ${d > 0 ? 'good' : (d < 0 ? 'bad' : 'flat')}" id="pm-chDelta${key}">${cmpText}</span>${yoyLine}`;
-          })() : ''}
+          <span class="channel-legend-pct">${pctRounded}%</span><span class="channel-legend-usd">${PM_fmtCompactUSD(dollars)}</span>
+          <span class="channel-legend-delta ${yoyDelta >= 0 ? 'good' : 'bad'}">${deltaText(yoyDelta)} vs. presupuesto anual 2025</span>
         </span>
       </div>`;
     });
     svg.innerHTML = paths;
     legend.innerHTML = legendRows;
-    PM_bindChannelHover();
-    PM_renderDrilldown(PM_channelActive);
+    PM_bindAnnualMixHover();
   }
-  // (no redundant initial PM_drawChannelPie call here — PM_updateComparison() above already rendered
-  // it correctly, delta-vs-Comparar included; calling it again without that context would wipe the deltas)
+
+  // Pasar el mouse (o dar clic) por un canal del pastel/leyenda (izquierda) reemplaza TODO el panel de
+  // la derecha por SOLO ese canal — no una lista de los 6 con uno expandido, un solo canal a la vez,
+  // igual que el desglose original.
+  function PM_setActiveAnnualChannel(key) {
+    PM_activeAnnualChannel = key;
+    PAGE_ROOT.querySelectorAll('#pm-channelLegend .channel-legend-row').forEach(row => {
+      row.classList.toggle('is-active', row.getAttribute('data-channel') === key);
+    });
+    if (PM_lastAnnualViewMonth) PM_renderChannelAnnualBars(PM_lastAnnualViewMonth, PM_lastAnnualTotalMedia);
+  }
+  function PM_bindAnnualMixHover() {
+    PAGE_ROOT.querySelectorAll('#pm-channelLegend [data-channel], #pm-channelPieSvg [data-channel]').forEach(el => {
+      el.addEventListener('mouseenter', () => PM_setActiveAnnualChannel(el.getAttribute('data-channel')));
+      el.addEventListener('click', () => PM_setActiveAnnualChannel(el.getAttribute('data-channel')));
+    });
+  }
+
+  /* ================= DESGLOSE POR MEDIO ESPECÍFICO — mismo lenguaje visual (barra anual + consumido) ================= */
+  function PM_outletRowsHTML(key, channelAnnual, channelConsumed, channelConsumedYoy, vd, ydView, yoyViewMonth) {
+    let outlets;
+    if (key === 'Paid') {
+      const platforms = ['Meta', 'Google', 'TikTok', 'DV360'];
+      outlets = platforms.map(p => ({
+        name: p, color: PM_PLATFORM_COLOR[p], icon: PM_platformIcon(p, PM_PLATFORM_COLOR[p], 13),
+        share: PM_PAID_OUTLET_SHARE[p], consumedSharePct: vd.mix[p], yoySharePct: ydView ? ydView.mix[p] : null,
+      }));
+    } else {
+      const list = PM_CHANNEL_OUTLETS[key];
+      const rawSum = list.reduce((s, o) => s + o.share * o.index, 0);
+      const yoyRawSum = list.reduce((s, o) => s + o.share * o.yoyIndex, 0);
+      outlets = list.map(o => ({
+        name: o.name, color: PM_CHANNEL_COLOR[key], icon: '', share: o.share,
+        consumedSharePct: (o.share * o.index / rawSum) * 100,
+        yoySharePct: (o.share * o.yoyIndex / yoyRawSum) * 100,
+      }));
+    }
+    const annuals = outlets.map(o => channelAnnual * (o.share / 100));
+    const maxOutletAnnual = Math.max(...annuals);
+    return outlets.map((o, i) => {
+      const annual = annuals[i];
+      const trackPct = (annual / maxOutletAnnual) * 100;
+      const consumed = channelConsumed * (o.consumedSharePct / 100);
+      const consumedPct = Math.min((consumed / annual) * 100, 100);
+      const remaining = Math.max(annual - consumed, 0);
+      const consumedYoy = (channelConsumedYoy !== null && o.yoySharePct !== null) ? channelConsumedYoy * (o.yoySharePct / 100) : null;
+      const yoyDelta = consumedYoy !== null ? relDelta(consumed, consumedYoy) : null;
+      return `<div class="channel-outlet-row">
+        <div class="channel-outlet-head">
+          <span class="channel-outlet-name">${o.icon || ''}${o.name}</span>
+          ${yoyDelta !== null ? `<span class="channel-annual-yoy ${yoyDelta >= 0 ? 'good' : 'bad'}">vs. ${yoyViewMonth}: ${deltaText(yoyDelta)}</span>` : ''}
+        </div>
+        <div class="channel-outlet-track" style="width:${trackPct}%" data-tt="${o.name} — acumulado" data-ttv="${PM_fmtCompactUSD(consumed)} de ${PM_fmtCompactUSD(annual)} anual">
+          <div class="channel-outlet-fill" style="width:${consumedPct}%;background:${o.color}"></div>
+        </div>
+        <div class="channel-annual-caption">
+          <span>Consumido: <b>${PM_fmtCompactUSD(consumed)}</b> (${consumedPct.toFixed(0)}%)</span>
+          <span>Resta: <b>${PM_fmtCompactUSD(remaining)}</b> (${(100 - consumedPct).toFixed(0)}%)</span>
+        </div>
+      </div>`;
+    }).join('');
+  }
+  /* ================= CONSUMO DEL PRESUPUESTO ANUAL POR CANAL (Tab 1) — reactivo a "Ver" ================= */
+  function PM_renderChannelAnnualBars(viewMonth, t1TotalMedia) {
+    const container = document.getElementById('pm-channelAnnualBars');
+    if (!container) return;
+    PM_lastAnnualViewMonth = viewMonth;
+    PM_lastAnnualTotalMedia = t1TotalMedia;
+    const vd = PM_MONTH_DATA[viewMonth];
+    const yoyViewMonth = PM_yoyMonth(viewMonth);
+    const ydView = yoyViewMonth ? PM_MONTH_DATA[yoyViewMonth] : null;
+    const totalMediaYoyView = ydView ? ydView.invested / (ydView.channels.Paid / 100) : null;
+    const mesLC = viewMonth.split(' ')[0].toLowerCase();
+
+    const key = PM_activeAnnualChannel;
+    const annual = PM_annualChannelBudget(key, PM_ANNUAL_MIX_2026);
+    const consumed = t1TotalMedia * (vd.channels[key] / 100);
+    const consumedPct = Math.min((consumed / annual) * 100, 100);
+    const remaining = Math.max(annual - consumed, 0);
+    const remainingPct = 100 - consumedPct;
+    const consumedYoy = totalMediaYoyView !== null ? totalMediaYoyView * (ydView.channels[key] / 100) : null;
+    const yoyDelta = consumedYoy !== null ? relDelta(consumed, consumedYoy) : null;
+
+    container.innerHTML = `
+      <div class="channel-annual-title">${PM_CHANNEL_LABEL[key]} — consumo del presupuesto anual (acumulado enero–${mesLC} 2026)</div>
+      <div class="channel-annual-row">
+        <div class="channel-annual-head">
+          <span class="channel-icon-badge" style="background:${PM_CHANNEL_COLOR[key]}22;">
+            <svg class="channel-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="${PM_CHANNEL_COLOR[key]}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${PM_CHANNEL_ICON[key]}</svg>
+          </span>
+          <span class="channel-annual-name">${PM_CHANNEL_LABEL[key]}</span>
+          <span class="channel-annual-budget">${PM_fmtCompactUSD(annual)} anual</span>
+          ${yoyDelta !== null ? `<span class="channel-annual-yoy ${yoyDelta >= 0 ? 'good' : 'bad'}">vs. ${yoyViewMonth}: ${deltaText(yoyDelta)}</span>` : ''}
+        </div>
+        <div class="channel-annual-track" style="width:100%" data-tt="${PM_CHANNEL_LABEL[key]} — acumulado enero–${mesLC} 2026" data-ttv="${PM_fmtCompactUSD(consumed)} de ${PM_fmtCompactUSD(annual)} anual">
+          <div class="channel-annual-fill" style="width:${consumedPct}%;background:${PM_CHANNEL_COLOR[key]}"></div>
+        </div>
+        <div class="channel-annual-caption">
+          <span>Consumido: <b>${PM_fmtCompactUSD(consumed)}</b> (${consumedPct.toFixed(0)}%)</span>
+          <span>Resta: <b>${PM_fmtCompactUSD(remaining)}</b> (${remainingPct.toFixed(0)}%)</span>
+        </div>
+        <div class="channel-outlet-list">
+          ${PM_outletRowsHTML(key, annual, consumed, consumedYoy, vd, ydView, yoyViewMonth)}
+        </div>
+      </div>`;
+  }
+  PM_renderAnnualMix();
 
   /* ================= ENTRANCE ANIMATION: grow bar fills from 0 (transform, not width, to avoid layout thrash) ================= */
   PAGE_ROOT.querySelectorAll('.rank-fill, .pacing-fill, .efficiency-fill').forEach(el => {
@@ -4491,11 +4636,6 @@
 <script>
   (function () {
     const PAGE_ROOT = document.querySelector('.page[data-page="marca"]');
-    function MARCA_showTab(id) {
-      PAGE_ROOT.querySelectorAll('.tab').forEach(t => t.dataset.active = (t.dataset.tab === id) ? 'true' : 'false');
-      PAGE_ROOT.querySelectorAll('.panel').forEach(p => p.dataset.visible = (p.dataset.panel === id) ? 'true' : 'false');
-    }
-    PAGE_ROOT.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => MARCA_showTab(t.dataset.tab)));
 
     const MARCA_INDICATORS = [
       {
@@ -4592,6 +4732,8 @@
         <div class="marca-kpi-cmp-row"><span class="delta-chip" style="background:${chipBg};color:${chipColor};">${deltaText(d1, 'pp')}</span> <span style="font-size:11px;color:#8b8b8b;">vs. promedio 10 trimestres (${ind.cmp10q.toFixed(1)}%)</span></div>
         <div class="marca-kpi-yoy">vs. mismo corte 2025 (${ind.cmpYoy.toFixed(1)}%): <b>${deltaText(d2, 'pp')}</b></div>
         <div class="marca-kpi-desc">${ind.desc}</div>
+        <div class="marca-kpi-chart-title">Evolución histórica</div>
+        <svg width="100%" height="100" viewBox="0 0 480 100" id="marca-kpi-chart-${ind.key}" preserveAspectRatio="none"></svg>
       </div>`;
     }
 
@@ -4653,31 +4795,25 @@
       document.getElementById(svgId).innerHTML = out;
     }
 
+    // Un solo gráfico por tarjeta (mismo tratamiento uniforme para los 6, incluido TOM — ya no lleva
+    // el tratamiento "hero" aparte de cuando vivía en su propia pestaña) — serie única, sin leyenda,
+    // porque el título de la tarjeta ya dice de qué indicador se trata.
+    const MARCA_CHART_DEFS = {
+      tom: { n: 12, color: '#4F52E5' },
+      usoHabitual: { n: 12, color: '#00618C' },
+      recordacionPub: { n: 10, color: '#00618C', useAlt: true },
+      brandEquity: { n: 12, color: '#6D4AA6' },
+      preferencia: { n: 10, color: '#DE5850' },
+      mayorUso: { n: 10, color: '#8a6d1f' },
+    };
     function MARCA_renderTrends() {
-      const tomInd = MARCA_INDICATORS.find(i => i.key === 'tom');
-      const tomX = tomInd.series.slice(-12).map(p => p[0]);
-      MARCA_lineChart('marca-tomSvg', tomX, [
-        { label: 'Socios DC', color: '#4F52E5', dataMap: new Map(tomInd.series) },
-      ], 1080, 170, false);
-
-      const miniDefs = [
-        { ind: MARCA_INDICATORS.find(i => i.key === 'usoHabitual'), n: 12, color: '#00618C' },
-        { ind: MARCA_INDICATORS.find(i => i.key === 'recordacionPub'), n: 10, color: '#00618C', useAlt: true },
-        { ind: MARCA_INDICATORS.find(i => i.key === 'brandEquity'), n: 12, color: '#6D4AA6' },
-        { ind: MARCA_INDICATORS.find(i => i.key === 'preferencia'), n: 10, color: '#DE5850' },
-        { ind: MARCA_INDICATORS.find(i => i.key === 'mayorUso'), n: 10, color: '#8a6d1f' },
-      ];
-      document.getElementById('marca-trendGrid').innerHTML = miniDefs.map(d => `
-        <div class="zone marca-trend-card">
-          <div class="marca-trend-title">${d.ind.name}</div>
-          <svg width="100%" height="120" viewBox="0 0 340 120" id="marca-trend-${d.ind.key}" preserveAspectRatio="none"></svg>
-        </div>`).join('');
-
-      miniDefs.forEach(d => {
-        const sourcePairs = d.useAlt ? d.ind.seriesAlt.data : d.ind.series;
-        const xLabels = sourcePairs.slice(-d.n).map(p => p[0]);
-        const seriesList = [{ label: d.useAlt ? d.ind.seriesAlt.label : d.ind.name, color: d.color, dataMap: new Map(sourcePairs) }];
-        MARCA_lineChart('marca-trend-' + d.ind.key, xLabels, seriesList, 340, 120, false);
+      MARCA_INDICATORS.forEach(ind => {
+        const def = MARCA_CHART_DEFS[ind.key];
+        if (!def) return;
+        const sourcePairs = def.useAlt ? ind.seriesAlt.data : ind.series;
+        const xLabels = sourcePairs.slice(-def.n).map(p => p[0]);
+        const seriesList = [{ label: def.useAlt ? ind.seriesAlt.label : ind.name, color: def.color, dataMap: new Map(sourcePairs) }];
+        MARCA_lineChart('marca-kpi-chart-' + ind.key, xLabels, seriesList, 480, 100, false);
       });
     }
 
