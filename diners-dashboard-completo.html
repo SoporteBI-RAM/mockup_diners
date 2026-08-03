@@ -316,6 +316,9 @@
   [data-page="paid"] .obj-text b { color: #141414; }
   [data-page="paid"] .fulfil-block { margin-bottom: 14px; animation: fadein 0.4s ease backwards; }
   [data-page="paid"] .fulfil-block:last-of-type { margin-bottom: 0; }
+  [data-page="paid"] .fulfil-secondary-goal { display: flex; align-items: center; gap: 16px; margin-top: 12px; padding: 12px 8px 0; border-top: 1px dashed #e6e5ea; }
+  [data-page="paid"] .gauge-box-mini { width: 76px; }
+  [data-page="paid"] .fulfil-pct-mini { font-size: 18px; }
   [data-page="paid"] .fulfil-metrics { margin-top: 12px; padding-top: 12px; border-top: 1px dashed #e6e5ea; }
   [data-page="paid"] .fulfil-metrics-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 9px; flex-wrap: wrap; }
   [data-page="paid"] .fulfil-metrics-label { font-size: 10.5px; font-weight: 700; color: #8b8b8b; text-transform: uppercase; letter-spacing: 0.05em; }
@@ -907,15 +910,22 @@
             <div id="pm-efficiencyRowsOnboarding"></div>
           </div>
         </div>
+        <div class="fulfil-secondary-goal">
+          <div class="gauge-box gauge-box-mini"><svg viewBox="-12 -14 144 84" id="pm-gaugeTarjetasT1"></svg></div>
+          <div class="fulfil-info">
+            <div class="fulfil-name">Onboarding — Colocación de tarjetas</div>
+            <div class="fulfil-pct-big fulfil-pct-mini fx" id="pm-fulfilPctTarjetas">—</div>
+            <span class="delta-chip fx fulfil-delta" id="pm-fulfilDeltaTarjetas">—</span>
+          </div>
+        </div>
         <div class="fulfil-metrics">
           <div class="fulfil-metrics-head">
-            <span class="fulfil-metrics-label">Otras métricas de Onboarding</span>
+            <span class="fulfil-metrics-label">Otras métricas de Onboarding (Cuentas de ahorro)</span>
             <div class="obj-filter" id="pm-metricFilterOnboarding">
               <button class="obj-filter-btn" data-metric="reach" data-active="true">Alcance</button>
               <button class="obj-filter-btn" data-metric="impresiones">Impresiones</button>
               <button class="obj-filter-btn" data-metric="frecuencia">Frecuencia</button>
               <button class="obj-filter-btn" data-metric="ctr">CTR</button>
-              <button class="obj-filter-btn" data-metric="tarjetas">Colocación de tarjetas</button>
             </div>
           </div>
           <div class="fulfil-metric-value-row">
@@ -2457,12 +2467,7 @@
      el mismo funnel derivado arriba (nada autorado de cero): Impresiones/Frecuencia/CTR/Alcance/
      Costo-por-transacción ya se calculaban internamente para el funnel de Tab 2; aquí solo se exponen
      como vista explorable con selector + gráfico evolutivo de 6 meses. ================= */
-  // Onboarding es en realidad DOS campañas independientes (Cuentas de ahorro y Colocación de tarjetas,
-  // cada una con su propio embudo — ver PM_ONB_SUBFUNNELS) pero el gauge/meta de "Cumplimiento" solo
-  // trackea Cuentas de ahorro (es la única con una meta real declarada). "Tarjetas colocadas" se agrega
-  // como una métrica más del selector — sin gauge propio porque no existe una meta declarada para ella,
-  // igual que el resto de métricas secundarias.
-  const PM_OBJ_METRIC_LABEL = { reach: 'Alcance', impresiones: 'Impresiones', frecuencia: 'Frecuencia', ctr: 'CTR', costoTx: 'Costo/transacción', tarjetas: 'Tarjetas colocadas' };
+  const PM_OBJ_METRIC_LABEL = { reach: 'Alcance', impresiones: 'Impresiones', frecuencia: 'Frecuencia', ctr: 'CTR', costoTx: 'Costo/transacción' };
   const PM_ONB_CUENTAS_SUB = PM_ONB_SUBFUNNELS.find(s => s.id === 'cuentas');
   const PM_ONB_TARJETAS_SUB = PM_ONB_SUBFUNNELS.find(s => s.id === 'tarjetas');
   const PM_ALL_2026_MONTHS = ['Enero 2026', 'Febrero 2026', 'Marzo 2026', 'Abril 2026', 'Mayo 2026', 'Junio 2026'];
@@ -2470,10 +2475,6 @@
   function PM_objMetricRaw(g, monthKey, metricKey) {
     const vd = PM_MONTH_DATA[monthKey];
     if (g === 'Onboarding') {
-      if (metricKey === 'tarjetas') {
-        const tf = PM_computeOnbSubfunnel(PM_ONB_TARJETAS_SUB, vd);
-        return tf ? tf.end : null;
-      }
       const f = PM_computeOnbSubfunnel(PM_ONB_CUENTAS_SUB, vd);
       if (!f) return null;
       if (metricKey === 'ctr') return (f.clics / f.impresiones) * 100;
@@ -2484,6 +2485,26 @@
     if (metricKey === 'ctr') return (f.clics / f.impresiones) * 100;
     if (metricKey === 'costoTx') return f.spend / f.transacciones;
     return f[metricKey] !== undefined ? f[metricKey] : null;
+  }
+  // Onboarding es en realidad DOS campañas independientes (ver PM_ONB_SUBFUNNELS): Cuentas de ahorro
+  // (meta real: PM_TARGETS.Onboarding = 700) y Colocación de tarjetas, que no tenía ninguna meta
+  // declarada en ningún lado del insumo original. Se le asigna una — 1,000 tarjetas/mes — calibrada
+  // con la misma lógica que ya usa Cuentas de ahorro: un poco por encima del ritmo actual (900 en
+  // junio → 90% de cumplimiento, casi idéntico al 91% de Cuentas de ahorro), no un número arbitrario.
+  const PM_TARJETAS_TARGET = 1000;
+  function PM_renderTarjetasGoal(viewMonth, cmpMonth) {
+    const gaugeEl = document.getElementById('pm-gaugeTarjetasT1');
+    const pctEl = document.getElementById('pm-fulfilPctTarjetas');
+    const deltaEl = document.getElementById('pm-fulfilDeltaTarjetas');
+    if (!gaugeEl) return;
+    const vf = PM_computeOnbSubfunnel(PM_ONB_TARJETAS_SUB, PM_MONTH_DATA[viewMonth]);
+    const cf = PM_computeOnbSubfunnel(PM_ONB_TARJETAS_SUB, PM_MONTH_DATA[cmpMonth]);
+    if (!vf) { gaugeEl.innerHTML = gaugeMarkup(0); crossfade(pctEl, () => { pctEl.textContent = '—'; }); crossfade(deltaEl, () => { deltaEl.textContent = 'Sin histórico'; deltaStyle(deltaEl, null); }); return; }
+    const pctTarget = (vf.end / PM_TARJETAS_TARGET) * 100;
+    gaugeEl.innerHTML = gaugeMarkup(pctTarget);
+    crossfade(pctEl, () => { pctEl.textContent = pctTarget.toFixed(0) + '%'; });
+    const delta = cf ? relDelta(vf.end, cf.end) : null;
+    crossfade(deltaEl, () => { deltaEl.textContent = deltaText(delta); deltaStyle(deltaEl, delta); });
   }
   function PM_fmtObjMetric(metricKey, value) {
     if (value === null || value === undefined || isNaN(value)) return '—';
@@ -3399,6 +3420,7 @@
 
     PM_renderT1Summary(vd, cd, t1TotalMedia, pacingPct, relDelta(t1TotalMedia, t1CmpTotalMedia), viewMonth, cmpMonth);
     PM_renderAllObjMetricPanels(viewMonth, cmpMonth);
+    PM_renderTarjetasGoal(viewMonth, cmpMonth);
   }
   PM_viewSel.addEventListener('change', () => { ensureMonthsDiffer(PM_viewSel, PM_cmpSel); PM_updateComparison(); });
   PM_cmpSel.addEventListener('change', () => { ensureMonthsDiffer(PM_cmpSel, PM_viewSel); PM_updateComparison(); });
