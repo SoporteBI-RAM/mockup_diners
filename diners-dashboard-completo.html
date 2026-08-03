@@ -4645,9 +4645,14 @@
         pts.forEach(([x, y, xl, v]) => { out += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="2.8" fill="${s.color}" data-tt="${xl}" data-ttv="${s.label}: ${v}%"></circle>`; });
       });
       const labelStep = Math.max(1, Math.ceil(n / 7));
-      xLabels.forEach((xl, i) => {
-        if (i % labelStep === 0 || i === n - 1) { const x = padL + i * stepX; out += `<text x="${x}" y="${H - 6}" text-anchor="middle" font-size="9" fill="#8b8b8b">${xl}</text>`; }
-      });
+      const labelIdxs = [];
+      for (let i = 0; i < n; i += labelStep) labelIdxs.push(i);
+      const lastRegular = labelIdxs[labelIdxs.length - 1];
+      if (lastRegular !== n - 1) {
+        if (n - 1 - lastRegular < labelStep / 2) labelIdxs[labelIdxs.length - 1] = n - 1;
+        else labelIdxs.push(n - 1);
+      }
+      labelIdxs.forEach(i => { const x = padL + i * stepX; out += `<text x="${x}" y="${H - 6}" text-anchor="middle" font-size="9" fill="#8b8b8b">${xLabels[i]}</text>`; });
       if (showLegend) {
         let lx = padL;
         seriesList.forEach(s => {
@@ -4663,12 +4668,11 @@
       const tomX = tomInd.series.slice(-12).map(p => p[0]);
       MARCA_lineChart('marca-tomSvg', tomX, [
         { label: 'Socios DC', color: '#4F52E5', dataMap: new Map(tomInd.series) },
-        { label: 'Mercado Abierto', color: '#8b8b8b', dataMap: new Map(tomInd.seriesAlt.data) },
-      ], 1080, 170, true);
+      ], 1080, 170, false);
 
       const miniDefs = [
         { ind: MARCA_INDICATORS.find(i => i.key === 'usoHabitual'), n: 12, color: '#00618C' },
-        { ind: MARCA_INDICATORS.find(i => i.key === 'recordacionPub'), n: 12, color: '#2E9560', multi: true },
+        { ind: MARCA_INDICATORS.find(i => i.key === 'recordacionPub'), n: 10, color: '#00618C', useAlt: true },
         { ind: MARCA_INDICATORS.find(i => i.key === 'brandEquity'), n: 12, color: '#6D4AA6' },
         { ind: MARCA_INDICATORS.find(i => i.key === 'preferencia'), n: 10, color: '#DE5850' },
         { ind: MARCA_INDICATORS.find(i => i.key === 'mayorUso'), n: 10, color: '#8a6d1f' },
@@ -4680,13 +4684,10 @@
         </div>`).join('');
 
       miniDefs.forEach(d => {
-        const xLabels = d.ind.series.slice(-d.n).map(p => p[0]);
-        const seriesList = [{ label: d.multi ? 'Total categoría' : d.ind.name, color: d.color, dataMap: new Map(d.ind.series) }];
-        if (d.multi) {
-          if (d.ind.seriesAlt) seriesList.push({ label: d.ind.seriesAlt.label, color: d.ind.seriesAlt.color, dataMap: new Map(d.ind.seriesAlt.data) });
-          if (d.ind.seriesAlt2) seriesList.push({ label: d.ind.seriesAlt2.label, color: d.ind.seriesAlt2.color, dataMap: new Map(d.ind.seriesAlt2.data) });
-        }
-        MARCA_lineChart('marca-trend-' + d.ind.key, xLabels, seriesList, 340, 120, !!d.multi);
+        const sourcePairs = d.useAlt ? d.ind.seriesAlt.data : d.ind.series;
+        const xLabels = sourcePairs.slice(-d.n).map(p => p[0]);
+        const seriesList = [{ label: d.useAlt ? d.ind.seriesAlt.label : d.ind.name, color: d.color, dataMap: new Map(sourcePairs) }];
+        MARCA_lineChart('marca-trend-' + d.ind.key, xLabels, seriesList, 340, 120, false);
       });
     }
 
