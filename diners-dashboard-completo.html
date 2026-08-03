@@ -915,6 +915,7 @@
               <button class="obj-filter-btn" data-metric="impresiones">Impresiones</button>
               <button class="obj-filter-btn" data-metric="frecuencia">Frecuencia</button>
               <button class="obj-filter-btn" data-metric="ctr">CTR</button>
+              <button class="obj-filter-btn" data-metric="tarjetas">Colocación de tarjetas</button>
             </div>
           </div>
           <div class="fulfil-metric-value-row">
@@ -2456,13 +2457,29 @@
      el mismo funnel derivado arriba (nada autorado de cero): Impresiones/Frecuencia/CTR/Alcance/
      Costo-por-transacción ya se calculaban internamente para el funnel de Tab 2; aquí solo se exponen
      como vista explorable con selector + gráfico evolutivo de 6 meses. ================= */
-  const PM_OBJ_METRIC_LABEL = { reach: 'Alcance', impresiones: 'Impresiones', frecuencia: 'Frecuencia', ctr: 'CTR', costoTx: 'Costo/transacción' };
+  // Onboarding es en realidad DOS campañas independientes (Cuentas de ahorro y Colocación de tarjetas,
+  // cada una con su propio embudo — ver PM_ONB_SUBFUNNELS) pero el gauge/meta de "Cumplimiento" solo
+  // trackea Cuentas de ahorro (es la única con una meta real declarada). "Tarjetas colocadas" se agrega
+  // como una métrica más del selector — sin gauge propio porque no existe una meta declarada para ella,
+  // igual que el resto de métricas secundarias.
+  const PM_OBJ_METRIC_LABEL = { reach: 'Alcance', impresiones: 'Impresiones', frecuencia: 'Frecuencia', ctr: 'CTR', costoTx: 'Costo/transacción', tarjetas: 'Tarjetas colocadas' };
   const PM_ONB_CUENTAS_SUB = PM_ONB_SUBFUNNELS.find(s => s.id === 'cuentas');
+  const PM_ONB_TARJETAS_SUB = PM_ONB_SUBFUNNELS.find(s => s.id === 'tarjetas');
   const PM_ALL_2026_MONTHS = ['Enero 2026', 'Febrero 2026', 'Marzo 2026', 'Abril 2026', 'Mayo 2026', 'Junio 2026'];
   let PM_activeObjMetric = { Season: 'impresiones', Establecimientos: 'reach', Onboarding: 'reach' };
   function PM_objMetricRaw(g, monthKey, metricKey) {
     const vd = PM_MONTH_DATA[monthKey];
-    const f = g === 'Onboarding' ? PM_computeOnbSubfunnel(PM_ONB_CUENTAS_SUB, vd) : PM_computeFunnel(g, vd);
+    if (g === 'Onboarding') {
+      if (metricKey === 'tarjetas') {
+        const tf = PM_computeOnbSubfunnel(PM_ONB_TARJETAS_SUB, vd);
+        return tf ? tf.end : null;
+      }
+      const f = PM_computeOnbSubfunnel(PM_ONB_CUENTAS_SUB, vd);
+      if (!f) return null;
+      if (metricKey === 'ctr') return (f.clics / f.impresiones) * 100;
+      return f[metricKey] !== undefined ? f[metricKey] : null;
+    }
+    const f = PM_computeFunnel(g, vd);
     if (!f) return null;
     if (metricKey === 'ctr') return (f.clics / f.impresiones) * 100;
     if (metricKey === 'costoTx') return f.spend / f.transacciones;
