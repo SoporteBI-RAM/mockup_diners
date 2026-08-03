@@ -190,6 +190,19 @@
   .rse-semester-label { font-size: 10.5px; color: #8b8b8b; margin-top: 2px; }
   .rse-semester-arrow { font-size: 18px; color: #8b8b8b; }
 
+  /* ================= MARCA Y COMUNICACIÓN ================= */
+  .marca-kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .marca-kpi-card { padding: 16px 18px; }
+  .marca-kpi-name { font-size: 12px; font-weight: 700; color: #141414; margin-bottom: 10px; display: flex; align-items: center; gap: 7px; }
+  .marca-kpi-value { font-family: var(--font-display); font-size: 27px; font-weight: 700; font-variant-numeric: tabular-nums; margin-bottom: 8px; }
+  .marca-kpi-cmp-row { margin-bottom: 5px; }
+  .marca-kpi-yoy { font-size: 11px; color: #8b8b8b; margin-bottom: 11px; }
+  .marca-kpi-yoy b { color: #262626; font-variant-numeric: tabular-nums; }
+  .marca-kpi-desc { font-size: 11px; color: #8b8b8b; line-height: 1.5; padding-top: 11px; border-top: 1px dashed #e6e5ea; }
+  .marca-trend-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .marca-trend-card { padding: 14px 16px; }
+  .marca-trend-title { font-size: 12px; font-weight: 700; margin-bottom: 8px; }
+
   /* ================= ACTIVOS DIGITALES ================= */
   [data-page="digital"] .ad-mini-kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 14px; }
   [data-page="digital"] .obj-filter { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
@@ -592,6 +605,10 @@
         Inicio
       </button>
       <div class="sidebar-section-label">Sub-áreas</div>
+      <button class="nav-item" data-page="marca">
+        <span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.9 6.3L22 9l-5 4.9 1.2 7.1L12 17.8 5.8 21l1.2-7.1L2 9l7.1-.7z"></path></svg></span>
+        Marca y Comunicación
+      </button>
       <button class="nav-item" data-page="paid">
         <span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l18-6v14L3 15v-4z"></path><path d="M11.5 17a3 3 0 1 1-5.8-1.5"></path></svg></span>
         Paid Media
@@ -652,6 +669,15 @@
       </div>
 
       <div class="portada-grid">
+        <div class="zone portada-card" data-goto-page="marca">
+          <div class="portada-card-icon" style="background:rgba(109,74,166,0.12);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6D4AA6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.9 6.3L22 9l-5 4.9 1.2 7.1L12 17.8 5.8 21l1.2-7.1L2 9l7.1-.7z"></path></svg>
+          </div>
+          <div class="portada-card-title"><span class="health-item-dot fx" id="portada-dot-marca" style="display:inline-block;margin-top:0;"></span> Marca y Comunicación</div>
+          <div class="portada-card-desc">Salud de marca — Top Of Mind, uso habitual, recordación publicitaria, Brand Equity y preferencia.</div>
+          <div class="portada-card-kpi"><span class="portada-card-kpi-value fx" id="portada-kpi-marca">54.1%</span><span class="portada-card-kpi-label" id="portada-kpi-marca-label">Top Of Mind (TOM)</span></div>
+          <div class="portada-card-arrow">Ver tablero →</div>
+        </div>
         <div class="zone portada-card" data-goto-page="paid">
           <div class="portada-card-icon" style="background:rgba(79,82,229,0.1);">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4F52E5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l18-6v14L3 15v-4z"></path><path d="M11.5 17a3 3 0 1 1-5.8-1.5"></path></svg>
@@ -697,6 +723,43 @@
           <div class="portada-card-kpi"><span class="portada-card-kpi-value fx" id="portada-kpi-rse">78%</span><span class="portada-card-kpi-label" id="portada-kpi-rse-label">Avance Educación Financiera</span></div>
           <div class="portada-card-arrow">Ver tablero →</div>
         </div>
+      </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- PÁGINA: MARCA Y COMUNICACIÓN -->
+    <!-- ============================================================ -->
+    <div class="page" data-page="marca">
+      <div class="page-head">
+        <div>
+          <div class="page-title">Marca y Comunicación</div>
+          <div class="page-sub">Salud de marca — tracking de Diners Club vs. su propio histórico y vs. mercado abierto</div>
+        </div>
+      </div>
+
+      <div class="tab-rail" id="marca-tabRail">
+        <button class="tab" data-tab="t1" data-active="true"><span class="tab-num">1</span>Resumen de marca</button>
+        <button class="tab" data-tab="t2"><span class="tab-num">2</span>Evolución histórica</button>
+      </div>
+
+      <!-- ============ TAB 1 — RESUMEN DE MARCA ============ -->
+      <div class="panel" data-panel="t1" data-visible="true">
+        <div class="section-note">Corte Q2 2026 (cierre junio) — resultados de tracking de marca, publicados julio 2026. Cada indicador se compara contra el promedio de los últimos 10 trimestres y contra el mismo corte del año anterior.</div>
+        <div class="marca-kpi-grid fx" id="marca-kpiGrid"></div>
+        <div class="zone zone-pad" style="margin-top:14px;">
+          <div class="zone-title" style="margin-bottom:8px;">Análisis resumen</div>
+          <div class="fx" id="marca-t1Summary" style="font-size:12.5px;line-height:1.65;color:#3d3d3d;"></div>
+        </div>
+      </div>
+
+      <!-- ============ TAB 2 — EVOLUCIÓN HISTÓRICA ============ -->
+      <div class="panel" data-panel="t2">
+        <div class="zone zone-pad" style="margin-bottom:14px;">
+          <div class="zone-title" style="margin-bottom:2px;">Top Of Mind — Socios DC vs. Mercado Abierto</div>
+          <div class="section-note" style="margin-top:0;margin-bottom:8px;">Últimos 12 trimestres. "Mercado Abierto" son personas sin tarjeta Diners Club — mide cuánto se piensa en la marca incluso fuera de la base de clientes.</div>
+          <svg width="100%" height="170" viewBox="0 0 1080 170" id="marca-tomSvg" preserveAspectRatio="none"></svg>
+        </div>
+        <div class="marca-trend-grid fx" id="marca-trendGrid"></div>
       </div>
     </div>
 
@@ -1322,6 +1385,7 @@
       </div>
       <div class="filter-row">
         <span class="filter-label">Ver</span>
+        <select class="month-select" id="sm-viewMonthSelect"></select>
         <select class="month-select" id="sm-viewMonthSelect"></select>
         <span class="vs-label">vs.</span>
         <span class="filter-label">Comparar contra</span>
@@ -4429,6 +4493,223 @@
   })();
 </script>
 
+<!-- ================= MARCA Y COMUNICACIÓN SCRIPT ================= -->
+<!-- Datos reales, fuente: Ejemplo_Insumo_KPIs_Marketing_Diners-Julio-2026-Marca.xlsx (hojas MARCA + GRAFICOS MARCA).
+     A diferencia de las demás páginas (datos ilustrativos derivados por fórmula), aquí el insumo YA es real y
+     ya viene con sus propias comparaciones (vs. promedio de 10 trimestres, vs. mismo corte año anterior) —
+     por eso esta página muestra esos números tal cual, en vez de recalcularlos desde la serie histórica. -->
+<script>
+  (function () {
+    const PAGE_ROOT = document.querySelector('.page[data-page="marca"]');
+    function MARCA_showTab(id) {
+      PAGE_ROOT.querySelectorAll('.tab').forEach(t => t.dataset.active = (t.dataset.tab === id) ? 'true' : 'false');
+      PAGE_ROOT.querySelectorAll('.panel').forEach(p => p.dataset.visible = (p.dataset.panel === id) ? 'true' : 'false');
+    }
+    PAGE_ROOT.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => MARCA_showTab(t.dataset.tab)));
+
+    const MARCA_INDICATORS = [
+      {
+        key: 'tom', name: 'Top Of Mind (TOM)', value: 54.1, cmp10q: 55.6, cmpYoy: 52.4,
+        desc: 'Nivel de recordación espontánea de Diners Club como primera marca mencionada en la categoría de tarjetas de crédito.',
+        series: [
+          ['2019-Q3', 58], ['2019-Q4', 62], ['2020-Q1', 55], ['2020-Q2', 59], ['2020-Q3', 56], ['2020-Q4', 51],
+          ['2021-Q1', 57], ['2021-Q2', 52], ['2021-Q3', 50], ['2021-Q4', 49], ['2022-Q1', 50], ['2022-Q2', 52],
+          ['2022-Q3', 54], ['2022-Q4', 61], ['2023-Q1', 59], ['2023-Q2', 58], ['2023-Q3', 55], ['2023-Q4', 59],
+          ['2024-Q1', 59.4], ['2024-Q2', 55.8], ['2024-Q3', 56.8], ['2024-Q4', 59.8], ['2025-Q1', 55.6], ['2025-Q2', 52.4],
+          ['2025-Q3', 54.7], ['2025-Q4', 52.1], ['2026-Q1', 55.1], ['2026-Q2', 54.1],
+        ],
+        seriesAlt: {
+          label: 'Mercado Abierto', color: '#8b8b8b', data: [
+            ['2019-Q3', 22.21], ['2019-Q4', 22.35], ['2020-Q1', 20.62], ['2020-Q2', 20.87], ['2020-Q3', 18.01], ['2020-Q4', 18.96],
+            ['2021-Q1', 17.34], ['2021-Q2', 20.93], ['2021-Q3', 23.54], ['2021-Q4', 19.68], ['2022-Q1', 16.71], ['2022-Q2', 16.94],
+            ['2022-Q3', 24.38], ['2022-Q4', 22.45], ['2023-Q1', 16.10], ['2023-Q2', 14.63], ['2023-Q3', 15.32], ['2023-Q4', 16.41],
+            ['2024-Q1', 13.22], ['2024-Q2', 14.97], ['2024-Q3', 18.90], ['2024-Q4', 20.32], ['2025-Q1', 18.75], ['2025-Q2', 18.95],
+            ['2025-Q3', 17.26], ['2025-Q4', 19.70],
+          ],
+        },
+      },
+      {
+        key: 'usoHabitual', name: 'Uso Habitual DC', value: 71.2, cmp10q: 69.8, cmpYoy: 67.0,
+        desc: 'Porcentaje de clientes que utilizan Diners Club como medio de pago de forma frecuente en sus transacciones.',
+        series: [
+          ['2019-Q3', 80.30], ['2019-Q4', 77.69], ['2020-Q1', 68.79], ['2020-Q2', 71.32], ['2020-Q3', 69.53], ['2020-Q4', 71.04],
+          ['2021-Q1', 74.08], ['2021-Q2', 71.81], ['2021-Q3', 70.02], ['2021-Q4', 69.77], ['2022-Q1', 69.27], ['2022-Q2', 66.14],
+          ['2022-Q3', 73.93], ['2022-Q4', 72.74], ['2023-Q1', 72.34], ['2023-Q2', 76.28], ['2023-Q3', 69.13], ['2023-Q4', 71.38],
+          ['2024-Q1', 74.5], ['2024-Q2', 70.5], ['2024-Q3', 74.0], ['2024-Q4', 71.1], ['2025-Q1', 67.1], ['2025-Q2', 67.0],
+          ['2025-Q3', 70.2], ['2025-Q4', 67.7], ['2026-Q1', 65.0], ['2026-Q2', 71.20],
+        ],
+      },
+      {
+        key: 'recordacionPub', name: 'Recordación Publicitaria (Categoría)', value: 62.0, cmp10q: 56.9, cmpYoy: 55.1,
+        desc: 'Recuerdo espontáneo o asistido de la comunicación publicitaria de las marcas de tarjetas de crédito.',
+        series: [
+          ['Jul 25', 45], ['Ago 25', 47], ['Sep 25', 45], ['Oct 25', 52], ['Nov 25', 47], ['Dic 25', 54],
+          ['Ene 26', 61], ['Feb 26', 57], ['Mar 26', 68], ['Abr 26', 65], ['May 26', 58], ['Jun 26', 62],
+        ],
+        seriesAlt: {
+          label: 'Socios DC', color: '#00618C', data: [
+            ['Jul 25', 72], ['Ago 25', 75], ['Sep 25', 65], ['Oct 25', 71], ['Nov 25', 69], ['Dic 25', 80],
+            ['Ene 26', 61], ['Feb 26', 60], ['Mar 26', 75], ['Abr 26', 67],
+          ],
+        },
+        seriesAlt2: {
+          label: 'Mercado Abierto', color: '#8b8b8b', data: [
+            ['Jul 25', 31], ['Ago 25', 33], ['Sep 25', 34], ['Oct 25', 42], ['Nov 25', 36], ['Dic 25', 41],
+          ],
+        },
+      },
+      {
+        key: 'brandEquity', name: 'Brand Equity', value: 30.9, cmp10q: 30.2, cmpYoy: 31.7,
+        desc: 'Fortaleza de la marca a partir de la percepción del consumidor.',
+        series: [
+          ['2022-Q1', 29.8], ['2022-Q2', 30.9], ['2022-Q3', 30.3], ['2022-Q4', 29.8], ['2023-Q1', 31.6], ['2023-Q2', 29.8],
+          ['2023-Q3', 27.7], ['2023-Q4', 30.4], ['2024-Q1', 31.4], ['2024-Q2', 27.8], ['2024-Q3', 31.4], ['2024-Q4', 34.1],
+          ['2025-Q1', 29.4], ['2025-Q2', 31.7], ['2025-Q3', 29.0], ['2025-Q4', 26.3], ['2026-Q1', 30.2], ['2026-Q2', 30.9],
+        ],
+      },
+      {
+        key: 'preferencia', name: 'Preferencia', value: 39.4, cmp10q: 38.6, cmpYoy: 38.7,
+        desc: 'Predisposición de los consumidores a elegir Diners Club frente a otras alternativas de la categoría.',
+        series: [
+          ['2024-Q1', 42.9], ['2024-Q2', 38.0], ['2024-Q3', 40.1], ['2024-Q4', 42.6], ['2025-Q1', 36.8], ['2025-Q2', 38.6],
+          ['2025-Q3', 34.5], ['2025-Q4', 37.2], ['2026-Q1', 36.9], ['2026-Q2', 39.4],
+        ],
+      },
+      {
+        key: 'mayorUso', name: 'Mayor Uso / Principalidad', value: 40.7, cmp10q: 41.9, cmpYoy: 43.0,
+        desc: 'Porcentaje de clientes que identifican a Diners Club como su tarjeta principal o de mayor uso en su portafolio de medios de pago.',
+        series: [
+          ['2024-Q1', 44.7], ['2024-Q2', 39.5], ['2024-Q3', 44.8], ['2024-Q4', 47.0], ['2025-Q1', 37.7], ['2025-Q2', 43.0],
+          ['2025-Q3', 37.5], ['2025-Q4', 44.1], ['2026-Q1', 39.8], ['2026-Q2', 40.7],
+        ],
+      },
+    ];
+
+    function MARCA_deltas(ind) { return { d1: ind.value - ind.cmp10q, d2: ind.value - ind.cmpYoy }; }
+    function MARCA_statusOf(ind) { const { d1, d2 } = MARCA_deltas(ind); return (d1 >= 0 && d2 >= 0) ? 'good' : 'warn'; }
+    function MARCA_bestWorst() {
+      const scored = MARCA_INDICATORS.map(ind => { const { d1, d2 } = MARCA_deltas(ind); return { ind, d1, d2, combined: d1 + d2 }; });
+      return { best: scored.reduce((a, b) => b.combined > a.combined ? b : a), worst: scored.reduce((a, b) => b.combined < a.combined ? b : a) };
+    }
+
+    function MARCA_kpiCardHTML(ind) {
+      const { d1, d2 } = MARCA_deltas(ind);
+      const status = MARCA_statusOf(ind);
+      const chipBg = d1 >= 0 ? 'rgba(0,128,56,0.1)' : 'rgba(238,0,0,0.1)', chipColor = d1 >= 0 ? '#008038' : '#EE0000';
+      return `<div class="zone marca-kpi-card">
+        <div class="marca-kpi-name"><span class="health-item-dot ${status}"></span>${ind.name}</div>
+        <div class="marca-kpi-value">${ind.value.toFixed(1)}%</div>
+        <div class="marca-kpi-cmp-row"><span class="delta-chip" style="background:${chipBg};color:${chipColor};">${deltaText(d1, 'pp')}</span> <span style="font-size:11px;color:#8b8b8b;">vs. promedio 10 trimestres (${ind.cmp10q.toFixed(1)}%)</span></div>
+        <div class="marca-kpi-yoy">vs. mismo corte 2025 (${ind.cmpYoy.toFixed(1)}%): <b>${deltaText(d2, 'pp')}</b></div>
+        <div class="marca-kpi-desc">${ind.desc}</div>
+      </div>`;
+    }
+
+    function MARCA_renderT1Summary() {
+      const { best, worst } = MARCA_bestWorst();
+      const goodCount = MARCA_INDICATORS.filter(i => MARCA_statusOf(i) === 'good').length;
+      const parts = [];
+      parts.push(`<b>${best.ind.name}</b> lidera la mejora este corte (${deltaText(best.d1, 'pp')} vs. promedio de 10 trimestres, ${deltaText(best.d2, 'pp')} vs. Q2 2025).`);
+      parts.push(`<b>${worst.ind.name}</b> es el más rezagado (${deltaText(worst.d1, 'pp')} vs. promedio, ${deltaText(worst.d2, 'pp')} vs. año anterior).`);
+      parts.push(`${goodCount} de ${MARCA_INDICATORS.length} indicadores están por encima de su propio promedio histórico y del mismo corte del año anterior.`);
+      document.getElementById('marca-t1Summary').innerHTML = parts.join(' ');
+    }
+
+    /* ================= GRÁFICOS — línea multi-serie genérica, tolera series de distinta longitud (no todas las
+       variables tienen dato hasta el último corte; se corta ahí en vez de inventar el resto) ================= */
+    function MARCA_lineChart(svgId, xLabels, seriesList, W, H, showLegend) {
+      const padL = 34, padR = 10, padT = showLegend ? 26 : 10, padB = 22;
+      const plotW = W - padL - padR, plotH = H - padT - padB;
+      const n = xLabels.length;
+      const stepX = plotW / (n - 1);
+      const allValues = seriesList.flatMap(s => xLabels.map(xl => s.dataMap.get(xl)).filter(v => v !== undefined));
+      const maxV = Math.max(...allValues) * 1.12;
+      const minV = Math.max(0, Math.min(...allValues) * 0.85);
+      let out = '';
+      for (let g = 0; g <= 3; g++) {
+        const y = padT + (plotH / 3) * g;
+        out += `<line x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}" stroke="#eef1f3" stroke-width="1"></line>`;
+        out += `<text x="${padL - 6}" y="${y + 3}" text-anchor="end" font-size="9" fill="#8b8b8b">${(maxV - (maxV - minV) * g / 3).toFixed(0)}%</text>`;
+      }
+      seriesList.forEach(s => {
+        const pts = [];
+        xLabels.forEach((xl, i) => {
+          const v = s.dataMap.get(xl);
+          if (v === undefined) return;
+          const x = padL + i * stepX, y = padT + plotH - ((v - minV) / (maxV - minV)) * plotH;
+          pts.push([x, y, xl, v]);
+        });
+        if (!pts.length) return;
+        const d = 'M' + pts.map(p => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' L');
+        out += `<path d="${d}" fill="none" stroke="${s.color}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>`;
+        pts.forEach(([x, y, xl, v]) => { out += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="2.8" fill="${s.color}" data-tt="${xl}" data-ttv="${s.label}: ${v}%"></circle>`; });
+      });
+      const labelStep = Math.max(1, Math.ceil(n / 7));
+      xLabels.forEach((xl, i) => {
+        if (i % labelStep === 0 || i === n - 1) { const x = padL + i * stepX; out += `<text x="${x}" y="${H - 6}" text-anchor="middle" font-size="9" fill="#8b8b8b">${xl}</text>`; }
+      });
+      if (showLegend) {
+        let lx = padL;
+        seriesList.forEach(s => {
+          out += `<circle cx="${lx}" cy="${padT - 14}" r="3.5" fill="${s.color}"></circle><text x="${lx + 8}" y="${padT - 10.5}" font-size="9.5" font-weight="700" fill="${s.color}">${s.label}</text>`;
+          lx += 20 + s.label.length * 6.3;
+        });
+      }
+      document.getElementById(svgId).innerHTML = out;
+    }
+
+    function MARCA_renderTrends() {
+      const tomInd = MARCA_INDICATORS.find(i => i.key === 'tom');
+      const tomX = tomInd.series.slice(-12).map(p => p[0]);
+      MARCA_lineChart('marca-tomSvg', tomX, [
+        { label: 'Socios DC', color: '#4F52E5', dataMap: new Map(tomInd.series) },
+        { label: 'Mercado Abierto', color: '#8b8b8b', dataMap: new Map(tomInd.seriesAlt.data) },
+      ], 1080, 170, true);
+
+      const miniDefs = [
+        { ind: MARCA_INDICATORS.find(i => i.key === 'usoHabitual'), n: 12, color: '#00618C' },
+        { ind: MARCA_INDICATORS.find(i => i.key === 'recordacionPub'), n: 12, color: '#2E9560', multi: true },
+        { ind: MARCA_INDICATORS.find(i => i.key === 'brandEquity'), n: 12, color: '#6D4AA6' },
+        { ind: MARCA_INDICATORS.find(i => i.key === 'preferencia'), n: 10, color: '#DE5850' },
+        { ind: MARCA_INDICATORS.find(i => i.key === 'mayorUso'), n: 10, color: '#8a6d1f' },
+      ];
+      document.getElementById('marca-trendGrid').innerHTML = miniDefs.map(d => `
+        <div class="zone marca-trend-card">
+          <div class="marca-trend-title">${d.ind.name}</div>
+          <svg width="100%" height="120" viewBox="0 0 340 120" id="marca-trend-${d.ind.key}" preserveAspectRatio="none"></svg>
+        </div>`).join('');
+
+      miniDefs.forEach(d => {
+        const xLabels = d.ind.series.slice(-d.n).map(p => p[0]);
+        const seriesList = [{ label: d.multi ? 'Total categoría' : d.ind.name, color: d.color, dataMap: new Map(d.ind.series) }];
+        if (d.multi) {
+          if (d.ind.seriesAlt) seriesList.push({ label: d.ind.seriesAlt.label, color: d.ind.seriesAlt.color, dataMap: new Map(d.ind.seriesAlt.data) });
+          if (d.ind.seriesAlt2) seriesList.push({ label: d.ind.seriesAlt2.label, color: d.ind.seriesAlt2.color, dataMap: new Map(d.ind.seriesAlt2.data) });
+        }
+        MARCA_lineChart('marca-trend-' + d.ind.key, xLabels, seriesList, 340, 120, !!d.multi);
+      });
+    }
+
+    document.getElementById('marca-kpiGrid').innerHTML = MARCA_INDICATORS.map(MARCA_kpiCardHTML).join('');
+    MARCA_renderT1Summary();
+    MARCA_renderTrends();
+
+    /* ================= SEÑAL PARA LA PORTADA — mismo patrón que las otras 5 sub-áreas ================= */
+    (function () {
+      const { best, worst } = MARCA_bestWorst();
+      const goodCount = MARCA_INDICATORS.filter(i => MARCA_statusOf(i) === 'good').length;
+      const overallStatus = goodCount >= Math.ceil(MARCA_INDICATORS.length / 2) ? 'good' : 'warn';
+      window.DINERS_HEALTH = window.DINERS_HEALTH || {};
+      window.DINERS_HEALTH.marca = {
+        label: 'Marca y Comunicación', kpiValue: MARCA_INDICATORS[0].value.toFixed(1) + '%', kpiLabel: 'Top Of Mind (TOM)', status: overallStatus,
+        note: `<b>${best.ind.name}</b> lidera la mejora este corte (${deltaText(best.d1, 'pp')} vs. 10 trimestres, ${deltaText(best.d2, 'pp')} vs. año anterior); <b>${worst.ind.name}</b> es el más rezagado (${deltaText(worst.d1, 'pp')} / ${deltaText(worst.d2, 'pp')}).`,
+        opportunity: overallStatus === 'good' ? null : `<b>Marca y Comunicación</b>: reforzar <b>${worst.ind.name}</b> — el indicador más rezagado tanto vs. su promedio de 10 trimestres como vs. el mismo corte del año anterior.`,
+      };
+    })();
+
+  })();
+</script>
+
 <!-- ================= ACTIVOS DIGITALES SCRIPT ================= -->
 <script>
   (function () {
@@ -5043,7 +5324,7 @@
      ya llenó con su propio estado por defecto (agregado, sin filtro) al ejecutar su primer render. -->
 <script>
   (function () {
-    const AREA_ORDER = ['paid', 'social', 'digital', 'own', 'rse'];
+    const AREA_ORDER = ['marca', 'paid', 'social', 'digital', 'own', 'rse'];
     const SCORE = { good: 100, warn: 65, bad: 35 };
     const SEVERITY = { bad: 0, warn: 1, good: 2 };
 
