@@ -552,6 +552,23 @@
   [data-page="social"] .inf-table-profile { display: flex; align-items: center; gap: 8px; }
   [data-page="social"] .inf-table-cost { display: flex; flex-direction: column; align-items: flex-end; line-height: 1.3; }
   [data-page="social"] .inf-table-cost-sub { font-size: 9.5px; font-weight: 500; color: #8b8b8b; }
+  [data-page="social"] .campaign-search-input {
+    font: inherit; font-size: 12px; font-weight: 600; padding: 6px 13px; border-radius: 999px;
+    border: 1px solid #e2e0e8; color: #262626; background: #fff; min-width: 180px;
+    transition: border-color 0.15s ease;
+  }
+  [data-page="social"] .campaign-search-input:hover, [data-page="social"] .campaign-search-input:focus-visible { border-color: #4F52E5; outline: none; }
+  [data-page="social"] .campaign-search-input::placeholder { color: #b0b0b0; }
+  [data-page="social"] .inf-detail-head { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+  [data-page="social"] .inf-detail-handle { font-size: 16px; font-weight: 700; color: #141414; }
+  [data-page="social"] .inf-detail-row { display: flex; gap: 26px; flex-wrap: wrap; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px dashed #eef1f3; }
+  [data-page="social"] .inf-detail-row > div { display: flex; flex-direction: column; gap: 3px; }
+  [data-page="social"] .inf-detail-label { font-size: 9.5px; font-weight: 700; color: #8b8b8b; text-transform: uppercase; letter-spacing: 0.04em; }
+  [data-page="social"] .inf-detail-value { font-size: 17px; font-weight: 700; color: #262626; font-variant-numeric: tabular-nums; }
+  [data-page="social"] .inf-detail-cmp { font-size: 10px; font-weight: 600; }
+  [data-page="social"] .inf-detail-cmp.good { color: #008038; }
+  [data-page="social"] .inf-detail-cmp.bad { color: #EE0000; }
+  [data-page="social"] .inf-detail-cmp.flat { color: #b0b0b0; }
   [data-page="social"] .sm-section-divider { border-top: 1px solid #e6e5ea; margin: 22px 0 16px; }
   [data-page="social"] .sm-combo-row { display: flex; align-items: center; gap: 22px; flex-wrap: wrap; }
   [data-page="social"] .sm-combo-row .pie-wrap { flex: 1; min-width: 220px; }
@@ -1617,6 +1634,14 @@
         <div class="section-note" style="margin-bottom:10px;">Influencer Marketing — corte del periodo actual (no varía con el filtro de mes).</div>
         <div class="zone-label">Influencer Marketing</div>
         <div class="zone-title" style="margin-bottom:12px;">Desempeño por influencer</div>
+        <div class="filter-row">
+          <span class="filter-label">Influencer</span>
+          <input type="text" class="campaign-search-input" id="sm-infSearch" list="sm-infSearchList" placeholder="Buscar influencer...">
+          <datalist id="sm-infSearchList"></datalist>
+          <button class="obj-filter-btn" id="sm-infSearchClear" style="display:none;">✕ Quitar filtro</button>
+          <span class="hero-caption" style="margin:0;">Busca un handle para ver cómo nos va con él específicamente.</span>
+        </div>
+        <div class="zone zone-pad" id="sm-infDetailCard" style="display:none;margin-bottom:14px;"></div>
         <div class="sm-mini-kpi-row">
           <div class="zone zone-pad">
             <div class="sm-mini-kpi-value" id="sm-infActive">8</div>
@@ -1643,12 +1668,14 @@
             <div class="sm-mini-kpi-caption">Inversión anual en influencers</div>
           </div>
         </div>
-        <div class="zone-title" style="margin-top:16px;margin-bottom:2px;">Principales influencers</div>
-        <div class="hero-caption" style="margin-top:0;margin-bottom:10px;">Los 6 con más seguidores — aporte, costo anual y si está rindiendo lo que cuesta.</div>
-        <div class="inf-card-grid" id="sm-influencerCards"></div>
+        <div id="sm-infCardsSection">
+          <div class="zone-title fx" id="sm-infCardsTitle" style="margin-top:16px;margin-bottom:2px;">Principales influencers</div>
+          <div class="hero-caption fx" id="sm-infCardsCaption" style="margin-top:0;margin-bottom:10px;">Los 6 con más seguidores — aporte, costo anual y si está rindiendo lo que cuesta.</div>
+          <div class="inf-card-grid" id="sm-influencerCards"></div>
+        </div>
         <div class="zone zone-pad" style="margin-top:14px;">
-          <div class="zone-title" style="margin-bottom:2px;">Desempeño por handle — detalle completo</div>
-          <div class="hero-caption" style="margin-top:0;margin-bottom:10px;">Ranking por CTR (registros / clics). Estado: costo por registro de cada uno vs. el promedio del grupo.</div>
+          <div class="zone-title fx" id="sm-infTableTitle" style="margin-bottom:2px;">Desempeño por handle — detalle completo</div>
+          <div class="hero-caption fx" id="sm-infTableCaption" style="margin-top:0;margin-bottom:10px;">Ranking por CTR (registros / clics). Estado: costo por registro de cada uno vs. el promedio del grupo.</div>
           <div style="overflow-x:auto;">
           <table class="network-table">
             <thead><tr><th>Perfil</th><th>Tipo</th><th>Seguidores</th><th>Visualizaciones</th><th>Clics</th><th>Registros</th><th>CTR (%)</th><th>Costo anual</th><th>Estado</th></tr></thead>
@@ -4557,6 +4584,50 @@ const SM_INF_PHOTO = {
     if (ratio <= 1.3) return { cls: 'warn', label: 'A revisar' };
     return { cls: 'bad', label: 'No rinde el costo' };
   }
+  // Filtro por handle — "cómo nos va con él" específicamente. Reutiliza los mismos promedios del
+  // grupo que ya calcula el estado (good/warn/bad), así el detalle no puede desalinearse del resto.
+  let SM_infFilterHandle = null;
+  function SM_infPopulateSearchList() {
+    const dl = document.getElementById('sm-infSearchList');
+    if (!dl) return;
+    dl.innerHTML = SM_INFLUENCERS.map(i => `<option value="${i.handle}"></option>`).join('');
+  }
+  function SM_infCmpHtml(curr, avg, higherIsBetter) {
+    const d = relDelta(curr, avg);
+    if (d === null) return '';
+    const cls = Math.abs(d) < 1 ? 'flat' : ((higherIsBetter ? d >= 0 : d <= 0) ? 'good' : 'bad');
+    return `<span class="inf-detail-cmp ${cls}">${d >= 0 ? '▲+' : '▼'}${Math.abs(d).toFixed(0)}% vs. promedio del grupo</span>`;
+  }
+  function SM_renderInfDetailCard(avgCostPerReg, avgFollowers) {
+    const el = document.getElementById('sm-infDetailCard');
+    if (!el) return;
+    const i = SM_INFLUENCERS.find(x => x.handle === SM_infFilterHandle);
+    if (!i) { el.style.display = 'none'; return; }
+    const status = SM_infStatus(i, avgCostPerReg);
+    const ctr = (i.registros / i.clicks) * 100;
+    el.style.display = '';
+    el.innerHTML = `
+      <div class="zone-label">Influencer seleccionado</div>
+      <div class="inf-detail-head">
+        ${SM_infAvatarHTML(i, 64)}
+        <div>
+          <div class="inf-detail-handle">${i.handle}</div>
+          <span class="inf-tipo-badge" style="background:${SM_INF_AVATAR_COLOR[i.tipo]}1a;color:${SM_INF_AVATAR_COLOR[i.tipo]};">${i.tipo}</span>
+          <span class="status-chip ${status.cls}" style="margin-left:6px;">${status.label}</span>
+        </div>
+      </div>
+      <div class="inf-detail-row">
+        <div><span class="inf-detail-label">Seguidores</span><span class="inf-detail-value">${i.followers.toLocaleString('en-US')}</span>${SM_infCmpHtml(i.followers, avgFollowers, true)}</div>
+        <div><span class="inf-detail-label">Visualizaciones</span><span class="inf-detail-value">${i.views.toLocaleString('en-US')}</span></div>
+        <div><span class="inf-detail-label">Clics</span><span class="inf-detail-value">${i.clicks.toLocaleString('en-US')}</span></div>
+        <div><span class="inf-detail-label">Registros</span><span class="inf-detail-value">${i.registros}</span></div>
+        <div><span class="inf-detail-label">CTR a registro</span><span class="inf-detail-value">${ctr.toFixed(1)}%</span></div>
+      </div>
+      <div class="inf-detail-row" style="border-bottom:none;margin-bottom:0;">
+        <div><span class="inf-detail-label">Costo anual</span><span class="inf-detail-value">${SM_fmtCompactUSD(i.costoAnual)}</span></div>
+        <div><span class="inf-detail-label">Costo por registro</span><span class="inf-detail-value">${SM_fmtUSD(SM_infCostPerReg(i))}</span>${SM_infCmpHtml(SM_infCostPerReg(i), avgCostPerReg, false)}</div>
+      </div>`;
+  }
 
   /* ================= MAPA DE CALOR — comunidad por ciudad ================= */
   // % de la comunidad total por ciudad — desglose ilustrativo fijo, aplicado al total real de cada mes (deriva, no autora un dataset nuevo por mes)
@@ -4767,10 +4838,32 @@ const SM_INF_PHOTO = {
     document.getElementById('sm-infRegistros').textContent = totalRegistros;
     const costoEl = document.getElementById('sm-infCosto');
     if (costoEl) costoEl.textContent = SM_fmtCompactUSD(totalCosto);
+    const avgFollowers = SM_INFLUENCERS.reduce((s, i) => s + i.followers, 0) / SM_INFLUENCERS.length;
 
-    SM_renderInfluencerCards();
+    const cardsSection = document.getElementById('sm-infCardsSection');
+    const cardsTitleEl = document.getElementById('sm-infCardsTitle');
+    const cardsCaptionEl = document.getElementById('sm-infCardsCaption');
+    const tableTitleEl = document.getElementById('sm-infTableTitle');
+    const tableCaptionEl = document.getElementById('sm-infTableCaption');
+    const filtered = SM_INFLUENCERS.find(i => i.handle === SM_infFilterHandle);
 
-    const ranked = [...SM_INFLUENCERS].sort((a, b) => (b.registros / b.clicks) - (a.registros / a.clicks));
+    if (filtered) {
+      if (cardsSection) cardsSection.style.display = 'none';
+      SM_renderInfDetailCard(avgCostPerReg, avgFollowers);
+      if (tableTitleEl) crossfade(tableTitleEl, () => { tableTitleEl.textContent = `Desempeño por handle — ${filtered.handle}`; });
+      if (tableCaptionEl) crossfade(tableCaptionEl, () => { tableCaptionEl.textContent = `Filtrado a un solo influencer. Quita el filtro de arriba para ver el detalle completo de los ${SM_INFLUENCERS.length}.`; });
+    } else {
+      if (cardsSection) cardsSection.style.display = '';
+      document.getElementById('sm-infDetailCard').style.display = 'none';
+      SM_renderInfluencerCards();
+      if (cardsTitleEl) crossfade(cardsTitleEl, () => { cardsTitleEl.textContent = 'Principales influencers'; });
+      if (cardsCaptionEl) crossfade(cardsCaptionEl, () => { cardsCaptionEl.textContent = 'Los 6 con más seguidores — aporte, costo anual y si está rindiendo lo que cuesta.'; });
+      if (tableTitleEl) crossfade(tableTitleEl, () => { tableTitleEl.textContent = 'Desempeño por handle — detalle completo'; });
+      if (tableCaptionEl) crossfade(tableCaptionEl, () => { tableCaptionEl.textContent = 'Ranking por CTR (registros / clics). Estado: costo por registro de cada uno vs. el promedio del grupo.'; });
+    }
+
+    const list = filtered ? [filtered] : SM_INFLUENCERS;
+    const ranked = [...list].sort((a, b) => (b.registros / b.clicks) - (a.registros / a.clicks));
     document.getElementById('sm-influencerTableBody').innerHTML = ranked.map(i => {
       const ctr = (i.registros / i.clicks) * 100;
       const status = SM_infStatus(i, avgCostPerReg);
@@ -4954,7 +5047,29 @@ const SM_INF_PHOTO = {
   SM_viewSel.addEventListener('change', () => { ensureMonthsDiffer(SM_viewSel, SM_cmpSel); SM_updateComparison(); });
   SM_cmpSel.addEventListener('change', () => { ensureMonthsDiffer(SM_cmpSel, SM_viewSel); SM_updateComparison(); });
   SM_updateComparison();
+  SM_infPopulateSearchList();
   SM_renderInfluencers();
+  const SM_infSearchEl = document.getElementById('sm-infSearch');
+  const SM_infSearchClearEl = document.getElementById('sm-infSearchClear');
+  if (SM_infSearchEl) {
+    SM_infSearchEl.addEventListener('input', () => {
+      const name = SM_infSearchEl.value.trim();
+      const match = SM_INFLUENCERS.find(i => i.handle === name);
+      if (match) {
+        SM_infFilterHandle = match.handle;
+        if (SM_infSearchClearEl) SM_infSearchClearEl.style.display = '';
+        SM_renderInfluencers();
+      }
+    });
+  }
+  if (SM_infSearchClearEl) {
+    SM_infSearchClearEl.addEventListener('click', () => {
+      SM_infFilterHandle = null;
+      if (SM_infSearchEl) SM_infSearchEl.value = '';
+      SM_infSearchClearEl.style.display = 'none';
+      SM_renderInfluencers();
+    });
+  }
 
   })();
 </script>
