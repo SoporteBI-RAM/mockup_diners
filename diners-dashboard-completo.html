@@ -317,16 +317,18 @@
   [data-page="paid"] .obj-status.warn { background: rgba(233,181,45,0.16); color: #8a6d1f; }
   [data-page="paid"] .obj-status.bad { background: rgba(238,0,0,0.1); color: #EE0000; }
   [data-page="paid"] .obj-text b { color: #141414; }
-  [data-page="paid"] .fulfil-block { margin-bottom: 14px; animation: fadein 0.4s ease backwards; }
+  [data-page="paid"] .fulfil-block { margin-bottom: 16px; padding: 16px 18px; border: 1px solid #eef1f3; border-radius: 12px; background: #fff; animation: fadein 0.4s ease backwards; }
   [data-page="paid"] .fulfil-block:last-of-type { margin-bottom: 0; }
+  [data-page="paid"] .fulfil-card-title { display: inline-block; font-size: 12.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; padding: 4px 10px; border-radius: 6px; margin-bottom: 12px; }
   [data-page="paid"] .fulfil-secondary-goal { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; margin-top: 12px; padding: 12px 8px 0; border-top: 1px dashed #e6e5ea; }
   [data-page="paid"] .fulfil-metrics { margin-top: 12px; padding-top: 12px; border-top: 1px dashed #e6e5ea; }
   [data-page="paid"] .fulfil-metrics-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 9px; flex-wrap: wrap; }
   [data-page="paid"] .fulfil-metrics-label { font-size: 10.5px; font-weight: 700; color: #8b8b8b; text-transform: uppercase; letter-spacing: 0.05em; }
   [data-page="paid"] .fulfil-metric-value-row { display: flex; align-items: baseline; gap: 9px; margin-bottom: 6px; }
   [data-page="paid"] .fulfil-metric-value { font-size: 20px; font-weight: 700; color: #262626; font-variant-numeric: tabular-nums; }
+  [data-page="paid"] .fulfil-metric-value-b { font-size: 14px; font-weight: 700; color: #6D4AA6; font-variant-numeric: tabular-nums; }
+  [data-page="paid"] .fulfil-metric-explain { font-size: 10px; color: #8b8b8b; font-style: italic; margin: 4px 0 8px; }
   [data-page="paid"] .fulfil-viz-row { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; padding: 4px 8px; }
-  [data-page="paid"] .fulfil-block + .fulfil-block .fulfil-viz-row { border-top: 1px solid #f0f0f2; padding-top: 14px; }
   [data-page="paid"] .fulfil-viz-left { display: flex; align-items: center; gap: 16px; flex: 0 0 auto; }
   [data-page="paid"] .fulfil-viz-divider { width: 1px; align-self: stretch; background: #eef1f3; flex: none; }
   [data-page="paid"] .fulfil-viz-efficiency { flex: 1; min-width: 220px; }
@@ -417,6 +419,18 @@
   [data-page="paid"] .funnel-subgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
   [data-page="paid"] .funnel-subblock:nth-child(2) { padding-left: 22px; border-left: 1px dashed #e6e5ea; }
   [data-page="paid"] .funnel-subtitle { font-size: 10.5px; font-weight: 700; color: #8b8b8b; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 10px; }
+  [data-page="paid"] .funnel-metrics-table { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 11px; }
+  [data-page="paid"] .funnel-metrics-table th { text-align: left; font-size: 9.5px; font-weight: 700; color: #8b8b8b; text-transform: uppercase; letter-spacing: 0.03em; padding: 0 10px 6px 0; border-bottom: 1px solid #eee; }
+  [data-page="paid"] .funnel-metrics-table td { padding: 7px 10px 7px 0; border-bottom: 1px dashed #f0f0f2; vertical-align: top; }
+  [data-page="paid"] .funnel-metrics-table tr:last-child td { border-bottom: none; }
+  [data-page="paid"] .funnel-tbl-stage { font-weight: 600; color: #262626; white-space: nowrap; }
+  [data-page="paid"] .funnel-tbl-val { font-weight: 700; color: #262626; font-variant-numeric: tabular-nums; margin-right: 4px; }
+  [data-page="paid"] .funnel-tbl-sub { font-size: 9.5px; color: #8b8b8b; margin-right: 4px; }
+  [data-page="paid"] .funnel-tbl-delta { display: inline-flex; gap: 4px; white-space: nowrap; }
+  [data-page="paid"] .funnel-tbl-empty { color: #c7c7cc; }
+  [data-page="paid"] .funnel-subblock .funnel-metrics-table { font-size: 10px; }
+  [data-page="paid"] .funnel-subblock .funnel-metrics-table th { padding-right: 6px; }
+  [data-page="paid"] .funnel-subblock .funnel-metrics-table td { padding-right: 6px; }
   [data-page="paid"] .t3-filter-zone { margin-bottom: 14px; }
   [data-page="paid"] .campaign-search-input {
     font: inherit; font-size: 12px; font-weight: 600; padding: 6px 13px; border-radius: 999px;
@@ -854,7 +868,7 @@
         <div class="obj-list">
           <div class="obj-item"><span class="obj-icon">1</span><div><span class="obj-text">Sostener el <b>top of mind</b> de marca en temporadas clave (Season) con cobertura masiva.</span><br><span class="obj-status good fx" id="pm-objStatusSeason">✓ 103% de la meta de alcance (620K de 600K)</span></div></div>
           <div class="obj-item"><span class="obj-icon">2</span><div><span class="obj-text">Reactivar consumo en sectores específicos vía comercios afiliados (Establecimientos).</span><br><span class="obj-status warn fx" id="pm-objStatusEstablecimientos">△ 89% de la meta de transacciones activadas (2,140 de 2,400)</span></div></div>
-          <div class="obj-item"><span class="obj-icon">3</span><div><span class="obj-text">Acelerar la <b>apertura de cuentas de ahorro digitales</b> (Onboarding, iniciativa nueva).</span><br><span class="obj-status warn fx" id="pm-objStatusOnboarding">△ 91% de la meta de cuentas de ahorro abiertas (640 de 700)</span></div></div>
+          <div class="obj-item"><span class="obj-icon">3</span><div><span class="obj-text">Acelerar la <b>apertura de cuentas de ahorro digitales</b> (Onboarding, escalado agresivamente en 2026 tras su fase piloto).</span><br><span class="obj-status warn fx" id="pm-objStatusOnboarding">△ 91% de la meta de cuentas de ahorro abiertas (640 de 700)</span></div></div>
         </div>
       </div>
     </div>
@@ -862,7 +876,8 @@
     <div class="zone zone-pad" style="margin-top:14px;">
       <div class="zone-label">Cumplimiento</div>
       <div class="zone-title" style="margin-bottom:12px;">¿Vamos bien contra la meta? — resumen por objetivo</div>
-      <div class="fulfil-block" style="animation-delay:0.02s;">
+      <div class="fulfil-block" style="animation-delay:0.02s;border-left:4px solid #141414;">
+        <div class="fulfil-card-title" style="background:#1414141a;color:#141414;">Season</div>
         <div class="fulfil-viz-row">
           <div class="fulfil-viz-left">
             <div class="gauge-box"><svg viewBox="-12 -14 144 84" id="pm-gaugeSeasonT1"></svg></div>
@@ -897,10 +912,26 @@
             <span class="fulfil-metric-value fx" id="pm-metricValueSeason">—</span>
             <span class="delta-chip fx" id="pm-metricDeltaSeason">—</span>
           </div>
-          <svg width="100%" height="60" viewBox="0 0 1080 60" id="pm-metricTrendSeason" preserveAspectRatio="none"></svg>
+          <div class="fulfil-metrics-head" style="margin-top:10px;">
+            <span class="fulfil-metrics-label" style="color:#6D4AA6;">Comparar contra</span>
+            <div class="obj-filter" id="pm-metricFilterSeasonB">
+              <button class="obj-filter-btn" data-metric="none" data-active="true">Ninguna</button>
+              <button class="obj-filter-btn" data-metric="reach">Alcance</button>
+              <button class="obj-filter-btn" data-metric="impresiones">Impresiones</button>
+              <button class="obj-filter-btn" data-metric="frecuencia">Frecuencia</button>
+              <button class="obj-filter-btn" data-metric="ctr">CTR</button>
+            </div>
+          </div>
+          <div class="fulfil-metric-value-row" id="pm-metricValueRowSeasonB" style="display:none;">
+            <span class="fulfil-metric-value-b fx" id="pm-metricValueSeasonB">—</span>
+            <span class="delta-chip fx" id="pm-metricDeltaSeasonB">—</span>
+          </div>
+          <div class="fulfil-metric-explain" id="pm-metricExplainSeason" style="display:none;">Para comparar el crecimiento relativo, ambas métricas se muestran indexadas a 100 en el primer mes (enero) — no en sus valores absolutos.</div>
+          <svg width="100%" height="140" viewBox="0 0 1080 140" id="pm-metricTrendSeason" preserveAspectRatio="none"></svg>
         </div>
       </div>
-      <div class="fulfil-block" style="animation-delay:0.1s;">
+      <div class="fulfil-block" style="animation-delay:0.1s;border-left:4px solid #00618C;">
+        <div class="fulfil-card-title" style="background:#00618C1a;color:#00618C;">Establecimientos</div>
         <div class="fulfil-viz-row">
           <div class="fulfil-viz-left">
             <div class="gauge-box"><svg viewBox="-12 -14 144 84" id="pm-gaugeEstablecimientosT1"></svg></div>
@@ -937,10 +968,27 @@
             <span class="fulfil-metric-value fx" id="pm-metricValueEstablecimientos">—</span>
             <span class="delta-chip fx" id="pm-metricDeltaEstablecimientos">—</span>
           </div>
-          <svg width="100%" height="60" viewBox="0 0 1080 60" id="pm-metricTrendEstablecimientos" preserveAspectRatio="none"></svg>
+          <div class="fulfil-metrics-head" style="margin-top:10px;">
+            <span class="fulfil-metrics-label" style="color:#6D4AA6;">Comparar contra</span>
+            <div class="obj-filter" id="pm-metricFilterEstablecimientosB">
+              <button class="obj-filter-btn" data-metric="none" data-active="true">Ninguna</button>
+              <button class="obj-filter-btn" data-metric="reach">Alcance</button>
+              <button class="obj-filter-btn" data-metric="impresiones">Impresiones</button>
+              <button class="obj-filter-btn" data-metric="frecuencia">Frecuencia</button>
+              <button class="obj-filter-btn" data-metric="ctr">CTR</button>
+              <button class="obj-filter-btn" data-metric="costoTx">Costo/transacción</button>
+            </div>
+          </div>
+          <div class="fulfil-metric-value-row" id="pm-metricValueRowEstablecimientosB" style="display:none;">
+            <span class="fulfil-metric-value-b fx" id="pm-metricValueEstablecimientosB">—</span>
+            <span class="delta-chip fx" id="pm-metricDeltaEstablecimientosB">—</span>
+          </div>
+          <div class="fulfil-metric-explain" id="pm-metricExplainEstablecimientos" style="display:none;">Para comparar el crecimiento relativo, ambas métricas se muestran indexadas a 100 en el primer mes (enero) — no en sus valores absolutos.</div>
+          <svg width="100%" height="140" viewBox="0 0 1080 140" id="pm-metricTrendEstablecimientos" preserveAspectRatio="none"></svg>
         </div>
       </div>
-      <div class="fulfil-block" style="animation-delay:0.18s;">
+      <div class="fulfil-block" style="animation-delay:0.18s;border-left:4px solid #4F52E5;">
+        <div class="fulfil-card-title" style="background:#4F52E51a;color:#4F52E5;">Onboarding</div>
         <div class="fulfil-viz-row">
           <div class="fulfil-viz-left">
             <div class="gauge-box"><svg viewBox="-12 -14 144 84" id="pm-gaugeOnboardingT1"></svg></div>
@@ -966,19 +1014,19 @@
           <div class="fulfil-viz-left">
             <div class="gauge-box"><svg viewBox="-12 -14 144 84" id="pm-gaugeTarjetasT1"></svg></div>
             <div class="fulfil-info">
-              <div class="fulfil-name">Onboarding — Colocación de tarjetas</div>
+              <div class="fulfil-name">Onboarding — Leads generados</div>
               <div class="fulfil-pct-big fx" id="pm-fulfilPctTarjetas">—</div>
               <span class="delta-chip fx fulfil-delta" id="pm-fulfilDeltaTarjetas">—</span>
             </div>
             <div class="pie-box"><svg viewBox="0 0 70 70" id="pm-pieTarjetasT1"></svg></div>
             <div class="pie-legend-col">
-              <div class="pie-legend-title">Aporte a Tarjetas colocadas</div>
+              <div class="pie-legend-title">Aporte a Leads generados</div>
               <div id="pm-contribLegendTarjetas"></div>
             </div>
           </div>
           <div class="fulfil-viz-divider"></div>
           <div class="fulfil-viz-efficiency">
-            <div class="efficiency-title">Eficiencia por canal <span class="efficiency-hint">(aporte a Tarjetas colocadas vs. % del gasto)</span></div>
+            <div class="efficiency-title">Eficiencia por canal <span class="efficiency-hint">(aporte a Leads generados vs. % del gasto)</span></div>
             <div class="efficiency-legend"><b>1.0×</b> = aporta justo lo que le toca por su % de inversión · más = rinde de más · menos = rinde de menos</div>
             <div id="pm-efficiencyRowsTarjetas"></div>
           </div>
@@ -997,7 +1045,22 @@
             <span class="fulfil-metric-value fx" id="pm-metricValueOnboarding">—</span>
             <span class="delta-chip fx" id="pm-metricDeltaOnboarding">—</span>
           </div>
-          <svg width="100%" height="60" viewBox="0 0 1080 60" id="pm-metricTrendOnboarding" preserveAspectRatio="none"></svg>
+          <div class="fulfil-metrics-head" style="margin-top:10px;">
+            <span class="fulfil-metrics-label" style="color:#6D4AA6;">Comparar contra</span>
+            <div class="obj-filter" id="pm-metricFilterOnboardingB">
+              <button class="obj-filter-btn" data-metric="none" data-active="true">Ninguna</button>
+              <button class="obj-filter-btn" data-metric="reach">Alcance</button>
+              <button class="obj-filter-btn" data-metric="impresiones">Impresiones</button>
+              <button class="obj-filter-btn" data-metric="frecuencia">Frecuencia</button>
+              <button class="obj-filter-btn" data-metric="ctr">CTR</button>
+            </div>
+          </div>
+          <div class="fulfil-metric-value-row" id="pm-metricValueRowOnboardingB" style="display:none;">
+            <span class="fulfil-metric-value-b fx" id="pm-metricValueOnboardingB">—</span>
+            <span class="delta-chip fx" id="pm-metricDeltaOnboardingB">—</span>
+          </div>
+          <div class="fulfil-metric-explain" id="pm-metricExplainOnboarding" style="display:none;">Para comparar el crecimiento relativo, ambas métricas se muestran indexadas a 100 en el primer mes (enero) — no en sus valores absolutos.</div>
+          <svg width="100%" height="140" viewBox="0 0 1080 140" id="pm-metricTrendOnboarding" preserveAspectRatio="none"></svg>
         </div>
       </div>
       <div class="filter-hint" style="margin-top:4px;">Ver pestaña Seguimiento y Cumplimiento para el detalle de campañas.</div>
@@ -1087,7 +1150,7 @@
           <div class="campaign-summary-row">
             <span class="campaign-summary-total">2 campañas</span>
             <span class="campaign-summary-delta good">▲+1 vs. Mayo</span>
-            <span class="campaign-summary-delta-yoy flat">Sin histórico (año anterior)</span>
+            <span class="campaign-summary-delta-yoy good">▲+1 vs. año anterior</span>
           </div>
           <div class="campaign-summary-breakdown">2 activas · 0 cerradas</div>
           <div class="campaign-summary-active">Activas: <b>Apertura Digital blu</b>, <b>Referidos Cuenta Ahorro</b></div>
@@ -2301,13 +2364,15 @@
     'Abril 2026':   { invested: 318000, pct: 37.4, mix: {Meta:39,Google:29,TikTok:20,DV360:12}, channels: {TV:27,Radio:9,PrensaEscrita:5,Revistas:3,Eventos:2,Paid:54}, goals: {Season:540000, Establecimientos:2050, Onboarding:510} },
     'Mayo 2026':    { invested: 366000, pct: 43.1, mix: {Meta:40,Google:29,TikTok:19,DV360:12}, channels: {TV:26,Radio:9,PrensaEscrita:5,Revistas:3,Eventos:2,Paid:55}, goals: {Season:600000, Establecimientos:2206, Onboarding:571} },
     'Junio 2026':   { invested: 410500, pct: 48.3, mix: {Meta:42,Google:28,TikTok:18,DV360:12}, channels: {TV:26,Radio:8,PrensaEscrita:6,Revistas:3,Eventos:2,Paid:55}, goals: {Season:620000, Establecimientos:2140, Onboarding:640} },
-    'Junio 2025':   { invested: 356000, pct: null, mix: {Meta:36,Google:33,TikTok:19,DV360:12}, channels: {TV:36,Radio:13,PrensaEscrita:4,Revistas:2,Eventos:1,Paid:44}, goals: {Season:540000, Establecimientos:1754, Onboarding:null} },
+    'Junio 2025':   { invested: 356000, pct: null, mix: {Meta:36,Google:33,TikTok:19,DV360:12}, channels: {TV:36,Radio:13,PrensaEscrita:4,Revistas:2,Eventos:1,Paid:44}, goals: {Season:540000, Establecimientos:1754, Onboarding:310} },
     // 2025 — solo para la comparación automática año contra año del mes "Comparar contra"; no aparecen en los selects.
-    'Enero 2025':   { invested: 180000, pct: null, mix: {Meta:34,Google:36,TikTok:18,DV360:12}, channels: {TV:39,Radio:14,PrensaEscrita:4,Revistas:2,Eventos:1,Paid:40}, goals: {Season:190000, Establecimientos:620, Onboarding:null} },
-    'Febrero 2025': { invested: 215000, pct: null, mix: {Meta:34,Google:35,TikTok:19,DV360:12}, channels: {TV:38,Radio:14,PrensaEscrita:4,Revistas:2,Eventos:1,Paid:41}, goals: {Season:280000, Establecimientos:780, Onboarding:null} },
-    'Marzo 2025':   { invested: 250000, pct: null, mix: {Meta:35,Google:34,TikTok:19,DV360:12}, channels: {TV:38,Radio:13,PrensaEscrita:4,Revistas:2,Eventos:1,Paid:42}, goals: {Season:350000, Establecimientos:980, Onboarding:null} },
-    'Abril 2025':   { invested: 290000, pct: null, mix: {Meta:35,Google:34,TikTok:19,DV360:12}, channels: {TV:37,Radio:13,PrensaEscrita:4,Revistas:2,Eventos:1,Paid:43}, goals: {Season:420000, Establecimientos:1250, Onboarding:null} },
-    'Mayo 2025':    { invested: 325000, pct: null, mix: {Meta:36,Google:33,TikTok:19,DV360:12}, channels: {TV:37,Radio:13,PrensaEscrita:4,Revistas:2,Eventos:1,Paid:43}, goals: {Season:480000, Establecimientos:1520, Onboarding:null} },
+    // Onboarding en 2025 fue una fase piloto de bajo volumen, sin meta formal todavía, previa al
+    // lanzamiento escalado de 2026 — de ahí el salto grande en el % YoY.
+    'Enero 2025':   { invested: 180000, pct: null, mix: {Meta:34,Google:36,TikTok:18,DV360:12}, channels: {TV:39,Radio:14,PrensaEscrita:4,Revistas:2,Eventos:1,Paid:40}, goals: {Season:190000, Establecimientos:620, Onboarding:150} },
+    'Febrero 2025': { invested: 215000, pct: null, mix: {Meta:34,Google:35,TikTok:19,DV360:12}, channels: {TV:38,Radio:14,PrensaEscrita:4,Revistas:2,Eventos:1,Paid:41}, goals: {Season:280000, Establecimientos:780, Onboarding:175} },
+    'Marzo 2025':   { invested: 250000, pct: null, mix: {Meta:35,Google:34,TikTok:19,DV360:12}, channels: {TV:38,Radio:13,PrensaEscrita:4,Revistas:2,Eventos:1,Paid:42}, goals: {Season:350000, Establecimientos:980, Onboarding:205} },
+    'Abril 2025':   { invested: 290000, pct: null, mix: {Meta:35,Google:34,TikTok:19,DV360:12}, channels: {TV:37,Radio:13,PrensaEscrita:4,Revistas:2,Eventos:1,Paid:43}, goals: {Season:420000, Establecimientos:1250, Onboarding:245} },
+    'Mayo 2025':    { invested: 325000, pct: null, mix: {Meta:36,Google:33,TikTok:19,DV360:12}, channels: {TV:37,Radio:13,PrensaEscrita:4,Revistas:2,Eventos:1,Paid:43}, goals: {Season:480000, Establecimientos:1520, Onboarding:280} },
   };
   // Same calendar month, one year earlier — only defined going from a 2026 month (no 2024 data to go further back).
   const PM_yoyMonth = m => m.includes('2026') ? m.replace('2026', '2025') : null;
@@ -2474,7 +2539,7 @@
   // Alcance) ending in a different conversion — not one shared upper funnel branching into two ends.
   const PM_ONB_SUBFUNNELS = [
     { id: 'cuentas', label: 'Campaña · Cuentas de ahorro', endLabel: 'Cuentas de ahorro', color: '#4F52E5', reachConv: 0.006, clicksPerReach: 1.08, impPerClick: 3.0 },
-    { id: 'tarjetas', label: 'Campaña · Colocación de tarjetas', endLabel: 'Colocación de tarjetas', color: '#2563EB', tarjetasPerDollar: 0.0022, reachConv: 0.008, clicksPerReach: 1.05, impPerClick: 2.6 },
+    { id: 'tarjetas', label: 'Campaña · Leads generados', endLabel: 'Leads generados', color: '#2563EB', tarjetasPerDollar: 0.0022, reachConv: 0.008, clicksPerReach: 1.05, impPerClick: 2.6 },
   ];
   const PM_ONB_STAGES = [
     { key: 'impresiones', label: 'Impresiones' },
@@ -2505,9 +2570,9 @@
     out.frecuencia = out.impresiones / out.reach;
     return out;
   }
-  // Onboarding launched in 2026 (no 2025 activity at all, same "iniciativa nueva" as its gauge card) —
-  // both sub-campaigns return null together for any pre-2026 month, so YoY reads "Sin histórico"
-  // instead of silently showing nothing.
+  // Onboarding tuvo una fase piloto de bajo volumen en 2025 (ver PM_MONTH_DATA) antes de escalar en
+  // 2026 — ambas sub-campañas devuelven null juntas solo para un mes anterior a esa fase piloto, así
+  // el YoY lee "Sin histórico" en vez de mostrar silenciosamente nada.
   function PM_computeOnbSubfunnel(sub, vd) {
     if (!vd || vd.goals.Onboarding === null || vd.goals.Onboarding === undefined) return null;
     const invFactor = vd.invested / 300000;
@@ -2569,6 +2634,11 @@
   const PM_ONB_TARJETAS_SUB = PM_ONB_SUBFUNNELS.find(s => s.id === 'tarjetas');
   const PM_ALL_2026_MONTHS = ['Enero 2026', 'Febrero 2026', 'Marzo 2026', 'Abril 2026', 'Mayo 2026', 'Junio 2026'];
   let PM_activeObjMetric = { Season: 'impresiones', Establecimientos: 'reach', Onboarding: 'reach' };
+  // "Comparar contra" — segunda métrica opcional (null = vista individual, sin comparación). Un solo
+  // color fijo para la segunda métrica en las 3 tarjetas, distinto de good/warn/bad y de los 3 colores
+  // de objetivo, para que no se confunda con ningún otro significado ya usado en el tablero.
+  let PM_activeObjMetric2 = { Season: null, Establecimientos: null, Onboarding: null };
+  const PM_METRIC2_COLOR = '#6D4AA6';
   function PM_objMetricRaw(g, monthKey, metricKey) {
     const vd = PM_MONTH_DATA[monthKey];
     if (g === 'Onboarding') {
@@ -2584,8 +2654,8 @@
     return f[metricKey] !== undefined ? f[metricKey] : null;
   }
   // Onboarding es en realidad DOS campañas independientes (ver PM_ONB_SUBFUNNELS): Cuentas de ahorro
-  // (meta real: PM_TARGETS.Onboarding = 700) y Colocación de tarjetas, que no tenía ninguna meta
-  // declarada en ningún lado del insumo original. Se le asigna una — 1,000 tarjetas/mes — calibrada
+  // (meta real: PM_TARGETS.Onboarding = 700) y Leads generados, que no tenía ninguna meta
+  // declarada en ningún lado del insumo original. Se le asigna una — 1,000 leads/mes — calibrada
   // con la misma lógica que ya usa Cuentas de ahorro: un poco por encima del ritmo actual (900 en
   // junio → 90% de cumplimiento, casi idéntico al 91% de Cuentas de ahorro), no un número arbitrario.
   const PM_TARJETAS_TARGET = 1000;
@@ -2614,7 +2684,7 @@
   function PM_drawObjMetricTrend(svgId, series, months, color) {
     const svg = document.getElementById(svgId);
     if (!svg) return;
-    const W = 1080, H = 60, padL = 6, padR = 6, padT = 8, padB = 16;
+    const W = 1080, H = 140, padL = 40, padR = 8, padT = 14, padB = 20;
     const plotW = W - padL - padR, plotH = H - padT - padB;
     const validVals = series.filter(v => v !== null);
     if (!validVals.length) { svg.innerHTML = ''; return; }
@@ -2623,42 +2693,128 @@
     const pts = [];
     series.forEach((v, i) => { if (v !== null) pts.push([padL + i * stepX, padT + plotH - ((v - minV) / (maxV - minV)) * plotH, i, v]); });
     let out = '';
+    // Two recessive gridlines (max/min) with value labels — at 140px tall there's room to give the
+    // trend actual scale context, unlike the old 60px sparkline which had none.
+    [0, 1].forEach(g => {
+      const y = padT + plotH * g;
+      const v = maxV - (maxV - minV) * g;
+      out += `<line x1="${padL}" y1="${y.toFixed(1)}" x2="${W - padR}" y2="${y.toFixed(1)}" stroke="#eef1f3" stroke-width="1"></line>`;
+      out += `<text x="${padL - 6}" y="${(y + 3).toFixed(1)}" text-anchor="end" font-size="9" fill="#8b8b8b">${PM_fmtCompactNum(v)}</text>`;
+    });
     if (pts.length > 1) {
       const areaPath = 'M' + pts.map(p => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' L') + ` L${pts[pts.length - 1][0]},${padT + plotH} L${pts[0][0]},${padT + plotH} Z`;
       out += `<path d="${areaPath}" fill="${color}" opacity="0.1"></path>`;
       out += `<path d="M${pts.map(p => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' L')}" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>`;
     }
-    pts.forEach(([x, y, i, v]) => { out += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="2.6" fill="${color}" data-tt="${months[i]}" data-ttv="${PM_fmtCompactNum(v)}"></circle>`; });
-    months.forEach((m, i) => { const x = padL + i * stepX; out += `<text x="${x}" y="${H - 3}" text-anchor="middle" font-size="8.5" fill="#b0b0b0">${m.split(' ')[0].slice(0, 3)}</text>`; });
+    pts.forEach(([x, y, i, v]) => { out += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="3.2" fill="${color}" data-tt="${months[i]}" data-ttv="${PM_fmtCompactNum(v)}"></circle>`; });
+    months.forEach((m, i) => { const x = padL + i * stepX; out += `<text x="${x}" y="${H - 5}" text-anchor="middle" font-size="9" fill="#b0b0b0">${m.split(' ')[0].slice(0, 3)}</text>`; });
+    svg.innerHTML = out;
+  }
+  // Índice a 100 en el primer valor real disponible — así dos métricas de escalas muy distintas
+  // (ej. Impresiones en millones vs. Alcance en cientos de miles) se pueden comparar de forma honesta
+  // en un solo eje (% de crecimiento desde el arranque), en vez de un eje doble que puede sugerir una
+  // correlación que no existe solo por cómo se escaló cada eje por separado.
+  function PM_indexTo100(series) {
+    const base = series.find(v => v !== null && v !== 0);
+    if (base === undefined || base === null) return series.map(() => null);
+    return series.map(v => (v === null ? null : (v / base) * 100));
+  }
+  function PM_drawObjMetricTrendCompare(svgId, seriesA, seriesB, months, colorA, colorB, labelA, labelB) {
+    const svg = document.getElementById(svgId);
+    if (!svg) return;
+    const idxA = PM_indexTo100(seriesA), idxB = PM_indexTo100(seriesB);
+    const W = 1080, H = 140, padL = 40, padR = 8, padT = 26, padB = 20;
+    const plotW = W - padL - padR, plotH = H - padT - padB;
+    const allIdx = [...idxA, ...idxB].filter(v => v !== null);
+    if (!allIdx.length) { svg.innerHTML = ''; return; }
+    const maxV = Math.max(...allIdx, 100) * 1.1, minV = Math.min(Math.min(...allIdx, 100) * 0.9, 90);
+    const stepX = plotW / (months.length - 1);
+    const scaleY = v => padT + plotH - ((v - minV) / (maxV - minV)) * plotH;
+    let out = '';
+    [0, 1].forEach(g => {
+      const y = padT + plotH * g;
+      const v = maxV - (maxV - minV) * g;
+      out += `<line x1="${padL}" y1="${y.toFixed(1)}" x2="${W - padR}" y2="${y.toFixed(1)}" stroke="#eef1f3" stroke-width="1"></line>`;
+      out += `<text x="${padL - 6}" y="${(y + 3).toFixed(1)}" text-anchor="end" font-size="9" fill="#8b8b8b">${v.toFixed(0)}%</text>`;
+    });
+    if (100 > minV && 100 < maxV) {
+      const y100 = scaleY(100);
+      out += `<line x1="${padL}" y1="${y100.toFixed(1)}" x2="${W - padR}" y2="${y100.toFixed(1)}" stroke="#d8d8dc" stroke-width="1" stroke-dasharray="3 3"></line>`;
+    }
+    const buildPts = idx => { const pts = []; idx.forEach((v, i) => { if (v !== null) pts.push([padL + i * stepX, scaleY(v), i, v]); }); return pts; };
+    const ptsA = buildPts(idxA), ptsB = buildPts(idxB);
+    if (ptsA.length > 1) out += `<path d="M${ptsA.map(p => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' L')}" fill="none" stroke="${colorA}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>`;
+    if (ptsB.length > 1) out += `<path d="M${ptsB.map(p => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' L')}" fill="none" stroke="${colorB}" stroke-width="2.2" stroke-dasharray="5 3" stroke-linecap="round" stroke-linejoin="round"></path>`;
+    ptsA.forEach(([x, y, i, v]) => { out += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="3" fill="${colorA}" data-tt="${months[i]}" data-ttv="${labelA}: ${v.toFixed(0)}% (indexado)"></circle>`; });
+    ptsB.forEach(([x, y, i, v]) => { out += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="3" fill="#fff" stroke="${colorB}" stroke-width="1.8" data-tt="${months[i]}" data-ttv="${labelB}: ${v.toFixed(0)}% (indexado)"></circle>`; });
+    months.forEach((m, i) => { const x = padL + i * stepX; out += `<text x="${x}" y="${H - 5}" text-anchor="middle" font-size="9" fill="#b0b0b0">${m.split(' ')[0].slice(0, 3)}</text>`; });
+    out += `<circle cx="${padL}" cy="12" r="3.5" fill="${colorA}"></circle><text x="${padL + 8}" y="15.5" font-size="9.5" font-weight="700" fill="${colorA}">${labelA}</text>`;
+    const lx2 = padL + 22 + labelA.length * 6.3;
+    out += `<circle cx="${lx2}" cy="12" r="3.5" fill="#fff" stroke="${colorB}" stroke-width="1.8"></circle><text x="${lx2 + 8}" y="15.5" font-size="9.5" font-weight="700" fill="${colorB}">${labelB}</text>`;
     svg.innerHTML = out;
   }
   function PM_renderObjMetricPanel(g, viewMonth, cmpMonth) {
     const valueEl = document.getElementById('pm-metricValue' + g);
     if (!valueEl) return;
     const metricKey = PM_activeObjMetric[g];
+    const metricKey2 = PM_activeObjMetric2[g];
     const deltaEl = document.getElementById('pm-metricDelta' + g);
     const viewVal = PM_objMetricRaw(g, viewMonth, metricKey);
     const cmpVal = PM_objMetricRaw(g, cmpMonth, metricKey);
     const delta = (viewVal !== null && cmpVal !== null) ? relDelta(viewVal, cmpVal) : null;
     crossfade(valueEl, () => { valueEl.textContent = PM_OBJ_METRIC_LABEL[metricKey] + ': ' + PM_fmtObjMetric(metricKey, viewVal); });
     crossfade(deltaEl, () => { deltaEl.textContent = deltaText(delta); deltaStyle(deltaEl, delta); });
-    const series = PM_ALL_2026_MONTHS.map(m => PM_objMetricRaw(g, m, metricKey));
-    PM_drawObjMetricTrend('pm-metricTrend' + g, series, PM_ALL_2026_MONTHS, PM_OBJ_COLOR[g]);
+
+    const value2RowEl = document.getElementById('pm-metricValueRow' + g + 'B');
+    const value2El = document.getElementById('pm-metricValue' + g + 'B');
+    const delta2El = document.getElementById('pm-metricDelta' + g + 'B');
+    const explainEl = document.getElementById('pm-metricExplain' + g);
+
+    if (metricKey2) {
+      const viewVal2 = PM_objMetricRaw(g, viewMonth, metricKey2);
+      const cmpVal2 = PM_objMetricRaw(g, cmpMonth, metricKey2);
+      const delta2 = (viewVal2 !== null && cmpVal2 !== null) ? relDelta(viewVal2, cmpVal2) : null;
+      if (value2RowEl) value2RowEl.style.display = '';
+      if (value2El) crossfade(value2El, () => { value2El.textContent = PM_OBJ_METRIC_LABEL[metricKey2] + ': ' + PM_fmtObjMetric(metricKey2, viewVal2); });
+      if (delta2El) crossfade(delta2El, () => { delta2El.textContent = deltaText(delta2); deltaStyle(delta2El, delta2); });
+      if (explainEl) explainEl.style.display = '';
+      const seriesA = PM_ALL_2026_MONTHS.map(m => PM_objMetricRaw(g, m, metricKey));
+      const seriesB = PM_ALL_2026_MONTHS.map(m => PM_objMetricRaw(g, m, metricKey2));
+      PM_drawObjMetricTrendCompare('pm-metricTrend' + g, seriesA, seriesB, PM_ALL_2026_MONTHS, PM_OBJ_COLOR[g], PM_METRIC2_COLOR, PM_OBJ_METRIC_LABEL[metricKey], PM_OBJ_METRIC_LABEL[metricKey2]);
+    } else {
+      if (value2RowEl) value2RowEl.style.display = 'none';
+      if (explainEl) explainEl.style.display = 'none';
+      const series = PM_ALL_2026_MONTHS.map(m => PM_objMetricRaw(g, m, metricKey));
+      PM_drawObjMetricTrend('pm-metricTrend' + g, series, PM_ALL_2026_MONTHS, PM_OBJ_COLOR[g]);
+    }
   }
   function PM_renderAllObjMetricPanels(viewMonth, cmpMonth) {
     ['Season', 'Establecimientos', 'Onboarding'].forEach(g => PM_renderObjMetricPanel(g, viewMonth, cmpMonth));
   }
   ['Season', 'Establecimientos', 'Onboarding'].forEach(g => {
     const filterEl = document.getElementById('pm-metricFilter' + g);
-    if (!filterEl) return;
-    filterEl.querySelectorAll('.obj-filter-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        filterEl.querySelectorAll('.obj-filter-btn').forEach(b => b.dataset.active = 'false');
-        btn.dataset.active = 'true';
-        PM_activeObjMetric[g] = btn.getAttribute('data-metric');
-        PM_renderObjMetricPanel(g, PM_viewSel.value, PM_cmpSel.value);
+    if (filterEl) {
+      filterEl.querySelectorAll('.obj-filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          filterEl.querySelectorAll('.obj-filter-btn').forEach(b => b.dataset.active = 'false');
+          btn.dataset.active = 'true';
+          PM_activeObjMetric[g] = btn.getAttribute('data-metric');
+          PM_renderObjMetricPanel(g, PM_viewSel.value, PM_cmpSel.value);
+        });
       });
-    });
+    }
+    const filterEl2 = document.getElementById('pm-metricFilter' + g + 'B');
+    if (filterEl2) {
+      filterEl2.querySelectorAll('.obj-filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          filterEl2.querySelectorAll('.obj-filter-btn').forEach(b => b.dataset.active = 'false');
+          btn.dataset.active = 'true';
+          const m = btn.getAttribute('data-metric');
+          PM_activeObjMetric2[g] = m === 'none' ? null : m;
+          PM_renderObjMetricPanel(g, PM_viewSel.value, PM_cmpSel.value);
+        });
+      });
+    }
   });
   // Tab 3 is entirely about the Digital budget (Meta/Google/TikTok/DV360) — TV/Radio/print/Eventos
   // belong to the Paid Media channel mix, not here, so this ranking only ever spans the 4 platforms.
@@ -3140,6 +3296,27 @@
   // Cost per stage — CPM for impressions, CPC for clicks, cost-per-reach for alcance, cost-per-
   // conversion for the final stage(s) — all from the SAME `spend` anchor already on the funnel object,
   // so they can never drift out of sync with the volume numbers next to them.
+  // True Views (video-tracked impressions) — derived from VTR already computed per platform in Tab 3
+  // (PM_PERF_BASE/PM_computePerfMetric, real reactive data, nothing invented here) applied to this
+  // objective's own channel mix (PM_GOAL_CONTRIB). Only Meta/Google/TikTok report VTR in this model —
+  // TV and Digital propio have no video-completion tracking, so their share of impresiones is excluded
+  // rather than assumed to behave like the tracked channels, and the resulting coverage% is surfaced
+  // inline instead of silently blending in untracked inventory.
+  const PM_VTR_ELIGIBLE = ['Meta', 'Google', 'TikTok'];
+  function PM_trueViews(impresiones, g, vd, snapshotKey, medioFilter) {
+    if (impresiones === null || impresiones === undefined || !vd) return null;
+    if (medioFilter && medioFilter !== 'ALL') {
+      if (!PM_VTR_ELIGIBLE.includes(medioFilter)) return null;
+      return { value: impresiones * (PM_computePerfMetric(medioFilter, 'vtr', vd) / 100), coverage: 100 };
+    }
+    const contribSet = PM_GOAL_CONTRIB[g] && PM_GOAL_CONTRIB[g][snapshotKey];
+    if (!contribSet) return null;
+    const eligible = PM_VTR_ELIGIBLE.filter(p => contribSet[p] !== undefined);
+    if (!eligible.length) return null;
+    const coverage = eligible.reduce((s, p) => s + contribSet[p], 0);
+    const value = eligible.reduce((s, p) => s + impresiones * (contribSet[p] / 100) * (PM_computePerfMetric(p, 'vtr', vd) / 100), 0);
+    return { value, coverage };
+  }
   function PM_stageCostValue(key, v, spend) {
     if (!spend || !v) return null;
     return key === 'impresiones' ? (spend / v * 1000) : (spend / v);
@@ -3161,9 +3338,12 @@
   }
   // Shared row markup — laid out as equal vertical shares of the funnel's total height (via CSS flex
   // on .funnel-rows-aligned/.funnel-row) so each name+value+deltas sits at the SAME eye-level as its
-  // band in the adjacent SVG, beside it, never below or above the shape as a whole.
+  // band in the adjacent SVG, beside it, never below or above the shape as a whole. Cost/CVR/frequency
+  // used to run inline here as one crammed text line per row (illegible once a stage had both a cost
+  // and a CVR figure) — moved to PM_funnelMetricsTableHtml below, a companion table with its own column
+  // per secondary metric, so this row keeps only the primary flow: name, value, deltas.
   function PM_funnelRowsHtml(stages, vF, cF, yF, ctx, color) {
-    const rows = stages.map((s, i) => {
+    const rows = stages.map((s) => {
       const v = vF[s.key], c = cF ? cF[s.key] : null, y = yF ? yF[s.key] : null;
       const d = relDelta(v, c);
       const dy = y !== null && y !== undefined ? relDelta(v, y) : null;
@@ -3173,28 +3353,11 @@
         : (yF ? (dy !== null ? `<span class="channel-legend-delta-yoy ${dy >= 0 ? 'good' : 'bad'}" style="margin-top:0;">${deltaText(dy)} vs. ${ctx.yoyMonth} (AA)</span>` : '')
               : `<span class="channel-legend-delta-yoy" style="margin-top:0;">Sin histórico (año anterior)</span>`);
 
-      const costVal = PM_stageCostValue(s.key, v, vF.spend);
-      const costValCmp = cF ? PM_stageCostValue(s.key, c, cF.spend) : null;
-      const costValYoy = yF ? PM_stageCostValue(s.key, y, yF.spend) : null;
-      const costLabel = costVal !== null
-        ? `${PM_stageCostPrefix(s.key)} $${costVal.toFixed(2)} ${PM_smallDeltaHtml(costVal, costValCmp, costValYoy, false)}`.trim() : '';
-
-      const prevV = i > 0 ? vF[stages[i - 1].key] : null;
-      const cvr = prevV ? (v / prevV * 100) : null;
-      const prevVCmp = i > 0 && cF ? cF[stages[i - 1].key] : null;
-      const cvrCmp = (cF && prevVCmp) ? (c / prevVCmp * 100) : null;
-      const prevVYoy = i > 0 && yF ? yF[stages[i - 1].key] : null;
-      const cvrYoy = (yF && prevVYoy) ? (y / prevVYoy * 100) : null;
-      const cvrLabel = cvr !== null
-        ? `${cvr.toFixed(1)}% CVR desde ${stages[i - 1].label} ${PM_smallDeltaHtml(cvr, cvrCmp, cvrYoy, true)} · ▼${(100 - cvr).toFixed(1)}% caída`.replace('  ', ' ') : '';
-
-      const metaLine = [costLabel, cvrLabel].filter(Boolean).join(' · ');
       return `<div class="funnel-row">
         <div class="funnel-row-head">
           <span class="funnel-stage-name">${s.label}${s.withFreq ? `<span class="funnel-freq">· Frecuencia ${vF.frecuencia.toFixed(1)}×</span>` : ''}</span>
           <span class="funnel-stage-value">${PM_fmtCompactNum(v)}</span>
         </div>
-        ${metaLine ? `<div class="funnel-row-meta">${metaLine}</div>` : ''}
         <div class="funnel-deltas">
           <span class="delta-chip fx" style="background:${chipBg};color:${chipColor};">${deltaText(d)} vs. ${ctx.cmpMonth}</span>
           ${yoyHtml}
@@ -3202,6 +3365,57 @@
       </div>`;
     }).join('');
     return `<div class="funnel-rows-aligned">${rows}</div>`;
+  }
+  // Companion table for the secondary per-stage metrics (cost-per-unit, conversion rate desde la etapa
+  // previa, frecuencia, true views) — each gets its own column so they read at a glance instead of one
+  // concatenated string per stage. Reuses the exact same PM_stageCostValue/PM_smallDeltaHtml/PM_trueViews
+  // calcs the rows used to inline, so the numbers can never drift from what the funnel above shows.
+  function PM_funnelMetricsTableHtml(stages, vF, cF, yF, g, vd, cd, yd, medioFilter) {
+    const rows = stages.map((s, i) => {
+      const v = vF[s.key], c = cF ? cF[s.key] : null, y = yF ? yF[s.key] : null;
+
+      const costVal = PM_stageCostValue(s.key, v, vF.spend);
+      const costValCmp = cF ? PM_stageCostValue(s.key, c, cF.spend) : null;
+      const costValYoy = yF ? PM_stageCostValue(s.key, y, yF.spend) : null;
+      const costCell = costVal !== null
+        ? `<span class="funnel-tbl-sub">${PM_stageCostPrefix(s.key)}</span><span class="funnel-tbl-val">$${costVal.toFixed(2)}</span><span class="funnel-tbl-delta">${PM_smallDeltaHtml(costVal, costValCmp, costValYoy, false)}</span>`
+        : '<span class="funnel-tbl-empty">—</span>';
+
+      const prevV = i > 0 ? vF[stages[i - 1].key] : null;
+      const cvr = prevV ? (v / prevV * 100) : null;
+      const prevVCmp = i > 0 && cF ? cF[stages[i - 1].key] : null;
+      const cvrCmp = (cF && prevVCmp) ? (c / prevVCmp * 100) : null;
+      const prevVYoy = i > 0 && yF ? yF[stages[i - 1].key] : null;
+      const cvrYoy = (yF && prevVYoy) ? (y / prevVYoy * 100) : null;
+      const cvrCell = cvr !== null
+        ? `<span class="funnel-tbl-val">${cvr.toFixed(1)}%</span><span class="funnel-tbl-sub">desde ${stages[i - 1].label}</span><span class="funnel-tbl-delta">${PM_smallDeltaHtml(cvr, cvrCmp, cvrYoy, true)}</span>`
+        : '<span class="funnel-tbl-empty">—</span>';
+
+      const freqCell = s.withFreq ? `<span class="funnel-tbl-val">${vF.frecuencia.toFixed(1)}×</span>` : '<span class="funnel-tbl-empty">—</span>';
+
+      let trueViewsCell = '<span class="funnel-tbl-empty">—</span>';
+      if (s.key === 'impresiones') {
+        const tv = PM_trueViews(v, g, vd, 'view', medioFilter);
+        if (tv) {
+          const tvCmp = cF ? PM_trueViews(c, g, cd, 'cmp', medioFilter) : null;
+          const tvYoy = yF ? PM_trueViews(y, g, yd, 'yoy', medioFilter) : null;
+          const covNote = tv.coverage < 100 ? `<span class="funnel-tbl-sub">${Math.round(tv.coverage)}% cobertura</span>` : '';
+          trueViewsCell = `<span class="funnel-tbl-val">${PM_fmtCompactNum(tv.value)}</span>${covNote}<span class="funnel-tbl-delta">${PM_smallDeltaHtml(tv.value, tvCmp ? tvCmp.value : null, tvYoy ? tvYoy.value : null, true)}</span>`;
+        }
+      }
+
+      return `<tr>
+        <td class="funnel-tbl-stage">${s.label}</td>
+        <td>${freqCell}</td>
+        <td>${trueViewsCell}</td>
+        <td>${costCell}</td>
+        <td>${cvrCell}</td>
+      </tr>`;
+    }).join('');
+    return `<table class="funnel-metrics-table">
+      <thead><tr><th>Etapa</th><th>Frecuencia</th><th>True Views</th><th>Costo unitario</th><th>Tasa de conversión</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>`;
   }
   let PM_funnelActive = 'Season';
   let PM_funnelMedioActive = 'ALL';
@@ -3243,6 +3457,7 @@
               ${PM_funnelVisualHtml(values, color)}
               ${PM_funnelRowsHtml(stages, vF, cF, yF, ctx, color)}
             </div>
+            ${PM_funnelMetricsTableHtml(stages, vF, cF, yF, 'Onboarding', ctx.vd, ctx.cd, ctx.yd, medioKey)}
           </div>`;
         }).join('');
         container.innerHTML = `<div class="funnel-subgrid">${blocks}</div>`;
@@ -3258,7 +3473,7 @@
       const stages = vRes.stages;
       if (titleEl) titleEl.textContent = `${g2} · ${PM_MEDIO_LABEL[medioKey] || medioKey} — de impresión a conversión`;
       const values = stages.map(s => vF[s.key]);
-      container.innerHTML = `<div class="funnel-body">${PM_funnelVisualHtml(values, color)}${PM_funnelRowsHtml(stages, vF, cF, yF, ctx, color)}</div>`;
+      container.innerHTML = `<div class="funnel-body">${PM_funnelVisualHtml(values, color)}${PM_funnelRowsHtml(stages, vF, cF, yF, ctx, color)}</div>${PM_funnelMetricsTableHtml(stages, vF, cF, yF, g2, ctx.vd, ctx.cd, ctx.yd, medioKey)}`;
       PM_spawnFunnelDots(container.querySelector('[data-funnel-visual]'), values);
       return;
     }
@@ -3278,6 +3493,7 @@
             ${PM_funnelVisualHtml(values, sub.color)}
             ${PM_funnelRowsHtml(stages, vF, cF, yF, ctx, sub.color)}
           </div>
+          ${PM_funnelMetricsTableHtml(stages, vF, cF, yF, 'Onboarding', ctx.vd, ctx.cd, ctx.yd, 'ALL')}
         </div>`;
       }).join('');
       container.innerHTML = `<div class="funnel-subgrid">${blocks}</div>`;
@@ -3290,7 +3506,7 @@
     if (!vF) { container.innerHTML = '<div class="hero-caption">Sin datos para este periodo.</div>'; return; }
     const stages = PM_FUNNEL_STAGES[g2];
     const values = stages.map(s => vF[s.key]);
-    container.innerHTML = `<div class="funnel-body">${PM_funnelVisualHtml(values, PM_OBJ_COLOR[g2])}${PM_funnelRowsHtml(stages, vF, cF, yF, ctx, PM_OBJ_COLOR[g2])}</div>`;
+    container.innerHTML = `<div class="funnel-body">${PM_funnelVisualHtml(values, PM_OBJ_COLOR[g2])}${PM_funnelRowsHtml(stages, vF, cF, yF, ctx, PM_OBJ_COLOR[g2])}</div>${PM_funnelMetricsTableHtml(stages, vF, cF, yF, g2, ctx.vd, ctx.cd, ctx.yd, 'ALL')}`;
     PM_spawnFunnelDots(container.querySelector('[data-funnel-visual]'), values);
   }
   // Executive summary at the foot of Tab 2 — which channel works best per objective, the weakest
