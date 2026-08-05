@@ -617,6 +617,9 @@
   [data-page="own"] .channel-delta.bad { color: #EE0000; }
   [data-page="own"] .om-metric-stack { display: inline-flex; flex-direction: column; align-items: flex-end; gap: 2px; }
   [data-page="own"] .om-metric-top { display: flex; align-items: baseline; gap: 2px; }
+  [data-page="own"] .om-metric-abs { display: flex; align-items: baseline; gap: 4px; }
+  [data-page="own"] .om-metric-abs-value { font-size: 11px; font-weight: 700; color: #5C5C5C; font-variant-numeric: tabular-nums; }
+  [data-page="own"] .om-metric-abs-label { font-size: 9.5px; color: #a5a5a5; }
   [data-page="own"] .channel-delta-yoy { font-size: 8px; font-weight: 500; color: #8b8b8b; white-space: nowrap; }
   [data-page="own"] .channel-delta-yoy.good { color: #2E9560; }
   [data-page="own"] .channel-delta-yoy.bad { color: #DE5850; }
@@ -648,6 +651,13 @@
   [data-page="own"] .health-zone.bad { background: #f8dedb; }
   [data-page="own"] .health-bar-marker { position: absolute; top: -2px; width: 2px; height: 12px; border-radius: 1px; transform: translateX(-1px); transition: left 0.6s cubic-bezier(0.16,1,0.3,1); }
   [data-page="own"] .health-bar-value { width: 44px; flex: none; text-align: right; font-size: 11.5px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  [data-page="own"] .obj-filter { display: flex; gap: 6px; flex-wrap: wrap; }
+  [data-page="own"] .obj-filter-btn { font-size: 11px; font-weight: 600; padding: 6px 12px; border-radius: 999px; border: 1px solid #e2e0ea; background: #fff; color: #6b6b6b; cursor: pointer; transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease; }
+  [data-page="own"] .obj-filter-btn:hover { background: #F8F7FC; }
+  [data-page="own"] .obj-filter-btn:focus-visible { outline: 2px solid #6E93B0; outline-offset: 1px; }
+  [data-page="own"] .obj-filter-btn[data-active="true"] { background: #6E93B0; border-color: #6E93B0; color: #fff; }
+  [data-page="own"] .om-trend-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; margin-bottom: 12px; flex-wrap: wrap; }
+  [data-page="own"] .om-trend-controls { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
 </style>
 </head>
 <body>
@@ -1329,10 +1339,9 @@
           </span>
           <span class="channel-card-name">Email</span>
         </div>
-        <div class="channel-metric-row"><span class="channel-metric-label">Aperturas</span><span class="fx" id="om-chEmailAperturas"><span class="channel-metric-value">45,200</span><span class="channel-delta good" id="om-dEmailAperturas">▲ +8%</span></span></div>
-        <div class="channel-metric-row"><span class="channel-metric-label">Tasa de apertura</span><span class="fx" id="om-chEmailTasaApertura"><span class="channel-metric-value">28.4%</span><span class="channel-delta good" id="om-dEmailTasaApertura">▲ +2.1pp</span></span></div>
-        <div class="channel-metric-row"><span class="channel-metric-label">CTR</span><span class="fx" id="om-chEmailCTR"><span class="channel-metric-value">3.2%</span><span class="channel-delta good" id="om-dEmailCTR">▲ +0.4pp</span></span></div>
-        <div class="channel-metric-row"><span class="channel-metric-label">Tasa de clics (sobre abiertos)</span><span class="channel-metric-value">11.3%</span></div>
+        <div class="channel-metric-row"><span class="channel-metric-label">Tasa de apertura (OR)</span><span class="fx" id="om-chEmailTasaApertura"></span></div>
+        <div class="channel-metric-row"><span class="channel-metric-label">Tasa de clics únicos (CTR)</span><span class="fx" id="om-chEmailCTR"></span></div>
+        <div class="channel-metric-row"><span class="channel-metric-label">Tasa de clics sobre abiertos (CTOR)</span><span class="fx" id="om-chEmailCTOR"><span class="channel-metric-value">11.3%</span></span></div>
       </div>
 
       <div class="zone zone-pad">
@@ -1342,8 +1351,8 @@
           </span>
           <span class="channel-card-name">SMS</span>
         </div>
-        <div class="channel-metric-row"><span class="channel-metric-label">Entregabilidad</span><span class="fx" id="om-chSMSEntrega"><span class="channel-metric-value">97.8%</span><span class="channel-delta good" id="om-dSMSEntrega">▲ +0.5pp</span></span></div>
-        <div class="channel-metric-row"><span class="channel-metric-label">CTR</span><span class="fx" id="om-chSMSCTR"><span class="channel-metric-value">4.1%</span><span class="channel-delta good" id="om-dSMSCTR">▲ +0.3pp</span></span></div>
+        <div class="channel-metric-row"><span class="channel-metric-label">Entregabilidad</span><span class="fx" id="om-chSMSEntrega"></span></div>
+        <div class="channel-metric-row"><span class="channel-metric-label">Tasa de clics únicos (CTR)</span><span class="fx" id="om-chSMSCTR"></span></div>
         <div class="channel-metric-row"><span class="channel-metric-label" style="font-style:italic;">Solo aplica al 62% de envíos con enlace</span></div>
       </div>
 
@@ -1354,8 +1363,8 @@
           </span>
           <span class="channel-card-name">Push</span>
         </div>
-        <div class="channel-metric-row"><span class="channel-metric-label">Entrega</span><span class="fx" id="om-chPushEntrega"><span class="channel-metric-value">94.5%</span><span class="channel-delta bad" id="om-dPushEntrega">▼ -1.2pp</span></span></div>
-        <div class="channel-metric-row"><span class="channel-metric-label">CTR</span><span class="fx" id="om-chPushCTR"><span class="channel-metric-value">6.8%</span><span class="channel-delta good" id="om-dPushCTR">▲ +0.9pp</span></span></div>
+        <div class="channel-metric-row"><span class="channel-metric-label">Entrega</span><span class="fx" id="om-chPushEntrega"></span></div>
+        <div class="channel-metric-row"><span class="channel-metric-label">Tasa de clics únicos (CTR)</span><span class="fx" id="om-chPushCTR"></span></div>
       </div>
 
       <div class="zone zone-pad">
@@ -1365,9 +1374,8 @@
           </span>
           <span class="channel-card-name">WhatsApp</span>
         </div>
-        <div class="channel-metric-row"><span class="channel-metric-label">Apertura (lectura)</span><span class="fx" id="om-chWspApertura"><span class="channel-metric-value">89.2%</span><span class="channel-delta good" id="om-dWspApertura">▲ +3.4pp</span></span></div>
-        <div class="channel-metric-row"><span class="channel-metric-label">Clics</span><span class="fx" id="om-chWspClics"><span class="channel-metric-value">1,840</span></span></div>
-        <div class="channel-metric-row"><span class="channel-metric-label">CTR</span><span class="channel-metric-value">5.4%</span></div>
+        <div class="channel-metric-row"><span class="channel-metric-label">Apertura (lectura)</span><span class="fx" id="om-chWspApertura"></span></div>
+        <div class="channel-metric-row"><span class="channel-metric-label">Tasa de clics únicos (CTR)</span><span class="fx" id="om-chWspCTR"></span></div>
         <div class="channel-metric-row"><span class="channel-metric-label" style="font-style:italic;">CTR solo si el mensaje tiene enlace</span></div>
       </div>
     </div>
@@ -1377,10 +1385,10 @@
         <svg width="120" height="120" viewBox="0 0 120 120" id="om-shareSvg"></svg>
         <div style="flex:1;">
           <div class="zone-title" style="margin-bottom:8px;">Share de medios (envíos)</div>
-          <div class="mix-legend-row"><span class="om-net-icon" id="om-iconEmail"></span><span class="mix-name">Email</span><span class="mix-pct fx" id="om-sharePctEmail">45%</span></div>
-          <div class="mix-legend-row"><span class="om-net-icon" id="om-iconPush"></span><span class="mix-name">Push</span><span class="mix-pct fx" id="om-sharePctPush">25%</span></div>
-          <div class="mix-legend-row"><span class="om-net-icon" id="om-iconSMS"></span><span class="mix-name">SMS</span><span class="mix-pct fx" id="om-sharePctSMS">20%</span></div>
-          <div class="mix-legend-row"><span class="om-net-icon" id="om-iconWhatsApp"></span><span class="mix-name">WhatsApp</span><span class="mix-pct fx" id="om-sharePctWhatsApp">10%</span></div>
+          <div class="mix-legend-row"><span class="om-net-icon" id="om-iconEmail"></span><span class="mix-name">Email</span><span class="mix-num fx" id="om-shareNumEmail">146,614</span><span class="mix-pct fx" id="om-sharePctEmail">45%</span></div>
+          <div class="mix-legend-row"><span class="om-net-icon" id="om-iconPush"></span><span class="mix-name">Push</span><span class="mix-num fx" id="om-shareNumPush">81,452</span><span class="mix-pct fx" id="om-sharePctPush">25%</span></div>
+          <div class="mix-legend-row"><span class="om-net-icon" id="om-iconSMS"></span><span class="mix-name">SMS</span><span class="mix-num fx" id="om-shareNumSMS">65,161</span><span class="mix-pct fx" id="om-sharePctSMS">20%</span></div>
+          <div class="mix-legend-row"><span class="om-net-icon" id="om-iconWhatsApp"></span><span class="mix-name">WhatsApp</span><span class="mix-num fx" id="om-shareNumWhatsApp">32,581</span><span class="mix-pct fx" id="om-sharePctWhatsApp">10%</span></div>
         </div>
       </div>
       <div class="zone zone-pad">
@@ -1388,6 +1396,56 @@
         <div class="zone-title" style="margin-bottom:8px;">Análisis resumen</div>
         <div class="fx" id="om-t1Summary" style="font-size:12.5px;line-height:1.65;color:#3d3d3d;"></div>
       </div>
+    </div>
+
+    <div class="zone zone-pad" style="margin-top:14px;">
+      <div class="om-trend-head">
+        <div>
+          <div class="zone-label">Email · tendencia 2026</div>
+          <div class="zone-title" style="margin-bottom:0;">Performance</div>
+        </div>
+        <div class="om-trend-controls">
+          <div class="obj-filter" id="om-perfMetricFilter">
+            <button class="obj-filter-btn" data-metric="envios">Envíos</button>
+            <button class="obj-filter-btn" data-metric="aperturas" data-active="true">Aperturas</button>
+            <button class="obj-filter-btn" data-metric="clics">Clics</button>
+            <button class="obj-filter-btn" data-metric="or">OR</button>
+            <button class="obj-filter-btn" data-metric="ctr">CTR</button>
+          </div>
+          <div class="obj-filter" id="om-perfGranFilter">
+            <button class="obj-filter-btn" data-gran="mes" data-active="true">Mes</button>
+            <button class="obj-filter-btn" data-gran="semana">Semana</button>
+            <button class="obj-filter-btn" data-gran="dia">Día</button>
+          </div>
+        </div>
+      </div>
+      <svg width="100%" height="180" viewBox="0 0 1080 180" id="om-perfTrendSvg" preserveAspectRatio="none"></svg>
+      <div class="section-note" style="margin-top:8px;margin-bottom:0;">Envíos/Clics de Email se derivan de Aperturas, OR y CTR ya reales — no son un dato adicional.</div>
+    </div>
+
+    <div class="zone zone-pad" style="margin-top:14px;">
+      <div class="om-trend-head">
+        <div>
+          <div class="zone-label">Email · tendencia 2026</div>
+          <div class="zone-title" style="margin-bottom:0;">Cuidado del canal</div>
+        </div>
+        <div class="om-trend-controls">
+          <div class="obj-filter" id="om-careMetricFilter">
+            <button class="obj-filter-btn" data-metric="reboteDuro">Rebotes duros</button>
+            <button class="obj-filter-btn" data-metric="reboteSuave">Rebotes suaves</button>
+            <button class="obj-filter-btn" data-metric="tasaRebote" data-active="true">Tasa de rebote</button>
+            <button class="obj-filter-btn" data-metric="spam">Spam</button>
+            <button class="obj-filter-btn" data-metric="unsub">Unsubscribe</button>
+          </div>
+          <div class="obj-filter" id="om-careGranFilter">
+            <button class="obj-filter-btn" data-gran="mes" data-active="true">Mes</button>
+            <button class="obj-filter-btn" data-gran="semana">Semana</button>
+            <button class="obj-filter-btn" data-gran="dia">Día</button>
+          </div>
+        </div>
+      </div>
+      <svg width="100%" height="180" viewBox="0 0 1080 180" id="om-careTrendSvg" preserveAspectRatio="none"></svg>
+      <div class="section-note" style="margin-top:8px;margin-bottom:0;">Estimado a partir de la tendencia real de apertura de Email (a mejor apertura, lista más sana), anclado al dato real de Junio 2026 — Semana/Día son interpolación, no reporte exacto por día.</div>
     </div>
   </div>
 
@@ -4377,6 +4435,25 @@
   const OM_CHANNEL_COLOR = { Email: '#6E93B0', Push: '#4F52E5', SMS: '#2563EB', WhatsApp: '#00618C' };
   const OM_yoyMonth = m => m.includes('2026') ? m.replace('2026', '2025') : null;
 
+  /* ================= TOTALES ABSOLUTOS POR CANAL — derivados de las tasas + share ya reales (nunca
+     autorados aparte): Email ya trae aperturas absolutas y OR%, así que envios = aperturas / OR% da el
+     total de envíos de Email; share.Email% da el total de envíos de TODOS los canales; de ahí se escala
+     el envío de cada canal por su propio share%. SMS/Push aplican entrega%/CTR% sobre ese envío para
+     llegar a entregados/clics; WhatsApp ya tenía clics reales, solo le faltaba envíos/leídos. ================= */
+  function OM_emailSends(vd) { return vd.email.aperturas / (vd.email.tasaApertura / 100); }
+  function OM_totalSends(vd) { return OM_emailSends(vd) / (vd.share.Email / 100); }
+  function OM_channelSends(vd, channel) { return OM_totalSends(vd) * (vd.share[channel] / 100); }
+  function OM_emailClics(vd) { return OM_emailSends(vd) * (vd.email.ctr / 100); }
+  function OM_ctor(vd) { return (vd.email.ctr / vd.email.tasaApertura) * 100; } // CTOR = clics / aperturas
+  function OM_smsSendsWithLink(vd) { return OM_channelSends(vd, 'SMS') * 0.62; } // "Solo aplica al 62% de envíos con enlace"
+  function OM_smsDelivered(vd) { return OM_channelSends(vd, 'SMS') * (vd.sms.entrega / 100); }
+  function OM_smsClics(vd) { return OM_smsSendsWithLink(vd) * (vd.sms.ctr / 100); }
+  function OM_pushDelivered(vd) { return OM_channelSends(vd, 'Push') * (vd.push.entrega / 100); }
+  function OM_pushClics(vd) { return OM_pushDelivered(vd) * (vd.push.ctr / 100); }
+  function OM_wspSends(vd) { return OM_channelSends(vd, 'WhatsApp'); }
+  function OM_wspLeidos(vd) { return OM_wspSends(vd) * (vd.wsp.apertura / 100); }
+  function OM_wspCtr(vd) { return (vd.wsp.clics / OM_wspSends(vd)) * 100; }
+
   /* ================= ICONOS DE CANAL (reutiliza los SVG de las tarjetas de cabecera) ================= */
   const OM_CHANNEL_ICON_BG = { Email: 'rgba(110,147,176,0.12)', Push: 'rgba(79,82,229,0.12)', SMS: 'rgba(37,99,235,0.14)', WhatsApp: 'rgba(0,97,140,0.12)' };
   const OM_CHANNEL_ICON = {
@@ -4398,6 +4475,22 @@
     const yoyText = hasYoy ? `AA: ${yoyVal >= 0 ? '▲ +' : '▼ '}${Math.abs(Math.round(yoyVal * 10) / 10)}${unit}` : 'AA: Sin histórico';
     return `<span class="om-metric-stack">
       <span class="om-metric-top"><span class="channel-metric-value">${nowStr}</span>${mesChip}</span>
+      <span class="channel-delta-yoy ${yoyCls}">${yoyText}</span>
+    </span>`;
+  }
+  /* Fila combinada tasa+total — antes vivían en dos filas separadas del recuadro (ej. Aperturas absolutas
+     arriba, Tasa de apertura % abajo); el feedback pidió unificarlas en la misma caja para no separar
+     una tasa de su número total. Muestra: %/tasa + su delta de mes (arriba), número total + su propio
+     delta de mes (línea media, atenuada), AA de la tasa (abajo, mismo criterio que OM_metricHTML). */
+  function OM_metricComboHTML(pctStr, pctDeltaVal, pctYoyVal, pctUnit, absStr, absLabel, absDeltaVal) {
+    const pctChip = OM_deltaChipHTML(pctDeltaVal, pctUnit);
+    const hasYoy = pctYoyVal !== null && pctYoyVal !== undefined && !isNaN(pctYoyVal);
+    const yoyCls = hasYoy ? (pctYoyVal >= 0 ? 'good' : 'bad') : '';
+    const yoyText = hasYoy ? `AA: ${pctYoyVal >= 0 ? '▲ +' : '▼ '}${Math.abs(Math.round(pctYoyVal * 10) / 10)}${pctUnit}` : 'AA: Sin histórico';
+    const absChip = OM_deltaChipHTML(absDeltaVal, '%');
+    return `<span class="om-metric-stack">
+      <span class="om-metric-top"><span class="channel-metric-value">${pctStr}</span>${pctChip}</span>
+      <span class="om-metric-abs"><span class="om-metric-abs-value">${absStr}</span><span class="om-metric-abs-label">${absLabel}</span>${absChip}</span>
       <span class="channel-delta-yoy ${yoyCls}">${yoyText}</span>
     </span>`;
   }
@@ -4541,6 +4634,140 @@
     svg.innerHTML = pieMarkup(order.map(k => ({ label: k, pct: share[k], color: OM_CHANNEL_COLOR[k] })), 120);
   }
 
+  /* ================= EMAIL — TENDENCIAS 2026 (Performance y Cuidado) ================= */
+  const OM_fmtCompactNum = n => n >= 1000000 ? (n / 1000000).toFixed(2) + 'M' : (n >= 1000 ? Math.round(n / 1000) + 'K' : Math.round(n).toLocaleString('en-US'));
+  const OM_PERF_MONTHS = ['Enero 2026', 'Febrero 2026', 'Marzo 2026', 'Abril 2026', 'Mayo 2026', 'Junio 2026'];
+  const OM_PERF_MONTH_LABELS = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'];
+  // Envíos y Clics no son un dato adicional: se derivan de Aperturas/OR/CTR ya reales (OM_emailSends/
+  // OM_emailClics, las mismas funciones que alimentan las tarjetas de arriba) — una sola fuente de verdad.
+  const OM_PERF_SERIES = {
+    envios: OM_PERF_MONTHS.map(m => OM_emailSends(OM_MONTH_DATA[m])),
+    aperturas: OM_PERF_MONTHS.map(m => OM_MONTH_DATA[m].email.aperturas),
+    clics: OM_PERF_MONTHS.map(m => OM_emailClics(OM_MONTH_DATA[m])),
+    or: OM_PERF_MONTHS.map(m => OM_MONTH_DATA[m].email.tasaApertura),
+    ctr: OM_PERF_MONTHS.map(m => OM_MONTH_DATA[m].email.ctr),
+  };
+  const OM_PERF_METRIC_META = {
+    envios: { label: 'Envíos', unit: 'count' }, aperturas: { label: 'Aperturas', unit: 'count' },
+    clics: { label: 'Clics', unit: 'count' }, or: { label: 'OR', unit: 'pct' }, ctr: { label: 'CTR', unit: 'pct' },
+  };
+  // Salud del canal (rebotes/spam/unsubscribe) no tiene serie mensual real — solo un ancla real de Junio
+  // (OM_HEALTH.Email: Rebotes 1.8%, Spam 0.3%). Se deriva el resto del año atándolo a la tendencia REAL de
+  // OR (a mejor apertura, lista más sana) en vez de tipear 6 números nuevos a mano; Unsubscribe usa la
+  // misma señal con un ancla propia porque no hay dato real de referencia para ese, ver nota en el chart.
+  const OM_CARE_HARD_SHARE = 0.65; // proporción típica de rebote duro dentro del rebote total
+  const OM_CARE_JUNE_OR = OM_MONTH_DATA['Junio 2026'].email.tasaApertura;
+  const OM_CARE_ANCHOR = { rebote: OM_HEALTH.Email.find(m => m.label === 'Rebotes').value, spam: OM_HEALTH.Email.find(m => m.label === 'Spam').value, unsub: 0.45 };
+  function OM_careValue(monthKey, key) {
+    const factor = OM_CARE_JUNE_OR / OM_MONTH_DATA[monthKey].email.tasaApertura;
+    return OM_CARE_ANCHOR[key] * factor;
+  }
+  const OM_CARE_SERIES = {
+    reboteDuro: OM_PERF_MONTHS.map(m => OM_careValue(m, 'rebote') * OM_CARE_HARD_SHARE),
+    reboteSuave: OM_PERF_MONTHS.map(m => OM_careValue(m, 'rebote') * (1 - OM_CARE_HARD_SHARE)),
+    tasaRebote: OM_PERF_MONTHS.map(m => OM_careValue(m, 'rebote')),
+    spam: OM_PERF_MONTHS.map(m => OM_careValue(m, 'spam')),
+    unsub: OM_PERF_MONTHS.map(m => OM_careValue(m, 'unsub')),
+  };
+  const OM_CARE_METRIC_META = {
+    reboteDuro: { label: 'Rebotes duros', unit: 'pct' }, reboteSuave: { label: 'Rebotes suaves', unit: 'pct' },
+    tasaRebote: { label: 'Tasa de rebote', unit: 'pct' }, spam: { label: 'Spam', unit: 'pct' }, unsub: { label: 'Unsubscribe', unit: 'pct' },
+  };
+  // Semana/Día no existen como dato real — se interpolan linealmente entre los 6 anclas mensuales reales
+  // con un wobble determinístico (seno con semilla fija, NUNCA Math.random) para que la curva no sea una
+  // recta perfecta pero sea estable entre re-renders del mismo filtro.
+  function OM_seededWobble(seed, amp) {
+    const v = Math.sin(seed * 12.9898 + 78.233) * 43758.5453;
+    return ((v - Math.floor(v)) - 0.5) * 2 * amp;
+  }
+  function OM_expandSeries(monthlyVals, pointsPerSegment, wobbleAmp) {
+    if (pointsPerSegment <= 1) return monthlyVals.slice();
+    const out = [];
+    for (let m = 0; m < monthlyVals.length - 1; m++) {
+      const a = monthlyVals[m], b = monthlyVals[m + 1];
+      for (let p = 0; p < pointsPerSegment; p++) {
+        const t = p / pointsPerSegment;
+        const base = a + (b - a) * t;
+        out.push(base * (1 + OM_seededWobble(m * 1000 + p, wobbleAmp)));
+      }
+    }
+    out.push(monthlyVals[monthlyVals.length - 1]);
+    return out;
+  }
+  const OM_GRAN_META = { mes: { pointsPerSegment: 1, wobble: 0, tickEvery: 1 }, semana: { pointsPerSegment: 4, wobble: 0.03, tickEvery: 4 }, dia: { pointsPerSegment: 30, wobble: 0.06, tickEvery: 30 } };
+  function OM_granLabels(gran) {
+    const meta = OM_GRAN_META[gran];
+    if (gran === 'mes') return OM_PERF_MONTH_LABELS.slice();
+    const n = 5 * meta.pointsPerSegment + 1;
+    const out = [];
+    for (let i = 0; i < n; i++) {
+      const monthIdx = Math.min(Math.floor(i / meta.pointsPerSegment), 5);
+      out.push(i % meta.tickEvery === 0 ? OM_PERF_MONTH_LABELS[monthIdx] : '');
+    }
+    return out;
+  }
+  // Trazador de línea genérico (una sola métrica, un solo eje) — mismo estilo visual (grid recesivo,
+  // trazo fino, puntos solo en vista Mes) que el resto del tablero, sin ejes duales.
+  function OM_drawTrendLine(svgId, values, labels, unit, color) {
+    const svg = document.getElementById(svgId);
+    if (!svg) return;
+    const W = 1080, H = 180, padL = 46, padR = 10, padT = 14, padB = 22;
+    const plotW = W - padL - padR, plotH = H - padT - padB;
+    const maxV = Math.max(...values) * 1.15 || 1;
+    const minV = Math.min(0, Math.min(...values));
+    const range = maxV - minV || 1;
+    const stepX = plotW / (values.length - 1);
+    const x = i => padL + i * stepX;
+    const y = v => padT + plotH - ((v - minV) / range) * plotH;
+    let out = '';
+    for (let g = 0; g <= 3; g++) {
+      const gy = padT + (plotH / 3) * g;
+      const gv = maxV - (range / 3) * g;
+      out += `<line x1="${padL}" y1="${gy}" x2="${W - padR}" y2="${gy}" stroke="#eef1f3" stroke-width="1"></line>`;
+      out += `<text x="${padL - 8}" y="${gy + 3}" font-size="9" fill="#a5a5a5" text-anchor="end">${unit === 'pct' ? gv.toFixed(1) + '%' : OM_fmtCompactNum(gv)}</text>`;
+    }
+    const path = values.map((v, i) => `${i === 0 ? 'M' : 'L'}${x(i)},${y(v)}`).join(' ');
+    out += `<path d="${path}" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>`;
+    if (values.length === labels.length && labels.length <= 8) {
+      values.forEach((v, i) => { out += `<circle cx="${x(i)}" cy="${y(v)}" r="3" fill="${color}"></circle>`; });
+    }
+    labels.forEach((lab, i) => { if (lab) out += `<text x="${x(i)}" y="${H - 4}" font-size="9" fill="#a5a5a5" text-anchor="middle">${lab}</text>`; });
+    svg.innerHTML = out;
+  }
+  let OM_perfMetric = 'aperturas', OM_perfGran = 'mes';
+  let OM_careMetric = 'tasaRebote', OM_careGran = 'mes';
+  function OM_renderPerfTrend() {
+    const meta = OM_GRAN_META[OM_perfGran];
+    const monthly = OM_PERF_SERIES[OM_perfMetric];
+    const values = OM_expandSeries(monthly, meta.pointsPerSegment, meta.wobble);
+    const labels = OM_granLabels(OM_perfGran);
+    OM_drawTrendLine('om-perfTrendSvg', values, labels, OM_PERF_METRIC_META[OM_perfMetric].unit, OM_CHANNEL_COLOR.Email);
+  }
+  function OM_renderCareTrend() {
+    const meta = OM_GRAN_META[OM_careGran];
+    const monthly = OM_CARE_SERIES[OM_careMetric];
+    const values = OM_expandSeries(monthly, meta.pointsPerSegment, meta.wobble);
+    const labels = OM_granLabels(OM_careGran);
+    OM_drawTrendLine('om-careTrendSvg', values, labels, 'pct', '#EE0000');
+  }
+  function OM_bindFilterPills(containerId, dataAttr, onPick) {
+    const el = document.getElementById(containerId);
+    if (!el) return;
+    el.querySelectorAll('.obj-filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        el.querySelectorAll('.obj-filter-btn').forEach(b => b.removeAttribute('data-active'));
+        btn.setAttribute('data-active', 'true');
+        onPick(btn.getAttribute(dataAttr));
+      });
+    });
+  }
+  OM_bindFilterPills('om-perfMetricFilter', 'data-metric', v => { OM_perfMetric = v; OM_renderPerfTrend(); });
+  OM_bindFilterPills('om-perfGranFilter', 'data-gran', v => { OM_perfGran = v; OM_renderPerfTrend(); });
+  OM_bindFilterPills('om-careMetricFilter', 'data-metric', v => { OM_careMetric = v; OM_renderCareTrend(); });
+  OM_bindFilterPills('om-careGranFilter', 'data-gran', v => { OM_careGran = v; OM_renderCareTrend(); });
+  OM_renderPerfTrend();
+  OM_renderCareTrend();
+
   const OM_viewSel = document.getElementById('om-viewMonthSelect');
   const OM_cmpSel = document.getElementById('om-compareMonthSelect');
   OM_MONTHS.forEach(m => { OM_viewSel.add(new Option(m, m)); OM_cmpSel.add(new Option(m, m)); });
@@ -4556,42 +4783,69 @@
     const label = document.getElementById('om-t1CompareLabel');
     crossfade(label, () => { label.textContent = 'Comparando ' + viewMonth + ' vs. ' + cmpMonth; });
 
-    // Email
-    crossfade(document.getElementById('om-chEmailAperturas'), () => {
-      document.getElementById('om-chEmailAperturas').innerHTML = OM_metricHTML(vd.email.aperturas.toLocaleString('en-US'), relDelta(vd.email.aperturas, cd.email.aperturas), yd ? relDelta(vd.email.aperturas, yd.email.aperturas) : null, '%');
-    });
+    // Email — OR y CTR ahora unifican tasa + número total en la misma caja
     crossfade(document.getElementById('om-chEmailTasaApertura'), () => {
-      document.getElementById('om-chEmailTasaApertura').innerHTML = OM_metricHTML(vd.email.tasaApertura + '%', OM_pctDelta(vd.email.tasaApertura, cd.email.tasaApertura), yd ? OM_pctDelta(vd.email.tasaApertura, yd.email.tasaApertura) : null, 'pp');
+      document.getElementById('om-chEmailTasaApertura').innerHTML = OM_metricComboHTML(
+        vd.email.tasaApertura + '%', OM_pctDelta(vd.email.tasaApertura, cd.email.tasaApertura), yd ? OM_pctDelta(vd.email.tasaApertura, yd.email.tasaApertura) : null, 'pp',
+        Math.round(vd.email.aperturas).toLocaleString('en-US'), 'aperturas', relDelta(vd.email.aperturas, cd.email.aperturas));
     });
     crossfade(document.getElementById('om-chEmailCTR'), () => {
-      document.getElementById('om-chEmailCTR').innerHTML = OM_metricHTML(vd.email.ctr + '%', OM_pctDelta(vd.email.ctr, cd.email.ctr), yd ? OM_pctDelta(vd.email.ctr, yd.email.ctr) : null, 'pp');
+      const clics = OM_emailClics(vd), clicsCmp = OM_emailClics(cd);
+      document.getElementById('om-chEmailCTR').innerHTML = OM_metricComboHTML(
+        vd.email.ctr + '%', OM_pctDelta(vd.email.ctr, cd.email.ctr), yd ? OM_pctDelta(vd.email.ctr, yd.email.ctr) : null, 'pp',
+        Math.round(clics).toLocaleString('en-US'), 'clics', relDelta(clics, clicsCmp));
+    });
+    crossfade(document.getElementById('om-chEmailCTOR'), () => {
+      const ctor = OM_ctor(vd), ctorCmp = OM_ctor(cd), ctorYoy = yd ? OM_ctor(yd) : null;
+      document.getElementById('om-chEmailCTOR').innerHTML = OM_metricHTML(ctor.toFixed(1) + '%', OM_pctDelta(ctor, ctorCmp), ctorYoy !== null ? OM_pctDelta(ctor, ctorYoy) : null, 'pp');
     });
     // SMS
     crossfade(document.getElementById('om-chSMSEntrega'), () => {
-      document.getElementById('om-chSMSEntrega').innerHTML = OM_metricHTML(vd.sms.entrega + '%', OM_pctDelta(vd.sms.entrega, cd.sms.entrega), yd ? OM_pctDelta(vd.sms.entrega, yd.sms.entrega) : null, 'pp');
+      const delivered = OM_smsDelivered(vd), deliveredCmp = OM_smsDelivered(cd);
+      document.getElementById('om-chSMSEntrega').innerHTML = OM_metricComboHTML(
+        vd.sms.entrega + '%', OM_pctDelta(vd.sms.entrega, cd.sms.entrega), yd ? OM_pctDelta(vd.sms.entrega, yd.sms.entrega) : null, 'pp',
+        Math.round(delivered).toLocaleString('en-US'), 'entregados', relDelta(delivered, deliveredCmp));
     });
     crossfade(document.getElementById('om-chSMSCTR'), () => {
-      document.getElementById('om-chSMSCTR').innerHTML = OM_metricHTML(vd.sms.ctr + '%', OM_pctDelta(vd.sms.ctr, cd.sms.ctr), yd ? OM_pctDelta(vd.sms.ctr, yd.sms.ctr) : null, 'pp');
+      const clics = OM_smsClics(vd), clicsCmp = OM_smsClics(cd);
+      document.getElementById('om-chSMSCTR').innerHTML = OM_metricComboHTML(
+        vd.sms.ctr + '%', OM_pctDelta(vd.sms.ctr, cd.sms.ctr), yd ? OM_pctDelta(vd.sms.ctr, yd.sms.ctr) : null, 'pp',
+        Math.round(clics).toLocaleString('en-US'), 'clics', relDelta(clics, clicsCmp));
     });
     // Push
     crossfade(document.getElementById('om-chPushEntrega'), () => {
-      document.getElementById('om-chPushEntrega').innerHTML = OM_metricHTML(vd.push.entrega + '%', OM_pctDelta(vd.push.entrega, cd.push.entrega), yd ? OM_pctDelta(vd.push.entrega, yd.push.entrega) : null, 'pp');
+      const delivered = OM_pushDelivered(vd), deliveredCmp = OM_pushDelivered(cd);
+      document.getElementById('om-chPushEntrega').innerHTML = OM_metricComboHTML(
+        vd.push.entrega + '%', OM_pctDelta(vd.push.entrega, cd.push.entrega), yd ? OM_pctDelta(vd.push.entrega, yd.push.entrega) : null, 'pp',
+        Math.round(delivered).toLocaleString('en-US'), 'entregados', relDelta(delivered, deliveredCmp));
     });
     crossfade(document.getElementById('om-chPushCTR'), () => {
-      document.getElementById('om-chPushCTR').innerHTML = OM_metricHTML(vd.push.ctr + '%', OM_pctDelta(vd.push.ctr, cd.push.ctr), yd ? OM_pctDelta(vd.push.ctr, yd.push.ctr) : null, 'pp');
+      const clics = OM_pushClics(vd), clicsCmp = OM_pushClics(cd);
+      document.getElementById('om-chPushCTR').innerHTML = OM_metricComboHTML(
+        vd.push.ctr + '%', OM_pctDelta(vd.push.ctr, cd.push.ctr), yd ? OM_pctDelta(vd.push.ctr, yd.push.ctr) : null, 'pp',
+        Math.round(clics).toLocaleString('en-US'), 'clics', relDelta(clics, clicsCmp));
     });
     // WhatsApp
     crossfade(document.getElementById('om-chWspApertura'), () => {
-      document.getElementById('om-chWspApertura').innerHTML = OM_metricHTML(vd.wsp.apertura + '%', OM_pctDelta(vd.wsp.apertura, cd.wsp.apertura), yd ? OM_pctDelta(vd.wsp.apertura, yd.wsp.apertura) : null, 'pp');
+      const leidos = OM_wspLeidos(vd), leidosCmp = OM_wspLeidos(cd);
+      document.getElementById('om-chWspApertura').innerHTML = OM_metricComboHTML(
+        vd.wsp.apertura + '%', OM_pctDelta(vd.wsp.apertura, cd.wsp.apertura), yd ? OM_pctDelta(vd.wsp.apertura, yd.wsp.apertura) : null, 'pp',
+        Math.round(leidos).toLocaleString('en-US'), 'leídos', relDelta(leidos, leidosCmp));
     });
-    crossfade(document.getElementById('om-chWspClics'), () => {
-      document.getElementById('om-chWspClics').innerHTML = OM_metricHTML(vd.wsp.clics.toLocaleString('en-US'), relDelta(vd.wsp.clics, cd.wsp.clics), yd ? relDelta(vd.wsp.clics, yd.wsp.clics) : null, '%');
+    crossfade(document.getElementById('om-chWspCTR'), () => {
+      const ctrNow = OM_wspCtr(vd), ctrCmp = OM_wspCtr(cd), ctrYoy = yd ? OM_wspCtr(yd) : null;
+      document.getElementById('om-chWspCTR').innerHTML = OM_metricComboHTML(
+        ctrNow.toFixed(1) + '%', OM_pctDelta(ctrNow, ctrCmp), ctrYoy !== null ? OM_pctDelta(ctrNow, ctrYoy) : null, 'pp',
+        vd.wsp.clics.toLocaleString('en-US'), 'clics', relDelta(vd.wsp.clics, cd.wsp.clics));
     });
 
-    // Share pie + legend
+    // Share pie + legend — el % ya existía; el número absoluto de envíos se deriva del mismo cálculo
+    // que alimenta las tarjetas de arriba (OM_channelSends), nunca un dato aparte.
     ['Email', 'Push', 'SMS', 'WhatsApp'].forEach(k => {
-      const el = document.getElementById('om-sharePct' + k);
-      crossfade(el, () => { el.textContent = vd.share[k] + '%'; });
+      const pctEl = document.getElementById('om-sharePct' + k);
+      crossfade(pctEl, () => { pctEl.textContent = vd.share[k] + '%'; });
+      const numEl = document.getElementById('om-shareNum' + k);
+      crossfade(numEl, () => { numEl.textContent = Math.round(OM_channelSends(vd, k)).toLocaleString('en-US'); });
     });
     OM_drawShare(vd.share);
 
