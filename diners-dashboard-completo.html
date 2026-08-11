@@ -526,6 +526,23 @@
   [data-page="paid"] .campaign-rank-medios { font-size: 10.5px; color: #8b8b8b; margin-left: auto; }
   [data-page="paid"] .perf-best { color: #008038; }
   [data-page="paid"] .xf-hint { font-size: 10.5px; color: #8b8b8b; margin-bottom: 10px; }
+  [data-page="paid"] .bitacora-summary-row { display: flex; gap: 14px; flex-wrap: wrap; }
+  [data-page="paid"] .bitacora-stat { flex: 1; min-width: 160px; padding: 14px 16px; border-radius: 12px; background: #F8F7FC; }
+  [data-page="paid"] .bitacora-stat-value { font-size: 22px; font-weight: 700; color: #262626; font-variant-numeric: tabular-nums; }
+  [data-page="paid"] .bitacora-stat-label { font-size: 11px; color: #8b8b8b; margin-top: 3px; }
+  [data-page="paid"] .bitacora-stat.is-adicional .bitacora-stat-value { color: #8a6d1f; }
+  [data-page="paid"] .bitacora-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 14px; }
+  [data-page="paid"] .bitacora-card-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px; }
+  [data-page="paid"] .bitacora-card-name { font-size: 13.5px; font-weight: 700; color: #262626; }
+  [data-page="paid"] .bitacora-card-inicial { font-size: 11px; color: #8b8b8b; margin-bottom: 10px; }
+  [data-page="paid"] .bitacora-item-row { display: flex; justify-content: space-between; gap: 10px; padding: 7px 0; border-top: 1px dashed #eef1f3; font-size: 11px; }
+  [data-page="paid"] .bitacora-item-row:first-of-type { border-top: none; }
+  [data-page="paid"] .bitacora-item-label { color: #5C5C5C; line-height: 1.4; }
+  [data-page="paid"] .bitacora-item-amount { flex: none; font-weight: 600; color: #262626; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  [data-page="paid"] .bitacora-empty { font-size: 11px; color: #b0b0b0; font-style: italic; padding: 6px 0; }
+  [data-page="paid"] .bitacora-total-row { display: flex; justify-content: space-between; margin-top: 10px; padding-top: 10px; border-top: 1px solid #eef1f3; font-size: 12px; font-weight: 700; color: #262626; }
+  [data-page="paid"] .bitacora-total-row.is-zero { color: #b0b0b0; font-weight: 500; }
+  [data-page="paid"] .bitacora-pct-chip { font-size: 9.5px; font-weight: 700; color: #8a6d1f; background: rgba(233,181,45,0.16); padding: 2px 7px; border-radius: 999px; margin-left: 6px; white-space: nowrap; }
 
   /* ================= SOCIAL MEDIA (page-specific) ================= */
   [data-page="social"] .obj-filter { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
@@ -836,6 +853,7 @@
     <button class="tab" data-tab="t1" data-active="true"><span class="tab-num">1</span>Resumen · Objetivo y Plan</button>
     <button class="tab" data-tab="t2"><span class="tab-num">2</span>Seguimiento y Cumplimiento</button>
     <button class="tab" data-tab="t3"><span class="tab-num">3</span>Composición y Plataformas</button>
+    <button class="tab" data-tab="t4"><span class="tab-num">4</span>Bitácora</button>
   </div>
 
   <!-- ============ TAB 1 — RESUMEN ============ -->
@@ -1301,6 +1319,17 @@
         <span class="fx" id="pm-t3Summary"></span>
       </div>
     </div>
+  </div>
+
+  <!-- ============ TAB 4 — BITÁCORA ============ -->
+  <div class="panel" data-panel="t4">
+    <div class="zone zone-pad">
+      <div class="zone-label">Bitácora</div>
+      <div class="zone-title" style="margin-bottom:4px;">Presupuesto adicional al aprobado — fuente: Masterflow real</div>
+      <div class="hero-caption" style="margin-bottom:12px;">Registro de rubros que se suman al presupuesto inicialmente aprobado de cada bolsa. Esta vista usa las bolsas reales del Masterflow (DCE Marketing / Refuerzo Costa / Negocio) — no coinciden 1 a 1 con el presupuesto de $1,545,000 de la pestaña Resumen, que agrupa por objetivo (Season/Establecimientos/Onboarding). No varía con el filtro de mes.</div>
+      <div class="bitacora-summary-row" id="pm-bitacoraSummary"></div>
+    </div>
+    <div class="bitacora-grid" id="pm-bitacoraGrid"></div>
   </div>
     </div>
 
@@ -4396,6 +4425,62 @@
       PM_updateComparison();
     });
   }
+
+  /* ================= BITÁCORA — presupuesto adicional real (Masterflow), estático, no reactivo al mes.
+     Fuente: hoja BITACORA de DINERS MASTERFLOW 2026 REAL CUMPLIDO_17JUL_V1.xlsx, transcrita tal cual (no
+     se deriva por fórmula) — 3 bolsas reales, cada una con su inversión inicial aprobada y los rubros que
+     se le fueron sumando encima. Estas bolsas (DCE Marketing/Refuerzo Costa/Negocio) son una clasificación
+     de presupuesto distinta de los objetivos Season/Establecimientos/Onboarding usados en el resto de esta
+     página — no se reconcilian entre sí, ver nota en el HTML de esta pestaña. */
+  const PM_BITACORA = [
+    {
+      id: 'marketing', label: 'DCE Marketing', inicial: 5067007,
+      items: [
+        { label: 'Trivia (entra como presupuesto adicional)', monto: 44227.68566366666 },
+        { label: 'Nueva contratación · Mangas 16+17 + Hall ATO UIO (entra como presupuesto adicional), se paga 4 meses (sep–dic)', monto: 28075 },
+        { label: 'Presupuesto incremental VIU $150K, se paga en enero 2027', monto: 150000 },
+        { label: 'Teleamazonas aprobado $220K para 2026, excedente', monto: 97344.130006 },
+        { label: 'Producción nuevos ISOS Diners', monto: 56220 },
+        { label: 'Producción reimpresión 3 mangas ATO GYQ', monto: 10489 },
+        { label: 'Producción reimpresión 6 artes ATO (2 UIO + 4) GYQ por vigencia de derechos', monto: 3152.85 },
+      ],
+    },
+    { id: 'refuerzoCosta', label: 'DCE Refuerzo Costa', inicial: 681927, items: [] },
+    { id: 'negocio', label: 'DCE Negocio', inicial: 300000, items: [] },
+  ];
+  function PM_bitacoraAdicionalTotal(bolsa) { return bolsa.items.reduce((s, it) => s + it.monto, 0); }
+  function PM_renderBitacora() {
+    const summaryEl = document.getElementById('pm-bitacoraSummary');
+    const gridEl = document.getElementById('pm-bitacoraGrid');
+    if (!summaryEl || !gridEl) return;
+    const totalInicial = PM_BITACORA.reduce((s, b) => s + b.inicial, 0);
+    const totalAdicional = PM_BITACORA.reduce((s, b) => s + PM_bitacoraAdicionalTotal(b), 0);
+    const pctAdicional = (totalAdicional / totalInicial) * 100;
+    const bolsasConAdicional = PM_BITACORA.filter(b => PM_bitacoraAdicionalTotal(b) > 0).length;
+    summaryEl.innerHTML = `
+      <div class="bitacora-stat"><div class="bitacora-stat-value">${PM_fmtUSD(Math.round(totalInicial))}</div><div class="bitacora-stat-label">Inversión inicial aprobada (3 bolsas)</div></div>
+      <div class="bitacora-stat is-adicional"><div class="bitacora-stat-value">${PM_fmtUSD(Math.round(totalAdicional))}</div><div class="bitacora-stat-label">Presupuesto adicional acumulado</div></div>
+      <div class="bitacora-stat"><div class="bitacora-stat-value">${pctAdicional.toFixed(1)}%</div><div class="bitacora-stat-label">Adicional sobre lo aprobado</div></div>
+      <div class="bitacora-stat"><div class="bitacora-stat-value">${bolsasConAdicional} de ${PM_BITACORA.length}</div><div class="bitacora-stat-label">Bolsas con presupuesto adicional</div></div>
+    `;
+    gridEl.innerHTML = PM_BITACORA.map(b => {
+      const adicional = PM_bitacoraAdicionalTotal(b);
+      const pct = (adicional / b.inicial) * 100;
+      const itemsHtml = b.items.length
+        ? b.items.map(it => `<div class="bitacora-item-row"><span class="bitacora-item-label">${it.label}</span><span class="bitacora-item-amount">${PM_fmtUSD(Math.round(it.monto))}</span></div>`).join('')
+        : `<div class="bitacora-empty">Sin presupuesto adicional registrado.</div>`;
+      return `<div class="zone zone-pad">
+        <div class="bitacora-card-head"><span class="bitacora-card-name">${b.label}</span></div>
+        <div class="bitacora-card-inicial">Inversión inicial: <b>${PM_fmtUSD(Math.round(b.inicial))}</b></div>
+        ${itemsHtml}
+        <div class="bitacora-total-row ${adicional === 0 ? 'is-zero' : ''}">
+          <span>Total presupuesto adicional</span>
+          <span>${PM_fmtUSD(Math.round(adicional))}${adicional > 0 ? `<span class="bitacora-pct-chip">+${pct.toFixed(1)}%</span>` : ''}</span>
+        </div>
+      </div>`;
+    }).join('');
+  }
+  PM_renderBitacora();
 
   })();
 </script>
