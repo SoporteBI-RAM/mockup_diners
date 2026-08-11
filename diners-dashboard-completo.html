@@ -604,9 +604,20 @@
   [data-page="social"] .inf-detail-cmp.bad { color: #EE0000; }
   [data-page="social"] .inf-detail-cmp.flat { color: #b0b0b0; }
   [data-page="social"] .sm-section-divider { border-top: 1px solid #e6e5ea; margin: 22px 0 16px; }
-  [data-page="social"] .sm-combo-row { display: flex; align-items: center; gap: 22px; flex-wrap: wrap; }
+  [data-page="social"] .sm-combo-row { display: flex; align-items: stretch; gap: 22px; flex-wrap: wrap; }
   [data-page="social"] .sm-combo-row .pie-wrap { flex: 1; min-width: 220px; }
+  [data-page="social"] .sm-bar-col { flex: 1; min-width: 220px; }
+  [data-page="social"] .sm-bar-col-title { font-size: 10.5px; font-weight: 700; color: #8b8b8b; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 10px; }
   [data-page="social"] .sm-combo-divider { width: 1px; align-self: stretch; background: #e6e5ea; flex: none; }
+  [data-page="social"] .sm-bar-row { border-radius: 8px; padding: 5px 6px; margin: 0 -6px 9px; cursor: pointer; transition: background 0.15s ease; }
+  [data-page="social"] .sm-bar-row:last-child { margin-bottom: 0; }
+  [data-page="social"] .sm-bar-row:hover, [data-page="social"] .sm-bar-row.is-active { background: #F8F7FC; }
+  [data-page="social"] .sm-bar-head { display: flex; align-items: center; gap: 6px; margin-bottom: 5px; }
+  [data-page="social"] .sm-bar-name { flex: 1; font-size: 11.5px; font-weight: 600; color: #262626; display: flex; align-items: center; gap: 6px; }
+  [data-page="social"] .sm-bar-num { font-size: 10.5px; font-weight: 500; color: #8b8b8b; }
+  [data-page="social"] .sm-bar-pct { font-size: 11.5px; font-weight: 700; color: #262626; font-variant-numeric: tabular-nums; }
+  [data-page="social"] .sm-bar-track { height: 9px; border-radius: 5px; background: #eef1f3; overflow: hidden; }
+  [data-page="social"] .sm-bar-fill { height: 100%; border-radius: 5px; transition: width 0.6s cubic-bezier(0.16,1,0.3,1); }
   [data-page="social"] .sm-yoy-caption { font-size: 10.5px; color: #8b8b8b; margin-top: 4px; }
   [data-page="social"] .sm-metric-yoy-wrap { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; }
   [data-page="social"] .sm-metric-yoy { font-size: 9px; font-weight: 500; color: #8b8b8b; white-space: nowrap; }
@@ -1684,26 +1695,16 @@
 
         <div class="zone zone-pad">
           <div class="zone-title" style="margin-bottom:2px;">Resumen por marca y por red social</div>
-          <div class="hero-caption fx" id="sm-comboCaption" style="margin-top:0;margin-bottom:10px;">Composición de la comunidad total, corte del mes seleccionado. La red social es agregada (todas las marcas).</div>
+          <div class="hero-caption fx" id="sm-comboCaption" style="margin-top:0;margin-bottom:10px;">Composición de la comunidad total, corte del mes seleccionado. Pasa el mouse (o da clic) sobre una marca para ver a la derecha su propia composición por red social.</div>
           <div class="sm-combo-row">
-            <div class="pie-wrap">
-              <svg width="120" height="120" viewBox="0 0 120 120" id="sm-brandPieSvg"></svg>
-              <div style="flex:1;">
-                <div class="mix-legend-row"><span class="mix-dot" style="background:#4F52E5"></span><span class="mix-name">Diners Club</span><span class="mix-num fx" id="sm-brandNumDiners">190,950</span><span class="mix-pct fx" id="sm-brandPctDiners">67%</span></div>
-                <div class="mix-legend-row"><span class="mix-dot" style="background:#2563EB"></span><span class="mix-name">TITANIUM</span><span class="mix-num fx" id="sm-brandNumTITANIUM">57,000</span><span class="mix-pct fx" id="sm-brandPctTITANIUM">20%</span></div>
-                <div class="mix-legend-row"><span class="mix-dot" style="background:#6E93B0"></span><span class="mix-name">Discover</span><span class="mix-num fx" id="sm-brandNumDiscover">37,050</span><span class="mix-pct fx" id="sm-brandPctDiscover">13%</span></div>
-              </div>
+            <div class="sm-bar-col">
+              <div class="sm-bar-col-title">Por marca</div>
+              <div id="sm-brandBars"></div>
             </div>
             <div class="sm-combo-divider"></div>
-            <div class="pie-wrap">
-              <svg width="120" height="120" viewBox="0 0 120 120" id="sm-networkPieSvg"></svg>
-              <div style="flex:1;">
-                <div class="mix-legend-row"><span class="sm-net-icon"><svg viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#E1306C"></rect><rect x="6" y="6" width="12" height="12" rx="3.5" fill="none" stroke="#fff" stroke-width="1.6"></rect><circle cx="12" cy="12" r="3" fill="none" stroke="#fff" stroke-width="1.6"></circle><circle cx="16.2" cy="7.8" r="1" fill="#fff"></circle></svg></span><span class="mix-name">Instagram</span><span class="mix-num fx" id="sm-netNumInstagram">105,450</span><span class="mix-pct fx" id="sm-netPctInstagram">37%</span></div>
-                <div class="mix-legend-row"><span class="sm-net-icon"><svg viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#1877F2"></rect><path d="M14.5 8.5h-1.7c-.4 0-.8.35-.8.9V11h2.4l-.35 2.3h-2.05V19h-2.4v-5.7H8v-2.3h1.6V9.1c0-1.75 1.05-3.1 2.9-3.1h1.9v2.5z" fill="#fff"></path></svg></span><span class="mix-name">Facebook</span><span class="mix-num fx" id="sm-netNumFacebook">71,250</span><span class="mix-pct fx" id="sm-netPctFacebook">25%</span></div>
-                <div class="mix-legend-row"><span class="sm-net-icon"><svg viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#000"></rect><path d="M14.2 5.5c.3 1.5 1.3 2.6 3 2.8v2.1c-1.1 0-2.1-.35-3-.95v4.7a4.15 4.15 0 1 1-3.6-4.12v2.2a1.95 1.95 0 1 0 1.5 1.9V5.5h2.1z" fill="#fff"></path></svg></span><span class="mix-name">TikTok</span><span class="mix-num fx" id="sm-netNumTikTok">68,400</span><span class="mix-pct fx" id="sm-netPctTikTok">24%</span></div>
-                <div class="mix-legend-row"><span class="sm-net-icon"><svg viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#0A66C2"></rect><rect x="6" y="10" width="2.3" height="8" fill="#fff"></rect><circle cx="7.15" cy="7" r="1.35" fill="#fff"></circle><path d="M11 10h2.2v1.15c.45-.7 1.25-1.35 2.6-1.35 1.95 0 3.2 1.25 3.2 3.65V18h-2.3v-4.1c0-1.1-.45-1.85-1.5-1.85-.85 0-1.35.55-1.55 1.1-.08.2-.1.45-.1.72V18H11v-8z" fill="#fff"></path></svg></span><span class="mix-name">LinkedIn</span><span class="mix-num fx" id="sm-netNumLinkedIn">25,650</span><span class="mix-pct fx" id="sm-netPctLinkedIn">9%</span></div>
-                <div class="mix-legend-row"><span class="sm-net-icon"><svg viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#000"></rect><path d="M6.5 6.5l11 11M17.5 6.5l-11 11" stroke="#fff" stroke-width="1.8" stroke-linecap="round"></path></svg></span><span class="mix-name">X</span><span class="mix-num fx" id="sm-netNumX">14,250</span><span class="mix-pct fx" id="sm-netPctX">5%</span></div>
-              </div>
+            <div class="sm-bar-col">
+              <div class="sm-bar-col-title fx" id="sm-networkBarsTitle">Por red social — todas las marcas</div>
+              <div id="sm-networkBars"></div>
             </div>
           </div>
         </div>
@@ -5229,19 +5230,62 @@ const SM_INF_PHOTO = {
   SM_viewSel.value = 'Junio 2026';
   SM_cmpSel.value = 'Mayo 2026';
 
-  function SM_drawBrandPie(vd) {
+  // Marca (izquierda) → Red social (derecha), mismo lenguaje de "pasa el mouse o da clic" que
+  // Composición de Paid Media (PM_setActiveAnnualChannel) — pero deliberadamente un estado LOCAL a
+  // este widget (data-combo-brand, no data-brand), para que pasar el mouse aquí solo actualice el
+  // panel de la derecha y no dispare el cross-filter de marca de toda la página (SM_xfActive), que
+  // sigue siendo cosa de los pills "Filtrar por marca" y de la carrera de marcas.
+  let SM_comboActiveBrand = null;
+  function SM_renderBrandBars(vd) {
     const order = ['Diners', 'TITANIUM', 'Discover'];
-    const svg = document.getElementById('sm-brandPieSvg');
-    svg.innerHTML = pieMarkup(order.map(k => ({ label: k, pct: vd.brandShare[k], color: SM_BRAND_COLOR[k], key: k })), 120);
-    SM_bindBrandClicks(svg);
-    SM_applyXf();
+    const el = document.getElementById('sm-brandBars');
+    if (!el) return;
+    el.innerHTML = order.map(k => {
+      const pct = vd.brandShare[k], color = SM_BRAND_COLOR[k], label = SM_BRAND_LABEL[k] || k;
+      return `<div class="sm-bar-row ${SM_comboActiveBrand === k ? 'is-active' : ''}" data-combo-brand="${k}" data-tt="${label}" data-ttv="${pct}% · ${vd.brands[k].followers.toLocaleString('en-US')} seguidores">
+        <div class="sm-bar-head">
+          <span class="sm-bar-name"><span class="mix-dot" style="background:${color}"></span>${label}</span>
+          <span class="sm-bar-num">${vd.brands[k].followers.toLocaleString('en-US')}</span>
+          <span class="sm-bar-pct">${pct}%</span>
+        </div>
+        <div class="sm-bar-track"><div class="sm-bar-fill" style="width:${pct}%;background:${color};"></div></div>
+      </div>`;
+    }).join('');
+    el.querySelectorAll('[data-combo-brand]').forEach(row => {
+      const k = row.getAttribute('data-combo-brand');
+      row.addEventListener('mouseenter', () => SM_setComboActiveBrand(k));
+      row.addEventListener('click', () => SM_setComboActiveBrand(k));
+    });
   }
-  function SM_drawNetworkPie(vd, activeBrand) {
+  function SM_renderNetworkBars(vd) {
     const order = ['Instagram', 'Facebook', 'TikTok', 'LinkedIn', 'X'];
-    const svg = document.getElementById('sm-networkPieSvg');
-    const shares = activeBrand ? SM_brandNetworkShares(activeBrand, vd) : vd.networkShare;
-    svg.innerHTML = pieMarkup(order.map(k => ({ label: k, pct: shares[k], color: SM_NETWORK_COLOR[k] })), 120);
+    const el = document.getElementById('sm-networkBars');
+    if (!el) return;
+    const brand = SM_comboActiveBrand;
+    const shares = brand ? SM_brandNetworkShares(brand, vd) : vd.networkShare;
+    el.innerHTML = order.map(k => {
+      const pct = Math.round(shares[k]);
+      const num = Math.round(brand ? vd.brands[brand].followers * (shares[k] / 100) : vd.networks[k].followers);
+      return `<div class="sm-bar-row">
+        <div class="sm-bar-head">
+          <span class="sm-bar-name"><span class="sm-net-icon">${SM_NETWORK_ICON[k]}</span>${k}</span>
+          <span class="sm-bar-num">${num.toLocaleString('en-US')}</span>
+          <span class="sm-bar-pct">${pct}%</span>
+        </div>
+        <div class="sm-bar-track"><div class="sm-bar-fill" style="width:${pct}%;background:${SM_NETWORK_COLOR[k]};"></div></div>
+      </div>`;
+    }).join('');
+    const titleEl = document.getElementById('sm-networkBarsTitle');
+    if (titleEl) titleEl.textContent = brand ? `Por red social — ${SM_BRAND_LABEL[brand]}` : 'Por red social — todas las marcas';
   }
+  function SM_setComboActiveBrand(k) {
+    SM_comboActiveBrand = k;
+    document.querySelectorAll('#sm-brandBars [data-combo-brand]').forEach(row => {
+      row.classList.toggle('is-active', row.getAttribute('data-combo-brand') === k);
+    });
+    if (SM_lastComboVd) SM_renderNetworkBars(SM_lastComboVd);
+  }
+  let SM_lastComboVd = null;
 
   function SM_renderBrandRace(vd, cd, yd) {
     const order = ['Diners', 'TITANIUM', 'Discover'];
@@ -5576,26 +5620,9 @@ const SM_INF_PHOTO = {
     const engYoyDelta = engYoyBase !== null ? (engNow - engYoyBase) : null;
     crossfade(yoyEng, () => { yoyEng.textContent = engYoyDelta !== null ? `vs. año anterior (${yoyMonth}): ${deltaText(engYoyDelta, 'pp')}` : 'vs. año anterior: Sin histórico'; });
 
-    ['Diners', 'TITANIUM', 'Discover'].forEach(k => {
-      const el = document.getElementById('sm-brandPct' + k);
-      crossfade(el, () => { el.textContent = vd.brandShare[k] + '%'; });
-      const numEl = document.getElementById('sm-brandNum' + k);
-      crossfade(numEl, () => { numEl.textContent = vd.brands[k].followers.toLocaleString('en-US'); });
-    });
-    SM_drawBrandPie(vd);
-
-    const brandNetShares = activeBrand ? SM_brandNetworkShares(activeBrand, vd) : null;
-    ['Instagram', 'Facebook', 'TikTok', 'LinkedIn', 'X'].forEach(k => {
-      const el = document.getElementById('sm-netPct' + k);
-      const pctVal = activeBrand ? brandNetShares[k] : vd.networkShare[k];
-      crossfade(el, () => { el.textContent = Math.round(pctVal) + '%'; });
-      const numEl = document.getElementById('sm-netNum' + k);
-      const numVal = activeBrand ? vd.brands[activeBrand].followers * (brandNetShares[k] / 100) : vd.networks[k].followers;
-      crossfade(numEl, () => { numEl.textContent = Math.round(numVal).toLocaleString('en-US'); });
-    });
-    SM_drawNetworkPie(vd, activeBrand);
-    const comboCaption = document.getElementById('sm-comboCaption');
-    crossfade(comboCaption, () => { comboCaption.textContent = activeBrand ? `Composición de ${SM_BRAND_LABEL[activeBrand]}, corte del mes seleccionado. La red social es propia de ${SM_BRAND_LABEL[activeBrand]}.` : 'Composición de la comunidad total, corte del mes seleccionado. La red social es agregada (todas las marcas).'; });
+    SM_lastComboVd = vd;
+    SM_renderBrandBars(vd);
+    SM_renderNetworkBars(vd);
 
     ['Diners', 'TITANIUM', 'Discover'].forEach(k => {
       const b = vd.brands[k], cb = cd.brands[k];
