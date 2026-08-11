@@ -1355,7 +1355,7 @@
     <div class="zone zone-pad">
       <div class="zone-label">Bitácora</div>
       <div class="zone-title" style="margin-bottom:4px;">Presupuesto adicional al aprobado — fuente: Masterflow real</div>
-      <div class="hero-caption" style="margin-bottom:12px;">Registro de rubros que se suman al presupuesto inicialmente aprobado de cada bolsa. Esta vista usa las bolsas reales del Masterflow (DCE Marketing / Refuerzo Costa / Negocio) — no coinciden 1 a 1 con el presupuesto de $1,545,000 de la pestaña Resumen, que agrupa por objetivo (Season/Establecimientos/Onboarding). No varía con el filtro de mes.</div>
+      <div class="hero-caption" style="margin-bottom:12px;">Registro de rubros que se suman al presupuesto inicialmente aprobado de cada grupo. Esta vista usa los grupos reales del Masterflow (DCE Marketing / Refuerzo Costa / Negocio) — no coinciden 1 a 1 con el presupuesto de $1,545,000 de la pestaña Resumen, que agrupa por objetivo (Season/Establecimientos/Onboarding). No varía con el filtro de mes.</div>
       <div class="bitacora-summary-row" id="pm-bitacoraSummary"></div>
     </div>
     <div class="bitacora-grid" id="pm-bitacoraGrid"></div>
@@ -1366,7 +1366,7 @@
     <div class="zone zone-pad">
       <div class="zone-label">Consumo Real por Medio</div>
       <div class="zone-title" style="margin-bottom:4px;">Presupuesto, consumo y saldo — corte junio 2026</div>
-      <div class="hero-caption" style="margin-bottom:12px;">Fuente: hoja RESUMEN CONSUMO del Masterflow real. Mismas 3 bolsas que Bitácora, ahora con el detalle de cada medio específico. No varía con el filtro de mes — es un corte cerrado a junio.</div>
+      <div class="hero-caption" style="margin-bottom:12px;">Fuente: hoja RESUMEN CONSUMO del Masterflow real. Mismos 3 grupos que Bitácora, ahora con el detalle de cada medio específico. No varía con el filtro de mes — es un corte cerrado a junio.</div>
       <div class="bitacora-summary-row" id="pm-consumoSummary"></div>
     </div>
     <div id="pm-consumoTables"></div>
@@ -1374,7 +1374,7 @@
     <div class="zone zone-pad" style="margin-top:14px;">
       <div class="zone-label">Detalle de facturación</div>
       <div class="zone-title" style="margin-bottom:4px;">Facturable / No facturable / Prepago — por tipo de negocio</div>
-      <div class="hero-caption" style="margin-bottom:12px;">Otro corte del mismo gasto real, esta vez por tipo de comprobante y outlet específico. <b>No suma igual</b> que la tabla de arriba — son dos filtros distintos del origen (por bolsa de presupuesto vs. por tipo de negocio/comprobante), no la misma cifra vista dos veces.</div>
+      <div class="hero-caption" style="margin-bottom:12px;">Otro corte del mismo gasto real, esta vez por tipo de comprobante y outlet específico. <b>No suma igual</b> que la tabla de arriba — son dos filtros distintos del origen (por grupo de presupuesto vs. por tipo de negocio/comprobante), no la misma cifra vista dos veces.</div>
     </div>
     <div id="pm-facturacionTables"></div>
   </div>
@@ -2608,8 +2608,8 @@
     Radio: '<circle cx="12" cy="15" r="1.2"></circle><path d="M18 8a8 8 0 0 1 0 11"></path><path d="M6 8a8 8 0 0 0 0 11"></path><path d="M15 11a4 4 0 0 1 0 6"></path><path d="M9 11a4 4 0 0 0 0 6"></path>',
     Otros: '<circle cx="6" cy="12" r="1.5"></circle><circle cx="12" cy="12" r="1.5"></circle><circle cx="18" cy="12" r="1.5"></circle>',
   };
-  // Cada medio real de PM_CONSUMO (por bolsa) mapeado a una de las 7 categorías de arriba — la única
-  // pieza "editorial" de esta sección, ya que el Masterflow no trae esta categoría (solo medio + bolsa).
+  // Cada medio real de PM_CONSUMO (por grupo) mapeado a una de las 7 categorías de arriba — la única
+  // pieza "editorial" de esta sección, ya que el Masterflow no trae esta categoría (solo medio + grupo).
   const PM_MEDIO_TO_CATEGORY = {
     marketing: {
       OOH: 'OOH', Lonas: 'OOH', Teleamazonas: 'TV', Ecuavisa: 'TV', Mundial: 'Eventos', Multicines: 'Eventos',
@@ -2642,8 +2642,8 @@
   const PM_annualChannelBudget = key => PM_REAL_CATEGORY_TOTALS[key].presupuesto;
   // Medios reales dentro de una categoría, para el detalle que aparece al pasar el mouse/clic sobre
   // ella — reusa exactamente los mismos objetos de PM_CONSUMO, nunca un outlet inventado. Cuando el
-  // mismo nombre de medio aparece en más de una bolsa dentro de la misma categoría (Ecuavisa/OOH viven
-  // en Marketing Y en Refuerzo OOH), se distingue con la bolsa entre paréntesis para que no se lean
+  // mismo nombre de medio aparece en más de un grupo dentro de la misma categoría (Ecuavisa/OOH viven
+  // en Marketing Y en Refuerzo OOH), se distingue con el grupo entre paréntesis para que no se lean
   // como una fila duplicada.
   function PM_realOutletsForCategory(catKey) {
     const raw = [];
@@ -4106,7 +4106,7 @@
     const numberEl = document.getElementById('pm-t1HeroNumber');
     if (numberEl) numberEl.textContent = PM_fmtUSD(Math.round(PM_ANNUAL_TOTAL));
     const captionEl = document.getElementById('pm-t1HeroCaption');
-    if (captionEl) captionEl.textContent = 'Aprobado en 3 bolsas reales del Masterflow: DCE Marketing, Refuerzo OOH y Negocios.';
+    if (captionEl) captionEl.textContent = 'Aprobado en 3 grupos reales del Masterflow: DCE Marketing, Refuerzo OOH y Negocios.';
     const monthLabelEl = document.getElementById('pm-t1MonthLabel');
     if (monthLabelEl) monthLabelEl.textContent = 'Corte cerrado a junio 2026';
 
@@ -4124,7 +4124,7 @@
     const fillEl = document.getElementById('pm-t1MediaPacingFill');
     if (fillEl) fillEl.style.transform = 'scaleX(' + (Math.min(pct, 100) / 100) + ')';
     const captionPacingEl = document.getElementById('pm-t1MediaPacingCaption');
-    if (captionPacingEl) captionPacingEl.innerHTML = '<b>' + PM_fmtUSD(Math.round(PM_REAL_CONSUMO_TOTAL)) + '</b> consumido a junio 2026 (las 3 bolsas)';
+    if (captionPacingEl) captionPacingEl.innerHTML = '<b>' + PM_fmtUSD(Math.round(PM_REAL_CONSUMO_TOTAL)) + '</b> consumido a junio 2026 (los 3 grupos)';
     const pctEl = document.getElementById('pm-t1MediaPacingPct');
     if (pctEl) pctEl.textContent = pct.toFixed(0) + '%';
     const cmpLabelEl = document.getElementById('pm-t1MediaPacingCmpLabel');
@@ -4482,8 +4482,8 @@
 
   /* ================= BITÁCORA — presupuesto adicional real (Masterflow), estático, no reactivo al mes.
      Fuente: hoja BITACORA de DINERS MASTERFLOW 2026 REAL CUMPLIDO_17JUL_V1.xlsx, transcrita tal cual (no
-     se deriva por fórmula) — 3 bolsas reales, cada una con su inversión inicial aprobada y los rubros que
-     se le fueron sumando encima. Estas bolsas (DCE Marketing/Refuerzo Costa/Negocio) son una clasificación
+     se deriva por fórmula) — 3 grupos reales, cada uno con su inversión inicial aprobada y los rubros que
+     se le fueron sumando encima. Estos grupos (DCE Marketing/Refuerzo Costa/Negocio) son una clasificación
      de presupuesto distinta de los objetivos Season/Establecimientos/Onboarding usados en el resto de esta
      página — no se reconcilian entre sí, ver nota en el HTML de esta pestaña. */
   const PM_BITACORA = [
@@ -4502,7 +4502,7 @@
     { id: 'refuerzoCosta', label: 'DCE Refuerzo Costa', inicial: 681927, items: [] },
     { id: 'negocio', label: 'DCE Negocio', inicial: 300000, items: [] },
   ];
-  function PM_bitacoraAdicionalTotal(bolsa) { return bolsa.items.reduce((s, it) => s + it.monto, 0); }
+  function PM_bitacoraAdicionalTotal(grupo) { return grupo.items.reduce((s, it) => s + it.monto, 0); }
   function PM_renderBitacora() {
     const summaryEl = document.getElementById('pm-bitacoraSummary');
     const gridEl = document.getElementById('pm-bitacoraGrid');
@@ -4510,12 +4510,12 @@
     const totalInicial = PM_BITACORA.reduce((s, b) => s + b.inicial, 0);
     const totalAdicional = PM_BITACORA.reduce((s, b) => s + PM_bitacoraAdicionalTotal(b), 0);
     const pctAdicional = (totalAdicional / totalInicial) * 100;
-    const bolsasConAdicional = PM_BITACORA.filter(b => PM_bitacoraAdicionalTotal(b) > 0).length;
+    const gruposConAdicional = PM_BITACORA.filter(b => PM_bitacoraAdicionalTotal(b) > 0).length;
     summaryEl.innerHTML = `
-      <div class="bitacora-stat"><div class="bitacora-stat-value">${PM_fmtUSD(Math.round(totalInicial))}</div><div class="bitacora-stat-label">Inversión inicial aprobada (3 bolsas)</div></div>
+      <div class="bitacora-stat"><div class="bitacora-stat-value">${PM_fmtUSD(Math.round(totalInicial))}</div><div class="bitacora-stat-label">Inversión inicial aprobada (3 grupos)</div></div>
       <div class="bitacora-stat is-adicional"><div class="bitacora-stat-value">${PM_fmtUSD(Math.round(totalAdicional))}</div><div class="bitacora-stat-label">Presupuesto adicional acumulado</div></div>
       <div class="bitacora-stat"><div class="bitacora-stat-value">${pctAdicional.toFixed(1)}%</div><div class="bitacora-stat-label">Adicional sobre lo aprobado</div></div>
-      <div class="bitacora-stat"><div class="bitacora-stat-value">${bolsasConAdicional} de ${PM_BITACORA.length}</div><div class="bitacora-stat-label">Bolsas con presupuesto adicional</div></div>
+      <div class="bitacora-stat"><div class="bitacora-stat-value">${gruposConAdicional} de ${PM_BITACORA.length}</div><div class="bitacora-stat-label">Grupos con presupuesto adicional</div></div>
     `;
     gridEl.innerHTML = PM_BITACORA.map(b => {
       const adicional = PM_bitacoraAdicionalTotal(b);
@@ -4543,7 +4543,7 @@
     const totalInicial = PM_BITACORA.reduce((s, b) => s + b.inicial, 0);
     const totalAdicional = PM_BITACORA.reduce((s, b) => s + PM_bitacoraAdicionalTotal(b), 0);
     const pct = (totalAdicional / totalInicial) * 100;
-    el.innerHTML = `<b>+${PM_fmtUSD(Math.round(totalAdicional))}</b> en presupuesto adicional registrado en Bitácora (${pct.toFixed(1)}% sobre las 3 bolsas del Masterflow) — <span class="bitacora-teaser-link">ver detalle</span>`;
+    el.innerHTML = `<b>+${PM_fmtUSD(Math.round(totalAdicional))}</b> en presupuesto adicional registrado en Bitácora (${pct.toFixed(1)}% sobre los 3 grupos del Masterflow) — <span class="bitacora-teaser-link">ver detalle</span>`;
   }
   PM_renderBitacoraTeaser();
   const PM_bitacoraTeaserEl = document.getElementById('pm-bitacoraTeaser');
@@ -4646,7 +4646,7 @@
     const totalSaldo = buckets.reduce((s, b) => s + b.total.saldo, 0);
     const pctConsumido = (totalConsumo / totalPresupuesto) * 100;
     el.innerHTML = `
-      <div class="bitacora-stat"><div class="bitacora-stat-value">${PM_fmtUSD(Math.round(totalPresupuesto))}</div><div class="bitacora-stat-label">Presupuesto total (3 bolsas)</div></div>
+      <div class="bitacora-stat"><div class="bitacora-stat-value">${PM_fmtUSD(Math.round(totalPresupuesto))}</div><div class="bitacora-stat-label">Presupuesto total (3 grupos)</div></div>
       <div class="bitacora-stat is-adicional"><div class="bitacora-stat-value">${PM_fmtUSD(Math.round(totalConsumo))}</div><div class="bitacora-stat-label">Consumido a junio 2026</div></div>
       <div class="bitacora-stat"><div class="bitacora-stat-value">${PM_fmtUSD(Math.round(totalSaldo))}</div><div class="bitacora-stat-label">Saldo disponible</div></div>
       <div class="bitacora-stat"><div class="bitacora-stat-value">${pctConsumido.toFixed(0)}%</div><div class="bitacora-stat-label">% consumido del total</div></div>
