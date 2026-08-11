@@ -543,6 +543,9 @@
   [data-page="paid"] .bitacora-total-row { display: flex; justify-content: space-between; margin-top: 10px; padding-top: 10px; border-top: 1px solid #eef1f3; font-size: 12px; font-weight: 700; color: #262626; }
   [data-page="paid"] .bitacora-total-row.is-zero { color: #b0b0b0; font-weight: 500; }
   [data-page="paid"] .bitacora-pct-chip { font-size: 9.5px; font-weight: 700; color: #8a6d1f; background: rgba(233,181,45,0.16); padding: 2px 7px; border-radius: 999px; margin-left: 6px; white-space: nowrap; }
+  [data-page="paid"] .bitacora-teaser { transition: background 0.15s ease, border-color 0.15s ease; }
+  [data-page="paid"] .bitacora-teaser:hover, [data-page="paid"] .bitacora-teaser:focus-visible { background: #F7ECC4; border-color: #DFC463; outline: none; }
+  [data-page="paid"] .bitacora-teaser-link { text-decoration: underline; font-weight: 700; white-space: nowrap; }
 
   /* ================= SOCIAL MEDIA (page-specific) ================= */
   [data-page="social"] .obj-filter { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
@@ -876,6 +879,10 @@
             <span class="delta-chip fx" id="pm-t1MediaPacingCmpDelta">▲ +14.7%</span>
           </div>
           <div class="pacing-yoy fx" id="pm-t1MediaPacingYoy">Acumulado enero–mayo 2026 vs. enero–mayo 2025 (año anterior): ▲ +12.6%</div>
+        </div>
+        <div class="caveat-box bitacora-teaser" id="pm-bitacoraTeaser" style="margin-top:10px;cursor:pointer;" tabindex="0" role="button">
+          <span>📋</span>
+          <span class="fx bitacora-teaser-text" id="pm-bitacoraTeaserText"></span>
         </div>
       </div>
       <div class="zone zone-pad t1-mix">
@@ -4481,6 +4488,22 @@
     }).join('');
   }
   PM_renderBitacora();
+  // Teaser en Tab 1 — mismo cálculo/fuente que la pestaña Bitácora, solo un resumen de una línea "a
+  // primera vista" con clic directo a la pestaña 4 (nunca un chip decorativo que no hace nada).
+  function PM_renderBitacoraTeaser() {
+    const el = document.getElementById('pm-bitacoraTeaserText');
+    if (!el) return;
+    const totalInicial = PM_BITACORA.reduce((s, b) => s + b.inicial, 0);
+    const totalAdicional = PM_BITACORA.reduce((s, b) => s + PM_bitacoraAdicionalTotal(b), 0);
+    const pct = (totalAdicional / totalInicial) * 100;
+    el.innerHTML = `<b>+${PM_fmtUSD(Math.round(totalAdicional))}</b> en presupuesto adicional registrado en Bitácora (${pct.toFixed(1)}% sobre las 3 bolsas del Masterflow) — <span class="bitacora-teaser-link">ver detalle</span>`;
+  }
+  PM_renderBitacoraTeaser();
+  const PM_bitacoraTeaserEl = document.getElementById('pm-bitacoraTeaser');
+  if (PM_bitacoraTeaserEl) {
+    PM_bitacoraTeaserEl.addEventListener('click', () => PM_showTab('t4'));
+    PM_bitacoraTeaserEl.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); PM_showTab('t4'); } });
+  }
 
   })();
 </script>
