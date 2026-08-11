@@ -887,8 +887,8 @@
       <div class="zone zone-pad t1-hero">
         <div class="zone-label">Plan</div>
         <div class="zone-title">Presupuesto total de medios 2026</div>
-        <div class="hero-number">$1,545,000</div>
-        <div class="hero-caption">Aprobado para todos los canales (TV, radio, prensa, digital, eventos)</div>
+        <div class="hero-number fx" id="pm-t1HeroNumber">$1,545,000</div>
+        <div class="hero-caption fx" id="pm-t1HeroCaption">Aprobado para todos los canales (TV, radio, prensa, digital, eventos)</div>
         <div class="hero-status-row">
           <span class="status-pill fx" id="pm-t1StatusPill" style="background:rgba(0,128,56,0.1);color:#008038;border:none;">Pacing en línea</span>
           <span class="fx" id="pm-t1MonthLabel" style="font-size:11.5px;color:#8b8b8b;">Corte a junio 2026</span>
@@ -2540,86 +2540,125 @@
       if (dot && PM_PLATFORM_ICON[platform]) dot.outerHTML = PM_platformIcon(platform, PM_PLATFORM_COLOR[platform]);
     });
   }
-  const PM_CHANNEL_ORDER = ['TV', 'Radio', 'PrensaEscrita', 'Revistas', 'Paid', 'Eventos'];
-  const PM_CHANNEL_LABEL = { TV: 'Televisión', Radio: 'Radio', PrensaEscrita: 'Prensa escrita', Revistas: 'Revistas', Paid: 'Digital', Eventos: 'Eventos' };
-  const PM_CHANNEL_COLOR = { TV: '#141414', Radio: '#55637A', PrensaEscrita: '#2563EB', Revistas: '#00618C', Paid: '#4F52E5', Eventos: '#6E93B0' };
-  const PM_CHANNEL_ICON = {
-    TV: '<rect x="2" y="4" width="20" height="14" rx="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="18" x2="12" y2="21"></line>',
-    Radio: '<circle cx="12" cy="15" r="1.2"></circle><path d="M18 8a8 8 0 0 1 0 11"></path><path d="M6 8a8 8 0 0 0 0 11"></path><path d="M15 11a4 4 0 0 1 0 6"></path><path d="M9 11a4 4 0 0 0 0 6"></path>',
-    PrensaEscrita: '<rect x="3" y="4" width="18" height="16" rx="1"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="7" y1="13" x2="10" y2="13"></line><line x1="7" y1="16" x2="10" y2="16"></line><line x1="14" y1="13" x2="17" y2="13"></line><line x1="14" y1="16" x2="17" y2="16"></line>',
-    Revistas: '<path d="M2 6a2 2 0 0 1 2-2h6v16H4a2 2 0 0 1-2-2z"></path><path d="M22 6a2 2 0 0 0-2-2h-6v16h6a2 2 0 0 0 2-2z"></path>',
-    Paid: '<path d="M3 11l18-6v14L3 15v-4z"></path><path d="M11.5 17a3 3 0 1 1-5.8-1.5"></path>',
-    Eventos: '<rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>',
+  /* ================= CONSUMO REAL POR MEDIO — hoja RESUMEN CONSUMO del Masterflow, transcrita tal
+     cual, corte cerrado a junio 2026. Fuente única para el Tab 1 (presupuesto/mix/pacing, más abajo)
+     y para la pestaña Consumo Real por Medio (Tab 5) — movida aquí, antes de usarse, para que ambos
+     la lean del mismo lugar. Estático, no reactivo al mes. */
+  const PM_CONSUMO = {
+    marketing: {
+      label: 'DCE Marketing',
+      items: [
+        { medio: 'OOH', presupuesto: 2969727, consumo: 1613833.116333334, saldo: 1355893.883666666 },
+        { medio: 'Lonas', presupuesto: 300000, consumo: 200480.52002800006, saldo: 99519.47997199994 },
+        { medio: 'Teleamazonas', presupuesto: 220000, consumo: 317344.130006, saldo: -97344.13000599999 },
+        { medio: 'Ecuavisa', presupuesto: 110000, consumo: 71368.32199999999, saldo: 38631.678000000014 },
+        { medio: 'Mundial', presupuesto: 400000, consumo: 280000.000003, saldo: 119999.99999699998 },
+        { medio: 'Multicines', presupuesto: 110000, consumo: 0, saldo: 110000 },
+        { medio: 'Meta', presupuesto: 226056, consumo: 124955.0052, saldo: 101100.9948 },
+        { medio: 'Google', presupuesto: 95000, consumo: 50575.26399999999, saldo: 44424.73600000001 },
+        { medio: 'Tik Tok', presupuesto: 90000, consumo: 12745.176, saldo: 77254.824 },
+        { medio: 'Programática', presupuesto: 150000, consumo: 41543.76, saldo: 108456.23999999999 },
+        { medio: 'Primicias', presupuesto: 40000, consumo: 42000.00000000001, saldo: -2000.0000000000073 },
+        { medio: 'Cosas', presupuesto: 73320, consumo: 40440, saldo: 32880 },
+        { medio: 'Canal del fútbol', presupuesto: 10000, consumo: 10000, saldo: 0 },
+        { medio: 'VIU', presupuesto: 150000, consumo: 137947.850001, saldo: 12052.149998999987 },
+        { medio: 'VIU Pantallas', presupuesto: 35550, consumo: 35556, saldo: -6 },
+        { medio: 'Mundo Diners', presupuesto: 22944, consumo: 0, saldo: 22944 },
+        { medio: 'Gestión', presupuesto: 15247.57, consumo: 7623.719999999999, saldo: 7623.85 },
+        { medio: 'Terra incognita', presupuesto: 6750, consumo: 1125, saldo: 5625 },
+        { medio: 'DK', presupuesto: 0, consumo: 0, saldo: 0 },
+        { medio: 'Radios', presupuesto: 22412, consumo: 26200.719998, saldo: -3788.7199980000005 },
+        { medio: 'Externos', presupuesto: 20000, consumo: 34296.024000000005, saldo: -14296.024000000005 },
+      ],
+      total: { presupuesto: 5067006.57, consumo: 3048034.6075693346, saldo: 2018971.9624306657 },
+    },
+    refuerzoOOH: {
+      label: 'DCE Refuerzo OOH',
+      items: [
+        { medio: 'OOH', presupuesto: 354922, consumo: 96204.68000000001, saldo: 258717.32 },
+        { medio: 'Ecuavisa', presupuesto: 199473, consumo: 91543.76999999999, saldo: 107929.23000000001 },
+        { medio: 'TC', presupuesto: 127532, consumo: 44642.04, saldo: 82889.95999999999 },
+      ],
+      total: { presupuesto: 681927, consumo: 232390.49000000002, saldo: 449536.51 },
+    },
+    negocios: {
+      label: 'DCE Negocios',
+      items: [
+        { medio: 'ESPN Negocios', presupuesto: 150000, consumo: 68820.609999, saldo: 81179.390001 },
+        { medio: 'Programática Negocios', presupuesto: 150000, consumo: 17302.056, saldo: 132697.944 },
+        { medio: 'Digital', presupuesto: 0, consumo: 0, saldo: 0 },
+      ],
+      total: { presupuesto: 300000, consumo: 86122.66599899999, saldo: 213877.334001 },
+    },
   };
-  // Presupuesto anual por canal — no existe un dato "anual" separado, así que se deriva promediando
-  // el mix real de los 6 meses del año (no solo el mes más reciente — usar un único mes como "el plan
-  // anual" hace que ese mes en particular siempre muestre el mismo % consumido en los 6 canales, porque
-  // coincide consigo mismo por definición). Digital se ancla exacto al único total anual real que
-  // tenemos ($850K de $1,545K) y el resto de canales se reparte proporcional a su propio promedio.
-  const PM_ANNUAL_TOTAL = 1545000;
-  const PM_PAID_ANNUAL_REAL = 850000;
-  function PM_computeAnnualMix(monthKeys, paidAnchorPct) {
-    const keys = PM_CHANNEL_ORDER;
-    const months = monthKeys.map(m => PM_MONTH_DATA[m]);
-    const avg = {};
-    keys.forEach(k => { avg[k] = months.reduce((s, m) => s + m.channels[k], 0) / months.length; });
-    const nonPaidKeys = keys.filter(k => k !== 'Paid');
-    const targetPaidPct = paidAnchorPct !== undefined ? paidAnchorPct : avg.Paid;
-    const scale = (100 - targetPaidPct) / nonPaidKeys.reduce((s, k) => s + avg[k], 0);
-    const mix = { Paid: targetPaidPct };
-    nonPaidKeys.forEach(k => { mix[k] = avg[k] * scale; });
-    return mix;
-  }
-  const PM_ANNUAL_MIX_2026 = PM_computeAnnualMix(['Enero 2026', 'Febrero 2026', 'Marzo 2026', 'Abril 2026', 'Mayo 2026', 'Junio 2026'], (PM_PAID_ANNUAL_REAL / PM_ANNUAL_TOTAL) * 100);
-  const PM_ANNUAL_MIX_2025 = PM_computeAnnualMix(['Enero 2025', 'Febrero 2025', 'Marzo 2025', 'Abril 2025', 'Mayo 2025', 'Junio 2025']);
-  const PM_annualChannelBudget = (key, mix) => PM_ANNUAL_TOTAL * (mix[key] / 100);
 
-  // Desglose por medio específico dentro de cada canal — un share anual (participación dentro del
-  // canal) + un índice de ritmo de consumo (algunos medios gastan más rápido que su participación de
-  // presupuesto, otros más lento) — mismo patrón de índice ya usado en Activos Digitales para que cada
-  // medio tenga variación propia en vez de heredar el % exacto del canal. Digital no necesita índice
-  // inventado: usa el mix mensual REAL por plataforma, ya existente en los datos.
-  // `index` pondera la participación ACTUAL dentro del canal; `yoyIndex` pondera la de hace un año —
-  // deliberadamente distinto, para que ningún medio herede el delta exacto del canal (algunos ganaron
-  // participación desde entonces, otros la perdieron).
-  const PM_CHANNEL_OUTLETS = {
-    TV: [
-      { name: 'Teleamazonas', share: 40, index: 1.08, yoyIndex: 0.90 },
-      { name: 'Ecuavisa', share: 31, index: 0.97, yoyIndex: 1.05 },
-      { name: 'RTS', share: 17, index: 0.85, yoyIndex: 1.15 },
-      { name: 'Canal Uno', share: 12, index: 1.05, yoyIndex: 0.95 },
-    ],
-    Radio: [
-      { name: 'Radio Disney', share: 32, index: 1.1, yoyIndex: 0.88 },
-      { name: 'JC Radio', share: 27, index: 0.92, yoyIndex: 1.08 },
-      { name: 'Radio Exa', share: 23, index: 0.88, yoyIndex: 1.12 },
-      { name: 'Radio Sonorama', share: 18, index: 1.0, yoyIndex: 0.98 },
-    ],
-    PrensaEscrita: [
-      { name: 'El Comercio', share: 47, index: 1.03, yoyIndex: 0.96 },
-      { name: 'El Universo', share: 36, index: 0.98, yoyIndex: 1.02 },
-      { name: 'Expreso', share: 17, index: 0.95, yoyIndex: 1.04 },
-    ],
-    Revistas: [
-      { name: 'Vistazo', share: 44, index: 1.02, yoyIndex: 0.94 },
-      { name: 'Cosas', share: 32, index: 0.97, yoyIndex: 1.06 },
-      { name: 'Gestión Digital', share: 24, index: 1.05, yoyIndex: 1.0 },
-    ],
-    Eventos: [
-      { name: 'Copa Diners Golf', share: 42, index: 1.1, yoyIndex: 0.85 },
-      { name: 'Feria Aniversario Quito', share: 34, index: 0.95, yoyIndex: 1.1 },
-      { name: 'Rock the Park', share: 24, index: 0.9, yoyIndex: 1.08 },
-    ],
+  // Categorías de Tab 1 (presupuesto/mix/pacing) — reales, derivadas de PM_CONSUMO (arriba). Reemplaza
+  // el set mock anterior (TV/Radio/PrensaEscrita/Revistas/Paid/Eventos, promediado de meses inventados).
+  // OOH es su propia categoría (no "Eventos") porque es, de lejos, el rubro real más grande — agruparlo
+  // con activaciones (Mundial/Multicines/Canal del fútbol) lo hubiera escondido.
+  const PM_CHANNEL_ORDER = ['OOH', 'Digital', 'TV', 'Eventos', 'Revistas', 'Radio', 'Otros'];
+  const PM_CHANNEL_LABEL = { OOH: 'Vía pública (OOH)', Digital: 'Digital', TV: 'Televisión', Eventos: 'Eventos', Revistas: 'Revistas', Radio: 'Radio', Otros: 'Otros' };
+  const PM_CHANNEL_COLOR = { OOH: '#00618C', Digital: '#4F52E5', TV: '#141414', Eventos: '#6E93B0', Revistas: '#2563EB', Radio: '#55637A', Otros: '#8b8b8b' };
+  const PM_CHANNEL_ICON = {
+    OOH: '<rect x="4" y="4" width="16" height="10" rx="1"></rect><line x1="12" y1="14" x2="12" y2="20"></line><line x1="8" y1="20" x2="16" y2="20"></line>',
+    Digital: '<path d="M3 11l18-6v14L3 15v-4z"></path><path d="M11.5 17a3 3 0 1 1-5.8-1.5"></path>',
+    TV: '<rect x="2" y="4" width="20" height="14" rx="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="18" x2="12" y2="21"></line>',
+    Eventos: '<rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>',
+    Revistas: '<path d="M2 6a2 2 0 0 1 2-2h6v16H4a2 2 0 0 1-2-2z"></path><path d="M22 6a2 2 0 0 0-2-2h-6v16h6a2 2 0 0 0 2-2z"></path>',
+    Radio: '<circle cx="12" cy="15" r="1.2"></circle><path d="M18 8a8 8 0 0 1 0 11"></path><path d="M6 8a8 8 0 0 0 0 11"></path><path d="M15 11a4 4 0 0 1 0 6"></path><path d="M9 11a4 4 0 0 0 0 6"></path>',
+    Otros: '<circle cx="6" cy="12" r="1.5"></circle><circle cx="12" cy="12" r="1.5"></circle><circle cx="18" cy="12" r="1.5"></circle>',
   };
-  // Participación anual real de cada plataforma dentro de Digital — promedio del mix mensual real
-  // Ene-Jun 2026 (no un índice inventado, ya que sí existe el dato real mes a mes).
-  const PM_PAID_OUTLET_SHARE = (() => {
-    const platforms = ['Meta', 'Google', 'TikTok', 'DV360'];
-    const months = ['Enero 2026', 'Febrero 2026', 'Marzo 2026', 'Abril 2026', 'Mayo 2026', 'Junio 2026'].map(m => PM_MONTH_DATA[m]);
-    const share = {};
-    platforms.forEach(p => { share[p] = months.reduce((s, m) => s + m.mix[p], 0) / months.length; });
-    return share;
-  })();
+  // Cada medio real de PM_CONSUMO (por bolsa) mapeado a una de las 7 categorías de arriba — la única
+  // pieza "editorial" de esta sección, ya que el Masterflow no trae esta categoría (solo medio + bolsa).
+  const PM_MEDIO_TO_CATEGORY = {
+    marketing: {
+      OOH: 'OOH', Lonas: 'OOH', Teleamazonas: 'TV', Ecuavisa: 'TV', Mundial: 'Eventos', Multicines: 'Eventos',
+      Meta: 'Digital', Google: 'Digital', 'Tik Tok': 'Digital', Programática: 'Digital', VIU: 'Digital', 'VIU Pantallas': 'Digital',
+      Primicias: 'Revistas', Cosas: 'Revistas', 'Mundo Diners': 'Revistas', Gestión: 'Revistas', 'Terra incognita': 'Revistas',
+      'Canal del fútbol': 'Eventos', Radios: 'Radio', DK: 'Otros', Externos: 'Otros',
+    },
+    refuerzoOOH: { OOH: 'OOH', Ecuavisa: 'TV', TC: 'TV' },
+    negocios: { 'ESPN Negocios': 'TV', 'Programática Negocios': 'Digital', Digital: 'Digital' },
+  };
+  // Totales reales por categoría — una sola pasada sobre PM_CONSUMO, nunca un % inventado.
+  function PM_computeRealCategoryTotals() {
+    const totals = {};
+    PM_CHANNEL_ORDER.forEach(c => { totals[c] = { presupuesto: 0, consumo: 0, saldo: 0 }; });
+    Object.keys(PM_CONSUMO).forEach(bucketKey => {
+      PM_CONSUMO[bucketKey].items.forEach(it => {
+        const cat = PM_MEDIO_TO_CATEGORY[bucketKey][it.medio];
+        totals[cat].presupuesto += it.presupuesto;
+        totals[cat].consumo += it.consumo;
+        totals[cat].saldo += it.saldo;
+      });
+    });
+    return totals;
+  }
+  const PM_REAL_CATEGORY_TOTALS = PM_computeRealCategoryTotals();
+  const PM_ANNUAL_TOTAL = PM_CONSUMO.marketing.total.presupuesto + PM_CONSUMO.refuerzoOOH.total.presupuesto + PM_CONSUMO.negocios.total.presupuesto;
+  const PM_REAL_CONSUMO_TOTAL = PM_CONSUMO.marketing.total.consumo + PM_CONSUMO.refuerzoOOH.total.consumo + PM_CONSUMO.negocios.total.consumo;
+  const PM_ANNUAL_MIX_2026 = {};
+  PM_CHANNEL_ORDER.forEach(c => { PM_ANNUAL_MIX_2026[c] = (PM_REAL_CATEGORY_TOTALS[c].presupuesto / PM_ANNUAL_TOTAL) * 100; });
+  const PM_annualChannelBudget = key => PM_REAL_CATEGORY_TOTALS[key].presupuesto;
+  // Medios reales dentro de una categoría, para el detalle que aparece al pasar el mouse/clic sobre
+  // ella — reusa exactamente los mismos objetos de PM_CONSUMO, nunca un outlet inventado. Cuando el
+  // mismo nombre de medio aparece en más de una bolsa dentro de la misma categoría (Ecuavisa/OOH viven
+  // en Marketing Y en Refuerzo OOH), se distingue con la bolsa entre paréntesis para que no se lean
+  // como una fila duplicada.
+  function PM_realOutletsForCategory(catKey) {
+    const raw = [];
+    Object.keys(PM_CONSUMO).forEach(bucketKey => {
+      PM_CONSUMO[bucketKey].items.forEach(it => {
+        if (PM_MEDIO_TO_CATEGORY[bucketKey][it.medio] === catKey) {
+          raw.push({ medio: it.medio, bucketLabel: PM_CONSUMO[bucketKey].label.replace('DCE ', ''), presupuesto: it.presupuesto, consumo: it.consumo, saldo: it.saldo });
+        }
+      });
+    });
+    const nameCounts = {};
+    raw.forEach(o => { nameCounts[o.medio] = (nameCounts[o.medio] || 0) + 1; });
+    return raw.map(o => ({ ...o, name: nameCounts[o.medio] > 1 ? `${o.medio} (${o.bucketLabel})` : o.medio }))
+      .sort((a, b) => b.presupuesto - a.presupuesto);
+  }
   const PM_fmtCompactUSD = n => n >= 1000000 ? '$' + (n / 1000000).toFixed(2) + 'M' : '$' + Math.round(n / 1000) + 'K';
   const PM_fmtCompactNum = n => n >= 1000000 ? (n / 1000000).toFixed(2) + 'M' : (n >= 1000 ? Math.round(n / 1000) + 'K' : Math.round(n).toLocaleString('en-US'));
   const PM_OBJ_COLOR = { Season: '#141414', Establecimientos: '#00618C', Onboarding: '#4F52E5' };
@@ -3665,8 +3704,7 @@
       `<b>Sugerencia:</b> reforzar <b>${weakest.g}</b> (${weakest.pctTarget.toFixed(0)}% de meta) moviendo presupuesto de <b>${weakest.worstCh}</b> hacia <b>${weakest.bestCh}</b> — el mismo patrón que ya funciona en <b>${strongest.g}</b>.`;
     crossfade(el, () => { el.innerHTML = html; });
   }
-  let PM_activeAnnualChannel = 'Paid';
-  let PM_lastAnnualViewMonth = null, PM_lastAnnualTotalMedia = null;
+  let PM_activeAnnualChannel = 'OOH';
   function PM_deltaText(v) {
     if (v === null || v === undefined || isNaN(v)) return 'Sin histórico';
     const r = Math.round(v * 10) / 10;
@@ -3809,10 +3847,11 @@
     if (effContainer) effContainer.innerHTML = effRows;
   }
 
-  // Executive summary at the foot of Tab 1 — 3 short sentences (pacing, objective leader/laggard,
-  // channel efficiency leader/laggard), all derived from the same numbers already on the tab, so it
-  // never drifts from what's shown above and stays reactive to whichever months are selected.
-  function PM_renderT1Summary(vd, cd, t1TotalMedia, pacingPct, pacingDelta, viewMonth, cmpMonth) {
+  // Executive summary at the foot of Tab 1 — 3 short sentences: presupuesto real (estático, corte
+  // cerrado a junio), objective leader/laggard, channel efficiency leader/laggard. Las 2 últimas siguen
+  // reactivas a los meses elegidos (Objetivo sigue siendo Season/Establecimientos/Onboarding, mock); la
+  // primera ya no lo es — describe el mismo corte real que la hero de arriba.
+  function PM_renderT1Summary(vd, cd, viewMonth, cmpMonth) {
     const el = document.getElementById('pm-t1Summary');
     if (!el) return;
     const objs = ['Season', 'Establecimientos', 'Onboarding'];
@@ -3830,8 +3869,9 @@
     const bestCh = effChannels.reduce((a, b) => effView[a] >= effView[b] ? a : b);
     const worstCh = effChannels.reduce((a, b) => effView[a] <= effView[b] ? a : b);
 
-    const pacingWord = pacingPct >= 45 ? 'en línea con' : 'por debajo de';
-    const html = `La inversión acumulada de enero a <b>${viewMonth}</b> suma <b>${PM_fmtCompactUSD(t1TotalMedia)}</b> — ${pacingPct.toFixed(0)}% del plan anual, ${pacingWord} lo esperado (${deltaText(pacingDelta)} vs. acumulado a ${cmpMonth}). ` +
+    const realPct = (PM_REAL_CONSUMO_TOTAL / PM_ANNUAL_TOTAL) * 100;
+    const pacingWord = realPct >= 45 ? 'en línea con' : 'por debajo de';
+    const html = `El consumo real a junio 2026 suma <b>${PM_fmtCompactUSD(PM_REAL_CONSUMO_TOTAL)}</b> de <b>${PM_fmtCompactUSD(PM_ANNUAL_TOTAL)}</b> aprobados — ${realPct.toFixed(0)}% del total, ${pacingWord} lo esperado a mitad de año (corte cerrado, no varía con el filtro de mes). ` +
       `De los 3 objetivos, <b>${bestObj}</b> lidera el cumplimiento con ${pctTargets[bestObj].toFixed(0)}% de la meta (${deltaText(bestObjDelta)}), mientras <b>${worstObj}</b> viene más rezagado con ${pctTargets[worstObj].toFixed(0)}% (${deltaText(worstObjDelta)}). ` +
       `En eficiencia de gasto, <b>${bestCh}</b> es el canal que más rinde por cada dólar invertido y <b>${worstCh}</b> el que menos — candidato a mover presupuesto entre ambos.`;
     crossfade(el, () => { el.innerHTML = html; });
@@ -3841,12 +3881,8 @@
     const viewMonth = PM_viewSel.value, cmpMonth = PM_cmpSel.value;
     const vd = PM_MONTH_DATA[viewMonth], cd = PM_MONTH_DATA[cmpMonth];
 
-    // Tab 1 hero status + Tab 3 pacing/mix/donut — driven by "Ver" month
-    const t1Pill = document.getElementById('pm-t1StatusPill');
-    const t1Label = document.getElementById('pm-t1MonthLabel');
-    crossfade(t1Label, () => { t1Label.textContent = 'Corte a ' + viewMonth.toLowerCase(); });
-    crossfade(t1Pill, () => { t1Pill.textContent = vd.pct === null ? 'Periodo cerrado' : (vd.pct >= 45 ? 'Pacing en línea' : 'Pacing por debajo del plan'); });
-
+    // Tab 3 pacing/mix/donut — driven by "Ver" month. La hero de Tab 1 (presupuesto/mix/pacing) ya no
+    // vive aquí: es un corte real cerrado a junio 2026, se pinta una sola vez en PM_renderRealBudgetHero.
     PM_renderT3MixAndHero(vd);
 
     // Automatic YoY on the "Comparar" month itself (same calendar month, one year earlier) — shared by
@@ -3858,37 +3894,6 @@
     PM_renderPerfTable(vd, cd, yd, cmpMonth, yoyMonthName);
     PM_renderCampaignRanking(vd, cd, yd, cmpMonth, yoyMonthName);
     PM_renderT3Summary(vd, cd, yd, cmpMonth, yoyMonthName);
-
-    // Cuánto se ha consumido de cada canal — cumulativo enero→"Ver", contra el presupuesto ANUAL fijo
-    // de cada canal (la torta ya no cambia con el filtro: se pinta una sola vez en PM_renderAnnualMix).
-    const t1TotalMedia = vd.invested / (vd.channels.Paid / 100);
-    const t1CmpTotalMedia = cd.invested / (cd.channels.Paid / 100);
-    PM_renderChannelAnnualBars(viewMonth, t1TotalMedia);
-
-    let yoyTotalMediaDelta = null;
-    if (yd) { yoyTotalMediaDelta = relDelta(t1CmpTotalMedia, yd.invested / (yd.channels.Paid / 100)); }
-
-    // Annual media pacing bar (all channels, not just Digital) — Ver vs Comparar, plus auto-YoY
-    const pacingPct = Math.min((t1TotalMedia / PM_ANNUAL_TOTAL) * 100, 100);
-    const pacingFill = document.getElementById('pm-t1MediaPacingFill');
-    const pacingCaption = document.getElementById('pm-t1MediaPacingCaption');
-    const pacingPctEl = document.getElementById('pm-t1MediaPacingPct');
-    const pacingCmpLabel = document.getElementById('pm-t1MediaPacingCmpLabel');
-    const pacingCmpDelta = document.getElementById('pm-t1MediaPacingCmpDelta');
-    const pacingYoy = document.getElementById('pm-t1MediaPacingYoy');
-    if (pacingFill) pacingFill.style.transform = 'scaleX(' + (pacingPct / 100) + ')';
-    const PM_ytdRange = (m, year) => { const mesLC = m.split(' ')[0].toLowerCase(); return mesLC === 'enero' ? ('enero ' + year) : ('enero–' + mesLC + ' ' + year); };
-    crossfade(pacingCaption, () => { pacingCaption.innerHTML = '<b>' + PM_fmtCompactUSD(t1TotalMedia) + '</b> acumulado ' + PM_ytdRange(viewMonth, 2026) + ' (todos los canales)'; });
-    crossfade(pacingPctEl, () => { pacingPctEl.textContent = pacingPct.toFixed(0) + '%'; });
-    crossfade(pacingCmpLabel, () => { pacingCmpLabel.textContent = 'vs. acumulado ' + PM_ytdRange(cmpMonth, 2026); });
-    crossfade(pacingCmpDelta, () => { const d = relDelta(t1TotalMedia, t1CmpTotalMedia); pacingCmpDelta.textContent = deltaText(d); deltaStyle(pacingCmpDelta, d); });
-    if (pacingYoy) {
-      crossfade(pacingYoy, () => {
-        if (!yd) { pacingYoy.textContent = ''; pacingYoy.style.display = 'none'; return; }
-        pacingYoy.style.display = '';
-        pacingYoy.innerHTML = 'Acumulado ' + PM_ytdRange(cmpMonth, 2026) + ' vs. ' + PM_ytdRange(yoyMonthName, 2025) + ' (año anterior): ' + deltaText(yoyTotalMediaDelta);
-      });
-    }
 
     // Tab 2 conversion funnel — real per-objective stages (Impresiones/Clics/Alcance + Frecuencia,
     // plus each objective's own final conversion(s)), reactive to Ver/Comparar/año-anterior like
@@ -3951,7 +3956,7 @@
       };
     }
 
-    PM_renderT1Summary(vd, cd, t1TotalMedia, pacingPct, relDelta(t1TotalMedia, t1CmpTotalMedia), viewMonth, cmpMonth);
+    PM_renderT1Summary(vd, cd, viewMonth, cmpMonth);
     PM_renderAllObjMetricPanels(viewMonth, cmpMonth);
     PM_renderTarjetasGoal(viewMonth, cmpMonth, yoyMonthName);
   }
@@ -3989,16 +3994,17 @@
     orderedKeys.forEach((key, i) => {
       const pct = PM_ANNUAL_MIX_2026[key];
       const pctRounded = pct.toFixed(1);
-      const dollars = PM_annualChannelBudget(key, PM_ANNUAL_MIX_2026);
-      const dollarsYoy = PM_annualChannelBudget(key, PM_ANNUAL_MIX_2025);
-      const yoyDelta = relDelta(dollars, dollarsYoy);
+      const dollars = PM_annualChannelBudget(key);
+      const cat = PM_REAL_CATEGORY_TOTALS[key];
+      const consumedPct = cat.presupuesto ? (cat.consumo / cat.presupuesto) * 100 : 0;
+      const consumedColor = consumedPct > 100 ? 'bad' : (consumedPct >= 85 ? 'warn' : 'good');
       const angle = (pct / 100) * 360;
       const angleEnd = angleStart + angle;
       const toRad = a => (a * Math.PI) / 180;
       const x1 = cx + r * Math.cos(toRad(angleStart)), y1 = cy + r * Math.sin(toRad(angleStart));
       const x2 = cx + r * Math.cos(toRad(angleEnd)), y2 = cy + r * Math.sin(toRad(angleEnd));
       const largeArc = angle > 180 ? 1 : 0;
-      paths += `<path class="channel-pie-slice" style="animation-delay:${i * 70}ms" data-channel="${key}" data-tt="${PM_CHANNEL_LABEL[key]}" data-ttv="${pctRounded}% · ${PM_fmtCompactUSD(dollars)} anual" d="M${cx},${cy} L${x1.toFixed(2)},${y1.toFixed(2)} A${r},${r} 0 ${largeArc} 1 ${x2.toFixed(2)},${y2.toFixed(2)} Z" fill="${PM_CHANNEL_COLOR[key]}" stroke="#fff" stroke-width="2"></path>`;
+      paths += `<path class="channel-pie-slice" style="animation-delay:${i * 70}ms" data-channel="${key}" data-tt="${PM_CHANNEL_LABEL[key]}" data-ttv="${pctRounded}% · ${PM_fmtCompactUSD(dollars)} presupuesto" d="M${cx},${cy} L${x1.toFixed(2)},${y1.toFixed(2)} A${r},${r} 0 ${largeArc} 1 ${x2.toFixed(2)},${y2.toFixed(2)} Z" fill="${PM_CHANNEL_COLOR[key]}" stroke="#fff" stroke-width="2"></path>`;
       angleStart = angleEnd;
       legendRows += `<div class="channel-legend-row" data-channel="${key}">
         <span class="channel-icon-badge" style="background:${PM_CHANNEL_COLOR[key]}22;">
@@ -4007,7 +4013,7 @@
         <span class="channel-legend-name">${PM_CHANNEL_LABEL[key]}</span>
         <span class="channel-legend-value">
           <span class="channel-legend-pct">${pctRounded}%</span><span class="channel-legend-usd">${PM_fmtCompactUSD(dollars)}</span>
-          <span class="channel-legend-delta ${yoyDelta >= 0 ? 'good' : 'bad'}">${deltaText(yoyDelta)} vs. presupuesto anual 2025</span>
+          <span class="channel-legend-delta ${consumedColor === 'bad' ? 'bad' : 'good'}">${consumedPct.toFixed(0)}% consumido a junio 2026</span>
         </span>
       </div>`;
     });
@@ -4024,7 +4030,7 @@
     PAGE_ROOT.querySelectorAll('#pm-channelLegend .channel-legend-row').forEach(row => {
       row.classList.toggle('is-active', row.getAttribute('data-channel') === key);
     });
-    if (PM_lastAnnualViewMonth) PM_renderChannelAnnualBars(PM_lastAnnualViewMonth, PM_lastAnnualTotalMedia);
+    PM_renderChannelAnnualBars();
   }
   function PM_bindAnnualMixHover() {
     PAGE_ROOT.querySelectorAll('#pm-channelLegend [data-channel], #pm-channelPieSvg [data-channel]').forEach(el => {
@@ -4033,95 +4039,106 @@
     });
   }
 
-  /* ================= DESGLOSE POR MEDIO ESPECÍFICO — mismo lenguaje visual (barra anual + consumido) ================= */
-  function PM_outletRowsHTML(key, channelAnnual, channelConsumed, channelConsumedYoy, vd, ydView, yoyViewMonth) {
-    let outlets;
-    if (key === 'Paid') {
-      const platforms = ['Meta', 'Google', 'TikTok', 'DV360'];
-      outlets = platforms.map(p => ({
-        name: p, color: PM_PLATFORM_COLOR[p], icon: PM_platformIcon(p, PM_PLATFORM_COLOR[p], 13),
-        share: PM_PAID_OUTLET_SHARE[p], consumedSharePct: vd.mix[p], yoySharePct: ydView ? ydView.mix[p] : null,
-      }));
-    } else {
-      const list = PM_CHANNEL_OUTLETS[key];
-      const rawSum = list.reduce((s, o) => s + o.share * o.index, 0);
-      const yoyRawSum = list.reduce((s, o) => s + o.share * o.yoyIndex, 0);
-      outlets = list.map(o => ({
-        name: o.name, color: PM_CHANNEL_COLOR[key], icon: '', share: o.share,
-        consumedSharePct: (o.share * o.index / rawSum) * 100,
-        yoySharePct: (o.share * o.yoyIndex / yoyRawSum) * 100,
-      }));
-    }
-    const annuals = outlets.map(o => channelAnnual * (o.share / 100));
-    const maxOutletAnnual = Math.max(...annuals);
-    return outlets.map((o, i) => {
-      const annual = annuals[i];
-      const trackPct = (annual / maxOutletAnnual) * 100;
-      const consumed = channelConsumed * (o.consumedSharePct / 100);
-      const consumedPct = Math.min((consumed / annual) * 100, 100);
-      const remaining = Math.max(annual - consumed, 0);
-      const consumedYoy = (channelConsumedYoy !== null && o.yoySharePct !== null) ? channelConsumedYoy * (o.yoySharePct / 100) : null;
-      const yoyDelta = consumedYoy !== null ? relDelta(consumed, consumedYoy) : null;
+  /* ================= DESGLOSE POR MEDIO ESPECÍFICO — datos reales de PM_CONSUMO, estático (no
+     reactivo al mes: es un corte cerrado a junio 2026, igual que Bitácora/Consumo Real por Medio). ================= */
+  function PM_outletRowsHTML(key) {
+    const outlets = PM_realOutletsForCategory(key);
+    const maxPresupuesto = Math.max(...outlets.map(o => o.presupuesto), 1);
+    return outlets.map(o => {
+      const pct = o.presupuesto ? (o.consumo / o.presupuesto) * 100 : 0;
+      const trackPct = (o.presupuesto / maxPresupuesto) * 100;
+      const color = pct > 100 ? '#EE0000' : (pct >= 85 ? '#8a6d1f' : PM_CHANNEL_COLOR[key]);
       return `<div class="channel-outlet-row">
         <div class="channel-outlet-head">
-          <span class="channel-outlet-name">${o.icon || ''}${o.name}</span>
-          ${yoyDelta !== null ? `<span class="channel-annual-yoy ${yoyDelta >= 0 ? 'good' : 'bad'}">vs. ${yoyViewMonth}: ${deltaText(yoyDelta)}</span>` : ''}
+          <span class="channel-outlet-name">${o.name}</span>
+          <span class="channel-annual-budget">${PM_fmtCompactUSD(o.presupuesto)}</span>
         </div>
-        <div class="channel-outlet-track" style="width:${trackPct}%" data-tt="${o.name} — acumulado" data-ttv="${PM_fmtCompactUSD(consumed)} de ${PM_fmtCompactUSD(annual)} anual">
-          <div class="channel-outlet-fill" style="width:${consumedPct}%;background:${o.color}"></div>
+        <div class="channel-outlet-track" style="width:${trackPct}%" data-tt="${o.name} — corte junio 2026" data-ttv="${PM_fmtCompactUSD(o.consumo)} de ${PM_fmtCompactUSD(o.presupuesto)}">
+          <div class="channel-outlet-fill" style="width:${Math.min(pct, 100)}%;background:${color}"></div>
         </div>
         <div class="channel-annual-caption">
-          <span>Consumido: <b>${PM_fmtCompactUSD(consumed)}</b> (${consumedPct.toFixed(0)}%)</span>
-          <span>Resta: <b>${PM_fmtCompactUSD(remaining)}</b> (${(100 - consumedPct).toFixed(0)}%)</span>
+          <span>Consumido: <b>${PM_fmtCompactUSD(o.consumo)}</b> (${pct.toFixed(0)}%)</span>
+          <span>Saldo: <b style="${o.saldo < 0 ? 'color:#EE0000;' : ''}">${PM_fmtCompactUSD(o.saldo)}</b></span>
         </div>
       </div>`;
     }).join('');
   }
-  /* ================= CONSUMO DEL PRESUPUESTO ANUAL POR CANAL (Tab 1) — reactivo a "Ver" ================= */
-  function PM_renderChannelAnnualBars(viewMonth, t1TotalMedia) {
+  /* ================= CONSUMO REAL POR CATEGORÍA (Tab 1) — estático, corte cerrado a junio 2026,
+     no reactivo al filtro Ver/Comparar (ese filtro sigue accionando Objetivo y los Tabs 2-3). ================= */
+  function PM_renderChannelAnnualBars() {
     const container = document.getElementById('pm-channelAnnualBars');
     if (!container) return;
-    PM_lastAnnualViewMonth = viewMonth;
-    PM_lastAnnualTotalMedia = t1TotalMedia;
-    const vd = PM_MONTH_DATA[viewMonth];
-    const yoyViewMonth = PM_yoyMonth(viewMonth);
-    const ydView = yoyViewMonth ? PM_MONTH_DATA[yoyViewMonth] : null;
-    const totalMediaYoyView = ydView ? ydView.invested / (ydView.channels.Paid / 100) : null;
-    const mesLC = viewMonth.split(' ')[0].toLowerCase();
-
     const key = PM_activeAnnualChannel;
-    const annual = PM_annualChannelBudget(key, PM_ANNUAL_MIX_2026);
-    const consumed = t1TotalMedia * (vd.channels[key] / 100);
-    const consumedPct = Math.min((consumed / annual) * 100, 100);
-    const remaining = Math.max(annual - consumed, 0);
-    const remainingPct = 100 - consumedPct;
-    const consumedYoy = totalMediaYoyView !== null ? totalMediaYoyView * (ydView.channels[key] / 100) : null;
-    const yoyDelta = consumedYoy !== null ? relDelta(consumed, consumedYoy) : null;
+    const cat = PM_REAL_CATEGORY_TOTALS[key];
+    const pct = cat.presupuesto ? (cat.consumo / cat.presupuesto) * 100 : 0;
+    const remainingPct = 100 - pct;
+    const color = pct > 100 ? '#EE0000' : (pct >= 85 ? '#8a6d1f' : PM_CHANNEL_COLOR[key]);
 
     container.innerHTML = `
-      <div class="channel-annual-title">${PM_CHANNEL_LABEL[key]} — consumo del presupuesto anual (acumulado enero–${mesLC} 2026)</div>
+      <div class="channel-annual-title">${PM_CHANNEL_LABEL[key]} — consumo real, corte cerrado a junio 2026</div>
       <div class="channel-annual-row">
         <div class="channel-annual-head">
           <span class="channel-icon-badge" style="background:${PM_CHANNEL_COLOR[key]}22;">
             <svg class="channel-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="${PM_CHANNEL_COLOR[key]}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${PM_CHANNEL_ICON[key]}</svg>
           </span>
           <span class="channel-annual-name">${PM_CHANNEL_LABEL[key]}</span>
-          <span class="channel-annual-budget">${PM_fmtCompactUSD(annual)} anual</span>
-          ${yoyDelta !== null ? `<span class="channel-annual-yoy ${yoyDelta >= 0 ? 'good' : 'bad'}">vs. ${yoyViewMonth}: ${deltaText(yoyDelta)}</span>` : ''}
+          <span class="channel-annual-budget">${PM_fmtCompactUSD(cat.presupuesto)} presupuesto</span>
         </div>
-        <div class="channel-annual-track" style="width:100%" data-tt="${PM_CHANNEL_LABEL[key]} — acumulado enero–${mesLC} 2026" data-ttv="${PM_fmtCompactUSD(consumed)} de ${PM_fmtCompactUSD(annual)} anual">
-          <div class="channel-annual-fill" style="width:${consumedPct}%;background:${PM_CHANNEL_COLOR[key]}"></div>
+        <div class="channel-annual-track" style="width:100%" data-tt="${PM_CHANNEL_LABEL[key]} — corte junio 2026" data-ttv="${PM_fmtCompactUSD(cat.consumo)} de ${PM_fmtCompactUSD(cat.presupuesto)}">
+          <div class="channel-annual-fill" style="width:${Math.min(pct, 100)}%;background:${color}"></div>
         </div>
         <div class="channel-annual-caption">
-          <span>Consumido: <b>${PM_fmtCompactUSD(consumed)}</b> (${consumedPct.toFixed(0)}%)</span>
-          <span>Resta: <b>${PM_fmtCompactUSD(remaining)}</b> (${remainingPct.toFixed(0)}%)</span>
+          <span>Consumido: <b>${PM_fmtCompactUSD(cat.consumo)}</b> (${pct.toFixed(0)}%)</span>
+          <span>Saldo: <b style="${cat.saldo < 0 ? 'color:#EE0000;' : ''}">${PM_fmtCompactUSD(cat.saldo)}</b> (${remainingPct.toFixed(0)}%)</span>
         </div>
         <div class="channel-outlet-list">
-          ${PM_outletRowsHTML(key, annual, consumed, consumedYoy, vd, ydView, yoyViewMonth)}
+          ${PM_outletRowsHTML(key)}
         </div>
       </div>`;
   }
   PM_renderAnnualMix();
+  PM_renderChannelAnnualBars();
+
+  /* ================= HERO "PRESUPUESTO TOTAL DE MEDIOS" (Tab 1) — real, estático, corte cerrado a
+     junio 2026 (fuente: PM_CONSUMO). El filtro Ver/Comparar de arriba sigue accionando la tarjeta
+     Objetivo y los Tabs 2-3 exactamente igual que antes; esta tarjeta ya no reacciona a ese filtro. */
+  function PM_renderRealBudgetHero() {
+    const numberEl = document.getElementById('pm-t1HeroNumber');
+    if (numberEl) numberEl.textContent = PM_fmtUSD(Math.round(PM_ANNUAL_TOTAL));
+    const captionEl = document.getElementById('pm-t1HeroCaption');
+    if (captionEl) captionEl.textContent = 'Aprobado en 3 bolsas reales del Masterflow: DCE Marketing, Refuerzo OOH y Negocios.';
+    const monthLabelEl = document.getElementById('pm-t1MonthLabel');
+    if (monthLabelEl) monthLabelEl.textContent = 'Corte cerrado a junio 2026';
+
+    const pct = (PM_REAL_CONSUMO_TOTAL / PM_ANNUAL_TOTAL) * 100;
+    const expectedPct = 50; // 6 de 12 meses del año transcurridos al corte de junio
+    const pillEl = document.getElementById('pm-t1StatusPill');
+    if (pillEl) {
+      const ahead = pct - expectedPct;
+      const cls = ahead >= 3 ? 'good' : (ahead >= -5 ? 'good' : (ahead >= -15 ? 'warn' : 'bad'));
+      pillEl.textContent = ahead >= 3 ? 'Consumo adelantado al ritmo' : (ahead >= -5 ? 'Consumo en línea' : 'Consumo por debajo del ritmo');
+      pillEl.style.background = cls === 'good' ? 'rgba(0,128,56,0.1)' : (cls === 'warn' ? 'rgba(233,181,45,0.16)' : 'rgba(238,0,0,0.1)');
+      pillEl.style.color = cls === 'good' ? '#008038' : (cls === 'warn' ? '#8a6d1f' : '#EE0000');
+    }
+
+    const fillEl = document.getElementById('pm-t1MediaPacingFill');
+    if (fillEl) fillEl.style.transform = 'scaleX(' + (Math.min(pct, 100) / 100) + ')';
+    const captionPacingEl = document.getElementById('pm-t1MediaPacingCaption');
+    if (captionPacingEl) captionPacingEl.innerHTML = '<b>' + PM_fmtUSD(Math.round(PM_REAL_CONSUMO_TOTAL)) + '</b> consumido a junio 2026 (las 3 bolsas)';
+    const pctEl = document.getElementById('pm-t1MediaPacingPct');
+    if (pctEl) pctEl.textContent = pct.toFixed(0) + '%';
+    const cmpLabelEl = document.getElementById('pm-t1MediaPacingCmpLabel');
+    if (cmpLabelEl) cmpLabelEl.textContent = 'vs. ritmo esperado a junio (6 de 12 meses)';
+    const cmpDeltaEl = document.getElementById('pm-t1MediaPacingCmpDelta');
+    if (cmpDeltaEl) {
+      const d = pct - expectedPct;
+      cmpDeltaEl.textContent = deltaText(d);
+      deltaStyle(cmpDeltaEl, d);
+    }
+    const yoyEl = document.getElementById('pm-t1MediaPacingYoy');
+    if (yoyEl) { yoyEl.textContent = 'Corte real cerrado a junio 2026 — no varía con el filtro de mes ni tiene año anterior comparable.'; yoyEl.style.display = ''; }
+  }
+  PM_renderRealBudgetHero();
 
   /* ================= ENTRANCE ANIMATION: grow bar fills from 0 (transform, not width, to avoid layout thrash) ================= */
   PAGE_ROOT.querySelectorAll('.rank-fill, .pacing-fill, .efficiency-fill').forEach(el => {
@@ -4535,57 +4552,6 @@
     PM_bitacoraTeaserEl.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); PM_showTab('t4'); } });
   }
 
-  /* ================= CONSUMO REAL POR MEDIO (Tab 5) — hoja RESUMEN CONSUMO del Masterflow, transcrita
-     tal cual, corte cerrado a junio 2026. Estático, no reactivo al mes. Dos vistas del mismo gasto real
-     que NO se reconcilian entre sí (distinto filtro de origen: por bolsa de presupuesto vs. por tipo de
-     negocio/comprobante) — se muestran separadas a propósito, nunca sumadas como si fueran la misma cifra. */
-  const PM_CONSUMO = {
-    marketing: {
-      label: 'DCE Marketing',
-      items: [
-        { medio: 'OOH', presupuesto: 2969727, consumo: 1613833.116333334, saldo: 1355893.883666666 },
-        { medio: 'Lonas', presupuesto: 300000, consumo: 200480.52002800006, saldo: 99519.47997199994 },
-        { medio: 'Teleamazonas', presupuesto: 220000, consumo: 317344.130006, saldo: -97344.13000599999 },
-        { medio: 'Ecuavisa', presupuesto: 110000, consumo: 71368.32199999999, saldo: 38631.678000000014 },
-        { medio: 'Mundial', presupuesto: 400000, consumo: 280000.000003, saldo: 119999.99999699998 },
-        { medio: 'Multicines', presupuesto: 110000, consumo: 0, saldo: 110000 },
-        { medio: 'Meta', presupuesto: 226056, consumo: 124955.0052, saldo: 101100.9948 },
-        { medio: 'Google', presupuesto: 95000, consumo: 50575.26399999999, saldo: 44424.73600000001 },
-        { medio: 'Tik Tok', presupuesto: 90000, consumo: 12745.176, saldo: 77254.824 },
-        { medio: 'Programática', presupuesto: 150000, consumo: 41543.76, saldo: 108456.23999999999 },
-        { medio: 'Primicias', presupuesto: 40000, consumo: 42000.00000000001, saldo: -2000.0000000000073 },
-        { medio: 'Cosas', presupuesto: 73320, consumo: 40440, saldo: 32880 },
-        { medio: 'Canal del fútbol', presupuesto: 10000, consumo: 10000, saldo: 0 },
-        { medio: 'VIU', presupuesto: 150000, consumo: 137947.850001, saldo: 12052.149998999987 },
-        { medio: 'VIU Pantallas', presupuesto: 35550, consumo: 35556, saldo: -6 },
-        { medio: 'Mundo Diners', presupuesto: 22944, consumo: 0, saldo: 22944 },
-        { medio: 'Gestión', presupuesto: 15247.57, consumo: 7623.719999999999, saldo: 7623.85 },
-        { medio: 'Terra incognita', presupuesto: 6750, consumo: 1125, saldo: 5625 },
-        { medio: 'DK', presupuesto: 0, consumo: 0, saldo: 0 },
-        { medio: 'Radios', presupuesto: 22412, consumo: 26200.719998, saldo: -3788.7199980000005 },
-        { medio: 'Externos', presupuesto: 20000, consumo: 34296.024000000005, saldo: -14296.024000000005 },
-      ],
-      total: { presupuesto: 5067006.57, consumo: 3048034.6075693346, saldo: 2018971.9624306657 },
-    },
-    refuerzoOOH: {
-      label: 'DCE Refuerzo OOH',
-      items: [
-        { medio: 'OOH', presupuesto: 354922, consumo: 96204.68000000001, saldo: 258717.32 },
-        { medio: 'Ecuavisa', presupuesto: 199473, consumo: 91543.76999999999, saldo: 107929.23000000001 },
-        { medio: 'TC', presupuesto: 127532, consumo: 44642.04, saldo: 82889.95999999999 },
-      ],
-      total: { presupuesto: 681927, consumo: 232390.49000000002, saldo: 449536.51 },
-    },
-    negocios: {
-      label: 'DCE Negocios',
-      items: [
-        { medio: 'ESPN Negocios', presupuesto: 150000, consumo: 68820.609999, saldo: 81179.390001 },
-        { medio: 'Programática Negocios', presupuesto: 150000, consumo: 17302.056, saldo: 132697.944 },
-        { medio: 'Digital', presupuesto: 0, consumo: 0, saldo: 0 },
-      ],
-      total: { presupuesto: 300000, consumo: 86122.66599899999, saldo: 213877.334001 },
-    },
-  };
   const PM_FACTURACION = {
     marketing: {
       label: 'TIPO: Marketing',
