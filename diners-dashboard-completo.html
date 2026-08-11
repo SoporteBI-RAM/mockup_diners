@@ -543,6 +543,16 @@
   [data-page="paid"] .bitacora-total-row { display: flex; justify-content: space-between; margin-top: 10px; padding-top: 10px; border-top: 1px solid #eef1f3; font-size: 12px; font-weight: 700; color: #262626; }
   [data-page="paid"] .bitacora-total-row.is-zero { color: #b0b0b0; font-weight: 500; }
   [data-page="paid"] .bitacora-pct-chip { font-size: 9.5px; font-weight: 700; color: #8a6d1f; background: rgba(233,181,45,0.16); padding: 2px 7px; border-radius: 999px; margin-left: 6px; white-space: nowrap; }
+  [data-page="paid"] .consumo-cell { display: flex; align-items: center; gap: 8px; }
+  [data-page="paid"] .consumo-bar-track { flex: 1; min-width: 60px; height: 7px; border-radius: 4px; background: #eef1f3; overflow: hidden; }
+  [data-page="paid"] .consumo-bar-fill { height: 100%; border-radius: 4px; }
+  [data-page="paid"] .consumo-pct { flex: none; width: 42px; text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; }
+  [data-page="paid"] .consumo-table-title { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 8px; }
+  [data-page="paid"] .consumo-table-name { font-size: 13px; font-weight: 700; color: #262626; }
+  [data-page="paid"] .consumo-table-totals { font-size: 11px; color: #8b8b8b; }
+  [data-page="paid"] .network-table tr.consumo-total-row { font-weight: 700; }
+  [data-page="paid"] .network-table tr.consumo-total-row td { border-top: 1px solid #e6e5ea; border-bottom: none; }
+  [data-page="paid"] .network-table td.negative { color: #EE0000; }
   [data-page="paid"] .bitacora-teaser { transition: background 0.15s ease, border-color 0.15s ease; }
   [data-page="paid"] .bitacora-teaser:hover, [data-page="paid"] .bitacora-teaser:focus-visible { background: #F7ECC4; border-color: #DFC463; outline: none; }
   [data-page="paid"] .bitacora-teaser-link { text-decoration: underline; font-weight: 700; white-space: nowrap; }
@@ -868,6 +878,7 @@
     <button class="tab" data-tab="t2"><span class="tab-num">2</span>Seguimiento y Cumplimiento</button>
     <button class="tab" data-tab="t3"><span class="tab-num">3</span>Composición y Plataformas</button>
     <button class="tab" data-tab="t4"><span class="tab-num">4</span>Bitácora</button>
+    <button class="tab" data-tab="t5"><span class="tab-num">5</span>Consumo Real por Medio</button>
   </div>
 
   <!-- ============ TAB 1 — RESUMEN ============ -->
@@ -1348,6 +1359,24 @@
       <div class="bitacora-summary-row" id="pm-bitacoraSummary"></div>
     </div>
     <div class="bitacora-grid" id="pm-bitacoraGrid"></div>
+  </div>
+
+  <!-- ============ TAB 5 — CONSUMO REAL POR MEDIO ============ -->
+  <div class="panel" data-panel="t5">
+    <div class="zone zone-pad">
+      <div class="zone-label">Consumo Real por Medio</div>
+      <div class="zone-title" style="margin-bottom:4px;">Presupuesto, consumo y saldo — corte junio 2026</div>
+      <div class="hero-caption" style="margin-bottom:12px;">Fuente: hoja RESUMEN CONSUMO del Masterflow real. Mismas 3 bolsas que Bitácora, ahora con el detalle de cada medio específico. No varía con el filtro de mes — es un corte cerrado a junio.</div>
+      <div class="bitacora-summary-row" id="pm-consumoSummary"></div>
+    </div>
+    <div id="pm-consumoTables"></div>
+
+    <div class="zone zone-pad" style="margin-top:14px;">
+      <div class="zone-label">Detalle de facturación</div>
+      <div class="zone-title" style="margin-bottom:4px;">Facturable / No facturable / Prepago — por tipo de negocio</div>
+      <div class="hero-caption" style="margin-bottom:12px;">Otro corte del mismo gasto real, esta vez por tipo de comprobante y outlet específico. <b>No suma igual</b> que la tabla de arriba — son dos filtros distintos del origen (por bolsa de presupuesto vs. por tipo de negocio/comprobante), no la misma cifra vista dos veces.</div>
+    </div>
+    <div id="pm-facturacionTables"></div>
   </div>
     </div>
 
@@ -4505,6 +4534,225 @@
     PM_bitacoraTeaserEl.addEventListener('click', () => PM_showTab('t4'));
     PM_bitacoraTeaserEl.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); PM_showTab('t4'); } });
   }
+
+  /* ================= CONSUMO REAL POR MEDIO (Tab 5) — hoja RESUMEN CONSUMO del Masterflow, transcrita
+     tal cual, corte cerrado a junio 2026. Estático, no reactivo al mes. Dos vistas del mismo gasto real
+     que NO se reconcilian entre sí (distinto filtro de origen: por bolsa de presupuesto vs. por tipo de
+     negocio/comprobante) — se muestran separadas a propósito, nunca sumadas como si fueran la misma cifra. */
+  const PM_CONSUMO = {
+    marketing: {
+      label: 'DCE Marketing',
+      items: [
+        { medio: 'OOH', presupuesto: 2969727, consumo: 1613833.116333334, saldo: 1355893.883666666 },
+        { medio: 'Lonas', presupuesto: 300000, consumo: 200480.52002800006, saldo: 99519.47997199994 },
+        { medio: 'Teleamazonas', presupuesto: 220000, consumo: 317344.130006, saldo: -97344.13000599999 },
+        { medio: 'Ecuavisa', presupuesto: 110000, consumo: 71368.32199999999, saldo: 38631.678000000014 },
+        { medio: 'Mundial', presupuesto: 400000, consumo: 280000.000003, saldo: 119999.99999699998 },
+        { medio: 'Multicines', presupuesto: 110000, consumo: 0, saldo: 110000 },
+        { medio: 'Meta', presupuesto: 226056, consumo: 124955.0052, saldo: 101100.9948 },
+        { medio: 'Google', presupuesto: 95000, consumo: 50575.26399999999, saldo: 44424.73600000001 },
+        { medio: 'Tik Tok', presupuesto: 90000, consumo: 12745.176, saldo: 77254.824 },
+        { medio: 'Programática', presupuesto: 150000, consumo: 41543.76, saldo: 108456.23999999999 },
+        { medio: 'Primicias', presupuesto: 40000, consumo: 42000.00000000001, saldo: -2000.0000000000073 },
+        { medio: 'Cosas', presupuesto: 73320, consumo: 40440, saldo: 32880 },
+        { medio: 'Canal del fútbol', presupuesto: 10000, consumo: 10000, saldo: 0 },
+        { medio: 'VIU', presupuesto: 150000, consumo: 137947.850001, saldo: 12052.149998999987 },
+        { medio: 'VIU Pantallas', presupuesto: 35550, consumo: 35556, saldo: -6 },
+        { medio: 'Mundo Diners', presupuesto: 22944, consumo: 0, saldo: 22944 },
+        { medio: 'Gestión', presupuesto: 15247.57, consumo: 7623.719999999999, saldo: 7623.85 },
+        { medio: 'Terra incognita', presupuesto: 6750, consumo: 1125, saldo: 5625 },
+        { medio: 'DK', presupuesto: 0, consumo: 0, saldo: 0 },
+        { medio: 'Radios', presupuesto: 22412, consumo: 26200.719998, saldo: -3788.7199980000005 },
+        { medio: 'Externos', presupuesto: 20000, consumo: 34296.024000000005, saldo: -14296.024000000005 },
+      ],
+      total: { presupuesto: 5067006.57, consumo: 3048034.6075693346, saldo: 2018971.9624306657 },
+    },
+    refuerzoOOH: {
+      label: 'DCE Refuerzo OOH',
+      items: [
+        { medio: 'OOH', presupuesto: 354922, consumo: 96204.68000000001, saldo: 258717.32 },
+        { medio: 'Ecuavisa', presupuesto: 199473, consumo: 91543.76999999999, saldo: 107929.23000000001 },
+        { medio: 'TC', presupuesto: 127532, consumo: 44642.04, saldo: 82889.95999999999 },
+      ],
+      total: { presupuesto: 681927, consumo: 232390.49000000002, saldo: 449536.51 },
+    },
+    negocios: {
+      label: 'DCE Negocios',
+      items: [
+        { medio: 'ESPN Negocios', presupuesto: 150000, consumo: 68820.609999, saldo: 81179.390001 },
+        { medio: 'Programática Negocios', presupuesto: 150000, consumo: 17302.056, saldo: 132697.944 },
+        { medio: 'Digital', presupuesto: 0, consumo: 0, saldo: 0 },
+      ],
+      total: { presupuesto: 300000, consumo: 86122.66599899999, saldo: 213877.334001 },
+    },
+  };
+  const PM_FACTURACION = {
+    marketing: {
+      label: 'TIPO: Marketing',
+      items: [
+        { outlet: 'Via Pública', facturable: 0, noFacturable: 0, prepago: 1613833.116333334, total: 1613833.116333334 },
+        { outlet: 'Via Pública RC', facturable: 0, noFacturable: 0, prepago: 96204.68000000001, total: 96204.68000000001 },
+        { outlet: 'Via Pública Producción', facturable: 200480.52002800006, noFacturable: 0, prepago: 0, total: 200480.52002800006 },
+        { outlet: 'TV Abierta', facturable: 301393.99200599996, noFacturable: 122866.46, prepago: 260000.000003, total: 684260.4520089999 },
+        { outlet: 'Teleamazonas', facturable: 214477.67000599997, noFacturable: 102866.46, prepago: 0, total: 317344.130006 },
+        { outlet: 'Teleamazonas M', facturable: 0, noFacturable: 20000, prepago: 260000.000003, total: 280000.000003 },
+        { outlet: 'Ecuavisa Guayaquil', facturable: 38733.91099999999, noFacturable: 0, prepago: 0, total: 38733.91099999999 },
+        { outlet: 'Ecuavisa Quito', facturable: 32634.411, noFacturable: 0, prepago: 0, total: 32634.411 },
+        { outlet: 'TC Televisión', facturable: 15548, noFacturable: 0, prepago: 0, total: 15548 },
+        { outlet: 'TV Abierta RC', facturable: 127915.13, noFacturable: 0, prepago: 8270.68, total: 136185.81 },
+        { outlet: 'Ecuavisa Guayaquil (RC)', facturable: 41618.09, noFacturable: 0, prepago: 8270.68, total: 49888.77 },
+        { outlet: 'Ecuavisa Quito (RC)', facturable: 41655, noFacturable: 0, prepago: 0, total: 41655 },
+        { outlet: 'TC Televisión (RC)', facturable: 44642.04, noFacturable: 0, prepago: 0, total: 44642.04 },
+        { outlet: 'TV Paga', facturable: 45556, noFacturable: 0, prepago: 137947.850001, total: 183503.850001 },
+        { outlet: 'ESPN-VIU', facturable: 0, noFacturable: 0, prepago: 137947.850001, total: 137947.850001 },
+        { outlet: 'El Canal del Fútbol', facturable: 10000, noFacturable: 0, prepago: 0, total: 10000 },
+        { outlet: 'VIU Pantallas', facturable: 35556, noFacturable: 0, prepago: 0, total: 35556 },
+        { outlet: 'Digital', facturable: 84439.00920000001, noFacturable: 0, prepago: 295499.94399999996, total: 379938.9532 },
+        { outlet: 'Adspot-Aleph', facturable: 0, noFacturable: 0, prepago: 2763.9, total: 2763.9 },
+        { outlet: 'DV360', facturable: 0, noFacturable: 0, prepago: 34123.668, total: 34123.668 },
+        { outlet: 'Prodigy', facturable: 0, noFacturable: 0, prepago: 3322.6200000000003, total: 3322.6200000000003 },
+        { outlet: 'Spotify', facturable: 0, noFacturable: 0, prepago: 1333.572, total: 1333.572 },
+        { outlet: 'Primicias', facturable: 0, noFacturable: 0, prepago: 66200.004, total: 66200.004 },
+        { outlet: 'Primicias M', facturable: 0, noFacturable: 0, prepago: 42000.00000000001, total: 42000.00000000001 },
+        { outlet: 'Facebook - Cisneros', facturable: 27103.29600000001, noFacturable: 0, prepago: 97851.552, total: 124954.848 },
+        { outlet: 'Smartly', facturable: 0.1572, noFacturable: 0, prepago: 0, total: 0.1572 },
+        { outlet: 'Google Search', facturable: 649.2239999999999, noFacturable: 0, prepago: 0, total: 649.2239999999999 },
+        { outlet: 'Google Ads', facturable: 10358.460000000001, noFacturable: 0, prepago: 21287.195999999996, total: 31645.655999999995 },
+        { outlet: 'YouTube', facturable: 2249.844, noFacturable: 0, prepago: 12220.948, total: 14470.792000000001 },
+        { outlet: 'IMS - YTD', facturable: 0, noFacturable: 0, prepago: 3809.592, total: 3809.592 },
+        { outlet: 'TikTok', facturable: 2158.284, noFacturable: 0, prepago: 10586.892, total: 12745.176 },
+        { outlet: 'Revista Gestión', facturable: 7623.719999999999, noFacturable: 0, prepago: 0, total: 7623.719999999999 },
+        { outlet: 'América Economía Digital', facturable: 3000, noFacturable: 0, prepago: 0, total: 3000 },
+        { outlet: 'Diario Expreso Digital', facturable: 1188, noFacturable: 0, prepago: 0, total: 1188 },
+        { outlet: 'El Universo Digital', facturable: 3600, noFacturable: 0, prepago: 0, total: 3600 },
+        { outlet: 'Revista Forbes Digital', facturable: 1920, noFacturable: 0, prepago: 0, total: 1920 },
+        { outlet: 'Club Liga Deportiva Univ.', facturable: 7068.096, noFacturable: 0, prepago: 0, total: 7068.096 },
+        { outlet: 'El Futbolero', facturable: 2439.06, noFacturable: 0, prepago: 0, total: 2439.06 },
+        { outlet: 'Insights Digital', facturable: 3529.5, noFacturable: 0, prepago: 0, total: 3529.5 },
+        { outlet: 'Revista Cosas Digital', facturable: 2760, noFacturable: 0, prepago: 0, total: 2760 },
+        { outlet: 'TC Televisión Digital', facturable: 840, noFacturable: 0, prepago: 0, total: 840 },
+        { outlet: 'El Comercio Digital', facturable: 2782.8, noFacturable: 0, prepago: 0, total: 2782.8 },
+        { outlet: 'LinkedIn', facturable: 848.5679999999999, noFacturable: 0, prepago: 0, total: 848.5679999999999 },
+        { outlet: 'Ecuavisa Digital', facturable: 4320, noFacturable: 0, prepago: 0, total: 4320 },
+        { outlet: 'Radio', facturable: 26200.719998, noFacturable: 0, prepago: 0, total: 26200.719998 },
+        { outlet: 'Revista', facturable: 6325, noFacturable: 0, prepago: 35240, total: 41565 },
+        { outlet: 'Terra Incognita', facturable: 1125, noFacturable: 0, prepago: 0, total: 1125 },
+        { outlet: 'Revista Casas', facturable: 5200, noFacturable: 0, prepago: 12800, total: 18000 },
+        { outlet: 'Revista Cosas', facturable: 0, noFacturable: 0, prepago: 22440, total: 22440 },
+      ],
+      totals: { facturable: 792310.3712320002, noFacturable: 122866.46, prepago: 2446996.2703373344, total: 3362173.101569334 },
+    },
+    negocios: {
+      label: 'TIPO: Negocios',
+      items: [
+        { outlet: 'TV Paga', facturable: 0, noFacturable: 0, prepago: 68820.609999, total: 68820.609999 },
+        { outlet: 'ESPN-VIU', facturable: 0, noFacturable: 0, prepago: 68820.609999, total: 68820.609999 },
+        { outlet: 'Digital', facturable: 387349.90100000007, noFacturable: 0, prepago: 47319.132, total: 434669.0330000001 },
+        { outlet: 'Adspot-Aleph', facturable: 0, noFacturable: 0, prepago: 4461.911999999999, total: 4461.911999999999 },
+        { outlet: 'DV360', facturable: 0, noFacturable: 0, prepago: 11640.624, total: 11640.624 },
+        { outlet: 'Prodigy', facturable: 0, noFacturable: 0, prepago: 1199.52, total: 1199.52 },
+        { outlet: 'Primicias', facturable: 0, noFacturable: 0, prepago: 30017.076, total: 30017.076 },
+        { outlet: 'Facebook - Cisneros', facturable: 200907.4220000001, noFacturable: 0, prepago: 0, total: 200907.4220000001 },
+        { outlet: 'Google PMax', facturable: 45855.270000000004, noFacturable: 0, prepago: 0, total: 45855.270000000004 },
+        { outlet: 'Smartly', facturable: 0.08499999999999999, noFacturable: 0, prepago: 0, total: 0.08499999999999999 },
+        { outlet: 'Google Search', facturable: 13313.23, noFacturable: 0, prepago: 0, total: 13313.23 },
+        { outlet: 'Google Ads', facturable: 98494.42599999998, noFacturable: 0, prepago: 0, total: 98494.42599999998 },
+        { outlet: 'YouTube', facturable: 11790.408000000001, noFacturable: 0, prepago: 0, total: 11790.408000000001 },
+        { outlet: 'IMS - YTD', facturable: 1200, noFacturable: 0, prepago: 0, total: 1200 },
+        { outlet: 'TikTok', facturable: 14349.059999999998, noFacturable: 0, prepago: 0, total: 14349.059999999998 },
+        { outlet: 'El Comercio Digital', facturable: 1440, noFacturable: 0, prepago: 0, total: 1440 },
+      ],
+      totals: { facturable: 387349.90100000007, noFacturable: 0, prepago: 116139.74199899999, total: 503489.6429990001 },
+    },
+  };
+  function PM_consumoBarHTML(consumo, presupuesto) {
+    if (!presupuesto) return '<span class="bitacora-empty">—</span>';
+    const pct = (consumo / presupuesto) * 100;
+    const color = pct > 100 ? '#EE0000' : (pct >= 85 ? '#8a6d1f' : '#008038');
+    return `<div class="consumo-cell"><div class="consumo-bar-track"><div class="consumo-bar-fill" style="width:${Math.min(pct, 100)}%;background:${color};"></div></div><span class="consumo-pct" style="color:${color};">${pct.toFixed(0)}%</span></div>`;
+  }
+  function PM_renderConsumoSummary() {
+    const el = document.getElementById('pm-consumoSummary');
+    if (!el) return;
+    const buckets = [PM_CONSUMO.marketing, PM_CONSUMO.refuerzoOOH, PM_CONSUMO.negocios];
+    const totalPresupuesto = buckets.reduce((s, b) => s + b.total.presupuesto, 0);
+    const totalConsumo = buckets.reduce((s, b) => s + b.total.consumo, 0);
+    const totalSaldo = buckets.reduce((s, b) => s + b.total.saldo, 0);
+    const pctConsumido = (totalConsumo / totalPresupuesto) * 100;
+    el.innerHTML = `
+      <div class="bitacora-stat"><div class="bitacora-stat-value">${PM_fmtUSD(Math.round(totalPresupuesto))}</div><div class="bitacora-stat-label">Presupuesto total (3 bolsas)</div></div>
+      <div class="bitacora-stat is-adicional"><div class="bitacora-stat-value">${PM_fmtUSD(Math.round(totalConsumo))}</div><div class="bitacora-stat-label">Consumido a junio 2026</div></div>
+      <div class="bitacora-stat"><div class="bitacora-stat-value">${PM_fmtUSD(Math.round(totalSaldo))}</div><div class="bitacora-stat-label">Saldo disponible</div></div>
+      <div class="bitacora-stat"><div class="bitacora-stat-value">${pctConsumido.toFixed(0)}%</div><div class="bitacora-stat-label">% consumido del total</div></div>
+    `;
+  }
+  function PM_renderConsumoTables() {
+    const el = document.getElementById('pm-consumoTables');
+    if (!el) return;
+    const buckets = [PM_CONSUMO.marketing, PM_CONSUMO.refuerzoOOH, PM_CONSUMO.negocios];
+    el.innerHTML = buckets.map(b => {
+      const rows = b.items.slice().sort((a, c) => c.presupuesto - a.presupuesto).map(it => `<tr>
+        <td>${it.medio}</td>
+        <td class="metric">${PM_fmtUSD(Math.round(it.presupuesto))}</td>
+        <td class="metric">${PM_fmtUSD(Math.round(it.consumo))}</td>
+        <td class="metric ${it.saldo < 0 ? 'negative' : ''}">${PM_fmtUSD(Math.round(it.saldo))}</td>
+        <td>${PM_consumoBarHTML(it.consumo, it.presupuesto)}</td>
+      </tr>`).join('');
+      return `<div class="zone zone-pad" style="margin-top:14px;">
+        <div class="consumo-table-title">
+          <span class="consumo-table-name">${b.label}</span>
+          <span class="consumo-table-totals">Presupuesto ${PM_fmtUSD(Math.round(b.total.presupuesto))} · Consumido ${PM_fmtUSD(Math.round(b.total.consumo))} · Saldo ${PM_fmtUSD(Math.round(b.total.saldo))}</span>
+        </div>
+        <table class="network-table">
+          <thead><tr><th>Medio</th><th>Presupuesto</th><th>Consumo a junio</th><th>Saldo</th><th>% consumido</th></tr></thead>
+          <tbody>${rows}
+            <tr class="consumo-total-row">
+              <td>Total</td>
+              <td class="metric">${PM_fmtUSD(Math.round(b.total.presupuesto))}</td>
+              <td class="metric">${PM_fmtUSD(Math.round(b.total.consumo))}</td>
+              <td class="metric ${b.total.saldo < 0 ? 'negative' : ''}">${PM_fmtUSD(Math.round(b.total.saldo))}</td>
+              <td>${PM_consumoBarHTML(b.total.consumo, b.total.presupuesto)}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>`;
+    }).join('');
+  }
+  function PM_renderFacturacionTables() {
+    const el = document.getElementById('pm-facturacionTables');
+    if (!el) return;
+    const pivots = [PM_FACTURACION.marketing, PM_FACTURACION.negocios];
+    el.innerHTML = pivots.map(p => {
+      const rows = p.items.slice().sort((a, c) => c.total - a.total).map(it => `<tr>
+        <td>${it.outlet}</td>
+        <td class="metric">${it.facturable ? PM_fmtUSD(Math.round(it.facturable)) : '—'}</td>
+        <td class="metric">${it.noFacturable ? PM_fmtUSD(Math.round(it.noFacturable)) : '—'}</td>
+        <td class="metric">${it.prepago ? PM_fmtUSD(Math.round(it.prepago)) : '—'}</td>
+        <td class="metric">${PM_fmtUSD(Math.round(it.total))}</td>
+      </tr>`).join('');
+      return `<div class="zone zone-pad" style="margin-top:14px;">
+        <div class="consumo-table-title">
+          <span class="consumo-table-name">${p.label}</span>
+          <span class="consumo-table-totals">Total ${PM_fmtUSD(Math.round(p.totals.total))}</span>
+        </div>
+        <table class="network-table">
+          <thead><tr><th>Outlet</th><th>Facturable</th><th>No facturable</th><th>Prepago</th><th>Total</th></tr></thead>
+          <tbody>${rows}
+            <tr class="consumo-total-row">
+              <td>Total general</td>
+              <td class="metric">${PM_fmtUSD(Math.round(p.totals.facturable))}</td>
+              <td class="metric">${p.totals.noFacturable ? PM_fmtUSD(Math.round(p.totals.noFacturable)) : '—'}</td>
+              <td class="metric">${PM_fmtUSD(Math.round(p.totals.prepago))}</td>
+              <td class="metric">${PM_fmtUSD(Math.round(p.totals.total))}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>`;
+    }).join('');
+  }
+  PM_renderConsumoSummary();
+  PM_renderConsumoTables();
+  PM_renderFacturacionTables();
 
   })();
 </script>
