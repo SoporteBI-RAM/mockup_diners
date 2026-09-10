@@ -758,7 +758,7 @@
   [data-page="ppto"] .ppto-filter-btn .ppto-dot { margin-right: 0; }
 
   /* Tarjetas de tipologia */
-  [data-page="ppto"] .ppto-tipo-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 14px; }
+  [data-page="ppto"] .ppto-tipo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 14px; }
   [data-page="ppto"] .ppto-tipo-card { padding: 14px 15px; border-top: 3px solid var(--tipo-color, #4F52E5); cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease; }
   [data-page="ppto"] .ppto-tipo-card:hover { transform: translateY(-3px); box-shadow: 0 4px 10px rgba(20,20,20,0.07), 0 14px 32px rgba(20,20,20,0.10); }
   [data-page="ppto"] .ppto-tipo-name { font-size: 11.5px; font-weight: 700; color: #262626; margin-bottom: 8px; line-height: 1.3; min-height: 30px; }
@@ -1033,10 +1033,14 @@
           </div>
           <div class="zone zone-pad">
             <div class="zone-label">Reparto</div>
-            <div class="zone-title">Marketing vs. Negocios</div>
-            <div class="hero-caption" style="margin-bottom:10px;">Sobre el gasto real, no sobre presupuesto: Negocios no tiene forecast anual cargado en el Masterflow.</div>
+            <div class="zone-title">Área que financia — Marketing vs. Negocios</div>
+            <div class="hero-caption" style="margin-bottom:10px;">Columna <b>TIPO</b> del Masterflow: qué área paga cada registro. Sobre el gasto real, no sobre presupuesto — Negocios no tiene forecast anual cargado.</div>
             <div id="ppto-areaRows"></div>
             <div class="caveat-box" style="margin-top:12px;">
+              <span>⚠️</span>
+              <span><b>"Institucional" aquí no es la tipología de campaña.</b> Es el área que financia, y agrupa solo obligaciones societarias (Balance Financiero, Convocatoria a Junta, Aviso de Estatutos, Auspicio Teatro Sucre). La tipología <i>Institucional</i> de la vista de Portafolio son $1,14M de marca y patrocinios, y se financia desde Marketing. Misma palabra, dos dimensiones distintas.</span>
+            </div>
+            <div class="caveat-box" style="margin-top:10px;">
               <span>⚠️</span>
               <span>Negocios no tiene <b>presupuesto anual</b> en el Masterflow — solo consumo. Para mostrar "% del presupuesto asignado a Negocios" necesitamos que el cliente nos pase su forecast.</span>
             </div>
@@ -1046,9 +1050,13 @@
         <div class="ppto-2col">
           <div class="zone zone-pad">
             <div class="zone-label">Tipología de gasto</div>
-            <div class="zone-title">Prepago, facturable y no facturable</div>
+            <div class="zone-title">Prepago, facturable y no facturable<span class="ppto-propuesto">⚠ no es la lista pedida</span></div>
             <div class="hero-caption" style="margin-bottom:10px;">Columna <b>TIPO DE CONSUMO</b> del Masterflow. Define cuánto del gasto ya salió de caja por adelantado y cuánto se factura contra ejecución.</div>
             <div id="ppto-consumoRows"></div>
+            <div class="caveat-box" style="margin-top:12px;">
+              <span>⚠️</span>
+              <span>Se pidieron <b>cuatro</b> categorías (prepago, pauta regular, compromiso y pagos directos a medios); el Masterflow tiene <b>tres</b> y su diccionario declara solo <b>dos</b>. Además <b>"compromiso" no es un tipo de consumo</b>, es el eje temporal — está arriba, en el KPI de Comprometido. Y <b>"pagos directos a medios"</b> no tiene hoy ningún campo que lo identifique. Hay que aterrizar la equivalencia con el cliente.</span>
+            </div>
           </div>
           <div class="zone zone-pad">
             <div class="zone-label">Medios vs. fees</div>
@@ -1112,26 +1120,56 @@
       <div class="panel" data-panel="p3">
         <div class="zone zone-pad" style="margin-bottom:14px;">
           <div class="zone-label">Portafolio</div>
-          <div class="zone-title" style="margin-bottom:4px;">Inversión por tipología de campaña<span class="ppto-propuesto">⚠ criterio propuesto</span></div>
-          <div class="hero-caption">Las 121 campañas reales del Masterflow clasificadas en las cuatro tipologías que pidió el cliente. <b>El criterio de clasificación es una propuesta nuestra</b> — el Masterflow no trae una columna de tipología, solo el nombre de la campaña. Hay que validarlo con Diners antes de darlo por bueno, o pedir que lo agreguen al master.</div>
+          <div class="zone-title" style="margin-bottom:4px;">¿En qué tipo de campaña estamos invirtiendo?</div>
+          <div class="hero-caption">Las 121 campañas del Masterflow agrupadas en las cinco tipologías: Movilización de consumos, Onboarding, Adquisición, Institucional y otros apoyos tácticos.</div>
         </div>
 
         <div class="ppto-tipo-grid" id="ppto-tipoGrid"></div>
 
+        <div class="ppto-2col-wide">
+          <div class="zone zone-pad">
+            <div class="zone-label">Composición</div>
+            <div class="zone-title" style="margin-bottom:4px;">Cómo se reparte la inversión entre tipologías</div>
+            <div class="hero-caption" style="margin-bottom:14px;">Consumido más comprometido, sobre el total del año.</div>
+            <div class="ppto-pie-wrap">
+              <svg width="150" height="150" viewBox="0 0 120 120" id="ppto-tipoPie"></svg>
+              <div class="ppto-pie-legend" id="ppto-tipoPieLegend"></div>
+            </div>
+          </div>
+          <div class="zone zone-pad">
+            <div class="zone-label">Concentración</div>
+            <div class="zone-title" style="margin-bottom:4px;">Las 10 campañas más grandes</div>
+            <div class="hero-caption" style="margin-bottom:12px;">Cada barra es una campaña, coloreada por su tipología.</div>
+            <div id="ppto-topCampanas"></div>
+          </div>
+        </div>
+
         <div class="zone zone-pad" style="margin-bottom:14px;">
-          <div class="zone-label">Composición</div>
+          <div class="zone-label">Evolución</div>
           <div class="zone-title" style="margin-bottom:12px;">Peso de cada tipología, mes a mes</div>
           <svg class="ppto-chart" viewBox="0 0 1080 240" id="ppto-tipoMesChart"></svg>
           <div class="ppto-chart-legend" id="ppto-tipoMesLegend"></div>
         </div>
 
-        <div class="zone zone-pad">
+        <div class="zone zone-pad" style="margin-bottom:14px;">
           <div class="zone-label">Detalle</div>
           <div class="zone-title" style="margin-bottom:4px;">Las 121 campañas del Masterflow</div>
           <div class="hero-caption" style="margin-bottom:12px;">Clic en una tipología para filtrar. Ordenadas por inversión total (consumido + comprometido).</div>
           <div class="ppto-filter" id="ppto-tipoFilter"></div>
           <div class="ppto-table-wrap ppto-scroll">
             <table class="ppto-table" id="ppto-campanaTable"></table>
+          </div>
+        </div>
+
+        <!-- La pregunta metodologica va al final: primero el dato, despues como se construyo. -->
+        <div class="zone zone-pad" style="border-top:3px solid #E9D583;">
+          <div class="zone-label" style="color:#8a6d1f;">Para validar con ustedes</div>
+          <div class="zone-title" style="margin-bottom:4px;">¿Están de acuerdo con esta clasificación?<span class="ppto-propuesto">⚠ criterio propuesto</span></div>
+          <div class="hero-caption" style="margin-bottom:12px;">El Masterflow no trae una columna de tipología, solo el nombre de la campaña. Todo lo de arriba se construyó con el criterio que proponemos abajo, así que <b>antes de darlo por bueno necesitamos su visto bueno</b>. No todas las campañas se clasificaron con la misma solidez: unas por lo que dice su nombre, otras por descarte.</div>
+          <div id="ppto-criterioRows"></div>
+          <div class="caveat-box" style="margin-top:14px;">
+            <span>⚠️</span>
+            <span id="ppto-criterioCaveat"></span>
           </div>
         </div>
       </div>
@@ -7315,7 +7353,8 @@ const SM_INF_PHOTO = {
   };
   const MF_TIPOLOGIA = {
     'Movilización de consumos': { real: 2092093, comp: 0, mes: [295108, 293662, 512647, 487703, 311981, 190991, 0, 0, 0, 0, 0, 0] },
-    'Onboarding': { real: 421295, comp: 247313, mes: [65747, 47506, 47063, 74173, 74749, 112057, 41219, 41219, 41219, 41219, 41219, 41219] },
+    'Onboarding': { real: 184133, comp: 0, mes: [25766, 23860, 23918, 41732, 37815, 31042, 0, 0, 0, 0, 0, 0] },
+    'Adquisición': { real: 237162, comp: 247313, mes: [39980, 23646, 23145, 32441, 36934, 81015, 41219, 41219, 41219, 41219, 41219, 41219] },
     'Institucional': { real: 1142792, comp: 0, mes: [310454, 179529, 123984, 38040, 121143, 369642, 0, 0, 0, 0, 0, 0] },
     'Tácticas': { real: 222076, comp: 0, mes: [52018, 80042, 11852, 31585, 2351, 44228, 0, 0, 0, 0, 0, 0] },
     'Sin clasificar': { real: 0, comp: 537319, mes: [0, 0, 0, 0, 0, 0, 86853, 84213, 84213, 84213, 84213, 84213] },
@@ -7328,131 +7367,133 @@ const SM_INF_PHOTO = {
     'Radio': { real: 26201, comp: 0, fee: 0, mes: [9832, 4050, 0, 0, 0, 12319, 0, 0, 0, 0, 0, 0] },
     'Prensa': { real: 4912, comp: 0, fee: 0, mes: [0, 612, 0, 2300, 1420, 580, 0, 0, 0, 0, 0, 0] },
   };
-  /* [campaña, tipología, área, consumido, comprometido, medioTop, #medios, mes[12]] */
+  /* [campaña, tipología, área, consumido, comprometido, medioTop, #medios, mes[12], regla]
+     regla: 0 = clasificada por su nombre · 1 = por la regla de prefijo EST (establecimientos)
+            2 = cayó en Movilización por defecto, sin match positivo · 3 = pendiente de definir */
   const MF_CAMPANAS = [
-    ['POR DEFINIR', 4, 0, 0, 537319, 'VIA PUBLICA', 3, [0, 0, 0, 0, 0, 0, 86853, 84213, 84213, 84213, 84213, 84213]],
-    ['BLU BENEFITS', 0, 0, 534186, 0, 'VIA PUBLICA', 4, [97076, 97076, 97076, 105067, 72044, 65848, 0, 0, 0, 0, 0, 0]],
-    ['SER SOCIO', 1, 0, 153420, 247313, 'VIA PUBLICA', 1, [39980, 22157, 0, 0, 25032, 66251, 41219, 41219, 41219, 41219, 41219, 41219]],
-    ['MUNDIAL 2026', 2, 0, 379467, 0, 'TV ABIERTA', 3, [0, 0, 30000, 30000, 60000, 259467, 0, 0, 0, 0, 0, 0]],
-    ['MODO TASTY', 0, 0, 247571, 0, 'VIA PUBLICA', 8, [0, 7441, 171292, 68839, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['MAMÁ 2026', 0, 0, 225308, 0, 'VIA PUBLICA', 8, [0, 0, 0, 112412, 112605, 290, 0, 0, 0, 0, 0, 0]],
-    ['DCE. NEG VALLAS HIBRIDAS  2026', 2, 0, 222240, 0, 'VIA PUBLICA', 1, [222240, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['MASTER CHEF CELEBRITY', 2, 0, 213288, 0, 'TV ABIERTA', 1, [71096, 71096, 71096, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['VAC COSTA', 0, 0, 199412, 0, 'VIA PUBLICA', 8, [56653, 72516, 53123, 17120, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['RAC COSTA', 0, 0, 145095, 0, 'TV ABIERTA RC', 6, [0, 0, 49174, 67396, 28525, 0, 0, 0, 0, 0, 0, 0]],
-    ['IMPUESTO PREDIAL', 0, 0, 140860, 0, 'VIA PUBLICA', 6, [83592, 42883, 14385, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['ONBOARDING', 1, 1, 119572, 0, 'DIGITAL', 1, [18330, 17074, 15326, 20182, 27105, 21555, 0, 0, 0, 0, 0, 0]],
-    ['BILLETERAS DIGITALES', 0, 0, 103266, 0, 'VIA PUBLICA', 4, [11267, 12670, 38991, 13073, 16904, 10361, 0, 0, 0, 0, 0, 0]],
-    ['DSC BILLETERAS DIGITALES', 0, 0, 93683, 0, 'VIA PUBLICA', 1, [3395, 3059, 5117, 33902, 24973, 23236, 0, 0, 0, 0, 0, 0]],
-    ['UNIVERSIDADES', 1, 0, 66854, 0, 'DIGITAL', 3, [0, 0, 20510, 27018, 11903, 7423, 0, 0, 0, 0, 0, 0]],
-    ['BLU', 2, 0, 66656, 0, 'VIA PUBLICA', 4, [0, 7160, 0, 1270, 53227, 5000, 0, 0, 0, 0, 0, 0]],
-    ['COLLECTION RED', 0, 0, 63161, 0, 'VIA PUBLICA', 5, [0, 22826, 38278, 2056, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['BLU APP', 2, 0, 60861, 0, 'VIA PUBLICA', 3, [0, 0, 0, 0, 1193, 59668, 0, 0, 0, 0, 0, 0]],
-    ['ONB SPHAERA', 1, 1, 58700, 0, 'DIGITAL', 1, [7437, 6786, 8591, 15688, 10710, 9487, 0, 0, 0, 0, 0, 0]],
-    ['PROD. NUEVOS ISOS DINERS', 2, 0, 56220, 0, 'VIA PUBLICA PRODUCCION', 1, [0, 56220, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['PROMESAS', 2, 1, 53596, 0, 'DIGITAL', 1, [403, 36835, 16358, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['VAC SIERRA', 0, 0, 51627, 0, 'TV ABIERTA', 4, [0, 0, 0, 0, 0, 51627, 0, 0, 0, 0, 0, 0]],
-    ['DSC NOCHE BLANCA', 3, 0, 45530, 0, 'TV ABIERTA', 4, [0, 45530, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['TRIVIA MUNDIAL', 3, 0, 44228, 0, 'RADIO', 6, [0, 0, 0, 0, 0, 44228, 0, 0, 0, 0, 0, 0]],
-    ['ELIMINATORIAS 2026', 3, 0, 35556, 0, 'TV PAGA', 1, [11852, 11852, 11852, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['CON TU DINERS', 0, 0, 35086, 0, 'DIGITAL', 4, [0, 0, 15373, 14843, 0, 4870, 0, 0, 0, 0, 0, 0]],
-    ['BLU ECOSISTEMA', 2, 0, 32194, 0, 'DIGITAL', 3, [0, 0, 0, 0, 0, 32194, 0, 0, 0, 0, 0, 0]],
-    ['SALDOS', 0, 0, 25523, 0, 'DIGITAL', 3, [25313, 209, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['COUNTRY CLUB GYE', 0, 0, 24758, 0, 'DIGITAL', 1, [0, 24758, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['PAPÁ 2026', 0, 0, 20013, 0, 'DIGITAL', 3, [0, 0, 0, 0, 6000, 14013, 0, 0, 0, 0, 0, 0]],
-    ['DRIVE', 0, 0, 15828, 0, 'TV PAGA', 2, [0, 0, 0, 1985, 12154, 1689, 0, 0, 0, 0, 0, 0]],
-    ['IMPUESTO A LA RENTA', 0, 0, 15394, 0, 'VIA PUBLICA', 3, [0, 0, 8942, 6451, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['DE LUNES A LUNES', 3, 0, 15000, 0, 'TV ABIERTA', 1, [7500, 7500, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['MAMÁ SHOPPING DAYS', 3, 0, 14835, 0, 'VIA PUBLICA', 2, [0, 0, 0, 13676, 1159, 0, 0, 0, 0, 0, 0, 0]],
-    ['BUBBLES', 3, 0, 14563, 0, 'VIA PUBLICA', 1, [9470, 5093, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['DCE LOGO INSTITUCIONAL', 2, 0, 13726, 0, 'VIA PUBLICA', 1, [1961, 1961, 1961, 1961, 1961, 3922, 0, 0, 0, 0, 0, 0]],
-    ['FIESTAS DE AMBATO', 3, 0, 12560, 0, 'VIA PUBLICA', 2, [5093, 7467, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['DISCOVER U', 1, 0, 10065, 0, 'VIA PUBLICA', 2, [0, 0, 2635, 2640, 0, 4790, 0, 0, 0, 0, 0, 0]],
-    ['DSC NOCHE AMARILLA', 3, 0, 10000, 0, 'TV PAGA', 1, [10000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['AON PATROCINADOS', 2, 0, 9990, 0, 'DIGITAL', 1, [1377, 1179, 1769, 1239, 1592, 2834, 0, 0, 0, 0, 0, 0]],
-    ['MAMÁ CYBERDAYS', 3, 0, 9504, 0, 'TV PAGA', 1, [0, 0, 0, 9504, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['MCLAREN', 2, 0, 8999, 0, 'DIGITAL', 1, [7512, 1487, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['GRANDE TABLE BAO FEST', 3, 0, 8405, 0, 'VIA PUBLICA', 2, [0, 0, 0, 8405, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['EST CRECOS', 0, 1, 7836, 0, 'DIGITAL', 2, [0, 0, 3415, 4421, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['REVISTA GESTION', 2, 0, 7624, 0, 'DIGITAL', 1, [1271, 1271, 1271, 1271, 1271, 1271, 0, 0, 0, 0, 0, 0]],
-    ['NAVIDAD DK 2025', 3, 0, 7582, 0, 'TV ABIERTA', 2, [7582, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['PARIDAD DE MILLAS', 0, 0, 7490, 0, 'DIGITAL', 2, [0, 0, 1993, 5497, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['EST FYBECCA', 0, 1, 6500, 0, 'DIGITAL', 1, [0, 0, 0, 6500, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['BLU DEUNA', 0, 1, 6081, 0, 'DIGITAL', 1, [0, 0, 0, 0, 6081, 0, 0, 0, 0, 0, 0, 0]],
-    ['BLU CUENTA DE AHORROS', 1, 0, 5861, 0, 'VIA PUBLICA PRODUCCION', 1, [0, 0, 0, 5861, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['BLU DEUNA FERIADO', 0, 1, 5582, 0, 'DIGITAL', 2, [0, 0, 0, 805, 4777, 0, 0, 0, 0, 0, 0, 0]],
-    ['MERCHANT MILES', 0, 0, 5282, 0, 'DIGITAL', 1, [5282, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['MODO HOME', 0, 0, 5250, 0, 'REVISTA', 2, [0, 0, 5250, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['ADQUISICION', 1, 0, 5168, 0, 'VIA PUBLICA RC', 1, [0, 0, 0, 2783, 0, 2385, 0, 0, 0, 0, 0, 0]],
-    ['EST SUPERMERCADOS DEL PORTAL', 0, 0, 4934, 0, 'VIA PUBLICA RC', 2, [0, 0, 0, 0, 0, 4934, 0, 0, 0, 0, 0, 0]],
-    ['EST MODO HOME', 0, 1, 4765, 0, 'DIGITAL', 1, [0, 0, 0, 4765, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['AUSPICIO TEATRO SUCRE', 2, 2, 4706, 0, 'DIGITAL', 1, [0, 0, 0, 0, 0, 4706, 0, 0, 0, 0, 0, 0]],
-    ['DIFERIDOS', 0, 0, 4677, 0, 'VIA PUBLICA', 2, [0, 0, 0, 760, 3917, 0, 0, 0, 0, 0, 0, 0]],
-    ['BLU DIFERIDOS', 0, 1, 4581, 0, 'DIGITAL', 1, [0, 0, 0, 0, 4581, 0, 0, 0, 0, 0, 0, 0]],
-    ['MODO WELLNESS', 0, 0, 4521, 0, 'DIGITAL', 2, [4521, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['MAMÁ RETAIL', 0, 0, 4518, 0, 'TV PAGA', 1, [0, 0, 0, 2088, 2430, 0, 0, 0, 0, 0, 0, 0]],
-    ['BLU CARDTOACCOUNT', 0, 1, 4390, 0, 'DIGITAL', 1, [0, 0, 0, 1424, 2966, 0, 0, 0, 0, 0, 0, 0]],
-    ['EST ADIDAS', 0, 1, 4259, 0, 'DIGITAL', 1, [0, 0, 0, 4259, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['MILLAS POR TUS COMPRAS', 0, 0, 3885, 0, 'DIGITAL', 2, [0, 3885, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['SALDOS CONDADO', 0, 0, 3593, 0, 'VIA PUBLICA', 1, [3593, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['EST BOLETIN MAMÁ RETAIL', 0, 1, 3499, 0, 'DIGITAL', 1, [0, 0, 0, 1578, 1920, 0, 0, 0, 0, 0, 0, 0]],
-    ['DRIVE FIRMA Y LISTO', 0, 0, 3432, 0, 'DIGITAL', 1, [600, 998, 1833, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['BIENAL CUENCA', 2, 0, 3198, 0, 'VIA PUBLICA', 1, [3198, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['EST SUPERMERCADOS CASANOVA', 0, 1, 3112, 0, 'DIGITAL', 1, [0, 0, 0, 297, 299, 2515, 0, 0, 0, 0, 0, 0]],
-    ['META MENSUAL', 0, 1, 3000, 0, 'DIGITAL', 1, [1500, 1500, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['RAC DISCOVER', 0, 0, 2989, 0, 'DIGITAL', 1, [0, 0, 697, 2293, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['APP BLU DIFERIDOS', 0, 1, 2839, 0, 'DIGITAL', 1, [0, 0, 0, 2839, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['EST TODO HOGAR', 0, 1, 2693, 0, 'DIGITAL', 1, [0, 0, 0, 0, 1081, 1612, 0, 0, 0, 0, 0, 0]],
-    ['EST STARBUCKS', 0, 1, 2603, 0, 'DIGITAL', 1, [0, 0, 2003, 0, 600, 0, 0, 0, 0, 0, 0, 0]],
-    ['BAJADA FIESTAS DE AMBATO', 3, 0, 2600, 0, 'VIA PUBLICA PRODUCCION', 1, [0, 2600, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['EST PAPA JOHNS', 0, 1, 2482, 0, 'DIGITAL', 1, [0, 0, 2056, 426, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['BALANCE FINANCERIO', 2, 2, 2300, 0, 'PRENSA', 1, [0, 0, 0, 2300, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['EST SAMSUNG', 0, 1, 2299, 0, 'DIGITAL', 1, [0, 0, 799, 0, 1500, 0, 0, 0, 0, 0, 0, 0]],
-    ['ASSIST 365', 0, 1, 2160, 0, 'DIGITAL', 1, [1080, 1080, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['EST CAMPAÑA MUNDIAL', 0, 1, 2143, 0, 'DIGITAL', 1, [0, 0, 0, 0, 0, 2143, 0, 0, 0, 0, 0, 0]],
-    ['EST SONY', 0, 1, 2074, 0, 'DIGITAL', 1, [0, 0, 0, 0, 0, 2074, 0, 0, 0, 0, 0, 0]],
-    ['EST RETAIL PAPA', 0, 1, 1999, 0, 'DIGITAL', 1, [0, 0, 0, 0, 0, 1999, 0, 0, 0, 0, 0, 0]],
-    ['EST DRIVE', 0, 1, 1999, 0, 'DIGITAL', 1, [0, 0, 0, 0, 1999, 0, 0, 0, 0, 0, 0, 0]],
-    ['OBLIGACIONES TRIBUTARIAS', 0, 1, 1883, 0, 'DIGITAL', 1, [0, 0, 0, 0, 752, 1131, 0, 0, 0, 0, 0, 0]],
-    ['HIEDRA', 2, 0, 1530, 0, 'VIA PUBLICA PRODUCCION', 1, [0, 0, 1530, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['EST PASTRONICS', 0, 1, 1499, 0, 'DIGITAL', 1, [0, 1499, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['EST MANGO', 0, 1, 1499, 0, 'DIGITAL', 1, [0, 0, 0, 0, 1499, 0, 0, 0, 0, 0, 0, 0]],
-    ['EST BURGUER KING', 0, 1, 1498, 0, 'DIGITAL', 1, [0, 0, 0, 1498, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['EST MAMÁ MODO CYBER', 0, 1, 1497, 0, 'DIGITAL', 1, [0, 0, 0, 1497, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['BAJADA SER SOCIO', 1, 0, 1490, 0, 'VIA PUBLICA PRODUCCION', 1, [0, 1490, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['AVISO ESTATUTO SUPER BCOS', 2, 2, 1420, 0, 'PRENSA', 1, [0, 0, 0, 0, 1420, 0, 0, 0, 0, 0, 0, 0]],
-    ['EST BOLETIN AG VIAJE MUNDIAL', 0, 1, 1397, 0, 'DIGITAL', 1, [0, 0, 1397, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['BENEFICIOS', 0, 0, 1386, 0, 'DIGITAL', 1, [0, 0, 0, 0, 0, 1386, 0, 0, 0, 0, 0, 0]],
-    ['MODO CYBER PAPÁ', 3, 0, 1193, 0, 'VIA PUBLICA RC', 1, [0, 0, 0, 0, 1193, 0, 0, 0, 0, 0, 0, 0]],
-    ['CONVOCATORIA JUNTA DE ACCIONISTAS', 2, 2, 1192, 0, 'PRENSA', 1, [0, 612, 0, 0, 0, 580, 0, 0, 0, 0, 0, 0]],
-    ['EST BOLETIN MUNDIAL', 0, 1, 1179, 0, 'DIGITAL', 1, [0, 0, 0, 1179, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['CBM APP', 2, 3, 1170, 0, 'DIGITAL', 1, [652, 519, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['EST ADRIANA HOYOS', 0, 1, 1000, 0, 'DIGITAL', 1, [0, 0, 0, 0, 1000, 0, 0, 0, 0, 0, 0, 0]],
-    ['EST CYBER PAPA', 0, 1, 1000, 0, 'DIGITAL', 1, [0, 0, 0, 0, 1000, 0, 0, 0, 0, 0, 0, 0]],
-    ['EST MODO NIÑO', 0, 1, 1000, 0, 'DIGITAL', 1, [0, 0, 0, 0, 844, 156, 0, 0, 0, 0, 0, 0]],
-    ['EST CONFIAMED', 0, 1, 999, 0, 'DIGITAL', 1, [0, 0, 999, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['EST ASHLEY', 0, 1, 999, 0, 'DIGITAL', 1, [0, 0, 0, 999, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['REPUESTOS', 0, 0, 997, 0, 'DIGITAL', 1, [0, 997, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['CBM AWARNESS', 2, 3, 971, 0, 'DIGITAL', 1, [294, 197, 0, 0, 480, 0, 0, 0, 0, 0, 0, 0]],
-    ['SALDOS MALL DEL SOL', 0, 0, 902, 0, 'VIA PUBLICA', 1, [902, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['EST METROPOLITAN TOURIN', 0, 1, 880, 0, 'DIGITAL', 1, [0, 0, 0, 0, 0, 880, 0, 0, 0, 0, 0, 0]],
-    ['EST SWEET AND COFFE', 0, 1, 869, 0, 'DIGITAL', 1, [0, 0, 36, 833, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['BAJADA BIENAL CUENCA', 2, 0, 610, 0, 'VIA PUBLICA PRODUCCION', 1, [0, 610, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['EST COLINEAL', 0, 1, 600, 0, 'DIGITAL', 1, [336, 264, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['EST BOLETIN CUENCA', 0, 1, 599, 0, 'DIGITAL', 1, [0, 0, 0, 599, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['EST SUPER EASY', 0, 1, 597, 0, 'DIGITAL', 1, [0, 0, 0, 0, 597, 0, 0, 0, 0, 0, 0, 0]],
-    ['NAVIDAD 2025', 3, 0, 521, 0, 'DIGITAL', 1, [521, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['CBM ACTIVACION', 2, 3, 456, 0, 'DIGITAL', 1, [250, 206, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['EST MARRIOT', 0, 1, 420, 0, 'DIGITAL', 1, [0, 0, 420, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['EST SUPERMERCADOS', 0, 1, 394, 0, 'DIGITAL', 1, [0, 0, 0, 0, 394, 0, 0, 0, 0, 0, 0, 0]],
-    ['CBM WEB', 2, 3, 378, 0, 'DIGITAL', 1, [200, 178, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
-    ['EST STARBUCKS TOPTIER', 0, 0, 300, 0, 'DIGITAL', 1, [0, 0, 0, 0, 300, 0, 0, 0, 0, 0, 0, 0]],
-    ['EST PAPERMOON', 0, 1, 198, 0, 'DIGITAL', 1, [0, 0, 0, 0, 118, 80, 0, 0, 0, 0, 0, 0]],
-    ['UMBRAL SOCIOS', 1, 0, 165, 0, 'DIGITAL', 1, [0, 0, 0, 0, 0, 165, 0, 0, 0, 0, 0, 0]],
-    ['EST EL VIÑEDO', 0, 1, 146, 0, 'DIGITAL', 1, [0, 0, 0, 0, 0, 146, 0, 0, 0, 0, 0, 0]],
-    ['EST LA NONA', 0, 1, 121, 0, 'DIGITAL', 1, [0, 0, 0, 0, 121, 0, 0, 0, 0, 0, 0, 0]],
+    ['POR DEFINIR', 5, 0, 0, 537319, 'VIA PUBLICA', 3, [0, 0, 0, 0, 0, 0, 86853, 84213, 84213, 84213, 84213, 84213], 3],
+    ['BLU BENEFITS', 0, 0, 534186, 0, 'VIA PUBLICA', 4, [97076, 97076, 97076, 105067, 72044, 65848, 0, 0, 0, 0, 0, 0], 2],
+    ['SER SOCIO', 2, 0, 153420, 247313, 'VIA PUBLICA', 1, [39980, 22157, 0, 0, 25032, 66251, 41219, 41219, 41219, 41219, 41219, 41219], 0],
+    ['MUNDIAL 2026', 3, 0, 379467, 0, 'TV ABIERTA', 3, [0, 0, 30000, 30000, 60000, 259467, 0, 0, 0, 0, 0, 0], 0],
+    ['MODO TASTY', 0, 0, 247571, 0, 'VIA PUBLICA', 8, [0, 7441, 171292, 68839, 0, 0, 0, 0, 0, 0, 0, 0], 2],
+    ['MAMÁ 2026', 0, 0, 225308, 0, 'VIA PUBLICA', 8, [0, 0, 0, 112412, 112605, 290, 0, 0, 0, 0, 0, 0], 2],
+    ['DCE. NEG VALLAS HIBRIDAS  2026', 3, 0, 222240, 0, 'VIA PUBLICA', 1, [222240, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 0],
+    ['MASTER CHEF CELEBRITY', 3, 0, 213288, 0, 'TV ABIERTA', 1, [71096, 71096, 71096, 0, 0, 0, 0, 0, 0, 0, 0, 0], 0],
+    ['VAC COSTA', 0, 0, 199412, 0, 'VIA PUBLICA', 8, [56653, 72516, 53123, 17120, 0, 0, 0, 0, 0, 0, 0, 0], 2],
+    ['RAC COSTA', 0, 0, 145095, 0, 'TV ABIERTA RC', 6, [0, 0, 49174, 67396, 28525, 0, 0, 0, 0, 0, 0, 0], 2],
+    ['IMPUESTO PREDIAL', 0, 0, 140860, 0, 'VIA PUBLICA', 6, [83592, 42883, 14385, 0, 0, 0, 0, 0, 0, 0, 0, 0], 2],
+    ['ONBOARDING', 1, 1, 119572, 0, 'DIGITAL', 1, [18330, 17074, 15326, 20182, 27105, 21555, 0, 0, 0, 0, 0, 0], 0],
+    ['BILLETERAS DIGITALES', 0, 0, 103266, 0, 'VIA PUBLICA', 4, [11267, 12670, 38991, 13073, 16904, 10361, 0, 0, 0, 0, 0, 0], 2],
+    ['DSC BILLETERAS DIGITALES', 0, 0, 93683, 0, 'VIA PUBLICA', 1, [3395, 3059, 5117, 33902, 24973, 23236, 0, 0, 0, 0, 0, 0], 2],
+    ['UNIVERSIDADES', 2, 0, 66854, 0, 'DIGITAL', 3, [0, 0, 20510, 27018, 11903, 7423, 0, 0, 0, 0, 0, 0], 0],
+    ['BLU', 3, 0, 66656, 0, 'VIA PUBLICA', 4, [0, 7160, 0, 1270, 53227, 5000, 0, 0, 0, 0, 0, 0], 0],
+    ['COLLECTION RED', 0, 0, 63161, 0, 'VIA PUBLICA', 5, [0, 22826, 38278, 2056, 0, 0, 0, 0, 0, 0, 0, 0], 2],
+    ['BLU APP', 3, 0, 60861, 0, 'VIA PUBLICA', 3, [0, 0, 0, 0, 1193, 59668, 0, 0, 0, 0, 0, 0], 0],
+    ['ONB SPHAERA', 1, 1, 58700, 0, 'DIGITAL', 1, [7437, 6786, 8591, 15688, 10710, 9487, 0, 0, 0, 0, 0, 0], 0],
+    ['PROD. NUEVOS ISOS DINERS', 3, 0, 56220, 0, 'VIA PUBLICA PRODUCCION', 1, [0, 56220, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 0],
+    ['PROMESAS', 3, 1, 53596, 0, 'DIGITAL', 1, [403, 36835, 16358, 0, 0, 0, 0, 0, 0, 0, 0, 0], 0],
+    ['VAC SIERRA', 0, 0, 51627, 0, 'TV ABIERTA', 4, [0, 0, 0, 0, 0, 51627, 0, 0, 0, 0, 0, 0], 2],
+    ['DSC NOCHE BLANCA', 4, 0, 45530, 0, 'TV ABIERTA', 4, [0, 45530, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 0],
+    ['TRIVIA MUNDIAL', 4, 0, 44228, 0, 'RADIO', 6, [0, 0, 0, 0, 0, 44228, 0, 0, 0, 0, 0, 0], 0],
+    ['ELIMINATORIAS 2026', 4, 0, 35556, 0, 'TV PAGA', 1, [11852, 11852, 11852, 0, 0, 0, 0, 0, 0, 0, 0, 0], 0],
+    ['CON TU DINERS', 0, 0, 35086, 0, 'DIGITAL', 4, [0, 0, 15373, 14843, 0, 4870, 0, 0, 0, 0, 0, 0], 2],
+    ['BLU ECOSISTEMA', 3, 0, 32194, 0, 'DIGITAL', 3, [0, 0, 0, 0, 0, 32194, 0, 0, 0, 0, 0, 0], 0],
+    ['SALDOS', 0, 0, 25523, 0, 'DIGITAL', 3, [25313, 209, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 2],
+    ['COUNTRY CLUB GYE', 0, 0, 24758, 0, 'DIGITAL', 1, [0, 24758, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 2],
+    ['PAPÁ 2026', 0, 0, 20013, 0, 'DIGITAL', 3, [0, 0, 0, 0, 6000, 14013, 0, 0, 0, 0, 0, 0], 2],
+    ['DRIVE', 0, 0, 15828, 0, 'TV PAGA', 2, [0, 0, 0, 1985, 12154, 1689, 0, 0, 0, 0, 0, 0], 2],
+    ['IMPUESTO A LA RENTA', 0, 0, 15394, 0, 'VIA PUBLICA', 3, [0, 0, 8942, 6451, 0, 0, 0, 0, 0, 0, 0, 0], 2],
+    ['DE LUNES A LUNES', 4, 0, 15000, 0, 'TV ABIERTA', 1, [7500, 7500, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 0],
+    ['MAMÁ SHOPPING DAYS', 4, 0, 14835, 0, 'VIA PUBLICA', 2, [0, 0, 0, 13676, 1159, 0, 0, 0, 0, 0, 0, 0], 0],
+    ['BUBBLES', 4, 0, 14563, 0, 'VIA PUBLICA', 1, [9470, 5093, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 0],
+    ['DCE LOGO INSTITUCIONAL', 3, 0, 13726, 0, 'VIA PUBLICA', 1, [1961, 1961, 1961, 1961, 1961, 3922, 0, 0, 0, 0, 0, 0], 0],
+    ['FIESTAS DE AMBATO', 4, 0, 12560, 0, 'VIA PUBLICA', 2, [5093, 7467, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 0],
+    ['DISCOVER U', 2, 0, 10065, 0, 'VIA PUBLICA', 2, [0, 0, 2635, 2640, 0, 4790, 0, 0, 0, 0, 0, 0], 0],
+    ['DSC NOCHE AMARILLA', 4, 0, 10000, 0, 'TV PAGA', 1, [10000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 0],
+    ['AON PATROCINADOS', 3, 0, 9990, 0, 'DIGITAL', 1, [1377, 1179, 1769, 1239, 1592, 2834, 0, 0, 0, 0, 0, 0], 0],
+    ['MAMÁ CYBERDAYS', 4, 0, 9504, 0, 'TV PAGA', 1, [0, 0, 0, 9504, 0, 0, 0, 0, 0, 0, 0, 0], 0],
+    ['MCLAREN', 3, 0, 8999, 0, 'DIGITAL', 1, [7512, 1487, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 0],
+    ['GRANDE TABLE BAO FEST', 4, 0, 8405, 0, 'VIA PUBLICA', 2, [0, 0, 0, 8405, 0, 0, 0, 0, 0, 0, 0, 0], 0],
+    ['EST CRECOS', 0, 1, 7836, 0, 'DIGITAL', 2, [0, 0, 3415, 4421, 0, 0, 0, 0, 0, 0, 0, 0], 1],
+    ['REVISTA GESTION', 3, 0, 7624, 0, 'DIGITAL', 1, [1271, 1271, 1271, 1271, 1271, 1271, 0, 0, 0, 0, 0, 0], 0],
+    ['NAVIDAD DK 2025', 4, 0, 7582, 0, 'TV ABIERTA', 2, [7582, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 0],
+    ['PARIDAD DE MILLAS', 0, 0, 7490, 0, 'DIGITAL', 2, [0, 0, 1993, 5497, 0, 0, 0, 0, 0, 0, 0, 0], 2],
+    ['EST FYBECCA', 0, 1, 6500, 0, 'DIGITAL', 1, [0, 0, 0, 6500, 0, 0, 0, 0, 0, 0, 0, 0], 1],
+    ['BLU DEUNA', 0, 1, 6081, 0, 'DIGITAL', 1, [0, 0, 0, 0, 6081, 0, 0, 0, 0, 0, 0, 0], 2],
+    ['BLU CUENTA DE AHORROS', 1, 0, 5861, 0, 'VIA PUBLICA PRODUCCION', 1, [0, 0, 0, 5861, 0, 0, 0, 0, 0, 0, 0, 0], 0],
+    ['BLU DEUNA FERIADO', 0, 1, 5582, 0, 'DIGITAL', 2, [0, 0, 0, 805, 4777, 0, 0, 0, 0, 0, 0, 0], 2],
+    ['MERCHANT MILES', 0, 0, 5282, 0, 'DIGITAL', 1, [5282, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 2],
+    ['MODO HOME', 0, 0, 5250, 0, 'REVISTA', 2, [0, 0, 5250, 0, 0, 0, 0, 0, 0, 0, 0, 0], 2],
+    ['ADQUISICION', 2, 0, 5168, 0, 'VIA PUBLICA RC', 1, [0, 0, 0, 2783, 0, 2385, 0, 0, 0, 0, 0, 0], 0],
+    ['EST SUPERMERCADOS DEL PORTAL', 0, 0, 4934, 0, 'VIA PUBLICA RC', 2, [0, 0, 0, 0, 0, 4934, 0, 0, 0, 0, 0, 0], 1],
+    ['EST MODO HOME', 0, 1, 4765, 0, 'DIGITAL', 1, [0, 0, 0, 4765, 0, 0, 0, 0, 0, 0, 0, 0], 1],
+    ['AUSPICIO TEATRO SUCRE', 3, 2, 4706, 0, 'DIGITAL', 1, [0, 0, 0, 0, 0, 4706, 0, 0, 0, 0, 0, 0], 0],
+    ['DIFERIDOS', 0, 0, 4677, 0, 'VIA PUBLICA', 2, [0, 0, 0, 760, 3917, 0, 0, 0, 0, 0, 0, 0], 2],
+    ['BLU DIFERIDOS', 0, 1, 4581, 0, 'DIGITAL', 1, [0, 0, 0, 0, 4581, 0, 0, 0, 0, 0, 0, 0], 2],
+    ['MODO WELLNESS', 0, 0, 4521, 0, 'DIGITAL', 2, [4521, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 2],
+    ['MAMÁ RETAIL', 0, 0, 4518, 0, 'TV PAGA', 1, [0, 0, 0, 2088, 2430, 0, 0, 0, 0, 0, 0, 0], 2],
+    ['BLU CARDTOACCOUNT', 0, 1, 4390, 0, 'DIGITAL', 1, [0, 0, 0, 1424, 2966, 0, 0, 0, 0, 0, 0, 0], 2],
+    ['EST ADIDAS', 0, 1, 4259, 0, 'DIGITAL', 1, [0, 0, 0, 4259, 0, 0, 0, 0, 0, 0, 0, 0], 1],
+    ['MILLAS POR TUS COMPRAS', 0, 0, 3885, 0, 'DIGITAL', 2, [0, 3885, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 2],
+    ['SALDOS CONDADO', 0, 0, 3593, 0, 'VIA PUBLICA', 1, [3593, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 2],
+    ['EST BOLETIN MAMÁ RETAIL', 0, 1, 3499, 0, 'DIGITAL', 1, [0, 0, 0, 1578, 1920, 0, 0, 0, 0, 0, 0, 0], 1],
+    ['DRIVE FIRMA Y LISTO', 0, 0, 3432, 0, 'DIGITAL', 1, [600, 998, 1833, 0, 0, 0, 0, 0, 0, 0, 0, 0], 2],
+    ['BIENAL CUENCA', 3, 0, 3198, 0, 'VIA PUBLICA', 1, [3198, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 0],
+    ['EST SUPERMERCADOS CASANOVA', 0, 1, 3112, 0, 'DIGITAL', 1, [0, 0, 0, 297, 299, 2515, 0, 0, 0, 0, 0, 0], 1],
+    ['META MENSUAL', 0, 1, 3000, 0, 'DIGITAL', 1, [1500, 1500, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 2],
+    ['RAC DISCOVER', 0, 0, 2989, 0, 'DIGITAL', 1, [0, 0, 697, 2293, 0, 0, 0, 0, 0, 0, 0, 0], 2],
+    ['APP BLU DIFERIDOS', 0, 1, 2839, 0, 'DIGITAL', 1, [0, 0, 0, 2839, 0, 0, 0, 0, 0, 0, 0, 0], 2],
+    ['EST TODO HOGAR', 0, 1, 2693, 0, 'DIGITAL', 1, [0, 0, 0, 0, 1081, 1612, 0, 0, 0, 0, 0, 0], 1],
+    ['EST STARBUCKS', 0, 1, 2603, 0, 'DIGITAL', 1, [0, 0, 2003, 0, 600, 0, 0, 0, 0, 0, 0, 0], 1],
+    ['BAJADA FIESTAS DE AMBATO', 4, 0, 2600, 0, 'VIA PUBLICA PRODUCCION', 1, [0, 2600, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 0],
+    ['EST PAPA JOHNS', 0, 1, 2482, 0, 'DIGITAL', 1, [0, 0, 2056, 426, 0, 0, 0, 0, 0, 0, 0, 0], 1],
+    ['BALANCE FINANCERIO', 3, 2, 2300, 0, 'PRENSA', 1, [0, 0, 0, 2300, 0, 0, 0, 0, 0, 0, 0, 0], 0],
+    ['EST SAMSUNG', 0, 1, 2299, 0, 'DIGITAL', 1, [0, 0, 799, 0, 1500, 0, 0, 0, 0, 0, 0, 0], 1],
+    ['ASSIST 365', 0, 1, 2160, 0, 'DIGITAL', 1, [1080, 1080, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 2],
+    ['EST CAMPAÑA MUNDIAL', 0, 1, 2143, 0, 'DIGITAL', 1, [0, 0, 0, 0, 0, 2143, 0, 0, 0, 0, 0, 0], 1],
+    ['EST SONY', 0, 1, 2074, 0, 'DIGITAL', 1, [0, 0, 0, 0, 0, 2074, 0, 0, 0, 0, 0, 0], 1],
+    ['EST RETAIL PAPA', 0, 1, 1999, 0, 'DIGITAL', 1, [0, 0, 0, 0, 0, 1999, 0, 0, 0, 0, 0, 0], 1],
+    ['EST DRIVE', 0, 1, 1999, 0, 'DIGITAL', 1, [0, 0, 0, 0, 1999, 0, 0, 0, 0, 0, 0, 0], 1],
+    ['OBLIGACIONES TRIBUTARIAS', 0, 1, 1883, 0, 'DIGITAL', 1, [0, 0, 0, 0, 752, 1131, 0, 0, 0, 0, 0, 0], 2],
+    ['HIEDRA', 3, 0, 1530, 0, 'VIA PUBLICA PRODUCCION', 1, [0, 0, 1530, 0, 0, 0, 0, 0, 0, 0, 0, 0], 0],
+    ['EST PASTRONICS', 0, 1, 1499, 0, 'DIGITAL', 1, [0, 1499, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 1],
+    ['EST MANGO', 0, 1, 1499, 0, 'DIGITAL', 1, [0, 0, 0, 0, 1499, 0, 0, 0, 0, 0, 0, 0], 1],
+    ['EST BURGUER KING', 0, 1, 1498, 0, 'DIGITAL', 1, [0, 0, 0, 1498, 0, 0, 0, 0, 0, 0, 0, 0], 1],
+    ['EST MAMÁ MODO CYBER', 0, 1, 1497, 0, 'DIGITAL', 1, [0, 0, 0, 1497, 0, 0, 0, 0, 0, 0, 0, 0], 1],
+    ['BAJADA SER SOCIO', 2, 0, 1490, 0, 'VIA PUBLICA PRODUCCION', 1, [0, 1490, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 0],
+    ['AVISO ESTATUTO SUPER BCOS', 3, 2, 1420, 0, 'PRENSA', 1, [0, 0, 0, 0, 1420, 0, 0, 0, 0, 0, 0, 0], 0],
+    ['EST BOLETIN AG VIAJE MUNDIAL', 0, 1, 1397, 0, 'DIGITAL', 1, [0, 0, 1397, 0, 0, 0, 0, 0, 0, 0, 0, 0], 1],
+    ['BENEFICIOS', 0, 0, 1386, 0, 'DIGITAL', 1, [0, 0, 0, 0, 0, 1386, 0, 0, 0, 0, 0, 0], 2],
+    ['MODO CYBER PAPÁ', 4, 0, 1193, 0, 'VIA PUBLICA RC', 1, [0, 0, 0, 0, 1193, 0, 0, 0, 0, 0, 0, 0], 0],
+    ['CONVOCATORIA JUNTA DE ACCIONISTAS', 3, 2, 1192, 0, 'PRENSA', 1, [0, 612, 0, 0, 0, 580, 0, 0, 0, 0, 0, 0], 0],
+    ['EST BOLETIN MUNDIAL', 0, 1, 1179, 0, 'DIGITAL', 1, [0, 0, 0, 1179, 0, 0, 0, 0, 0, 0, 0, 0], 1],
+    ['CBM APP', 3, 3, 1170, 0, 'DIGITAL', 1, [652, 519, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 0],
+    ['EST ADRIANA HOYOS', 0, 1, 1000, 0, 'DIGITAL', 1, [0, 0, 0, 0, 1000, 0, 0, 0, 0, 0, 0, 0], 1],
+    ['EST CYBER PAPA', 0, 1, 1000, 0, 'DIGITAL', 1, [0, 0, 0, 0, 1000, 0, 0, 0, 0, 0, 0, 0], 1],
+    ['EST MODO NIÑO', 0, 1, 1000, 0, 'DIGITAL', 1, [0, 0, 0, 0, 844, 156, 0, 0, 0, 0, 0, 0], 1],
+    ['EST CONFIAMED', 0, 1, 999, 0, 'DIGITAL', 1, [0, 0, 999, 0, 0, 0, 0, 0, 0, 0, 0, 0], 1],
+    ['EST ASHLEY', 0, 1, 999, 0, 'DIGITAL', 1, [0, 0, 0, 999, 0, 0, 0, 0, 0, 0, 0, 0], 1],
+    ['REPUESTOS', 0, 0, 997, 0, 'DIGITAL', 1, [0, 997, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 2],
+    ['CBM AWARNESS', 3, 3, 971, 0, 'DIGITAL', 1, [294, 197, 0, 0, 480, 0, 0, 0, 0, 0, 0, 0], 0],
+    ['SALDOS MALL DEL SOL', 0, 0, 902, 0, 'VIA PUBLICA', 1, [902, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 2],
+    ['EST METROPOLITAN TOURIN', 0, 1, 880, 0, 'DIGITAL', 1, [0, 0, 0, 0, 0, 880, 0, 0, 0, 0, 0, 0], 1],
+    ['EST SWEET AND COFFE', 0, 1, 869, 0, 'DIGITAL', 1, [0, 0, 36, 833, 0, 0, 0, 0, 0, 0, 0, 0], 1],
+    ['BAJADA BIENAL CUENCA', 3, 0, 610, 0, 'VIA PUBLICA PRODUCCION', 1, [0, 610, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 0],
+    ['EST COLINEAL', 0, 1, 600, 0, 'DIGITAL', 1, [336, 264, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 1],
+    ['EST BOLETIN CUENCA', 0, 1, 599, 0, 'DIGITAL', 1, [0, 0, 0, 599, 0, 0, 0, 0, 0, 0, 0, 0], 1],
+    ['EST SUPER EASY', 0, 1, 597, 0, 'DIGITAL', 1, [0, 0, 0, 0, 597, 0, 0, 0, 0, 0, 0, 0], 1],
+    ['NAVIDAD 2025', 4, 0, 521, 0, 'DIGITAL', 1, [521, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 0],
+    ['CBM ACTIVACION', 3, 3, 456, 0, 'DIGITAL', 1, [250, 206, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 0],
+    ['EST MARRIOT', 0, 1, 420, 0, 'DIGITAL', 1, [0, 0, 420, 0, 0, 0, 0, 0, 0, 0, 0, 0], 1],
+    ['EST SUPERMERCADOS', 0, 1, 394, 0, 'DIGITAL', 1, [0, 0, 0, 0, 394, 0, 0, 0, 0, 0, 0, 0], 1],
+    ['CBM WEB', 3, 3, 378, 0, 'DIGITAL', 1, [200, 178, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 0],
+    ['EST STARBUCKS TOPTIER', 0, 0, 300, 0, 'DIGITAL', 1, [0, 0, 0, 0, 300, 0, 0, 0, 0, 0, 0, 0], 1],
+    ['EST PAPERMOON', 0, 1, 198, 0, 'DIGITAL', 1, [0, 0, 0, 0, 118, 80, 0, 0, 0, 0, 0, 0], 1],
+    ['UMBRAL SOCIOS', 2, 0, 165, 0, 'DIGITAL', 1, [0, 0, 0, 0, 0, 165, 0, 0, 0, 0, 0, 0], 0],
+    ['EST EL VIÑEDO', 0, 1, 146, 0, 'DIGITAL', 1, [0, 0, 0, 0, 0, 146, 0, 0, 0, 0, 0, 0], 1],
+    ['EST LA NONA', 0, 1, 121, 0, 'DIGITAL', 1, [0, 0, 0, 0, 121, 0, 0, 0, 0, 0, 0, 0], 1],
   ];
-  const MF_TIPO_NOMBRE = ["Movilización de consumos", "Onboarding", "Institucional", "Tácticas", "Sin clasificar"];
+  const MF_TIPO_NOMBRE = ["Movilización de consumos", "Onboarding", "Adquisición", "Institucional", "Tácticas", "Sin clasificar"];
   const MF_AREA_NOMBRE = ["MARKETING", "NEGOCIOS", "INSTITUCIONAL", "CLUB MILES"];
 
   /* ================= PRESUPUESTO — cifras base =================
@@ -7474,7 +7515,7 @@ const SM_INF_PHOTO = {
   const PP_C = { consumido: '#4F52E5', comprometido: '#b9b8c4', disponible: '#008038', adicional: '#8a6d1f', riesgo: '#C81E1E', tinta: '#141414' };
   // El gris de "Sin clasificar" tiene que seguir leyéndose como categoría muda, pero #c9c7d2 sobre
   // blanco dejaba la cifra de la tarjeta prácticamente ilegible.
-  const PP_TIPO_COLOR = ['#4F52E5', '#00618C', '#141414', '#6E93B0', '#8b8b8b'];
+  const PP_TIPO_COLOR = ['#4F52E5', '#00618C', '#2563EB', '#141414', '#6E93B0', '#8b8b8b'];
   // Paleta propia por canal: los canales del Masterflow son 6-7 y la de tipología tiene 5, así que
   // reciclarla hacía que OOH y Prensa salieran del mismo morado en la leyenda.
   const PP_CANAL_COLOR = { OOH: '#00618C', TV: '#141414', Digital: '#4F52E5', Revistas: '#6E93B0', Radio: '#2563EB', Prensa: '#55637A', Cine: '#9B8DF0', Otros: '#8b8b8b' };
@@ -7847,6 +7888,121 @@ const SM_INF_PHOTO = {
     });
   }
 
+  /* Definición de cada tipología, tal como se la propondríamos a Diners. El texto es la regla en
+     palabras; los ejemplos salen de las campañas reales más grandes de ese grupo, para que la
+     conversación sea sobre casos concretos y no sobre etiquetas abstractas. */
+  const PP_CRITERIO = [
+    { tipo: 0, regla: 'Empujar consumo con la tarjeta ya emitida: temporadas, beneficios, comercios afiliados, diferidos y millas.' },
+    { tipo: 1, regla: 'Dar de alta y activar un producto ya colocado: proceso de onboarding, Sphaera, apertura de cuenta blu.' },
+    { tipo: 2, regla: 'Captar un socio nuevo que aún no es cliente: Ser Socio, universidades, umbral de socios.' },
+    { tipo: 3, regla: 'Marca, patrocinios y obligaciones societarias: logo, ISOS, auspicios, Mundial, avisos de ley.' },
+    { tipo: 4, regla: 'Activación puntual con ventana corta: trivias, noches temáticas, ferias, fechas comerciales.' },
+    { tipo: 5, regla: 'La campaña se llama "POR DEFINIR" en el Masterflow: no hay nombre del cual deducir nada.' },
+  ];
+  const PP_REGLA_CHIP = [
+    { label: 'por nombre', cls: 'ok', desc: 'clasificadas leyendo el nombre de la campaña' },
+    { label: 'por regla EST', cls: 'ok', desc: 'el prefijo EST identifica establecimientos afiliados' },
+    { label: 'por defecto', cls: 'warn', desc: 'sin match positivo — cayeron aquí por descarte' },
+    { label: 'pendiente', cls: 'neutral', desc: 'sin nombre que permita clasificar' },
+  ];
+
+  function PP_renderCriterio() {
+    const cont = document.getElementById('ppto-criterioRows');
+    if (!cont) return;
+    const total = MF_CAMPANAS.reduce((s, c) => s + c[3] + c[4], 0);
+    cont.innerHTML = PP_CRITERIO.map(x => {
+      const camps = MF_CAMPANAS.filter(c => c[1] === x.tipo);
+      const monto = camps.reduce((s, c) => s + c[3] + c[4], 0);
+      // Desglose de cómo se clasificaron las campañas de esta tipología, por regla.
+      const porRegla = [0, 1, 2, 3].map(r => {
+        const sub = camps.filter(c => c[8] === r);
+        return sub.length ? { r, n: sub.length, monto: sub.reduce((s, c) => s + c[3] + c[4], 0) } : null;
+      }).filter(Boolean).sort((a, b) => b.monto - a.monto);
+      const ejemplos = camps.slice(0, 3).map(c => PP_title(c[0])).join(' · ');
+      return `<div style="padding:12px 0;border-top:1px dashed #e6e5ea;">
+        <div style="display:flex;align-items:baseline;gap:9px;margin-bottom:5px;">
+          <span class="ppto-dot" style="background:${PP_TIPO_COLOR[x.tipo]};"></span>
+          <span style="flex:1;font-size:12.5px;font-weight:700;color:#262626;">${MF_TIPO_NOMBRE[x.tipo]}</span>
+          <span style="font-size:12px;font-weight:700;font-variant-numeric:tabular-nums;">${PP_fmtC(monto)}</span>
+          <span style="font-size:10.5px;color:#8b8b8b;min-width:40px;text-align:right;">${PP_pct1(monto, total)}</span>
+        </div>
+        <div style="font-size:11.5px;color:#5C5C5C;line-height:1.5;margin-bottom:6px;">${x.regla}</div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:5px;">
+          ${porRegla.map(p => `<span class="ppto-chip ${PP_REGLA_CHIP[p.r].cls}" data-tt="${PP_REGLA_CHIP[p.r].desc}" data-ttv="${p.n} campañas · ${PP_fmtC(p.monto)}">${p.n} ${PP_REGLA_CHIP[p.r].label}</span>`).join('')}
+        </div>
+        <div style="font-size:10.5px;color:#8b8b8b;">Ejemplos: ${ejemplos}</div>
+      </div>`;
+    }).join('');
+
+    // La cifra que de verdad importa para la reunión: cuánto del dinero quedó clasificado por
+    // descarte y no por una decisión sobre el nombre de la campaña.
+    const defecto = MF_CAMPANAS.filter(c => c[8] === 2);
+    const montoDefecto = defecto.reduce((s, c) => s + c[3] + c[4], 0);
+    const top = defecto.slice(0, 3).map(c => PP_title(c[0])).join(', ');
+    document.getElementById('ppto-criterioCaveat').innerHTML =
+      `<b>${PP_pct1(montoDefecto, total)} de la inversión (${PP_fmtC(montoDefecto)}, ${defecto.length} campañas) cayó en "Movilización de consumos" por defecto</b>, no porque se haya verificado una a una. Son las que no hacían match con ninguna otra tipología — las más grandes: ${top}. Encajan a primera vista, pero <b>es justamente la lista que necesitamos que revisen con nosotros</b>.`;
+  }
+
+  /* Pastel de composicion por tipologia. Mismo componente que el de canales del Mix de Medios,
+     pero con un cuadro de color en vez de icono: las tipologias no tienen iconografia propia. */
+  function PP_renderTipoPie() {
+    const data = MF_TIPO_NOMBRE.map((t, i) => ({ nombre: t, i, color: PP_TIPO_COLOR[i], valor: MF_TIPOLOGIA[t].real + MF_TIPOLOGIA[t].comp }))
+      .filter(d => d.valor > 0).sort((a, b) => b.valor - a.valor);
+    const total = data.reduce((s, d) => s + d.valor, 0);
+    const cx = 60, cy = 60, r = 56, toRad = a => (a * Math.PI) / 180;
+    let a0 = -90, paths = '', rows = '';
+    data.forEach(d => {
+      const pct = PP_pct(d.valor, total);
+      const a1 = a0 + (pct / 100) * 360;
+      const x1 = cx + r * Math.cos(toRad(a0)), y1 = cy + r * Math.sin(toRad(a0));
+      const x2 = cx + r * Math.cos(toRad(a1)), y2 = cy + r * Math.sin(toRad(a1));
+      const largeArc = (a1 - a0) > 180 ? 1 : 0;
+      const n = MF_CAMPANAS.filter(c => c[1] === d.i).length;
+      paths += `<path class="ppto-pie-slice" data-tipo="${d.i}" data-tt="${d.nombre}" data-ttv="${pct.toFixed(1)}% · ${PP_fmtC(d.valor)} · ${n} campañas" d="M${cx},${cy} L${x1.toFixed(2)},${y1.toFixed(2)} A${r},${r} 0 ${largeArc} 1 ${x2.toFixed(2)},${y2.toFixed(2)} Z" fill="${d.color}" stroke="#fff" stroke-width="2"></path>`;
+      a0 = a1;
+      rows += `<div class="ppto-ch-row" data-tipo="${d.i}" tabindex="0" role="button">
+        <span class="ppto-ch-badge" style="background:${d.color};"></span>
+        <span class="ppto-ch-name">${d.nombre}</span>
+        <span class="ppto-ch-value">
+          <span class="ppto-ch-pct">${pct.toFixed(1)}%</span>
+          <span class="ppto-ch-usd">${PP_fmtC(d.valor)}</span>
+          <span class="ppto-ch-exec" style="color:#8b8b8b;">${n} campaña${n === 1 ? '' : 's'}</span>
+        </span>
+      </div>`;
+    });
+    document.getElementById('ppto-tipoPie').innerHTML = paths;
+    document.getElementById('ppto-tipoPieLegend').innerHTML = rows;
+    // Clic en una porcion o fila filtra la tabla de abajo, igual que las tarjetas de tipologia.
+    PAGE_ROOT.querySelectorAll('#ppto-tipoPie [data-tipo], #ppto-tipoPieLegend [data-tipo]').forEach(el => {
+      const i = Number(el.getAttribute('data-tipo'));
+      const ir = () => { PP_setFiltro(i); document.getElementById('ppto-campanaTable').scrollIntoView({ behavior: 'smooth', block: 'center' }); };
+      el.addEventListener('click', ir);
+      el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); ir(); } });
+    });
+  }
+
+  // Ranking de las campañas mas grandes: barras horizontales coloreadas por tipologia. Deja ver de
+  // un golpe que tan concentrado esta el portafolio, que el pastel por si solo no muestra.
+  function PP_renderTopCampanas() {
+    const top = MF_CAMPANAS.slice(0, 10);
+    const max = Math.max(...top.map(c => c[3] + c[4]), 1);
+    const totalAll = MF_CAMPANAS.reduce((s, c) => s + c[3] + c[4], 0);
+    const sumTop = top.reduce((s, c) => s + c[3] + c[4], 0);
+    document.getElementById('ppto-topCampanas').innerHTML = top.map(c => {
+      const v = c[3] + c[4];
+      return `<div style="padding:7px 0;border-top:1px dashed #e6e5ea;">
+        <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:4px;">
+          <span class="ppto-dot" style="background:${PP_TIPO_COLOR[c[1]]};"></span>
+          <span style="flex:1;font-size:11.5px;font-weight:600;color:#262626;">${PP_esc(PP_title(c[0]))}</span>
+          <span style="font-size:11.5px;font-weight:700;font-variant-numeric:tabular-nums;">${PP_fmtC(v)}</span>
+        </div>
+        <div class="ppto-minibar" data-tt="${PP_esc(PP_title(c[0]))}" data-ttv="${MF_TIPO_NOMBRE[c[1]]} · ${PP_fmtUSD(v)}">
+          <div class="ppto-minibar-fill" style="width:${(v / max * 100).toFixed(1)}%;background:${PP_TIPO_COLOR[c[1]]};"></div>
+        </div>
+      </div>`;
+    }).join('') + `<div class="ppto-source">Estas 10 concentran ${PP_pct1(sumTop, totalAll)} de la inversión del año.</div>`;
+  }
+
   function PP_renderTipoMes() {
     const series = MF_TIPO_NOMBRE.map((t, i) => ({ name: t, color: PP_TIPO_COLOR[i], mes: MF_TIPOLOGIA[t].mes }));
     PP_stackedByMonth('ppto-tipoMesChart', 'ppto-tipoMesLegend', series, MF_CORTE);
@@ -7873,13 +8029,14 @@ const SM_INF_PHOTO = {
     const tr = rows.reduce((s, c) => s + c[3], 0), tc = rows.reduce((s, c) => s + c[4], 0);
     document.getElementById('ppto-campanaTable').innerHTML = `
       <thead><tr>
-        <th>Campaña</th><th>Tipología</th><th>Área</th><th class="num">Consumido</th>
+        <th>Campaña</th><th>Tipología</th><th>Clasificada</th><th>Área que financia</th><th class="num">Consumido</th>
         <th class="num">Comprometido</th><th class="num">Total</th><th>Medio principal</th>
       </tr></thead>
       <tbody>${rows.map(c => `
         <tr>
           <td class="name">${PP_esc(PP_title(c[0]))}</td>
           <td><span class="ppto-dot" style="background:${PP_TIPO_COLOR[c[1]]};"></span><span style="font-size:11px;">${MF_TIPO_NOMBRE[c[1]]}</span></td>
+          <td><span class="ppto-chip ${PP_REGLA_CHIP[c[8]].cls}" data-tt="${PP_REGLA_CHIP[c[8]].desc}">${PP_REGLA_CHIP[c[8]].label}</span></td>
           <td style="color:#8b8b8b;">${PP_title(MF_AREA_NOMBRE[c[2]])}</td>
           <td class="num">${c[3] ? PP_fmtUSD(c[3]) : '—'}</td>
           <td class="num" style="color:${c[4] ? '#8a6d1f' : '#c9c7d2'};">${c[4] ? PP_fmtUSD(c[4]) : '—'}</td>
@@ -7887,7 +8044,7 @@ const SM_INF_PHOTO = {
           <td style="color:#8b8b8b;font-size:10.5px;">${PP_esc(PP_title(c[5]))}${c[6] > 1 ? ` <span class="ppto-chip neutral">+${c[6] - 1}</span>` : ''}</td>
         </tr>`).join('')}</tbody>
       <tfoot><tr>
-        <td colspan="3">${rows.length} campaña${rows.length === 1 ? '' : 's'}${PP_tipoFiltro !== null ? ` · ${MF_TIPO_NOMBRE[PP_tipoFiltro]}` : ''}</td>
+        <td colspan="4">${rows.length} campaña${rows.length === 1 ? '' : 's'}${PP_tipoFiltro !== null ? ` · ${MF_TIPO_NOMBRE[PP_tipoFiltro]}` : ''}</td>
         <td class="num">${PP_fmtUSD(tr)}</td><td class="num">${PP_fmtUSD(tc)}</td>
         <td class="num">${PP_fmtUSD(tr + tc)}</td><td></td>
       </tr></tfoot>`;
@@ -8007,7 +8164,7 @@ const SM_INF_PHOTO = {
     // "Bajo consumo" = menos del 35% ejecutado a mitad de año, con presupuesto material.
     const bajo = rows.filter(r => r.presupuesto >= 20000 && PP_pct(r.consumo, r.presupuesto) < 35).sort((a, b) => b.saldo - a.saldo);
     const bajoTotal = bajo.reduce((s, r) => s + r.saldo, 0);
-    const porDefinir = MF_CAMPANAS.filter(c => c[1] === 4);
+    const porDefinir = MF_CAMPANAS.filter(c => c[1] === 5);
     const porDefinirTotal = porDefinir.reduce((s, c) => s + c[3] + c[4], 0);
     const prepagoFuturo = PP_COMPROMETIDO;
 
@@ -8084,6 +8241,9 @@ const SM_INF_PHOTO = {
   PP_renderMedioTable();
   PP_renderCanalMes();
   PP_renderTipoGrid();
+  PP_renderTipoPie();
+  PP_renderTopCampanas();
+  PP_renderCriterio();
   PP_renderTipoMes();
   PP_renderFiltro();
   PP_renderCampanaTable();
