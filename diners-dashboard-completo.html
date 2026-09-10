@@ -699,6 +699,134 @@
   [data-page="own"] .obj-filter-btn[data-active="true"] { background: #6E93B0; border-color: #6E93B0; color: #fff; }
   [data-page="own"] .om-trend-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; margin-bottom: 12px; flex-wrap: wrap; }
   [data-page="own"] .om-trend-controls { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+
+  /* ================= PRESUPUESTO (control gerencial) ================= */
+  [data-page="ppto"] .ppto-kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 14px; }
+  [data-page="ppto"] .ppto-kpi { padding: 15px 17px; position: relative; overflow: hidden; }
+  [data-page="ppto"] .ppto-kpi::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--kpi-accent, #4F52E5); }
+  [data-page="ppto"] .ppto-kpi-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #8b8b8b; margin-bottom: 8px; }
+  [data-page="ppto"] .ppto-kpi-value { font-family: var(--font-display); font-size: 25px; font-weight: 700; line-height: 1; font-variant-numeric: lining-nums tabular-nums; color: var(--kpi-accent, #262626); }
+  [data-page="ppto"] .ppto-kpi-sub { font-size: 10.5px; color: #8b8b8b; margin-top: 7px; line-height: 1.45; }
+  [data-page="ppto"] .ppto-kpi-sub b { color: #262626; font-variant-numeric: tabular-nums; }
+
+  [data-page="ppto"] .ppto-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+  [data-page="ppto"] .ppto-2col-wide { display: grid; grid-template-columns: 1.35fr 1fr; gap: 14px; margin-bottom: 14px; }
+  [data-page="ppto"] .ppto-3col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 14px; }
+
+  /* Barra de ejecucion apilada: consumido | comprometido | disponible */
+  [data-page="ppto"] .ppto-exec-bar { display: flex; height: 34px; border-radius: 9px; overflow: hidden; background: #eef1f3; margin: 14px 0 10px; }
+  [data-page="ppto"] .ppto-exec-seg { display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: #fff; white-space: nowrap; transition: flex-grow 0.6s cubic-bezier(0.16,1,0.3,1); overflow: hidden; }
+  [data-page="ppto"] .ppto-exec-legend { display: flex; gap: 18px; flex-wrap: wrap; }
+  [data-page="ppto"] .ppto-exec-legend-item { display: flex; align-items: center; gap: 7px; font-size: 11.5px; color: #5C5C5C; }
+  [data-page="ppto"] .ppto-exec-legend-dot { width: 9px; height: 9px; border-radius: 3px; flex: none; }
+  [data-page="ppto"] .ppto-exec-legend b { color: #262626; font-variant-numeric: tabular-nums; }
+
+  /* Tabla generica de la pagina */
+  [data-page="ppto"] .ppto-table { width: 100%; border-collapse: collapse; font-size: 11.5px; }
+  [data-page="ppto"] .ppto-table th { text-align: left; font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.04em; color: #8b8b8b; font-weight: 700; padding: 6px 8px; border-bottom: 1px solid #e6e5ea; white-space: nowrap; }
+  [data-page="ppto"] .ppto-table th.num, [data-page="ppto"] .ppto-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  [data-page="ppto"] .ppto-table td { padding: 7px 8px; border-bottom: 1px solid #eef1f3; }
+  [data-page="ppto"] .ppto-table tbody tr:hover { background: #F8F7FC; }
+  [data-page="ppto"] .ppto-table td.name { font-weight: 600; color: #262626; }
+  [data-page="ppto"] .ppto-table tfoot td { padding: 9px 8px; border-top: 2px solid #e6e5ea; border-bottom: none; font-weight: 700; font-variant-numeric: tabular-nums; }
+  [data-page="ppto"] .ppto-table-wrap { overflow-x: auto; }
+  [data-page="ppto"] .ppto-scroll { max-height: 460px; overflow-y: auto; }
+  [data-page="ppto"] .ppto-scroll thead th { position: sticky; top: 0; background: #fff; z-index: 1; }
+
+  /* Mini barra dentro de celda */
+  [data-page="ppto"] .ppto-minibar { height: 7px; border-radius: 4px; background: #d7d5e1; overflow: hidden; min-width: 64px; }
+  [data-page="ppto"] .ppto-minibar-fill { height: 100%; border-radius: 4px; transition: width 0.6s cubic-bezier(0.16,1,0.3,1); }
+  [data-page="ppto"] .ppto-dot { width: 9px; height: 9px; border-radius: 3px; flex: none; display: inline-block; margin-right: 7px; vertical-align: middle; }
+
+  /* Chips de estado */
+  [data-page="ppto"] .ppto-chip { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 999px; white-space: nowrap; display: inline-block; }
+  [data-page="ppto"] .ppto-chip.ok { background: rgba(0,128,56,0.1); color: #008038; }
+  [data-page="ppto"] .ppto-chip.warn { background: #FBF3D9; color: #8a6d1f; }
+  [data-page="ppto"] .ppto-chip.bad { background: rgba(238,0,0,0.09); color: #C81E1E; }
+  [data-page="ppto"] .ppto-chip.neutral { background: #F3F3F6; color: #6b6b6b; }
+
+  /* Badge de criterio propuesto (tipologia aun no validada por el cliente) */
+  [data-page="ppto"] .ppto-propuesto { display: inline-flex; align-items: center; gap: 5px; font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; padding: 3px 9px; border-radius: 999px; background: #FBF3D9; color: #8a6d1f; border: 1px solid #E9D583; vertical-align: middle; margin-left: 8px; }
+
+  /* Filtro de tipologia */
+  [data-page="ppto"] .ppto-filter { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; margin-bottom: 12px; }
+  [data-page="ppto"] .ppto-filter-btn { font: inherit; font-size: 11px; font-weight: 600; padding: 6px 13px; border-radius: 999px; border: 1px solid #e2e0ea; background: #fff; color: #6b6b6b; cursor: pointer; transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease; display: inline-flex; align-items: center; gap: 6px; }
+  [data-page="ppto"] .ppto-filter-btn:hover { background: #F8F7FC; }
+  [data-page="ppto"] .ppto-filter-btn:active { transform: scale(0.98); }
+  [data-page="ppto"] .ppto-filter-btn:focus-visible { outline: 2px solid #4F52E5; outline-offset: 1px; }
+  [data-page="ppto"] .ppto-filter-btn[data-active="true"] { background: #141414; border-color: #141414; color: #fff; }
+  [data-page="ppto"] .ppto-filter-btn .ppto-dot { margin-right: 0; }
+
+  /* Tarjetas de tipologia */
+  [data-page="ppto"] .ppto-tipo-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 14px; }
+  [data-page="ppto"] .ppto-tipo-card { padding: 14px 15px; border-top: 3px solid var(--tipo-color, #4F52E5); cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+  [data-page="ppto"] .ppto-tipo-card:hover { transform: translateY(-3px); box-shadow: 0 4px 10px rgba(20,20,20,0.07), 0 14px 32px rgba(20,20,20,0.10); }
+  [data-page="ppto"] .ppto-tipo-name { font-size: 11.5px; font-weight: 700; color: #262626; margin-bottom: 8px; line-height: 1.3; min-height: 30px; }
+  [data-page="ppto"] .ppto-tipo-value { font-size: 19px; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+  [data-page="ppto"] .ppto-tipo-share { font-size: 10.5px; color: #8b8b8b; margin-top: 3px; }
+  [data-page="ppto"] .ppto-tipo-meta { font-size: 10px; color: #8b8b8b; margin-top: 8px; padding-top: 8px; border-top: 1px dashed #e6e5ea; }
+
+  /* Filas de riesgo */
+  [data-page="ppto"] .ppto-risk-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  [data-page="ppto"] .ppto-risk-icon { width: 28px; height: 28px; border-radius: 9px; display: flex; align-items: center; justify-content: center; flex: none; font-size: 14px; }
+  [data-page="ppto"] .ppto-risk-title { font-size: 13px; font-weight: 700; color: #262626; }
+  [data-page="ppto"] .ppto-risk-amount { margin-left: auto; font-size: 17px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  [data-page="ppto"] .ppto-risk-desc { font-size: 11.5px; color: #6b6b6b; line-height: 1.5; margin-bottom: 12px; }
+
+  /* Pastel de composicion por canal. Mismo lenguaje visual que el de Paid Media, pero con clases
+     propias: esa pagina puede retirarse mas adelante y esta tiene que seguir en pie sin su CSS. */
+  [data-page="ppto"] .ppto-pie-wrap { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  [data-page="ppto"] .ppto-pie-wrap svg { flex: none; animation: popIn 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+  [data-page="ppto"] .ppto-pie-legend { flex: 1; min-width: 240px; }
+  [data-page="ppto"] .ppto-ch-row { display: flex; align-items: center; gap: 9px; font-size: 12px; padding: 5px 6px; margin: 0 -6px; border-top: 1px dashed #e6e5ea; border-radius: 8px; cursor: pointer; transition: background 0.15s ease; }
+  [data-page="ppto"] .ppto-ch-row:first-child { border-top: none; }
+  [data-page="ppto"] .ppto-ch-row:hover, [data-page="ppto"] .ppto-ch-row.is-active { background: #F8F7FC; }
+  [data-page="ppto"] .ppto-ch-row:focus-visible { outline: 2px solid #4F52E5; outline-offset: -2px; }
+  [data-page="ppto"] #ppto-channelPie path { cursor: pointer; }
+  [data-page="ppto"] .ppto-ch-badge { width: 26px; height: 26px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex: none; }
+  [data-page="ppto"] .ppto-ch-name { flex: 1; color: #262626; font-weight: 500; }
+  [data-page="ppto"] .ppto-ch-value { display: flex; flex-direction: column; align-items: flex-end; line-height: 1.3; }
+  [data-page="ppto"] .ppto-ch-pct { font-weight: 700; color: #262626; font-variant-numeric: tabular-nums; }
+  [data-page="ppto"] .ppto-ch-usd { font-size: 9.5px; font-weight: 500; color: #8b8b8b; font-variant-numeric: tabular-nums; }
+  [data-page="ppto"] .ppto-ch-exec { display: block; font-size: 10px; font-weight: 600; margin-top: 2px; white-space: nowrap; }
+  [data-page="ppto"] .ppto-ch-exec.good { color: #008038; }
+  [data-page="ppto"] .ppto-ch-exec.warn { color: #8a6d1f; }
+  [data-page="ppto"] .ppto-ch-exec.bad { color: #EE0000; }
+  /* Sin animacion por porcion: la entrada escalonada dejaba las porciones con retardo a medio
+     opacar en capturas y exports (el mismo motivo por el que el waterfall se dibuja estatico).
+     La entrada la hace el SVG completo, arriba. */
+  [data-page="ppto"] .ppto-pie-slice { transform-origin: 60px 60px; }
+
+  /* Panel de detalle del canal activo — se reemplaza entero al pasar por una porcion del pastel. */
+  [data-page="ppto"] .ppto-canal-detail { background: #F8F7FC; border-radius: 10px; padding: 14px 16px; }
+  [data-page="ppto"] .ppto-cd-title { font-size: 10.5px; font-weight: 700; color: #4F52E5; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; }
+  [data-page="ppto"] .ppto-cd-head { display: flex; align-items: center; gap: 7px; margin-bottom: 6px; }
+  [data-page="ppto"] .ppto-cd-name { font-size: 11.5px; font-weight: 600; color: #262626; flex: 1; }
+  [data-page="ppto"] .ppto-cd-budget { font-size: 9.5px; font-weight: 500; color: #8b8b8b; white-space: nowrap; }
+  [data-page="ppto"] .ppto-cd-track { height: 10px; border-radius: 5px; background: #c7c5d4; overflow: hidden; }
+  [data-page="ppto"] .ppto-cd-fill { height: 100%; border-radius: 5px; transition: width 0.5s cubic-bezier(0.16,1,0.3,1); }
+  [data-page="ppto"] .ppto-cd-caption { display: flex; justify-content: space-between; gap: 10px; font-size: 10.5px; color: #5C5C5C; margin-top: 6px; }
+  [data-page="ppto"] .ppto-cd-caption b { color: #262626; font-variant-numeric: tabular-nums; }
+  [data-page="ppto"] .ppto-cd-outlets { margin: 8px 0 2px 21px; padding-left: 12px; border-left: 2px solid #d7d5e1; }
+  [data-page="ppto"] .ppto-cd-outlet { padding: 7px 0; }
+  [data-page="ppto"] .ppto-cd-outlet:first-child { padding-top: 2px; }
+  [data-page="ppto"] .ppto-cd-outlet-head { display: flex; align-items: center; gap: 6px; margin-bottom: 5px; }
+  [data-page="ppto"] .ppto-cd-outlet-name { font-size: 11px; font-weight: 600; color: #3f3f3f; flex: 1; }
+  [data-page="ppto"] .ppto-cd-outlet-track { height: 7px; border-radius: 4px; background: #c7c5d4; overflow: hidden; }
+  [data-page="ppto"] .ppto-cd-outlet-fill { height: 100%; border-radius: 4px; transition: width 0.5s cubic-bezier(0.16,1,0.3,1); }
+  [data-page="ppto"] .ppto-cd-outlet .ppto-cd-caption { font-size: 9.5px; margin-top: 4px; }
+
+  /* Leyenda de graficos svg */
+  [data-page="ppto"] .ppto-chart-legend { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 10px; font-size: 11px; color: #5C5C5C; }
+  [data-page="ppto"] .ppto-chart-legend span { display: inline-flex; align-items: center; gap: 6px; }
+  [data-page="ppto"] svg.ppto-chart { width: 100%; height: auto; display: block; }
+  [data-page="ppto"] .ppto-source { font-size: 10px; color: #a0a0a0; margin-top: 10px; font-style: italic; }
+
+  @media (max-width: 1100px) {
+    [data-page="ppto"] .ppto-kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    [data-page="ppto"] .ppto-tipo-grid { grid-template-columns: repeat(2, 1fr); }
+    [data-page="ppto"] .ppto-2col, [data-page="ppto"] .ppto-2col-wide, [data-page="ppto"] .ppto-3col { grid-template-columns: 1fr; }
+  }
 </style>
 </head>
 <body>
@@ -718,6 +846,11 @@
       <button class="nav-item" data-page="portada" data-active="true">
         <span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><path d="M9 22V12h6v10"></path></svg></span>
         Inicio
+      </button>
+      <div class="sidebar-section-label">Gerencia</div>
+      <button class="nav-item" data-page="ppto">
+        <span class="nav-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22"></path><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg></span>
+        Presupuesto
       </button>
       <div class="sidebar-section-label">Sub-áreas</div>
       <button class="nav-item" data-page="marca">
@@ -857,6 +990,253 @@
     <!-- ============================================================ -->
     <!-- PÁGINA: PAID MEDIA -->
     <!-- ============================================================ -->
+    <!-- ============================================================ -->
+    <!-- PÁGINA: PRESUPUESTO (control gerencial) -->
+    <!-- ============================================================ -->
+    <div class="page" data-page="ppto">
+      <div class="page-head">
+        <div>
+          <div class="page-title">Presupuesto</div>
+          <div class="page-sub">Control gerencial de la inversión de medios 2026 — cuánto se consumió, cuánto está comprometido y cuánto queda realmente disponible</div>
+        </div>
+        <span class="status-pill" id="ppto-headPill">Corte a junio 2026</span>
+      </div>
+
+      <div class="tab-rail" id="ppto-tabRail">
+        <button class="tab" data-tab="p1" data-active="true"><span class="tab-num">1</span>Control ejecutivo</button>
+        <button class="tab" data-tab="p2"><span class="tab-num">2</span>Mix de Medios</button>
+        <button class="tab" data-tab="p3"><span class="tab-num">3</span>Portafolio de campaña</button>
+        <button class="tab" data-tab="p4"><span class="tab-num">4</span>Pacing y Forecast</button>
+        <button class="tab" data-tab="p5"><span class="tab-num">5</span>Presupuesto en riesgo</button>
+      </div>
+
+      <!-- ============ VISTA 1 — CONTROL EJECUTIVO ============ -->
+      <div class="panel" data-panel="p1" data-visible="true">
+
+        <div class="ppto-kpi-grid" id="ppto-kpiGrid"></div>
+
+        <div class="zone zone-pad" style="margin-bottom:14px;">
+          <div class="zone-label">Ejecución del presupuesto</div>
+          <div class="zone-title">¿En qué estado está cada dólar aprobado?</div>
+          <div class="hero-caption">Consumido = ya se gastó (enero–junio). Comprometido = pauta ya cargada al Masterflow para julio en adelante, todavía no ejecutada. Disponible real = lo que queda después de restar ambos, no el saldo contra el aprobado.</div>
+          <div class="ppto-exec-bar" id="ppto-execBar"></div>
+          <div class="ppto-exec-legend" id="ppto-execLegend"></div>
+          <div class="ppto-source">Fuente: hoja BASE MASTERFLOW 2026 (1.217 filas) + hoja BITACORA · corte cerrado a junio 2026.</div>
+        </div>
+
+        <div class="ppto-2col-wide">
+          <div class="zone zone-pad">
+            <div class="zone-label">Waterfall</div>
+            <div class="zone-title">Del presupuesto aprobado al disponible real</div>
+            <div class="hero-caption" style="margin-bottom:6px;">Cada barra descuenta del anterior. La última columna es la cifra que gerencia puede reasignar hoy.</div>
+            <svg class="ppto-chart" viewBox="0 0 560 260" id="ppto-waterfall"></svg>
+          </div>
+          <div class="zone zone-pad">
+            <div class="zone-label">Reparto</div>
+            <div class="zone-title">Marketing vs. Negocios</div>
+            <div class="hero-caption" style="margin-bottom:10px;">Sobre el gasto real, no sobre presupuesto: Negocios no tiene forecast anual cargado en el Masterflow.</div>
+            <div id="ppto-areaRows"></div>
+            <div class="caveat-box" style="margin-top:12px;">
+              <span>⚠️</span>
+              <span>Negocios no tiene <b>presupuesto anual</b> en el Masterflow — solo consumo. Para mostrar "% del presupuesto asignado a Negocios" necesitamos que el cliente nos pase su forecast.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="ppto-2col">
+          <div class="zone zone-pad">
+            <div class="zone-label">Tipología de gasto</div>
+            <div class="zone-title">Prepago, facturable y no facturable</div>
+            <div class="hero-caption" style="margin-bottom:10px;">Columna <b>TIPO DE CONSUMO</b> del Masterflow. Define cuánto del gasto ya salió de caja por adelantado y cuánto se factura contra ejecución.</div>
+            <div id="ppto-consumoRows"></div>
+          </div>
+          <div class="zone zone-pad">
+            <div class="zone-label">Medios vs. fees</div>
+            <div class="zone-title">Cuánto llega al medio y cuánto es honorario de agencia</div>
+            <div class="hero-caption" style="margin-bottom:10px;">Columnas <b>INVERSION TOTAL</b> (medio) y <b>FEE AGENCIA</b> del Masterflow.</div>
+            <div id="ppto-feeRows"></div>
+            <div class="insight-box" style="margin-top:12px;">
+              <span>💡</span>
+              <span id="ppto-feeInsight"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ VISTA 2 — MIX DE MEDIOS ============ -->
+      <div class="panel" data-panel="p2">
+        <div class="zone zone-pad" style="margin-bottom:14px;">
+          <div class="zone-label">Share de inversión</div>
+          <div class="zone-title">Planificado vs. consumo real, por medio</div>
+          <div class="hero-caption">Cuánto se le asignó a cada canal, cuánto lleva consumido y qué medios específicos hay detrás. Presupuesto y consumo salen de la misma hoja (RESUMEN CONSUMO), así que son directamente comparables.</div>
+        </div>
+
+        <div class="ppto-2col-wide">
+          <div class="zone zone-pad">
+            <div class="zone-label">Composición</div>
+            <div class="zone-title" style="margin-bottom:4px;">Cómo se reparte el presupuesto anual entre canales</div>
+            <div class="hero-caption" style="margin-bottom:14px;">Cada porción es el peso de ese canal sobre el presupuesto 2026. <b>Pasa el mouse (o da clic) sobre un canal</b> para ver a la derecha su desglose por medio específico. Referencia: a junio el año va al 50% — un canal muy por debajo tiene saldo reasignable; uno sobre 100% ya se pasó.</div>
+            <div class="ppto-pie-wrap">
+              <svg width="150" height="150" viewBox="0 0 120 120" id="ppto-channelPie"></svg>
+              <div class="ppto-pie-legend" id="ppto-channelLegend"></div>
+            </div>
+          </div>
+          <div class="zone zone-pad">
+            <div class="zone-label">Detalle del canal</div>
+            <div class="zone-title" style="margin-bottom:4px;">Consumo real por medio específico</div>
+            <div class="hero-caption" style="margin-bottom:12px;">Presupuesto, consumo y saldo de cada medio dentro del canal seleccionado. Corte cerrado a junio 2026.</div>
+            <div class="ppto-canal-detail" id="ppto-canalDetail"></div>
+          </div>
+        </div>
+
+
+        <div class="zone zone-pad" style="margin-bottom:14px;">
+          <div class="zone-label">Detalle</div>
+          <div class="zone-title" style="margin-bottom:4px;">Presupuesto, consumo y saldo por medio específico</div>
+          <div class="hero-caption" style="margin-bottom:12px;">Los tres grupos del Masterflow (Marketing, Refuerzo OOH, Negocios) consolidados en una sola tabla. Saldo en rojo = medio que ya se pasó de lo asignado.</div>
+          <div class="ppto-table-wrap ppto-scroll">
+            <table class="ppto-table" id="ppto-medioTable"></table>
+          </div>
+        </div>
+
+        <div class="zone zone-pad">
+          <div class="zone-label">Canal por mes</div>
+          <div class="zone-title" style="margin-bottom:4px;">Cómo se movió el peso de cada canal mes a mes</div>
+          <div class="hero-caption" style="margin-bottom:12px;">Gasto real ene–jun y comprometido jul–dic, por tipo de medio. Fuente: BASE MASTERFLOW.</div>
+          <svg class="ppto-chart" viewBox="0 0 1080 260" id="ppto-canalMesChart"></svg>
+          <div class="ppto-chart-legend" id="ppto-canalMesLegend"></div>
+        </div>
+      </div>
+
+      <!-- ============ VISTA 3 — PORTAFOLIO DE CAMPAÑA ============ -->
+      <div class="panel" data-panel="p3">
+        <div class="zone zone-pad" style="margin-bottom:14px;">
+          <div class="zone-label">Portafolio</div>
+          <div class="zone-title" style="margin-bottom:4px;">Inversión por tipología de campaña<span class="ppto-propuesto">⚠ criterio propuesto</span></div>
+          <div class="hero-caption">Las 121 campañas reales del Masterflow clasificadas en las cuatro tipologías que pidió el cliente. <b>El criterio de clasificación es una propuesta nuestra</b> — el Masterflow no trae una columna de tipología, solo el nombre de la campaña. Hay que validarlo con Diners antes de darlo por bueno, o pedir que lo agreguen al master.</div>
+        </div>
+
+        <div class="ppto-tipo-grid" id="ppto-tipoGrid"></div>
+
+        <div class="zone zone-pad" style="margin-bottom:14px;">
+          <div class="zone-label">Composición</div>
+          <div class="zone-title" style="margin-bottom:12px;">Peso de cada tipología, mes a mes</div>
+          <svg class="ppto-chart" viewBox="0 0 1080 240" id="ppto-tipoMesChart"></svg>
+          <div class="ppto-chart-legend" id="ppto-tipoMesLegend"></div>
+        </div>
+
+        <div class="zone zone-pad">
+          <div class="zone-label">Detalle</div>
+          <div class="zone-title" style="margin-bottom:4px;">Las 121 campañas del Masterflow</div>
+          <div class="hero-caption" style="margin-bottom:12px;">Clic en una tipología para filtrar. Ordenadas por inversión total (consumido + comprometido).</div>
+          <div class="ppto-filter" id="ppto-tipoFilter"></div>
+          <div class="ppto-table-wrap ppto-scroll">
+            <table class="ppto-table" id="ppto-campanaTable"></table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ VISTA 4 — PACING Y FORECAST ============ -->
+      <div class="panel" data-panel="p4">
+        <div class="caveat-box" style="margin-bottom:14px;">
+          <span>⚠️</span>
+          <span><b>Falta el plan mensual aprobado.</b> El Masterflow trae presupuesto <b>anual</b> por medio, no mensualizado. Por eso el pacing de abajo es contra el <b>% del año transcurrido</b> — que es justamente lo que el cliente pidió NO usar. Para hacer pacing contra plan mensual real necesitamos que Diners nos pase la mensualización del presupuesto.</span>
+        </div>
+
+        <div class="ppto-3col" id="ppto-pacingCards"></div>
+
+        <div class="zone zone-pad" style="margin-bottom:14px;">
+          <div class="zone-label">Evolución mensual</div>
+          <div class="zone-title" style="margin-bottom:4px;">¿Qué meses concentran la presión de inversión?</div>
+          <div class="hero-caption" style="margin-bottom:12px;">Barras moradas = gasto real ejecutado. Barras grises (a la derecha de la línea punteada) = comprometido todavía no ejecutado. La línea negra es el acumulado como % del presupuesto vigente.</div>
+          <svg class="ppto-chart" viewBox="0 0 1080 300" id="ppto-mensualChart"></svg>
+          <div class="ppto-chart-legend">
+            <span><span class="ppto-dot" style="background:#4F52E5;"></span>Consumido</span>
+            <span><span class="ppto-dot" style="background:#b9b8c4;"></span>Comprometido</span>
+            <span><span class="ppto-dot" style="background:#141414;border-radius:50%;"></span>Acumulado (% del presupuesto)</span>
+          </div>
+        </div>
+
+        <div class="ppto-2col">
+          <div class="zone zone-pad">
+            <div class="zone-label">Forecast de cierre</div>
+            <div class="zone-title" style="margin-bottom:4px;">Proyección a diciembre 2026, por medio</div>
+            <div class="hero-caption" style="margin-bottom:12px;">Consumido + comprometido ya cargado. No incluye pauta futura sin cargar al Masterflow, así que es un <b>piso</b>, no una proyección estadística.</div>
+            <div class="ppto-table-wrap">
+              <table class="ppto-table" id="ppto-forecastTable"></table>
+            </div>
+          </div>
+          <div class="zone zone-pad">
+            <div class="zone-label">Cierre de año</div>
+            <div class="zone-title" style="margin-bottom:10px;">Qué pasa si no se carga nada más</div>
+            <div id="ppto-cierreBox"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ VISTA 5 — PRESUPUESTO EN RIESGO ============ -->
+      <div class="panel" data-panel="p5">
+        <div class="zone zone-pad" style="margin-bottom:14px;">
+          <div class="zone-label">Riesgo y oportunidades</div>
+          <div class="zone-title" style="margin-bottom:4px;">Dónde hay que acelerar, frenar o reasignar</div>
+          <div class="hero-caption">Cuatro focos, cada uno con su cifra en dólares y el detalle que la sustenta. Todo sale del Masterflow real — ninguna cifra de esta vista es estimada.</div>
+        </div>
+
+        <div class="ppto-kpi-grid" id="ppto-riskKpis"></div>
+
+        <div class="zone zone-pad" style="margin-bottom:14px;">
+          <div class="ppto-risk-head">
+            <span class="ppto-risk-icon" style="background:rgba(238,0,0,0.09);color:#C81E1E;">▲</span>
+            <span class="ppto-risk-title">Sobrepacing — medios que ya se pasaron de lo asignado</span>
+            <span class="ppto-risk-amount" style="color:#C81E1E;" id="ppto-sobreTotal"></span>
+          </div>
+          <div class="ppto-risk-desc">Saldo negativo contra el presupuesto anual del medio. Requieren aprobación de presupuesto adicional o reasignación desde otro canal. Se omiten diferencias menores a $100, que en la fuente son redondeo.</div>
+          <div class="ppto-table-wrap">
+            <table class="ppto-table" id="ppto-sobreTable"></table>
+          </div>
+        </div>
+
+        <div class="zone zone-pad" style="margin-bottom:14px;">
+          <div class="ppto-risk-head">
+            <span class="ppto-risk-icon" style="background:#FBF3D9;color:#8a6d1f;">◷</span>
+            <span class="ppto-risk-title">Compromisos sin campaña asignada</span>
+            <span class="ppto-risk-amount" style="color:#8a6d1f;" id="ppto-pordefinirTotal"></span>
+          </div>
+          <div class="ppto-risk-desc" id="ppto-pordefinirDesc"></div>
+          <div class="ppto-table-wrap">
+            <table class="ppto-table" id="ppto-pordefinirTable"></table>
+          </div>
+        </div>
+
+        <div class="ppto-2col">
+          <div class="zone zone-pad">
+            <div class="ppto-risk-head">
+              <span class="ppto-risk-icon" style="background:rgba(0,97,140,0.1);color:#00618C;">▼</span>
+              <span class="ppto-risk-title">Saldos por ejecutar</span>
+              <span class="ppto-risk-amount" style="color:#00618C;" id="ppto-saldoTotal"></span>
+            </div>
+            <div class="ppto-risk-desc">Medios con presupuesto asignado y consumo bajo. Son la bolsa natural para reasignar hacia los canales en sobrepacing.</div>
+            <div class="ppto-table-wrap">
+              <table class="ppto-table" id="ppto-saldoTable"></table>
+            </div>
+          </div>
+          <div class="zone zone-pad">
+            <div class="ppto-risk-head">
+              <span class="ppto-risk-icon" style="background:rgba(79,82,229,0.1);color:#4F52E5;">◆</span>
+              <span class="ppto-risk-title">Prepagos pendientes de consumir</span>
+              <span class="ppto-risk-amount" style="color:#4F52E5;" id="ppto-prepagoTotal"></span>
+            </div>
+            <div class="ppto-risk-desc" id="ppto-prepagoDesc"></div>
+            <div id="ppto-prepagoRows"></div>
+            <div class="caveat-box" style="margin-top:12px;">
+              <span>⚠️</span>
+              <span>El Masterflow <b>no distingue</b> prepago pagado de prepago consumido. Esta cifra es el prepago cargado a meses futuros — una aproximación. Para el saldo exacto hay que pedir el estado de cuenta de prepagos por medio.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="page" data-page="paid">
       <div class="page-head">
         <div>
@@ -4713,6 +5093,12 @@
   PM_renderConsumoTables();
   PM_renderFacturacionTables();
 
+  // Reexportado para la página Presupuesto (control gerencial), que reusa exactamente estas
+  // mismas cifras del Masterflow en vez de volver a transcribirlas en otro bloque.
+  window.PM_CONSUMO = PM_CONSUMO;
+  window.PM_BITACORA = PM_BITACORA;
+  window.PM_CAT = { totals: PM_REAL_CATEGORY_TOTALS, order: PM_CHANNEL_ORDER, label: PM_CHANNEL_LABEL, color: PM_CHANNEL_COLOR, icon: PM_CHANNEL_ICON, outlets: PM_realOutletsForCategory };
+
   })();
 </script>
 
@@ -6903,5 +7289,812 @@ const SM_INF_PHOTO = {
     if (portadaNav) portadaNav.addEventListener('click', renderPortada);
   })();
 </script>
+
+<!-- ================= PRESUPUESTO SCRIPT (control gerencial) ================= -->
+<script>
+  (function () {
+    const PAGE_ROOT = document.querySelector('.page[data-page="ppto"]');
+    if (!PAGE_ROOT) return;
+    function PP_showTab(id) {
+      PAGE_ROOT.querySelectorAll('.tab').forEach(t => t.dataset.active = (t.dataset.tab === id) ? 'true' : 'false');
+      PAGE_ROOT.querySelectorAll('.panel').forEach(p => p.dataset.visible = (p.dataset.panel === id) ? 'true' : 'false');
+    }
+    PAGE_ROOT.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => PP_showTab(t.dataset.tab)));
+
+  /* Meses del Masterflow: 12 de 2026 (ene-jun cerrados, jul-dic comprometidos). */
+  const MF_MESES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+  const MF_CORTE = 6; // últimos meses cerrados = ene..jun
+  const MF_TOTAL = { real: 3878256, comp: 784632, inv: 4557760, fee: 105127,
+    mes: [723327, 600740, 695546, 631501, 510225, 716918, 128072, 125432, 125432, 125432, 125432, 125431], mes2027: 29402,
+    consumo: { prepago: 3350743, facturable: 1189278, noFacturable: 122866 } };
+  const MF_AREA = {
+    'MARKETING': { real: 3362173, comp: 784632, mes: [690820, 520666, 632743, 508575, 395411, 613959, 128072, 125432, 125432, 125432, 125432, 125431] },
+    'NEGOCIOS': { real: 503490, comp: 0, mes: [31111, 78362, 62803, 120626, 112914, 97673, 0, 0, 0, 0, 0, 0] },
+    'INSTITUCIONAL': { real: 9618, comp: 0, mes: [0, 612, 0, 2300, 1420, 5286, 0, 0, 0, 0, 0, 0] },
+    'CLUB MILES': { real: 2975, comp: 0, mes: [1396, 1099, 0, 0, 480, 0, 0, 0, 0, 0, 0, 0] },
+  };
+  const MF_TIPOLOGIA = {
+    'Movilización de consumos': { real: 2092093, comp: 0, mes: [295108, 293662, 512647, 487703, 311981, 190991, 0, 0, 0, 0, 0, 0] },
+    'Onboarding': { real: 421295, comp: 247313, mes: [65747, 47506, 47063, 74173, 74749, 112057, 41219, 41219, 41219, 41219, 41219, 41219] },
+    'Institucional': { real: 1142792, comp: 0, mes: [310454, 179529, 123984, 38040, 121143, 369642, 0, 0, 0, 0, 0, 0] },
+    'Tácticas': { real: 222076, comp: 0, mes: [52018, 80042, 11852, 31585, 2351, 44228, 0, 0, 0, 0, 0, 0] },
+    'Sin clasificar': { real: 0, comp: 537319, mes: [0, 0, 0, 0, 0, 0, 86853, 84213, 84213, 84213, 84213, 84213] },
+  };
+  const MF_CANAL = {
+    'OOH': { real: 1910519, comp: 781991, fee: 0, mes: [462808, 304032, 305363, 323103, 269327, 245884, 125431, 125431, 125431, 125431, 125431, 125431] },
+    'TV': { real: 1072770, comp: 0, fee: 0, mes: [152770, 143691, 253976, 112495, 116121, 293718, 0, 0, 0, 0, 0, 0] },
+    'Digital': { real: 822289, comp: 0, fee: 105127, mes: [97916, 141195, 125922, 183801, 116196, 157258, 0, 0, 0, 0, 0, 0] },
+    'Revistas': { real: 41565, comp: 2640, fee: 0, mes: [0, 7160, 10285, 9800, 7160, 7160, 2640, 0, 0, 0, 0, 0] },
+    'Radio': { real: 26201, comp: 0, fee: 0, mes: [9832, 4050, 0, 0, 0, 12319, 0, 0, 0, 0, 0, 0] },
+    'Prensa': { real: 4912, comp: 0, fee: 0, mes: [0, 612, 0, 2300, 1420, 580, 0, 0, 0, 0, 0, 0] },
+  };
+  /* [campaña, tipología, área, consumido, comprometido, medioTop, #medios, mes[12]] */
+  const MF_CAMPANAS = [
+    ['POR DEFINIR', 4, 0, 0, 537319, 'VIA PUBLICA', 3, [0, 0, 0, 0, 0, 0, 86853, 84213, 84213, 84213, 84213, 84213]],
+    ['BLU BENEFITS', 0, 0, 534186, 0, 'VIA PUBLICA', 4, [97076, 97076, 97076, 105067, 72044, 65848, 0, 0, 0, 0, 0, 0]],
+    ['SER SOCIO', 1, 0, 153420, 247313, 'VIA PUBLICA', 1, [39980, 22157, 0, 0, 25032, 66251, 41219, 41219, 41219, 41219, 41219, 41219]],
+    ['MUNDIAL 2026', 2, 0, 379467, 0, 'TV ABIERTA', 3, [0, 0, 30000, 30000, 60000, 259467, 0, 0, 0, 0, 0, 0]],
+    ['MODO TASTY', 0, 0, 247571, 0, 'VIA PUBLICA', 8, [0, 7441, 171292, 68839, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['MAMÁ 2026', 0, 0, 225308, 0, 'VIA PUBLICA', 8, [0, 0, 0, 112412, 112605, 290, 0, 0, 0, 0, 0, 0]],
+    ['DCE. NEG VALLAS HIBRIDAS  2026', 2, 0, 222240, 0, 'VIA PUBLICA', 1, [222240, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['MASTER CHEF CELEBRITY', 2, 0, 213288, 0, 'TV ABIERTA', 1, [71096, 71096, 71096, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['VAC COSTA', 0, 0, 199412, 0, 'VIA PUBLICA', 8, [56653, 72516, 53123, 17120, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['RAC COSTA', 0, 0, 145095, 0, 'TV ABIERTA RC', 6, [0, 0, 49174, 67396, 28525, 0, 0, 0, 0, 0, 0, 0]],
+    ['IMPUESTO PREDIAL', 0, 0, 140860, 0, 'VIA PUBLICA', 6, [83592, 42883, 14385, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['ONBOARDING', 1, 1, 119572, 0, 'DIGITAL', 1, [18330, 17074, 15326, 20182, 27105, 21555, 0, 0, 0, 0, 0, 0]],
+    ['BILLETERAS DIGITALES', 0, 0, 103266, 0, 'VIA PUBLICA', 4, [11267, 12670, 38991, 13073, 16904, 10361, 0, 0, 0, 0, 0, 0]],
+    ['DSC BILLETERAS DIGITALES', 0, 0, 93683, 0, 'VIA PUBLICA', 1, [3395, 3059, 5117, 33902, 24973, 23236, 0, 0, 0, 0, 0, 0]],
+    ['UNIVERSIDADES', 1, 0, 66854, 0, 'DIGITAL', 3, [0, 0, 20510, 27018, 11903, 7423, 0, 0, 0, 0, 0, 0]],
+    ['BLU', 2, 0, 66656, 0, 'VIA PUBLICA', 4, [0, 7160, 0, 1270, 53227, 5000, 0, 0, 0, 0, 0, 0]],
+    ['COLLECTION RED', 0, 0, 63161, 0, 'VIA PUBLICA', 5, [0, 22826, 38278, 2056, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['BLU APP', 2, 0, 60861, 0, 'VIA PUBLICA', 3, [0, 0, 0, 0, 1193, 59668, 0, 0, 0, 0, 0, 0]],
+    ['ONB SPHAERA', 1, 1, 58700, 0, 'DIGITAL', 1, [7437, 6786, 8591, 15688, 10710, 9487, 0, 0, 0, 0, 0, 0]],
+    ['PROD. NUEVOS ISOS DINERS', 2, 0, 56220, 0, 'VIA PUBLICA PRODUCCION', 1, [0, 56220, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['PROMESAS', 2, 1, 53596, 0, 'DIGITAL', 1, [403, 36835, 16358, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['VAC SIERRA', 0, 0, 51627, 0, 'TV ABIERTA', 4, [0, 0, 0, 0, 0, 51627, 0, 0, 0, 0, 0, 0]],
+    ['DSC NOCHE BLANCA', 3, 0, 45530, 0, 'TV ABIERTA', 4, [0, 45530, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['TRIVIA MUNDIAL', 3, 0, 44228, 0, 'RADIO', 6, [0, 0, 0, 0, 0, 44228, 0, 0, 0, 0, 0, 0]],
+    ['ELIMINATORIAS 2026', 3, 0, 35556, 0, 'TV PAGA', 1, [11852, 11852, 11852, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['CON TU DINERS', 0, 0, 35086, 0, 'DIGITAL', 4, [0, 0, 15373, 14843, 0, 4870, 0, 0, 0, 0, 0, 0]],
+    ['BLU ECOSISTEMA', 2, 0, 32194, 0, 'DIGITAL', 3, [0, 0, 0, 0, 0, 32194, 0, 0, 0, 0, 0, 0]],
+    ['SALDOS', 0, 0, 25523, 0, 'DIGITAL', 3, [25313, 209, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['COUNTRY CLUB GYE', 0, 0, 24758, 0, 'DIGITAL', 1, [0, 24758, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['PAPÁ 2026', 0, 0, 20013, 0, 'DIGITAL', 3, [0, 0, 0, 0, 6000, 14013, 0, 0, 0, 0, 0, 0]],
+    ['DRIVE', 0, 0, 15828, 0, 'TV PAGA', 2, [0, 0, 0, 1985, 12154, 1689, 0, 0, 0, 0, 0, 0]],
+    ['IMPUESTO A LA RENTA', 0, 0, 15394, 0, 'VIA PUBLICA', 3, [0, 0, 8942, 6451, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['DE LUNES A LUNES', 3, 0, 15000, 0, 'TV ABIERTA', 1, [7500, 7500, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['MAMÁ SHOPPING DAYS', 3, 0, 14835, 0, 'VIA PUBLICA', 2, [0, 0, 0, 13676, 1159, 0, 0, 0, 0, 0, 0, 0]],
+    ['BUBBLES', 3, 0, 14563, 0, 'VIA PUBLICA', 1, [9470, 5093, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['DCE LOGO INSTITUCIONAL', 2, 0, 13726, 0, 'VIA PUBLICA', 1, [1961, 1961, 1961, 1961, 1961, 3922, 0, 0, 0, 0, 0, 0]],
+    ['FIESTAS DE AMBATO', 3, 0, 12560, 0, 'VIA PUBLICA', 2, [5093, 7467, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['DISCOVER U', 1, 0, 10065, 0, 'VIA PUBLICA', 2, [0, 0, 2635, 2640, 0, 4790, 0, 0, 0, 0, 0, 0]],
+    ['DSC NOCHE AMARILLA', 3, 0, 10000, 0, 'TV PAGA', 1, [10000, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['AON PATROCINADOS', 2, 0, 9990, 0, 'DIGITAL', 1, [1377, 1179, 1769, 1239, 1592, 2834, 0, 0, 0, 0, 0, 0]],
+    ['MAMÁ CYBERDAYS', 3, 0, 9504, 0, 'TV PAGA', 1, [0, 0, 0, 9504, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['MCLAREN', 2, 0, 8999, 0, 'DIGITAL', 1, [7512, 1487, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['GRANDE TABLE BAO FEST', 3, 0, 8405, 0, 'VIA PUBLICA', 2, [0, 0, 0, 8405, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['EST CRECOS', 0, 1, 7836, 0, 'DIGITAL', 2, [0, 0, 3415, 4421, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['REVISTA GESTION', 2, 0, 7624, 0, 'DIGITAL', 1, [1271, 1271, 1271, 1271, 1271, 1271, 0, 0, 0, 0, 0, 0]],
+    ['NAVIDAD DK 2025', 3, 0, 7582, 0, 'TV ABIERTA', 2, [7582, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['PARIDAD DE MILLAS', 0, 0, 7490, 0, 'DIGITAL', 2, [0, 0, 1993, 5497, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['EST FYBECCA', 0, 1, 6500, 0, 'DIGITAL', 1, [0, 0, 0, 6500, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['BLU DEUNA', 0, 1, 6081, 0, 'DIGITAL', 1, [0, 0, 0, 0, 6081, 0, 0, 0, 0, 0, 0, 0]],
+    ['BLU CUENTA DE AHORROS', 1, 0, 5861, 0, 'VIA PUBLICA PRODUCCION', 1, [0, 0, 0, 5861, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['BLU DEUNA FERIADO', 0, 1, 5582, 0, 'DIGITAL', 2, [0, 0, 0, 805, 4777, 0, 0, 0, 0, 0, 0, 0]],
+    ['MERCHANT MILES', 0, 0, 5282, 0, 'DIGITAL', 1, [5282, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['MODO HOME', 0, 0, 5250, 0, 'REVISTA', 2, [0, 0, 5250, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['ADQUISICION', 1, 0, 5168, 0, 'VIA PUBLICA RC', 1, [0, 0, 0, 2783, 0, 2385, 0, 0, 0, 0, 0, 0]],
+    ['EST SUPERMERCADOS DEL PORTAL', 0, 0, 4934, 0, 'VIA PUBLICA RC', 2, [0, 0, 0, 0, 0, 4934, 0, 0, 0, 0, 0, 0]],
+    ['EST MODO HOME', 0, 1, 4765, 0, 'DIGITAL', 1, [0, 0, 0, 4765, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['AUSPICIO TEATRO SUCRE', 2, 2, 4706, 0, 'DIGITAL', 1, [0, 0, 0, 0, 0, 4706, 0, 0, 0, 0, 0, 0]],
+    ['DIFERIDOS', 0, 0, 4677, 0, 'VIA PUBLICA', 2, [0, 0, 0, 760, 3917, 0, 0, 0, 0, 0, 0, 0]],
+    ['BLU DIFERIDOS', 0, 1, 4581, 0, 'DIGITAL', 1, [0, 0, 0, 0, 4581, 0, 0, 0, 0, 0, 0, 0]],
+    ['MODO WELLNESS', 0, 0, 4521, 0, 'DIGITAL', 2, [4521, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['MAMÁ RETAIL', 0, 0, 4518, 0, 'TV PAGA', 1, [0, 0, 0, 2088, 2430, 0, 0, 0, 0, 0, 0, 0]],
+    ['BLU CARDTOACCOUNT', 0, 1, 4390, 0, 'DIGITAL', 1, [0, 0, 0, 1424, 2966, 0, 0, 0, 0, 0, 0, 0]],
+    ['EST ADIDAS', 0, 1, 4259, 0, 'DIGITAL', 1, [0, 0, 0, 4259, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['MILLAS POR TUS COMPRAS', 0, 0, 3885, 0, 'DIGITAL', 2, [0, 3885, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['SALDOS CONDADO', 0, 0, 3593, 0, 'VIA PUBLICA', 1, [3593, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['EST BOLETIN MAMÁ RETAIL', 0, 1, 3499, 0, 'DIGITAL', 1, [0, 0, 0, 1578, 1920, 0, 0, 0, 0, 0, 0, 0]],
+    ['DRIVE FIRMA Y LISTO', 0, 0, 3432, 0, 'DIGITAL', 1, [600, 998, 1833, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['BIENAL CUENCA', 2, 0, 3198, 0, 'VIA PUBLICA', 1, [3198, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['EST SUPERMERCADOS CASANOVA', 0, 1, 3112, 0, 'DIGITAL', 1, [0, 0, 0, 297, 299, 2515, 0, 0, 0, 0, 0, 0]],
+    ['META MENSUAL', 0, 1, 3000, 0, 'DIGITAL', 1, [1500, 1500, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['RAC DISCOVER', 0, 0, 2989, 0, 'DIGITAL', 1, [0, 0, 697, 2293, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['APP BLU DIFERIDOS', 0, 1, 2839, 0, 'DIGITAL', 1, [0, 0, 0, 2839, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['EST TODO HOGAR', 0, 1, 2693, 0, 'DIGITAL', 1, [0, 0, 0, 0, 1081, 1612, 0, 0, 0, 0, 0, 0]],
+    ['EST STARBUCKS', 0, 1, 2603, 0, 'DIGITAL', 1, [0, 0, 2003, 0, 600, 0, 0, 0, 0, 0, 0, 0]],
+    ['BAJADA FIESTAS DE AMBATO', 3, 0, 2600, 0, 'VIA PUBLICA PRODUCCION', 1, [0, 2600, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['EST PAPA JOHNS', 0, 1, 2482, 0, 'DIGITAL', 1, [0, 0, 2056, 426, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['BALANCE FINANCERIO', 2, 2, 2300, 0, 'PRENSA', 1, [0, 0, 0, 2300, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['EST SAMSUNG', 0, 1, 2299, 0, 'DIGITAL', 1, [0, 0, 799, 0, 1500, 0, 0, 0, 0, 0, 0, 0]],
+    ['ASSIST 365', 0, 1, 2160, 0, 'DIGITAL', 1, [1080, 1080, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['EST CAMPAÑA MUNDIAL', 0, 1, 2143, 0, 'DIGITAL', 1, [0, 0, 0, 0, 0, 2143, 0, 0, 0, 0, 0, 0]],
+    ['EST SONY', 0, 1, 2074, 0, 'DIGITAL', 1, [0, 0, 0, 0, 0, 2074, 0, 0, 0, 0, 0, 0]],
+    ['EST RETAIL PAPA', 0, 1, 1999, 0, 'DIGITAL', 1, [0, 0, 0, 0, 0, 1999, 0, 0, 0, 0, 0, 0]],
+    ['EST DRIVE', 0, 1, 1999, 0, 'DIGITAL', 1, [0, 0, 0, 0, 1999, 0, 0, 0, 0, 0, 0, 0]],
+    ['OBLIGACIONES TRIBUTARIAS', 0, 1, 1883, 0, 'DIGITAL', 1, [0, 0, 0, 0, 752, 1131, 0, 0, 0, 0, 0, 0]],
+    ['HIEDRA', 2, 0, 1530, 0, 'VIA PUBLICA PRODUCCION', 1, [0, 0, 1530, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['EST PASTRONICS', 0, 1, 1499, 0, 'DIGITAL', 1, [0, 1499, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['EST MANGO', 0, 1, 1499, 0, 'DIGITAL', 1, [0, 0, 0, 0, 1499, 0, 0, 0, 0, 0, 0, 0]],
+    ['EST BURGUER KING', 0, 1, 1498, 0, 'DIGITAL', 1, [0, 0, 0, 1498, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['EST MAMÁ MODO CYBER', 0, 1, 1497, 0, 'DIGITAL', 1, [0, 0, 0, 1497, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['BAJADA SER SOCIO', 1, 0, 1490, 0, 'VIA PUBLICA PRODUCCION', 1, [0, 1490, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['AVISO ESTATUTO SUPER BCOS', 2, 2, 1420, 0, 'PRENSA', 1, [0, 0, 0, 0, 1420, 0, 0, 0, 0, 0, 0, 0]],
+    ['EST BOLETIN AG VIAJE MUNDIAL', 0, 1, 1397, 0, 'DIGITAL', 1, [0, 0, 1397, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['BENEFICIOS', 0, 0, 1386, 0, 'DIGITAL', 1, [0, 0, 0, 0, 0, 1386, 0, 0, 0, 0, 0, 0]],
+    ['MODO CYBER PAPÁ', 3, 0, 1193, 0, 'VIA PUBLICA RC', 1, [0, 0, 0, 0, 1193, 0, 0, 0, 0, 0, 0, 0]],
+    ['CONVOCATORIA JUNTA DE ACCIONISTAS', 2, 2, 1192, 0, 'PRENSA', 1, [0, 612, 0, 0, 0, 580, 0, 0, 0, 0, 0, 0]],
+    ['EST BOLETIN MUNDIAL', 0, 1, 1179, 0, 'DIGITAL', 1, [0, 0, 0, 1179, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['CBM APP', 2, 3, 1170, 0, 'DIGITAL', 1, [652, 519, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['EST ADRIANA HOYOS', 0, 1, 1000, 0, 'DIGITAL', 1, [0, 0, 0, 0, 1000, 0, 0, 0, 0, 0, 0, 0]],
+    ['EST CYBER PAPA', 0, 1, 1000, 0, 'DIGITAL', 1, [0, 0, 0, 0, 1000, 0, 0, 0, 0, 0, 0, 0]],
+    ['EST MODO NIÑO', 0, 1, 1000, 0, 'DIGITAL', 1, [0, 0, 0, 0, 844, 156, 0, 0, 0, 0, 0, 0]],
+    ['EST CONFIAMED', 0, 1, 999, 0, 'DIGITAL', 1, [0, 0, 999, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['EST ASHLEY', 0, 1, 999, 0, 'DIGITAL', 1, [0, 0, 0, 999, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['REPUESTOS', 0, 0, 997, 0, 'DIGITAL', 1, [0, 997, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['CBM AWARNESS', 2, 3, 971, 0, 'DIGITAL', 1, [294, 197, 0, 0, 480, 0, 0, 0, 0, 0, 0, 0]],
+    ['SALDOS MALL DEL SOL', 0, 0, 902, 0, 'VIA PUBLICA', 1, [902, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['EST METROPOLITAN TOURIN', 0, 1, 880, 0, 'DIGITAL', 1, [0, 0, 0, 0, 0, 880, 0, 0, 0, 0, 0, 0]],
+    ['EST SWEET AND COFFE', 0, 1, 869, 0, 'DIGITAL', 1, [0, 0, 36, 833, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['BAJADA BIENAL CUENCA', 2, 0, 610, 0, 'VIA PUBLICA PRODUCCION', 1, [0, 610, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['EST COLINEAL', 0, 1, 600, 0, 'DIGITAL', 1, [336, 264, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['EST BOLETIN CUENCA', 0, 1, 599, 0, 'DIGITAL', 1, [0, 0, 0, 599, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['EST SUPER EASY', 0, 1, 597, 0, 'DIGITAL', 1, [0, 0, 0, 0, 597, 0, 0, 0, 0, 0, 0, 0]],
+    ['NAVIDAD 2025', 3, 0, 521, 0, 'DIGITAL', 1, [521, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['CBM ACTIVACION', 2, 3, 456, 0, 'DIGITAL', 1, [250, 206, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['EST MARRIOT', 0, 1, 420, 0, 'DIGITAL', 1, [0, 0, 420, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['EST SUPERMERCADOS', 0, 1, 394, 0, 'DIGITAL', 1, [0, 0, 0, 0, 394, 0, 0, 0, 0, 0, 0, 0]],
+    ['CBM WEB', 2, 3, 378, 0, 'DIGITAL', 1, [200, 178, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]],
+    ['EST STARBUCKS TOPTIER', 0, 0, 300, 0, 'DIGITAL', 1, [0, 0, 0, 0, 300, 0, 0, 0, 0, 0, 0, 0]],
+    ['EST PAPERMOON', 0, 1, 198, 0, 'DIGITAL', 1, [0, 0, 0, 0, 118, 80, 0, 0, 0, 0, 0, 0]],
+    ['UMBRAL SOCIOS', 1, 0, 165, 0, 'DIGITAL', 1, [0, 0, 0, 0, 0, 165, 0, 0, 0, 0, 0, 0]],
+    ['EST EL VIÑEDO', 0, 1, 146, 0, 'DIGITAL', 1, [0, 0, 0, 0, 0, 146, 0, 0, 0, 0, 0, 0]],
+    ['EST LA NONA', 0, 1, 121, 0, 'DIGITAL', 1, [0, 0, 0, 0, 121, 0, 0, 0, 0, 0, 0, 0]],
+  ];
+  const MF_TIPO_NOMBRE = ["Movilización de consumos", "Onboarding", "Institucional", "Tácticas", "Sin clasificar"];
+  const MF_AREA_NOMBRE = ["MARKETING", "NEGOCIOS", "INSTITUCIONAL", "CLUB MILES"];
+
+  /* ================= PRESUPUESTO — cifras base =================
+     Todo sale de dos lugares y de ningún otro:
+       · MF_* (arriba)  — hoja BASE MASTERFLOW 2026, 1.217 filas, agregada por mes/campaña/canal.
+       · PM_CONSUMO / PM_BITACORA / PM_CAT — ya transcritas para la página Paid Media y reexportadas
+         desde ahí, para no tener dos copias del mismo número en el archivo.
+     El presupuesto aprobado solo existe en Bitácora y en RESUMEN CONSUMO; el consumo mensual y el
+     comprometido solo existen en BASE. Por eso cada visual dice de cuál de las dos viene. */
+  const PP_CONSUMO = window.PM_CONSUMO, PP_BITACORA = window.PM_BITACORA, PP_CAT = window.PM_CAT;
+  const PP_APROBADO = PP_BITACORA.reduce((s, b) => s + b.inicial, 0);
+  const PP_ADICIONAL = PP_BITACORA.reduce((s, b) => s + b.items.reduce((a, i) => a + i.monto, 0), 0);
+  const PP_VIGENTE = PP_APROBADO + PP_ADICIONAL;
+  const PP_CONSUMIDO = MF_TOTAL.real;
+  const PP_COMPROMETIDO = MF_TOTAL.comp;
+  const PP_DISPONIBLE = PP_VIGENTE - PP_CONSUMIDO - PP_COMPROMETIDO;
+  const PP_COMP_2026 = MF_TOTAL.mes.slice(MF_CORTE).reduce((a, b) => a + b, 0);
+
+  const PP_C = { consumido: '#4F52E5', comprometido: '#b9b8c4', disponible: '#008038', adicional: '#8a6d1f', riesgo: '#C81E1E', tinta: '#141414' };
+  // El gris de "Sin clasificar" tiene que seguir leyéndose como categoría muda, pero #c9c7d2 sobre
+  // blanco dejaba la cifra de la tarjeta prácticamente ilegible.
+  const PP_TIPO_COLOR = ['#4F52E5', '#00618C', '#141414', '#6E93B0', '#8b8b8b'];
+  // Paleta propia por canal: los canales del Masterflow son 6-7 y la de tipología tiene 5, así que
+  // reciclarla hacía que OOH y Prensa salieran del mismo morado en la leyenda.
+  const PP_CANAL_COLOR = { OOH: '#00618C', TV: '#141414', Digital: '#4F52E5', Revistas: '#6E93B0', Radio: '#2563EB', Prensa: '#55637A', Cine: '#9B8DF0', Otros: '#8b8b8b' };
+  const PP_canalColor = (k, i) => PP_CANAL_COLOR[k] || PP_TIPO_COLOR[i % PP_TIPO_COLOR.length];
+
+  const PP_fmtUSD = n => '$' + Math.round(n).toLocaleString('en-US');
+  const PP_fmtC = n => { const a = Math.abs(n); return (n < 0 ? '-$' : '$') + (a >= 1e6 ? (a / 1e6).toFixed(2) + 'M' : a >= 1000 ? Math.round(a / 1000) + 'K' : Math.round(a)); };
+  const PP_pct = (n, d) => d ? (n / d * 100) : 0;
+  const PP_pct1 = (n, d) => PP_pct(n, d).toFixed(1) + '%';
+  const PP_esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  // Title-case de los nombres del Masterflow, que vienen todos en mayúscula sostenida y a 12px
+  // son bastante más difíciles de leer en una tabla larga.
+  // Siglas que el title-case dejaría como "Tv Abierta" / "Dce" / "Dsc" y que en una tabla que ve
+  // gerencia se leen como error de tipeo. Se restauran después de capitalizar.
+  const PP_SIGLAS = ['TV', 'OOH', 'RC', 'DCE', 'DSC', 'VAC', 'RAC', 'ONB', 'EST', 'CBM', 'VIU', 'TC', 'DK',
+    'IMS', 'MKT', 'ATO', 'UIO', 'GYQ', 'ESPN', 'AON', 'ISOS', 'YTD', 'PUCE', 'UDLA', 'BAO', 'U'];
+  const PP_SIGLAS_RE = new RegExp('\\b(' + PP_SIGLAS.join('|') + ')\\b', 'gi');
+  const PP_title = s => String(s).toLowerCase()
+    .replace(/(^|[\s\-\/().])([a-záéíóúñ])/g, (m, a, b) => a + b.toUpperCase())
+    .replace(PP_SIGLAS_RE, m => m.toUpperCase());
+
+  /* ================= VISTA 1 — CONTROL EJECUTIVO ================= */
+  function PP_renderKpis() {
+    const cards = [
+      { label: 'Presupuesto vigente', value: PP_VIGENTE, color: PP_C.tinta,
+        sub: `Aprobado <b>${PP_fmtC(PP_APROBADO)}</b> + adicional de Bitácora <b>${PP_fmtC(PP_ADICIONAL)}</b>` },
+      { label: 'Consumido', value: PP_CONSUMIDO, color: PP_C.consumido,
+        sub: `<b>${PP_pct1(PP_CONSUMIDO, PP_VIGENTE)}</b> del vigente · enero–junio 2026` },
+      { label: 'Comprometido', value: PP_COMPROMETIDO, color: PP_C.comprometido,
+        sub: `Pauta ya cargada: <b>${PP_fmtC(PP_COMP_2026)}</b> jul–dic 2026 + <b>${PP_fmtC(MF_TOTAL.mes2027)}</b> en 2027` },
+      { label: 'Disponible real', value: PP_DISPONIBLE, color: PP_C.disponible,
+        sub: `<b>${PP_pct1(PP_DISPONIBLE, PP_VIGENTE)}</b> del vigente — lo reasignable hoy` },
+    ];
+    document.getElementById('ppto-kpiGrid').innerHTML = cards.map(c => `
+      <div class="zone ppto-kpi" style="--kpi-accent:${c.color};">
+        <div class="ppto-kpi-label">${c.label}</div>
+        <div class="ppto-kpi-value">${PP_fmtUSD(c.value)}</div>
+        <div class="ppto-kpi-sub">${c.sub}</div>
+      </div>`).join('');
+  }
+
+  function PP_renderExecBar() {
+    const segs = [
+      { k: 'Consumido', v: PP_CONSUMIDO, c: PP_C.consumido },
+      { k: 'Comprometido', v: PP_COMPROMETIDO, c: PP_C.comprometido },
+      { k: 'Disponible real', v: PP_DISPONIBLE, c: PP_C.disponible },
+    ];
+    document.getElementById('ppto-execBar').innerHTML = segs.map(s => {
+      const p = PP_pct(s.v, PP_VIGENTE);
+      // Solo se escribe el % dentro del segmento si hay ancho suficiente; si no, queda solo el color
+      // y el dato se lee en la leyenda de abajo.
+      return `<div class="ppto-exec-seg" style="flex:${s.v} 0 0;background:${s.c};" data-tt="${s.k}" data-ttv="${PP_fmtUSD(s.v)} · ${p.toFixed(1)}%">${p > 7 ? p.toFixed(1) + '%' : ''}</div>`;
+    }).join('');
+    document.getElementById('ppto-execLegend').innerHTML = segs.map(s => `
+      <span class="ppto-exec-legend-item"><span class="ppto-exec-legend-dot" style="background:${s.c};"></span>${s.k}: <b>${PP_fmtUSD(s.v)}</b></span>`).join('');
+  }
+
+  function PP_renderWaterfall() {
+    const steps = [
+      { label: 'Aprobado', delta: PP_APROBADO, type: 'base' },
+      { label: 'Adicional', delta: PP_ADICIONAL, type: 'up' },
+      { label: 'Consumido', delta: -PP_CONSUMIDO, type: 'down' },
+      { label: 'Comprometido', delta: -PP_COMPROMETIDO, type: 'down' },
+      { label: 'Disponible', delta: PP_DISPONIBLE, type: 'total' },
+    ];
+    const W = 560, H = 260, padL = 8, padR = 8, padT = 30, padB = 46;
+    const plotH = H - padT - padB, plotW = W - padL - padR;
+    const bw = plotW / steps.length * 0.6, gap = plotW / steps.length;
+    const max = PP_VIGENTE;
+    const y = v => padT + plotH - (v / max) * plotH;
+    let run = 0, out = '';
+    steps.forEach((s, i) => {
+      const cx = padL + gap * i + gap / 2;
+      let top, bot, color;
+      if (s.type === 'base' || s.type === 'total') { top = y(s.delta); bot = y(0); color = s.type === 'total' ? PP_C.disponible : PP_C.tinta; run = s.delta; }
+      else if (s.type === 'up') { top = y(run + s.delta); bot = y(run); color = PP_C.adicional; run += s.delta; }
+      else { top = y(run); bot = y(run + s.delta); color = i === 2 ? PP_C.consumido : PP_C.comprometido; run += s.delta; }
+      const h = Math.max(2, bot - top);
+      out += `<rect x="${(cx - bw / 2).toFixed(1)}" y="${top.toFixed(1)}" width="${bw.toFixed(1)}" height="${h.toFixed(1)}" rx="3" fill="${color}" data-tt="${s.label}" data-ttv="${PP_fmtUSD(Math.abs(s.delta))}"/>`;
+      // Cifra encima de la barra + etiqueta debajo, en dos líneas para que quepan a este ancho.
+      out += `<text x="${cx.toFixed(1)}" y="${(top - 8).toFixed(1)}" text-anchor="middle" font-size="11.5" font-weight="700" fill="${color}" font-family="Segoe UI, system-ui, sans-serif">${(s.type === 'down' ? '−' : '') + PP_fmtC(Math.abs(s.delta))}</text>`;
+      out += `<text x="${cx.toFixed(1)}" y="${(padT + plotH + 18).toFixed(1)}" text-anchor="middle" font-size="10.5" font-weight="600" fill="#5C5C5C" font-family="Segoe UI, system-ui, sans-serif">${s.label}</text>`;
+      // Conector punteado al siguiente escalón
+      if (i < steps.length - 1) {
+        const yy = (s.type === 'up' || s.type === 'down') ? y(run) : (s.type === 'base' ? y(run) : null);
+        if (yy !== null) out += `<line x1="${(cx + bw / 2).toFixed(1)}" y1="${yy.toFixed(1)}" x2="${(cx + gap - bw / 2).toFixed(1)}" y2="${yy.toFixed(1)}" stroke="#c9c7d2" stroke-width="1" stroke-dasharray="3 3"/>`;
+      }
+    });
+    out += `<line x1="${padL}" y1="${(padT + plotH).toFixed(1)}" x2="${(W - padR).toFixed(1)}" y2="${(padT + plotH).toFixed(1)}" stroke="#e6e5ea" stroke-width="1"/>`;
+    out += `<text x="${padL}" y="${(padT + plotH + 38).toFixed(1)}" font-size="10" fill="#a0a0a0" font-family="Segoe UI, system-ui, sans-serif">Bitácora (aprobado + adicional) menos BASE MASTERFLOW (consumido + comprometido)</text>`;
+    document.getElementById('ppto-waterfall').innerHTML = out;
+  }
+
+  // Fila reutilizable: nombre + monto + barra proporcional. La usan los tres bloques de reparto
+  // de la Vista 1 (áreas, tipo de consumo, medios/fees) para que se lean como una sola familia.
+  function PP_shareRow(name, value, total, color, note) {
+    const p = PP_pct(value, total);
+    return `<div style="padding:9px 0;border-top:1px dashed #e6e5ea;">
+      <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:5px;">
+        <span class="ppto-dot" style="background:${color};"></span>
+        <span style="flex:1;font-size:12px;font-weight:600;color:#262626;">${name}</span>
+        <span style="font-size:12.5px;font-weight:700;font-variant-numeric:tabular-nums;">${PP_fmtUSD(value)}</span>
+        <span style="font-size:11px;color:#8b8b8b;font-variant-numeric:tabular-nums;min-width:44px;text-align:right;">${p.toFixed(1)}%</span>
+      </div>
+      <div class="ppto-minibar"><div class="ppto-minibar-fill" style="width:${p.toFixed(1)}%;background:${color};"></div></div>
+      ${note ? `<div style="font-size:10.5px;color:#8b8b8b;margin-top:5px;">${note}</div>` : ''}
+    </div>`;
+  }
+
+  function PP_renderArea() {
+    const totalReal = Object.values(MF_AREA).reduce((s, a) => s + a.real + a.comp, 0);
+    const colors = { MARKETING: '#4F52E5', NEGOCIOS: '#00618C', INSTITUCIONAL: '#141414', 'CLUB MILES': '#6E93B0' };
+    document.getElementById('ppto-areaRows').innerHTML = MF_AREA_NOMBRE.map(a => {
+      const d = MF_AREA[a];
+      const note = d.comp > 0 ? `Incluye <b>${PP_fmtC(d.comp)}</b> comprometido a futuro` : 'Sin compromisos cargados a futuro';
+      return PP_shareRow(PP_title(a), d.real + d.comp, totalReal, colors[a], note);
+    }).join('');
+  }
+
+  function PP_renderConsumoTipo() {
+    const c = MF_TOTAL.consumo, tot = c.prepago + c.facturable + c.noFacturable;
+    const rows = [
+      { n: 'Prepago', v: c.prepago, col: '#4F52E5', note: 'Pagado por adelantado al medio — ya salió de caja' },
+      { n: 'Facturable', v: c.facturable, col: '#00618C', note: 'Se factura contra ejecución' },
+      { n: 'No facturable', v: c.noFacturable, col: '#8b8b8b', note: 'Bonificación / canje, sin desembolso' },
+    ];
+    document.getElementById('ppto-consumoRows').innerHTML = rows.map(r => PP_shareRow(r.n, r.v, tot, r.col, r.note)).join('');
+  }
+
+  function PP_renderFees() {
+    const inv = MF_TOTAL.inv, fee = MF_TOTAL.fee, tot = inv + fee;
+    document.getElementById('ppto-feeRows').innerHTML =
+      PP_shareRow('Inversión en medios', inv, tot, '#141414', 'Llega al medio (incluye ISD, imp. renta y comisiones de plataforma)') +
+      PP_shareRow('Fee de agencia', fee, tot, '#4F52E5', 'Honorario de agencia sobre pauta digital');
+    // El fee del Masterflow es 20% pero solo sobre pauta digital; sobre el total se diluye mucho.
+    // Decirlo así evita que gerencia lea "2,3%" como si fuera la tarifa negociada.
+    const feeDigital = MF_CANAL['Digital'] ? MF_CANAL['Digital'].fee : 0;
+    const digitalTot = MF_CANAL['Digital'] ? MF_CANAL['Digital'].real + MF_CANAL['Digital'].comp : 0;
+    document.getElementById('ppto-feeInsight').innerHTML =
+      `El fee pesa <b>${PP_pct1(fee, tot)}</b> del total, pero se cobra <b>solo sobre pauta digital</b>: contra la inversión digital (${PP_fmtC(digitalTot)}) representa <b>${PP_pct1(feeDigital, digitalTot - feeDigital)}</b>. Vía pública, TV y radio del Masterflow no llevan fee.`;
+  }
+
+  /* ================= VISTA 2 — MIX DE MEDIOS ================= */
+  // Share planificado vs. real por canal. Ambas columnas salen de PM_CAT (hoja RESUMEN CONSUMO),
+  // que es el único lugar donde existe presupuesto por medio — por eso son comparables entre sí.
+  function PP_canalData() {
+    const t = PP_CAT.totals;
+    const totalP = PP_CAT.order.reduce((s, k) => s + t[k].presupuesto, 0);
+    const totalC = PP_CAT.order.reduce((s, k) => s + t[k].consumo, 0);
+    return PP_CAT.order.map(k => ({
+      key: k, label: PP_CAT.label[k], color: PP_CAT.color[k],
+      presupuesto: t[k].presupuesto, consumo: t[k].consumo, saldo: t[k].saldo,
+      sharePlan: PP_pct(t[k].presupuesto, totalP), shareReal: PP_pct(t[k].consumo, totalC),
+      exec: PP_pct(t[k].consumo, t[k].presupuesto),
+    })).filter(d => d.presupuesto > 0 || d.consumo > 0).sort((a, b) => b.presupuesto - a.presupuesto);
+  }
+
+  // Pastel de composición del presupuesto anual por canal, con la leyenda de la derecha cargando
+  // además el % consumido — el mismo componente que ya se usa en Paid Media, aquí sobre PP_CAT.
+  function PP_renderChannelPie() {
+    const data = PP_canalData().filter(d => d.presupuesto > 0);
+    const totalP = data.reduce((s, d) => s + d.presupuesto, 0);
+    const cx = 60, cy = 60, r = 56, toRad = a => (a * Math.PI) / 180;
+    let a0 = -90, paths = '', rows = '';
+    data.forEach((d, i) => {
+      const pct = PP_pct(d.presupuesto, totalP);
+      const a1 = a0 + (pct / 100) * 360;
+      const x1 = cx + r * Math.cos(toRad(a0)), y1 = cy + r * Math.sin(toRad(a0));
+      const x2 = cx + r * Math.cos(toRad(a1)), y2 = cy + r * Math.sin(toRad(a1));
+      // Un canal que ocupa más de media vuelta necesita large-arc-flag = 1 o el arco sale invertido.
+      const largeArc = (a1 - a0) > 180 ? 1 : 0;
+      // El tooltip carga además el share sobre el consumo real y cuánto se movió contra el plan —
+      // el dato de "planificado vs. real" que pedía el cliente, sin ocupar espacio en la tarjeta.
+      const shift = d.shareReal - d.sharePlan;
+      const shiftTxt = Math.abs(shift) < 0.05 ? 'igual que el plan'
+        : `${shift > 0 ? '▲' : '▼'} ${Math.abs(shift).toFixed(1)}pp vs. plan`;
+      paths += `<path class="ppto-pie-slice" data-canal="${d.key}" data-tt="${d.label}" data-ttv="${pct.toFixed(1)}% del plan · ${PP_fmtC(d.presupuesto)} — ${d.shareReal.toFixed(1)}% del consumo real (${shiftTxt})" d="M${cx},${cy} L${x1.toFixed(2)},${y1.toFixed(2)} A${r},${r} 0 ${largeArc} 1 ${x2.toFixed(2)},${y2.toFixed(2)} Z" fill="${d.color}" stroke="#fff" stroke-width="2"></path>`;
+      a0 = a1;
+      const est = d.exec > 100 ? 'bad' : (d.exec >= 45 ? 'good' : 'warn');
+      rows += `<div class="ppto-ch-row" data-canal="${d.key}" tabindex="0" role="button">
+        <span class="ppto-ch-badge" style="background:${d.color}22;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="${d.color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${(PP_CAT.icon && PP_CAT.icon[d.key]) || ''}</svg>
+        </span>
+        <span class="ppto-ch-name">${d.label}</span>
+        <span class="ppto-ch-value">
+          <span class="ppto-ch-pct">${pct.toFixed(1)}%</span>
+          <span class="ppto-ch-usd">${PP_fmtC(d.presupuesto)}</span>
+          <span class="ppto-ch-exec ${est}">${d.exec.toFixed(0)}% consumido a junio</span>
+        </span>
+      </div>`;
+    });
+    document.getElementById('ppto-channelPie').innerHTML = paths;
+    document.getElementById('ppto-channelLegend').innerHTML = rows;
+    PP_bindCanalHover();
+  }
+
+  /* Pasar el mouse (o dar clic) por un canal del pastel o de la leyenda reemplaza TODO el panel de
+     la derecha por SOLO ese canal — un canal a la vez, no una lista con uno expandido. Mismo
+     comportamiento que el pastel de Paid Media. */
+  let PP_canalActivo = 'OOH';
+  function PP_setCanalActivo(key) {
+    if (!key) return;
+    PP_canalActivo = key;
+    PAGE_ROOT.querySelectorAll('#ppto-channelLegend .ppto-ch-row').forEach(row => {
+      row.classList.toggle('is-active', row.getAttribute('data-canal') === key);
+    });
+    PP_renderCanalDetail();
+  }
+  function PP_bindCanalHover() {
+    PAGE_ROOT.querySelectorAll('#ppto-channelLegend [data-canal], #ppto-channelPie [data-canal]').forEach(el => {
+      const key = el.getAttribute('data-canal');
+      el.addEventListener('mouseenter', () => PP_setCanalActivo(key));
+      el.addEventListener('click', () => PP_setCanalActivo(key));
+      el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); PP_setCanalActivo(key); } });
+    });
+  }
+
+  // Un medio se pinta en rojo si ya se pasó del presupuesto y en ámbar si está por encima del 85%,
+  // igual que el resto de la página; si no, toma el color del canal.
+  function PP_barColor(pct, base) { return pct > 100 ? '#EE0000' : (pct >= 85 ? '#8a6d1f' : base); }
+
+  function PP_renderCanalDetail() {
+    const cont = document.getElementById('ppto-canalDetail');
+    if (!cont) return;
+    const d = PP_canalData().find(c => c.key === PP_canalActivo);
+    if (!d) return;
+    const color = PP_barColor(d.exec, d.color);
+    const outlets = (PP_CAT.outlets ? PP_CAT.outlets(d.key) : []);
+    const maxP = Math.max(...outlets.map(o => o.presupuesto), 1);
+    const outletsHTML = outlets.map(o => {
+      const pct = o.presupuesto ? PP_pct(o.consumo, o.presupuesto) : 0;
+      // El ancho de la pista es proporcional al presupuesto del medio, para que se vea de un golpe
+      // cuáles pesan dentro del canal; el relleno es el % consumido de ese medio.
+      const trackPct = (o.presupuesto / maxP) * 100;
+      return `<div class="ppto-cd-outlet">
+        <div class="ppto-cd-outlet-head">
+          <span class="ppto-cd-outlet-name">${PP_esc(o.name)}</span>
+          <span class="ppto-cd-budget">${PP_fmtC(o.presupuesto)}</span>
+        </div>
+        <div class="ppto-cd-outlet-track" style="width:${trackPct.toFixed(1)}%" data-tt="${PP_esc(o.name)} — corte junio 2026" data-ttv="${PP_fmtC(o.consumo)} de ${PP_fmtC(o.presupuesto)}">
+          <div class="ppto-cd-outlet-fill" style="width:${Math.min(pct, 100).toFixed(1)}%;background:${PP_barColor(pct, d.color)};"></div>
+        </div>
+        <div class="ppto-cd-caption">
+          <span>Consumido: <b>${PP_fmtC(o.consumo)}</b> (${pct.toFixed(0)}%)</span>
+          <span>Saldo: <b style="${o.saldo < 0 ? 'color:#EE0000;' : ''}">${PP_fmtC(o.saldo)}</b></span>
+        </div>
+      </div>`;
+    }).join('');
+    cont.innerHTML = `
+      <div class="ppto-cd-title">${d.label} — consumo real, corte cerrado a junio 2026</div>
+      <div class="ppto-cd-head">
+        <span class="ppto-ch-badge" style="background:${d.color}22;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="${d.color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${(PP_CAT.icon && PP_CAT.icon[d.key]) || ''}</svg>
+        </span>
+        <span class="ppto-cd-name">${d.label}</span>
+        <span class="ppto-cd-budget">${PP_fmtC(d.presupuesto)} presupuesto</span>
+      </div>
+      <div class="ppto-cd-track" data-tt="${d.label} — corte junio 2026" data-ttv="${PP_fmtC(d.consumo)} de ${PP_fmtC(d.presupuesto)}">
+        <div class="ppto-cd-fill" style="width:${Math.min(d.exec, 100).toFixed(1)}%;background:${color};"></div>
+      </div>
+      <div class="ppto-cd-caption">
+        <span>Consumido: <b>${PP_fmtC(d.consumo)}</b> (${d.exec.toFixed(0)}%)</span>
+        <span>Saldo: <b style="${d.saldo < 0 ? 'color:#EE0000;' : ''}">${PP_fmtC(d.saldo)}</b> (${(100 - d.exec).toFixed(0)}%)</span>
+      </div>
+      ${outlets.length ? `<div class="ppto-cd-outlets">${outletsHTML}</div>` : ''}`;
+  }
+
+
+
+  function PP_renderMedioTable() {
+    const rows = [];
+    Object.keys(PP_CONSUMO).forEach(bk => {
+      PP_CONSUMO[bk].items.forEach(it => {
+        if (it.presupuesto === 0 && it.consumo === 0) return;
+        rows.push({ medio: it.medio, grupo: PP_CONSUMO[bk].label.replace('DCE ', ''), ...it });
+      });
+    });
+    rows.sort((a, b) => b.presupuesto - a.presupuesto);
+    const tp = rows.reduce((s, r) => s + r.presupuesto, 0), tc = rows.reduce((s, r) => s + r.consumo, 0), ts = rows.reduce((s, r) => s + r.saldo, 0);
+    document.getElementById('ppto-medioTable').innerHTML = `
+      <thead><tr>
+        <th>Medio</th><th>Grupo</th><th class="num">Presupuesto</th><th class="num">Consumo</th>
+        <th class="num">Saldo</th><th style="width:110px;">% ejecutado</th>
+      </tr></thead>
+      <tbody>${rows.map(r => {
+        const ex = PP_pct(r.consumo, r.presupuesto);
+        const neg = r.saldo < 0;
+        const col = neg ? PP_C.riesgo : (ex >= 45 ? '#4F52E5' : '#8a6d1f');
+        return `<tr>
+          <td class="name">${PP_esc(r.medio)}</td>
+          <td style="color:#8b8b8b;">${PP_esc(r.grupo)}</td>
+          <td class="num">${PP_fmtUSD(r.presupuesto)}</td>
+          <td class="num">${PP_fmtUSD(r.consumo)}</td>
+          <td class="num" style="color:${neg ? PP_C.riesgo : '#262626'};font-weight:${neg ? 700 : 400};">${PP_fmtUSD(r.saldo)}</td>
+          <td><div style="display:flex;align-items:center;gap:7px;">
+            <div class="ppto-minibar" style="flex:1;"><div class="ppto-minibar-fill" style="width:${Math.min(100, ex).toFixed(1)}%;background:${col};"></div></div>
+            <span style="font-size:10.5px;font-weight:700;color:${col};font-variant-numeric:tabular-nums;min-width:34px;text-align:right;">${r.presupuesto ? ex.toFixed(0) + '%' : '—'}</span>
+          </div></td>
+        </tr>`;
+      }).join('')}</tbody>
+      <tfoot><tr>
+        <td colspan="2">Total (3 grupos)</td>
+        <td class="num">${PP_fmtUSD(tp)}</td><td class="num">${PP_fmtUSD(tc)}</td>
+        <td class="num">${PP_fmtUSD(ts)}</td><td class="num">${PP_pct1(tc, tp)}</td>
+      </tr></tfoot>`;
+  }
+
+  // Barras apiladas por mes. Reutilizada por Mix de Medios (por canal) y por Portafolio (por
+  // tipología) — misma forma, distinta serie, para que las dos vistas se lean igual.
+  function PP_stackedByMonth(svgId, legendId, series, corte) {
+    const W = 1080, H = 240, padL = 54, padR = 12, padT = 16, padB = 30;
+    const plotW = W - padL - padR, plotH = H - padT - padB;
+    const totals = MF_MESES.map((_, i) => series.reduce((s, r) => s + r.mes[i], 0));
+    const max = Math.max(...totals) * 1.08 || 1;
+    const gap = plotW / MF_MESES.length, bw = gap * 0.62;
+    let out = '';
+    // Grilla horizontal
+    for (let g = 0; g <= 4; g++) {
+      const v = max * g / 4, y = padT + plotH - (v / max) * plotH;
+      out += `<line x1="${padL}" y1="${y.toFixed(1)}" x2="${W - padR}" y2="${y.toFixed(1)}" stroke="#eef1f3" stroke-width="1"/>`;
+      out += `<text x="${padL - 8}" y="${(y + 3.5).toFixed(1)}" text-anchor="end" font-size="9.5" fill="#a0a0a0" font-family="Segoe UI, system-ui, sans-serif">${PP_fmtC(v)}</text>`;
+    }
+    MF_MESES.forEach((m, i) => {
+      const cx = padL + gap * i + gap / 2;
+      let acc = 0;
+      series.forEach(r => {
+        const v = r.mes[i];
+        if (v <= 0) return;
+        const y0 = padT + plotH - ((acc + v) / max) * plotH, y1 = padT + plotH - (acc / max) * plotH;
+        // Los meses posteriores al corte son comprometido, no gasto: se marcan con menos opacidad
+        // para que no se lean como ejecutado.
+        out += `<rect x="${(cx - bw / 2).toFixed(1)}" y="${y0.toFixed(1)}" width="${bw.toFixed(1)}" height="${Math.max(0.5, y1 - y0).toFixed(1)}" fill="${r.color}" opacity="${i >= corte ? 0.45 : 1}" data-tt="${r.name} — ${m}" data-ttv="${PP_fmtUSD(v)}${i >= corte ? ' (comprometido)' : ''}"/>`;
+        acc += v;
+      });
+      out += `<text x="${cx.toFixed(1)}" y="${(padT + plotH + 15).toFixed(1)}" text-anchor="middle" font-size="10" font-weight="${i >= corte ? 400 : 600}" fill="${i >= corte ? '#a0a0a0' : '#5C5C5C'}" font-family="Segoe UI, system-ui, sans-serif">${m}</text>`;
+    });
+    // Separador entre lo cerrado y lo comprometido
+    const xSep = padL + gap * corte;
+    out += `<line x1="${xSep.toFixed(1)}" y1="${padT}" x2="${xSep.toFixed(1)}" y2="${(padT + plotH).toFixed(1)}" stroke="#8b8b8b" stroke-width="1" stroke-dasharray="4 3"/>`;
+    out += `<text x="${(xSep + 6).toFixed(1)}" y="${(padT + 10).toFixed(1)}" font-size="9.5" font-weight="700" fill="#8b8b8b" font-family="Segoe UI, system-ui, sans-serif">comprometido →</text>`;
+    document.getElementById(svgId).setAttribute('viewBox', `0 0 ${W} ${H}`);
+    document.getElementById(svgId).innerHTML = out;
+    if (legendId) document.getElementById(legendId).innerHTML = series.map(r => `<span><span class="ppto-dot" style="background:${r.color};"></span>${r.name}</span>`).join('');
+  }
+
+  function PP_renderCanalMes() {
+    const series = Object.keys(MF_CANAL).map((k, i) => ({ name: k, color: PP_canalColor(k, i), mes: MF_CANAL[k].mes }));
+    PP_stackedByMonth('ppto-canalMesChart', 'ppto-canalMesLegend', series, MF_CORTE);
+    document.getElementById('ppto-canalMesLegend').insertAdjacentHTML('beforeend',
+      `<span style="color:#a0a0a0;font-style:italic;">Agrupa TIPO DE MEDIO del Masterflow — taxonomía distinta a la tabla de presupuesto de arriba, que usa la de RESUMEN CONSUMO.</span>`);
+  }
+
+  /* ================= VISTA 3 — PORTAFOLIO DE CAMPAÑA ================= */
+  let PP_tipoFiltro = null;
+
+  function PP_renderTipoGrid() {
+    const total = MF_TIPO_NOMBRE.reduce((s, t) => s + MF_TIPOLOGIA[t].real + MF_TIPOLOGIA[t].comp, 0);
+    document.getElementById('ppto-tipoGrid').innerHTML = MF_TIPO_NOMBRE.map((t, i) => {
+      const d = MF_TIPOLOGIA[t], v = d.real + d.comp;
+      const n = MF_CAMPANAS.filter(c => c[1] === i).length;
+      return `<div class="zone ppto-tipo-card" style="--tipo-color:${PP_TIPO_COLOR[i]};" data-tipo="${i}">
+        <div class="ppto-tipo-name">${t}</div>
+        <div class="ppto-tipo-value" style="color:${PP_TIPO_COLOR[i]};">${PP_fmtC(v)}</div>
+        <div class="ppto-tipo-share">${PP_pct1(v, total)} de la inversión</div>
+        <div class="ppto-tipo-meta">${n} campaña${n === 1 ? '' : 's'}${d.comp > 0 ? ` · ${PP_fmtC(d.comp)} comprometido` : ''}</div>
+      </div>`;
+    }).join('');
+    document.getElementById('ppto-tipoGrid').querySelectorAll('[data-tipo]').forEach(el => {
+      el.addEventListener('click', () => { PP_setFiltro(Number(el.dataset.tipo)); document.getElementById('ppto-campanaTable').scrollIntoView({ behavior: 'smooth', block: 'center' }); });
+    });
+  }
+
+  function PP_renderTipoMes() {
+    const series = MF_TIPO_NOMBRE.map((t, i) => ({ name: t, color: PP_TIPO_COLOR[i], mes: MF_TIPOLOGIA[t].mes }));
+    PP_stackedByMonth('ppto-tipoMesChart', 'ppto-tipoMesLegend', series, MF_CORTE);
+  }
+
+  function PP_setFiltro(i) {
+    PP_tipoFiltro = (PP_tipoFiltro === i) ? null : i;
+    PP_renderFiltro(); PP_renderCampanaTable();
+  }
+
+  function PP_renderFiltro() {
+    const opts = [{ i: null, n: 'Todas' }].concat(MF_TIPO_NOMBRE.map((t, i) => ({ i, n: t })));
+    document.getElementById('ppto-tipoFilter').innerHTML = opts.map(o => `
+      <button class="ppto-filter-btn" data-f="${o.i === null ? '' : o.i}" data-active="${PP_tipoFiltro === o.i}">
+        ${o.i === null ? '' : `<span class="ppto-dot" style="background:${PP_TIPO_COLOR[o.i]};"></span>`}${o.n}
+      </button>`).join('');
+    document.getElementById('ppto-tipoFilter').querySelectorAll('.ppto-filter-btn').forEach(b => {
+      b.addEventListener('click', () => { const v = b.dataset.f; PP_tipoFiltro = v === '' ? null : Number(v); PP_renderFiltro(); PP_renderCampanaTable(); });
+    });
+  }
+
+  function PP_renderCampanaTable() {
+    const rows = MF_CAMPANAS.filter(c => PP_tipoFiltro === null || c[1] === PP_tipoFiltro);
+    const tr = rows.reduce((s, c) => s + c[3], 0), tc = rows.reduce((s, c) => s + c[4], 0);
+    document.getElementById('ppto-campanaTable').innerHTML = `
+      <thead><tr>
+        <th>Campaña</th><th>Tipología</th><th>Área</th><th class="num">Consumido</th>
+        <th class="num">Comprometido</th><th class="num">Total</th><th>Medio principal</th>
+      </tr></thead>
+      <tbody>${rows.map(c => `
+        <tr>
+          <td class="name">${PP_esc(PP_title(c[0]))}</td>
+          <td><span class="ppto-dot" style="background:${PP_TIPO_COLOR[c[1]]};"></span><span style="font-size:11px;">${MF_TIPO_NOMBRE[c[1]]}</span></td>
+          <td style="color:#8b8b8b;">${PP_title(MF_AREA_NOMBRE[c[2]])}</td>
+          <td class="num">${c[3] ? PP_fmtUSD(c[3]) : '—'}</td>
+          <td class="num" style="color:${c[4] ? '#8a6d1f' : '#c9c7d2'};">${c[4] ? PP_fmtUSD(c[4]) : '—'}</td>
+          <td class="num" style="font-weight:700;">${PP_fmtUSD(c[3] + c[4])}</td>
+          <td style="color:#8b8b8b;font-size:10.5px;">${PP_esc(PP_title(c[5]))}${c[6] > 1 ? ` <span class="ppto-chip neutral">+${c[6] - 1}</span>` : ''}</td>
+        </tr>`).join('')}</tbody>
+      <tfoot><tr>
+        <td colspan="3">${rows.length} campaña${rows.length === 1 ? '' : 's'}${PP_tipoFiltro !== null ? ` · ${MF_TIPO_NOMBRE[PP_tipoFiltro]}` : ''}</td>
+        <td class="num">${PP_fmtUSD(tr)}</td><td class="num">${PP_fmtUSD(tc)}</td>
+        <td class="num">${PP_fmtUSD(tr + tc)}</td><td></td>
+      </tr></tfoot>`;
+  }
+
+  /* ================= VISTA 4 — PACING Y FORECAST ================= */
+  function PP_renderPacingCards() {
+    const pctAnio = MF_CORTE / 12 * 100;
+    const pctConsumido = PP_pct(PP_CONSUMIDO, PP_VIGENTE);
+    const desvio = pctConsumido - pctAnio;
+    const proyeccion = PP_CONSUMIDO + PP_COMPROMETIDO;
+    const cards = [
+      { label: 'Pacing anual', value: pctConsumido.toFixed(1) + '%', color: desvio > 5 ? PP_C.riesgo : (desvio < -5 ? '#8a6d1f' : '#008038'),
+        sub: `El año va al <b>${pctAnio.toFixed(0)}%</b> — el consumo va <b>${desvio > 0 ? '+' : ''}${desvio.toFixed(1)}pp</b> ${desvio > 0 ? 'adelantado' : 'atrasado'}` },
+      { label: 'Ritmo mensual promedio', value: PP_fmtC(PP_CONSUMIDO / MF_CORTE), color: PP_C.consumido,
+        sub: `Mes más alto: <b>${MF_MESES[MF_TOTAL.mes.indexOf(Math.max(...MF_TOTAL.mes.slice(0, MF_CORTE)))]}</b> ${PP_fmtC(Math.max(...MF_TOTAL.mes.slice(0, MF_CORTE)))} · más bajo: <b>${MF_MESES[MF_TOTAL.mes.indexOf(Math.min(...MF_TOTAL.mes.slice(0, MF_CORTE)))]}</b> ${PP_fmtC(Math.min(...MF_TOTAL.mes.slice(0, MF_CORTE)))}` },
+      { label: 'Proyección de cierre', value: PP_fmtC(proyeccion), color: PP_C.tinta,
+        sub: `<b>${PP_pct1(proyeccion, PP_VIGENTE)}</b> del vigente si no se carga más pauta — quedarían <b>${PP_fmtC(PP_VIGENTE - proyeccion)}</b> sin ejecutar` },
+    ];
+    document.getElementById('ppto-pacingCards').innerHTML = cards.map(c => `
+      <div class="zone ppto-kpi" style="--kpi-accent:${c.color};">
+        <div class="ppto-kpi-label">${c.label}</div>
+        <div class="ppto-kpi-value">${c.value}</div>
+        <div class="ppto-kpi-sub">${c.sub}</div>
+      </div>`).join('');
+  }
+
+  function PP_renderMensual() {
+    const W = 1080, H = 300, padL = 60, padR = 60, padT = 22, padB = 34;
+    const plotW = W - padL - padR, plotH = H - padT - padB;
+    const max = Math.max(...MF_TOTAL.mes) * 1.15;
+    const gap = plotW / 12, bw = gap * 0.5;
+    let out = '';
+    for (let g = 0; g <= 4; g++) {
+      const v = max * g / 4, y = padT + plotH - (v / max) * plotH;
+      out += `<line x1="${padL}" y1="${y.toFixed(1)}" x2="${W - padR}" y2="${y.toFixed(1)}" stroke="#eef1f3" stroke-width="1"/>`;
+      out += `<text x="${padL - 8}" y="${(y + 3.5).toFixed(1)}" text-anchor="end" font-size="9.5" fill="#a0a0a0" font-family="Segoe UI, system-ui, sans-serif">${PP_fmtC(v)}</text>`;
+    }
+    // Barras de gasto por mes
+    MF_TOTAL.mes.forEach((v, i) => {
+      const cx = padL + gap * i + gap / 2;
+      const y = padT + plotH - (v / max) * plotH, h = (v / max) * plotH;
+      const comprometido = i >= MF_CORTE;
+      out += `<rect x="${(cx - bw / 2).toFixed(1)}" y="${y.toFixed(1)}" width="${bw.toFixed(1)}" height="${Math.max(1, h).toFixed(1)}" rx="3" fill="${comprometido ? PP_C.comprometido : PP_C.consumido}" data-tt="${MF_MESES[i]} 2026" data-ttv="${PP_fmtUSD(v)}${comprometido ? ' (comprometido)' : ''}"/>`;
+      out += `<text x="${cx.toFixed(1)}" y="${(y - 6).toFixed(1)}" text-anchor="middle" font-size="9.5" font-weight="600" fill="${comprometido ? '#a0a0a0' : '#5C5C5C'}" font-family="Segoe UI, system-ui, sans-serif">${PP_fmtC(v)}</text>`;
+      out += `<text x="${cx.toFixed(1)}" y="${(padT + plotH + 16).toFixed(1)}" text-anchor="middle" font-size="10.5" font-weight="${comprometido ? 400 : 600}" fill="${comprometido ? '#a0a0a0' : '#5C5C5C'}" font-family="Segoe UI, system-ui, sans-serif">${MF_MESES[i]}</text>`;
+    });
+    // Línea de acumulado como % del presupuesto vigente, en su propio eje a la derecha
+    let acc = 0; const pts = [];
+    MF_TOTAL.mes.forEach((v, i) => { acc += v; pts.push({ x: padL + gap * i + gap / 2, p: PP_pct(acc, PP_VIGENTE) }); });
+    const yP = p => padT + plotH - (p / 100) * plotH;
+    out += `<polyline points="${pts.map(p => `${p.x.toFixed(1)},${yP(p.p).toFixed(1)}`).join(' ')}" fill="none" stroke="${PP_C.tinta}" stroke-width="2" stroke-linejoin="round"/>`;
+    pts.forEach((p, i) => {
+      out += `<circle cx="${p.x.toFixed(1)}" cy="${yP(p.p).toFixed(1)}" r="3.5" fill="#fff" stroke="${PP_C.tinta}" stroke-width="2" data-tt="Acumulado a ${MF_MESES[i]}" data-ttv="${p.p.toFixed(1)}% del presupuesto vigente"/>`;
+    });
+    out += `<text x="${pts[11].x + 8}" y="${(yP(pts[11].p) + 4).toFixed(1)}" font-size="11" font-weight="700" fill="${PP_C.tinta}" font-family="Segoe UI, system-ui, sans-serif">${pts[11].p.toFixed(0)}%</text>`;
+    // Eje derecho del acumulado
+    [0, 25, 50, 75, 100].forEach(p => {
+      out += `<text x="${W - padR + 8}" y="${(yP(p) + 3.5).toFixed(1)}" font-size="9.5" fill="#a0a0a0" font-family="Segoe UI, system-ui, sans-serif">${p}%</text>`;
+    });
+    const xSep = padL + gap * MF_CORTE;
+    out += `<line x1="${xSep.toFixed(1)}" y1="${padT}" x2="${xSep.toFixed(1)}" y2="${(padT + plotH).toFixed(1)}" stroke="#8b8b8b" stroke-width="1" stroke-dasharray="4 3"/>`;
+    document.getElementById('ppto-mensualChart').innerHTML = out;
+  }
+
+  function PP_renderForecast() {
+    const rows = Object.keys(MF_CANAL).map(k => ({ canal: k, ...MF_CANAL[k] })).sort((a, b) => (b.real + b.comp) - (a.real + a.comp));
+    const tot = rows.reduce((s, r) => s + r.real + r.comp, 0);
+    document.getElementById('ppto-forecastTable').innerHTML = `
+      <thead><tr><th>Canal</th><th class="num">Consumido</th><th class="num">Comprometido</th><th class="num">Cierre proyectado</th><th class="num">Share</th></tr></thead>
+      <tbody>${rows.map((r, i) => `
+        <tr>
+          <td class="name"><span class="ppto-dot" style="background:${PP_canalColor(r.canal, i)};"></span>${r.canal}</td>
+          <td class="num">${PP_fmtUSD(r.real)}</td>
+          <td class="num" style="color:${r.comp ? '#8a6d1f' : '#c9c7d2'};">${r.comp ? PP_fmtUSD(r.comp) : '—'}</td>
+          <td class="num" style="font-weight:700;">${PP_fmtUSD(r.real + r.comp)}</td>
+          <td class="num" style="color:#8b8b8b;">${PP_pct1(r.real + r.comp, tot)}</td>
+        </tr>`).join('')}</tbody>
+      <tfoot><tr><td>Total</td><td class="num">${PP_fmtUSD(PP_CONSUMIDO)}</td><td class="num">${PP_fmtUSD(PP_COMPROMETIDO)}</td><td class="num">${PP_fmtUSD(tot)}</td><td class="num">100%</td></tr></tfoot>`;
+  }
+
+  function PP_renderCierre() {
+    const proy = PP_CONSUMIDO + PP_COMPROMETIDO;
+    const sinEjecutar = PP_VIGENTE - proy;
+    document.getElementById('ppto-cierreBox').innerHTML = `
+      <div style="text-align:center;padding:6px 0 14px;">
+        <div class="hero-number" style="font-size:36px;color:${PP_C.tinta};">${PP_pct1(proy, PP_VIGENTE)}</div>
+        <div class="hero-caption">del presupuesto vigente quedaría ejecutado al cierre</div>
+      </div>
+      ${PP_shareRow('Consumido ene–jun', PP_CONSUMIDO, PP_VIGENTE, PP_C.consumido, null)}
+      ${PP_shareRow('Comprometido jul en adelante', PP_COMPROMETIDO, PP_VIGENTE, PP_C.comprometido, null)}
+      ${PP_shareRow('Sin ejecutar', sinEjecutar, PP_VIGENTE, '#8a6d1f', 'Hay que decidir si se reasigna, se ejecuta o se devuelve')}
+      <div class="insight-box" style="margin-top:14px;">
+        <span>💡</span>
+        <span>Quedan <b>${PP_fmtUSD(sinEjecutar)}</b> sin ejecutar ni comprometer, con <b>6 meses</b> por delante. A ritmo actual (${PP_fmtC(PP_CONSUMIDO / MF_CORTE)}/mes) se consumirían en ${(sinEjecutar / (PP_CONSUMIDO / MF_CORTE)).toFixed(1)} meses — pero solo hay <b>${PP_fmtC(PP_COMP_2026)}</b> de pauta efectivamente cargada para el semestre.</span>
+      </div>`;
+  }
+
+  /* ================= VISTA 5 — PRESUPUESTO EN RIESGO ================= */
+  function PP_medioRows() {
+    const rows = [];
+    Object.keys(PP_CONSUMO).forEach(bk => {
+      PP_CONSUMO[bk].items.forEach(it => {
+        if (it.presupuesto === 0 && it.consumo === 0) return;
+        rows.push({ medio: it.medio, grupo: PP_CONSUMO[bk].label.replace('DCE ', ''), ...it });
+      });
+    });
+    return rows;
+  }
+
+  function PP_renderRiesgo() {
+    const rows = PP_medioRows();
+    // Umbral de $100: el Masterflow trae diferencias de centavos por redondeo (VIU Pantallas queda
+    // en −$6) y listarlas como "sobrepacing" ante gerencia le resta credibilidad a la tabla.
+    const sobre = rows.filter(r => r.saldo < -100).sort((a, b) => a.saldo - b.saldo);
+    const sobreTotal = sobre.reduce((s, r) => s + Math.abs(r.saldo), 0);
+    // "Bajo consumo" = menos del 35% ejecutado a mitad de año, con presupuesto material.
+    const bajo = rows.filter(r => r.presupuesto >= 20000 && PP_pct(r.consumo, r.presupuesto) < 35).sort((a, b) => b.saldo - a.saldo);
+    const bajoTotal = bajo.reduce((s, r) => s + r.saldo, 0);
+    const porDefinir = MF_CAMPANAS.filter(c => c[1] === 4);
+    const porDefinirTotal = porDefinir.reduce((s, c) => s + c[3] + c[4], 0);
+    const prepagoFuturo = PP_COMPROMETIDO;
+
+    document.getElementById('ppto-riskKpis').innerHTML = [
+      { label: 'Sobrepacing', value: sobreTotal, color: PP_C.riesgo, sub: `<b>${sobre.length}</b> medios ya pasados de su presupuesto anual` },
+      { label: 'Sin campaña asignada', value: porDefinirTotal, color: '#8a6d1f', sub: `<b>${PP_pct1(porDefinirTotal, PP_COMPROMETIDO)}</b> de todo lo comprometido a futuro` },
+      { label: 'Saldos por ejecutar', value: bajoTotal, color: '#00618C', sub: `<b>${bajo.length}</b> medios bajo 35% de ejecución a mitad de año` },
+      { label: 'Prepagos por consumir', value: prepagoFuturo, color: '#4F52E5', sub: `Cargados a jul 2026 en adelante — ya pagados` },
+    ].map(c => `
+      <div class="zone ppto-kpi" style="--kpi-accent:${c.color};">
+        <div class="ppto-kpi-label">${c.label}</div>
+        <div class="ppto-kpi-value">${PP_fmtUSD(c.value)}</div>
+        <div class="ppto-kpi-sub">${c.sub}</div>
+      </div>`).join('');
+
+    document.getElementById('ppto-sobreTotal').textContent = PP_fmtUSD(sobreTotal);
+    document.getElementById('ppto-sobreTable').innerHTML = `
+      <thead><tr><th>Medio</th><th>Grupo</th><th class="num">Presupuesto</th><th class="num">Consumo</th><th class="num">Exceso</th><th class="num">% ejecutado</th></tr></thead>
+      <tbody>${sobre.map(r => `
+        <tr>
+          <td class="name">${PP_esc(r.medio)}</td>
+          <td style="color:#8b8b8b;">${PP_esc(r.grupo)}</td>
+          <td class="num">${PP_fmtUSD(r.presupuesto)}</td>
+          <td class="num">${PP_fmtUSD(r.consumo)}</td>
+          <td class="num" style="color:${PP_C.riesgo};font-weight:700;">${PP_fmtUSD(Math.abs(r.saldo))}</td>
+          <td class="num"><span class="ppto-chip bad">${r.presupuesto ? PP_pct(r.consumo, r.presupuesto).toFixed(0) + '%' : 'sin ppto'}</span></td>
+        </tr>`).join('')}</tbody>`;
+
+    document.getElementById('ppto-pordefinirTotal').textContent = PP_fmtUSD(porDefinirTotal);
+    document.getElementById('ppto-pordefinirDesc').innerHTML =
+      `La campaña llamada literalmente <b>"POR DEFINIR"</b> es el rubro más grande de todo lo comprometido a futuro: <b>${PP_fmtUSD(porDefinirTotal)}</b> cargados a julio–diciembre sin campaña asignada. Es presupuesto ya comprometido con el medio pero sin destino definido — la primera bolsa que gerencia debería revisar.`;
+    document.getElementById('ppto-pordefinirTable').innerHTML = `
+      <thead><tr><th>Campaña</th><th>Medio principal</th><th class="num">Consumido</th><th class="num">Comprometido</th>${MF_MESES.slice(MF_CORTE).map(m => `<th class="num">${m}</th>`).join('')}</tr></thead>
+      <tbody>${porDefinir.map(c => `
+        <tr>
+          <td class="name">${PP_esc(PP_title(c[0]))}</td>
+          <td style="color:#8b8b8b;">${PP_esc(PP_title(c[5]))}</td>
+          <td class="num">${c[3] ? PP_fmtUSD(c[3]) : '—'}</td>
+          <td class="num" style="color:#8a6d1f;font-weight:700;">${PP_fmtUSD(c[4])}</td>
+          ${c[7].slice(MF_CORTE).map(v => `<td class="num" style="color:#8b8b8b;">${v ? PP_fmtC(v) : '—'}</td>`).join('')}
+        </tr>`).join('')}</tbody>`;
+
+    document.getElementById('ppto-saldoTotal').textContent = PP_fmtUSD(bajoTotal);
+    document.getElementById('ppto-saldoTable').innerHTML = `
+      <thead><tr><th>Medio</th><th class="num">Presupuesto</th><th class="num">Saldo</th><th class="num">% ejec.</th></tr></thead>
+      <tbody>${bajo.map(r => {
+        const ex = PP_pct(r.consumo, r.presupuesto);
+        return `<tr>
+          <td class="name">${PP_esc(r.medio)}</td>
+          <td class="num">${PP_fmtUSD(r.presupuesto)}</td>
+          <td class="num" style="font-weight:700;color:#00618C;">${PP_fmtUSD(r.saldo)}</td>
+          <td class="num"><span class="ppto-chip ${ex === 0 ? 'bad' : 'warn'}">${ex.toFixed(0)}%</span></td>
+        </tr>`;
+      }).join('')}</tbody>`;
+
+    document.getElementById('ppto-prepagoTotal').textContent = PP_fmtUSD(prepagoFuturo);
+    document.getElementById('ppto-prepagoDesc').innerHTML =
+      `Prepago cargado a meses posteriores al corte: dinero que <b>ya salió de caja</b> y todavía no se ha consumido en pauta.`;
+    const prepagoPorCanal = Object.keys(MF_CANAL).filter(k => MF_CANAL[k].comp > 0)
+      .map(k => ({ k, v: MF_CANAL[k].comp })).sort((a, b) => b.v - a.v);
+    document.getElementById('ppto-prepagoRows').innerHTML = prepagoPorCanal.map((r, i) =>
+      PP_shareRow(r.k, r.v, prepagoFuturo, PP_canalColor(r.k, i), null)).join('');
+  }
+
+  /* ================= INIT ================= */
+  PP_renderKpis();
+  PP_renderExecBar();
+  PP_renderWaterfall();
+  PP_renderArea();
+  PP_renderConsumoTipo();
+  PP_renderFees();
+  PP_renderChannelPie();
+  PP_setCanalActivo(PP_canalActivo); // pinta el panel y deja marcado el canal por defecto en la leyenda
+  PP_renderMedioTable();
+  PP_renderCanalMes();
+  PP_renderTipoGrid();
+  PP_renderTipoMes();
+  PP_renderFiltro();
+  PP_renderCampanaTable();
+  PP_renderPacingCards();
+  PP_renderMensual();
+  PP_renderForecast();
+  PP_renderCierre();
+  PP_renderRiesgo();
+
+  })();
+</script>
+
 </body>
 </html>
