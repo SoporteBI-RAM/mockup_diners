@@ -1234,7 +1234,7 @@
           <div class="zone zone-pad">
             <div class="zone-label">Forecast de cierre</div>
             <div class="zone-title" style="margin-bottom:4px;">Proyección a diciembre 2026, por medio</div>
-            <div class="hero-caption" style="margin-bottom:12px;">Consumido + comprometido ya cargado. No incluye pauta futura sin cargar al Masterflow, así que es un <b>piso</b>, no una proyección estadística. <b>Clic en un canal</b> para ver sus medios; ahí el share es sobre el canal, no sobre el total.</div>
+            <div class="hero-caption" style="margin-bottom:12px;">Consumido + comprometido ya cargado. No incluye pauta futura sin cargar al Masterflow, así que es un <b>piso</b>, no una proyección estadística. <b>Clic en un canal</b> para ver sus medios: el share de cada uno suma el del canal.</div>
             <div class="ppto-table-wrap">
               <table class="ppto-table" id="ppto-forecastTable"></table>
             </div>
@@ -8177,6 +8177,8 @@ const SM_INF_PHOTO = {
      tipologia del pastel muestra solo las de esa tipologia, igual que el panel de canal del Mix de
      Medios. Se muestran hasta 12 y se dice cuantas quedan fuera, para no cortar en silencio. */
   const PP_campVal = c => PP_mesVer === null ? (c[3] + c[4]) : (c[7][PP_mesVer] || 0);
+  const PP_campCons = c => PP_mesVer === null ? c[3] : (PP_mesVer >= MF_CORTE ? 0 : PP_campVal(c));
+  const PP_campComp = c => PP_mesVer === null ? c[4] : (PP_mesVer >= MF_CORTE ? PP_campVal(c) : 0);
   const PP_campOrden = arr => PP_mesVer === null ? arr : arr.slice().sort((a, b) => PP_campVal(b) - PP_campVal(a));
   let PP_tipoDetalle = null;
   function PP_setTipoDetalle(i) {
@@ -8203,7 +8205,7 @@ const SM_INF_PHOTO = {
       : `${MF_TIPO_NOMBRE[i]} — ${todas.length} campaña${todas.length === 1 ? '' : 's'}${PP_mesVer === null ? '' : ' con gasto en ' + MF_MESES[PP_mesVer]}`;
 
     const filas = lista.map(c => {
-      const v = PP_campVal(c);
+      const v = PP_campVal(c), cons = PP_campCons(c), comp = PP_campComp(c);
       return `<div style="padding:7px 0;border-top:1px dashed #e6e5ea;">
         <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:4px;">
           <span class="ppto-dot" style="background:${PP_TIPO_COLOR[c[1]]};"></span>
@@ -8212,6 +8214,10 @@ const SM_INF_PHOTO = {
         </div>
         <div class="ppto-minibar" data-tt="${PP_esc(PP_title(c[0]))}" data-ttv="${MF_TIPO_NOMBRE[c[1]]} · ${PP_fmtUSD(v)}">
           <div class="ppto-minibar-fill" style="width:${(v / max * 100).toFixed(1)}%;background:${PP_TIPO_COLOR[c[1]]};"></div>
+        </div>
+        <div class="ppto-cd-caption">
+          <span>Consumido: <b>${PP_fmtC(cons)}</b> (${v ? (cons / v * 100).toFixed(0) : 0}%)</span>
+          <span>${comp ? `Comprometido: <b style="color:#8a6d1f;">${PP_fmtC(comp)}</b>` : `<span style="color:#a0a0a0;">sin compromisos</span>`}</span>
         </div>
       </div>`;
     }).join('');
@@ -8250,9 +8256,7 @@ const SM_INF_PHOTO = {
     const sel = MF_CAMPANAS.filter(c => PP_tipoFiltro === null || c[1] === PP_tipoFiltro);
     const rows = PP_campOrden(sel).filter(c => PP_mesVer === null || PP_campVal(c) > 0);
     // Un mes anterior a julio es consumo ejecutado; de julio en adelante, compromiso cargado.
-    const esComp = PP_mesVer !== null && PP_mesVer >= MF_CORTE;
-    const vCons = c => PP_mesVer === null ? c[3] : (esComp ? 0 : PP_campVal(c));
-    const vComp = c => PP_mesVer === null ? c[4] : (esComp ? PP_campVal(c) : 0);
+    const vCons = PP_campCons, vComp = PP_campComp;
     const tr = rows.reduce((s, c) => s + vCons(c), 0), tc = rows.reduce((s, c) => s + vComp(c), 0);
     document.getElementById('ppto-campanaTable').innerHTML = `
       <thead><tr>
@@ -8361,7 +8365,7 @@ const SM_INF_PHOTO = {
           <td class="num">${real ? PP_fmtUSD(real) : '—'}</td>
           <td class="num" style="color:${comp ? '#8a6d1f' : '#c9c7d2'};">${comp ? PP_fmtUSD(comp) : '—'}</td>
           <td class="num" style="font-weight:600;color:#262626;">${PP_fmtUSD(real + comp)}</td>
-          <td class="num" style="color:#a0a0a0;">${PP_pct1(real + comp, r.real + r.comp)}</td>
+          <td class="num" style="color:#a0a0a0;">${PP_pct1(real + comp, tot)}</td>
         </tr>`).join('');
       return fila + subs;
     }).join('');
@@ -8369,8 +8373,8 @@ const SM_INF_PHOTO = {
       <thead><tr><th>Canal</th><th class="num">Consumido</th><th class="num">Comprometido</th><th class="num">Cierre proyectado</th><th class="num">Share</th></tr></thead>
       <tbody>${cuerpo}</tbody>
       <tfoot><tr><td>Total</td><td class="num">${PP_fmtUSD(PP_CONSUMIDO)}</td><td class="num">${PP_fmtUSD(PP_COMPROMETIDO)}</td><td class="num">${PP_fmtUSD(tot)}</td><td class="num">100%</td></tr></tfoot>`;
-    // El % de cada medio es sobre su canal, no sobre el total: por eso la columna Share cambia de
-    // referencia al desplegar, y se aclara en el pie de la tarjeta.
+    // Todas las filas, padre e hijas, usan el total como denominador: asi las hijas suman el share
+    // del canal y la columna significa lo mismo en toda la tabla.
     PAGE_ROOT.querySelectorAll('#ppto-forecastTable tr.ppto-exp').forEach(tr => {
       const k = tr.getAttribute('data-canal');
       const toggle = () => { PP_forecastAbierto.has(k) ? PP_forecastAbierto.delete(k) : PP_forecastAbierto.add(k); PP_renderForecast(); };
