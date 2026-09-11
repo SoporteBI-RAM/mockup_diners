@@ -1002,6 +1002,15 @@
         <span class="status-pill" id="ppto-headPill">Corte a junio 2026</span>
       </div>
 
+      <div class="filter-row">
+        <span class="filter-label">Ver</span>
+        <select class="month-select" id="ppto-mesVer"></select>
+        <span class="vs-label">vs.</span>
+        <span class="filter-label">Comparar contra</span>
+        <select class="month-select is-compare" id="ppto-mesComp"></select>
+        <span class="filter-hint" id="ppto-mesHint"></span>
+      </div>
+
       <div class="tab-rail" id="ppto-tabRail">
         <button class="tab" data-tab="p1" data-active="true"><span class="tab-num">1</span>Control ejecutivo</button>
         <button class="tab" data-tab="p2"><span class="tab-num">2</span>Mix de Medios</button>
@@ -1017,7 +1026,7 @@
 
         <div class="zone zone-pad" style="margin-bottom:14px;">
           <div class="zone-label">Ejecución del presupuesto</div>
-          <div class="zone-title">¿En qué estado está cada dólar aprobado?</div>
+          <div class="zone-title">¿En qué estado está cada dólar aprobado?<span class="ppto-chip neutral" style="margin-left:8px;font-weight:600;">anual</span></div>
           <div class="hero-caption">Consumido = ya se gastó (enero–junio). Comprometido = pauta ya cargada al Masterflow para julio en adelante, todavía no ejecutada. Disponible real = lo que queda después de restar ambos, no el saldo contra el aprobado.</div>
           <div class="ppto-exec-bar" id="ppto-execBar"></div>
           <div class="ppto-exec-legend" id="ppto-execLegend"></div>
@@ -1027,7 +1036,7 @@
         <div class="ppto-2col-wide">
           <div class="zone zone-pad">
             <div class="zone-label">Waterfall</div>
-            <div class="zone-title">Del presupuesto aprobado al disponible real</div>
+            <div class="zone-title">Del presupuesto aprobado al disponible real<span class="ppto-chip neutral" style="margin-left:8px;font-weight:600;">anual</span></div>
             <div class="hero-caption" style="margin-bottom:6px;">Cada barra descuenta del anterior. La última columna es la cifra que gerencia puede reasignar hoy.</div>
             <svg class="ppto-chart" viewBox="0 0 560 260" id="ppto-waterfall"></svg>
           </div>
@@ -1082,7 +1091,7 @@
         <div class="ppto-2col-wide">
           <div class="zone zone-pad">
             <div class="zone-label">Composición</div>
-            <div class="zone-title" style="margin-bottom:4px;">Cómo se reparte el presupuesto anual entre canales</div>
+            <div class="zone-title" style="margin-bottom:4px;">Cómo se reparte el presupuesto anual entre canales<span class="ppto-chip neutral" style="margin-left:8px;font-weight:600;">anual</span></div>
             <div class="hero-caption" style="margin-bottom:14px;">Cada porción es el peso de ese canal sobre el presupuesto 2026. <b>Pasa el mouse (o da clic) sobre un canal</b> para ver a la derecha su desglose por medio específico. Referencia: a junio el año va al 50% — un canal muy por debajo tiene saldo reasignable; uno sobre 100% ya se pasó.</div>
             <div class="ppto-pie-wrap">
               <svg width="150" height="150" viewBox="0 0 120 120" id="ppto-channelPie"></svg>
@@ -1100,7 +1109,7 @@
 
         <div class="zone zone-pad" style="margin-bottom:14px;">
           <div class="zone-label">Detalle</div>
-          <div class="zone-title" style="margin-bottom:4px;">Presupuesto, consumo y saldo por medio específico</div>
+          <div class="zone-title" style="margin-bottom:4px;">Presupuesto, consumo y saldo por medio específico<span class="ppto-chip neutral" style="margin-left:8px;font-weight:600;">anual</span></div>
           <div class="hero-caption" style="margin-bottom:12px;">Los tres grupos del Masterflow (Marketing, Refuerzo OOH, Negocios) consolidados en una sola tabla. Saldo en rojo = medio que ya se pasó de lo asignado.</div>
           <div class="ppto-table-wrap ppto-scroll">
             <table class="ppto-table" id="ppto-medioTable"></table>
@@ -7360,6 +7369,8 @@ const SM_INF_PHOTO = {
   const MF_CORTE = 6; // últimos meses cerrados = ene..jun
   const MF_TOTAL = { real: 3878256, comp: 784632, inv: 4557760, fee: 105127,
     mes: [723327, 600740, 695546, 631501, 510225, 716918, 128072, 125432, 125432, 125432, 125432, 125431], mes2027: 29402,
+    mesConsumo: { prepago: [476655, 273515, 467668, 428707, 386892, 532675, 128072, 125432, 125432, 125432, 125432, 125431], facturable: [225822, 294625, 217045, 192280, 116488, 143019, 0, 0, 0, 0, 0, 0], noFacturable: [20850, 32600, 10833, 10514, 6845, 41224, 0, 0, 0, 0, 0, 0] },
+    mesInv: [711944, 581825, 678757, 607057, 497373, 696172, 128072, 125432, 125432, 125432, 125432, 125431], mesFee: [11383, 18914, 16789, 24443, 12852, 20746, 0, 0, 0, 0, 0, 0],
     consumo: { prepago: 3350743, facturable: 1189278, noFacturable: 122866 } };
   const MF_AREA = {
     'MARKETING': { real: 3362173, comp: 784632, mes: [690820, 520666, 632743, 508575, 395411, 613959, 128072, 125432, 125432, 125432, 125432, 125431] },
@@ -7564,6 +7575,78 @@ const SM_INF_PHOTO = {
     .replace(/(^|[\s\-\/().])([a-záéíóúñ])/g, (m, a, b) => a + b.toUpperCase())
     .replace(PP_SIGLAS_RE, m => m.toUpperCase());
 
+
+  /* ================= FILTRO DE MES =================
+     El Masterflow tiene consumo mensual pero presupuesto ANUAL con un solo corte. Por eso el filtro
+     mueve solo los visuales de gasto; todo lo que compara contra presupuesto (vigente, % ejecutado,
+     saldo, waterfall) queda en anual y se rotula como tal. Mover eso seria inventar una
+     mensualizacion que el archivo no tiene. */
+  let PP_mesVer = null;   // null = año completo
+  let PP_mesComp = null;
+
+  // Con un mes elegido devuelve ese mes de la serie; en anual devuelve el total declarado, NO la suma
+  // de mes[12]: esa serie cubre solo 2026 y dejaria fuera los $29K comprometidos a enero-febrero 2027.
+  const PP_val = (mes, anual) => PP_mesVer === null ? anual : (mes[PP_mesVer] || 0);
+  const PP_serie = s => PP_mesVer === null ? s.reduce((a, b) => a + b, 0) : (s[PP_mesVer] || 0);
+  const PP_serieComp = s => PP_mesComp === null ? null : (s[PP_mesComp] || 0);
+  const PP_perFiltro = () => PP_mesVer === null ? 'todo 2026' : `${MF_MESES[PP_mesVer]} 2026`;
+
+  // Chip de variacion contra el mes de comparacion. Devuelve '' si no aplica.
+  function PP_deltaChip(serie) {
+    const b = PP_serieComp(serie);
+    if (b === null || PP_mesVer === null) return '';
+    const a = PP_serie(serie);
+    // Sin gasto en ninguno de los dos meses no hay variacion que mostrar; "nuevo" solo aplica si
+    // este mes gasto y el de comparacion no.
+    if (!a && !b) return `<span class="ppto-chip neutral">sin gasto</span>`;
+    if (!b) return `<span class="ppto-chip neutral">nuevo</span>`;
+    if (!a) return `<span class="ppto-chip neutral">sin gasto este mes</span>`;
+    const d = (a - b) / b * 100;
+    const cls = Math.abs(d) < 1 ? 'neutral' : (d > 0 ? 'warn' : 'ok');
+    return `<span class="ppto-chip ${cls}">${d > 0 ? '▲' : '▼'} ${Math.abs(d).toFixed(0)}% vs ${MF_MESES[PP_mesComp]}</span>`;
+  }
+
+  function PP_initFiltroMes() {
+    const ver = document.getElementById('ppto-mesVer');
+    const comp = document.getElementById('ppto-mesComp');
+    const opts = ['<option value="">Año completo 2026</option>']
+      .concat(MF_MESES.map((m, i) => `<option value="${i}">${m} 2026</option>`)).join('');
+    ver.innerHTML = opts;
+    comp.innerHTML = '<option value="">— sin comparar —</option>' + MF_MESES.map((m, i) => `<option value="${i}">${m} 2026</option>`).join('');
+    const aplicar = () => {
+      PP_mesVer = ver.value === '' ? null : Number(ver.value);
+      PP_mesComp = comp.value === '' ? null : Number(comp.value);
+      // Comparar contra un mes solo tiene sentido si hay un mes elegido en "Ver".
+      comp.disabled = PP_mesVer === null;
+      if (PP_mesVer === null) { comp.value = ''; PP_mesComp = null; }
+      PP_aplicarFiltro();
+    };
+    ver.addEventListener('change', aplicar);
+    comp.addEventListener('change', aplicar);
+    comp.disabled = true;
+  }
+
+  // Re-dibuja solo lo que depende del mes. Lo demas no se toca.
+  function PP_aplicarFiltro() {
+    PP_renderArea();
+    PP_renderConsumoTipo();
+    PP_renderFees();
+    PP_renderBrandPerformance();
+    PP_renderTipoGrid();
+    PP_renderTipoPie();
+    PP_renderTopCampanas();
+    PP_renderCampanaTable();
+    PP_renderTipoMes();
+    PP_renderCanalMes();
+    PP_renderMensual();
+    const hint = document.getElementById('ppto-mesHint');
+    if (hint) hint.innerHTML = PP_mesVer === null
+      ? '↑ el filtro mueve el gasto (tipologías, campañas, canales, Brand/Performance). El presupuesto es anual y no varía.'
+      : `↑ mostrando <b>${MF_MESES[PP_mesVer]} 2026</b> · las tarjetas de presupuesto siguen siendo anuales`;
+    const pill = document.getElementById('ppto-headPill');
+    if (pill) pill.textContent = PP_mesVer === null ? 'Corte a junio 2026' : `${MF_MESES[PP_mesVer]} 2026`;
+  }
+
   /* ================= VISTA 1 — CONTROL EJECUTIVO ================= */
   function PP_renderKpis() {
     const cards = [
@@ -7653,27 +7736,33 @@ const SM_INF_PHOTO = {
   }
 
   function PP_renderArea() {
-    const totalReal = Object.values(MF_AREA).reduce((s, a) => s + a.real + a.comp, 0);
     const colors = { MARKETING: '#4F52E5', NEGOCIOS: '#00618C', INSTITUCIONAL: '#141414', 'CLUB MILES': '#6E93B0' };
+    const av = a => PP_val(MF_AREA[a].mes, MF_AREA[a].real + MF_AREA[a].comp);
+    const totalReal = MF_AREA_NOMBRE.reduce((s, a) => s + av(a), 0);
     document.getElementById('ppto-areaRows').innerHTML = MF_AREA_NOMBRE.map(a => {
-      const d = MF_AREA[a];
-      const note = d.comp > 0 ? `Incluye <b>${PP_fmtC(d.comp)}</b> comprometido a futuro` : 'Sin compromisos cargados a futuro';
-      return PP_shareRow(PP_title(a), d.real + d.comp, totalReal, colors[a], note);
+      const d = MF_AREA[a], v = av(a);
+      const note = PP_mesVer !== null ? PP_deltaChip(d.mes)
+        : (d.comp > 0 ? `Incluye <b>${PP_fmtC(d.comp)}</b> comprometido a futuro` : 'Sin compromisos cargados a futuro');
+      return PP_shareRow(PP_title(a), v, totalReal, colors[a], note);
     }).join('');
   }
 
   function PP_renderConsumoTipo() {
-    const c = MF_TOTAL.consumo, tot = c.prepago + c.facturable + c.noFacturable;
+    const m = MF_TOTAL.mesConsumo;
     const rows = [
-      { n: 'Prepago', v: c.prepago, col: '#4F52E5', note: 'Pagado por adelantado al medio — ya salió de caja' },
-      { n: 'Facturable', v: c.facturable, col: '#00618C', note: 'Se factura contra ejecución' },
-      { n: 'No facturable', v: c.noFacturable, col: '#8b8b8b', note: 'Bonificación / canje, sin desembolso' },
+      { n: 'Prepago', s: m.prepago, col: '#4F52E5', note: 'Pagado por adelantado al medio — ya salió de caja' },
+      { n: 'Facturable', s: m.facturable, col: '#00618C', note: 'Se factura contra ejecución' },
+      { n: 'No facturable', s: m.noFacturable, col: '#8b8b8b', note: 'Bonificación / canje, sin desembolso' },
     ];
-    document.getElementById('ppto-consumoRows').innerHTML = rows.map(r => PP_shareRow(r.n, r.v, tot, r.col, r.note)).join('');
+    const anual = { Prepago: MF_TOTAL.consumo.prepago, Facturable: MF_TOTAL.consumo.facturable, 'No facturable': MF_TOTAL.consumo.noFacturable };
+    const rv = r => PP_val(r.s, anual[r.n]);
+    const tot = rows.reduce((a, r) => a + rv(r), 0);
+    document.getElementById('ppto-consumoRows').innerHTML = rows.map(r =>
+      PP_shareRow(r.n, rv(r), tot, r.col, PP_mesVer !== null ? (PP_deltaChip(r.s) || r.note) : r.note)).join('');
   }
 
   function PP_renderFees() {
-    const inv = MF_TOTAL.inv, fee = MF_TOTAL.fee, tot = inv + fee;
+    const inv = PP_val(MF_TOTAL.mesInv, MF_TOTAL.inv), fee = PP_val(MF_TOTAL.mesFee, MF_TOTAL.fee), tot = inv + fee;
     document.getElementById('ppto-feeRows').innerHTML =
       PP_shareRow('Inversión en medios', inv, tot, '#141414', 'Llega al medio (incluye ISD, imp. renta y comisiones de plataforma)') +
       PP_shareRow('Fee de agencia', fee, tot, '#4F52E5', 'Honorario de agencia sobre pauta digital');
@@ -7874,7 +7963,9 @@ const SM_INF_PHOTO = {
         const y0 = padT + plotH - ((acc + v) / max) * plotH, y1 = padT + plotH - (acc / max) * plotH;
         // Los meses posteriores al corte son comprometido, no gasto: se marcan con menos opacidad
         // para que no se lean como ejecutado.
-        out += `<rect x="${(cx - bw / 2).toFixed(1)}" y="${y0.toFixed(1)}" width="${bw.toFixed(1)}" height="${Math.max(0.5, y1 - y0).toFixed(1)}" fill="${r.color}" opacity="${i >= corte ? 0.45 : 1}" data-tt="${r.name} — ${m}" data-ttv="${PP_fmtUSD(v)}${i >= corte ? ' (comprometido)' : ''}"/>`;
+        // Con un mes elegido se apagan los demas, para ubicarlo sin perder la serie completa.
+        const op = PP_mesVer !== null && i !== PP_mesVer ? 0.15 : (i >= corte ? 0.45 : 1);
+        out += `<rect x="${(cx - bw / 2).toFixed(1)}" y="${y0.toFixed(1)}" width="${bw.toFixed(1)}" height="${Math.max(0.5, y1 - y0).toFixed(1)}" fill="${r.color}" opacity="${op}" data-tt="${r.name} — ${m}" data-ttv="${PP_fmtUSD(v)}${i >= corte ? ' (comprometido)' : ''}"/>`;
         acc += v;
       });
       out += `<text x="${cx.toFixed(1)}" y="${(padT + plotH + 15).toFixed(1)}" text-anchor="middle" font-size="10" font-weight="${i >= corte ? 400 : 600}" fill="${i >= corte ? '#a0a0a0' : '#5C5C5C'}" font-family="Segoe UI, system-ui, sans-serif">${m}</text>`;
@@ -7894,8 +7985,8 @@ const SM_INF_PHOTO = {
   const PP_BP_COLOR = { 'Brand — ATL': '#141414', 'Brand — digital': '#55637A', 'Performance': '#4F52E5', 'Sin definir': '#b9b8c4' };
 
   function PP_renderBrandPerformance() {
-    const total = MF_BP_NOMBRE.reduce((s, k) => s + MF_BP[k].real + MF_BP[k].comp, 0);
-    const val = k => MF_BP[k].real + MF_BP[k].comp;
+    const val = k => PP_val(MF_BP[k].mes, MF_BP[k].real + MF_BP[k].comp);
+    const total = MF_BP_NOMBRE.reduce((s, k) => s + val(k), 0);
     const brand = val('Brand — ATL') + val('Brand — digital');
     const perf = val('Performance');
     const nd = val('Sin definir');
@@ -7951,9 +8042,10 @@ const SM_INF_PHOTO = {
   let PP_tipoFiltro = null;
 
   function PP_renderTipoGrid() {
-    const total = MF_TIPO_NOMBRE.reduce((s, t) => s + MF_TIPOLOGIA[t].real + MF_TIPOLOGIA[t].comp, 0);
+    const tv = t => PP_val(MF_TIPOLOGIA[t].mes, MF_TIPOLOGIA[t].real + MF_TIPOLOGIA[t].comp);
+    const total = MF_TIPO_NOMBRE.reduce((s, t) => s + tv(t), 0);
     document.getElementById('ppto-tipoGrid').innerHTML = MF_TIPO_NOMBRE.map((t, i) => {
-      const d = MF_TIPOLOGIA[t], v = d.real + d.comp;
+      const d = MF_TIPOLOGIA[t], v = tv(t);
       const n = MF_CAMPANAS.filter(c => c[1] === i).length;
       return `<div class="zone ppto-tipo-card" style="--tipo-color:${PP_TIPO_COLOR[i]};" data-tipo="${i}">
         <div class="ppto-tipo-name">${t}</div>
@@ -7991,7 +8083,7 @@ const SM_INF_PHOTO = {
     const total = MF_CAMPANAS.reduce((s, c) => s + c[3] + c[4], 0);
     cont.innerHTML = PP_CRITERIO.map(x => {
       const camps = MF_CAMPANAS.filter(c => c[1] === x.tipo);
-      const monto = camps.reduce((s, c) => s + c[3] + c[4], 0);
+      const monto = camps.reduce((s, c) => s + c[3] + c[4], 0); // el criterio se explica sobre el año completo
       // Desglose de cómo se clasificaron las campañas de esta tipología, por regla.
       const porRegla = [0, 1, 2, 3].map(r => {
         const sub = camps.filter(c => c[8] === r);
@@ -8025,7 +8117,7 @@ const SM_INF_PHOTO = {
   /* Pastel de composicion por tipologia. Mismo componente que el de canales del Mix de Medios,
      pero con un cuadro de color en vez de icono: las tipologias no tienen iconografia propia. */
   function PP_renderTipoPie() {
-    const data = MF_TIPO_NOMBRE.map((t, i) => ({ nombre: t, i, color: PP_TIPO_COLOR[i], valor: MF_TIPOLOGIA[t].real + MF_TIPOLOGIA[t].comp }))
+    const data = MF_TIPO_NOMBRE.map((t, i) => ({ nombre: t, i, color: PP_TIPO_COLOR[i], valor: PP_val(MF_TIPOLOGIA[t].mes, MF_TIPOLOGIA[t].real + MF_TIPOLOGIA[t].comp) }))
       .filter(d => d.valor > 0).sort((a, b) => b.valor - a.valor);
     const total = data.reduce((s, d) => s + d.valor, 0);
     const cx = 60, cy = 60, r = 56, toRad = a => (a * Math.PI) / 180;
@@ -8064,6 +8156,8 @@ const SM_INF_PHOTO = {
   /* Ranking de campanas. Por defecto muestra el top 10 del portafolio completo; al pasar por una
      tipologia del pastel muestra solo las de esa tipologia, igual que el panel de canal del Mix de
      Medios. Se muestran hasta 12 y se dice cuantas quedan fuera, para no cortar en silencio. */
+  const PP_campVal = c => PP_mesVer === null ? (c[3] + c[4]) : (c[7][PP_mesVer] || 0);
+  const PP_campOrden = arr => PP_mesVer === null ? arr : arr.slice().sort((a, b) => PP_campVal(b) - PP_campVal(a));
   let PP_tipoDetalle = null;
   function PP_setTipoDetalle(i) {
     PP_tipoDetalle = i;
@@ -8074,20 +8168,22 @@ const SM_INF_PHOTO = {
   }
   function PP_renderTopCampanas() {
     const i = PP_tipoDetalle;
-    const todas = i === null ? MF_CAMPANAS : MF_CAMPANAS.filter(c => c[1] === i);
+    const base = i === null ? MF_CAMPANAS : MF_CAMPANAS.filter(c => c[1] === i);
+    // Con un mes elegido se reordena por el gasto de ese mes y se dejan fuera las que no gastaron.
+    const todas = PP_campOrden(base).filter(c => PP_mesVer === null || PP_campVal(c) > 0);
     const LIM = 12;
     const lista = todas.slice(0, i === null ? 10 : LIM);
-    const max = Math.max(...lista.map(c => c[3] + c[4]), 1);
-    const totalAll = MF_CAMPANAS.reduce((s, c) => s + c[3] + c[4], 0);
-    const totalGrupo = todas.reduce((s, c) => s + c[3] + c[4], 0);
-    const sumLista = lista.reduce((s, c) => s + c[3] + c[4], 0);
+    const max = Math.max(...lista.map(PP_campVal), 1);
+    const totalAll = MF_CAMPANAS.reduce((s, c) => s + PP_campVal(c), 0);
+    const totalGrupo = todas.reduce((s, c) => s + PP_campVal(c), 0);
+    const sumLista = lista.reduce((s, c) => s + PP_campVal(c), 0);
 
     document.getElementById('ppto-topTitulo').innerHTML = i === null
-      ? 'Las 10 campañas más grandes'
-      : `${MF_TIPO_NOMBRE[i]} — ${todas.length} campaña${todas.length === 1 ? '' : 's'}`;
+      ? (PP_mesVer === null ? 'Las 10 campañas más grandes' : `Las 10 más grandes de ${MF_MESES[PP_mesVer]}`)
+      : `${MF_TIPO_NOMBRE[i]} — ${todas.length} campaña${todas.length === 1 ? '' : 's'}${PP_mesVer === null ? '' : ' con gasto en ' + MF_MESES[PP_mesVer]}`;
 
     const filas = lista.map(c => {
-      const v = c[3] + c[4];
+      const v = PP_campVal(c);
       return `<div style="padding:7px 0;border-top:1px dashed #e6e5ea;">
         <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:4px;">
           <span class="ppto-dot" style="background:${PP_TIPO_COLOR[c[1]]};"></span>
@@ -8131,8 +8227,13 @@ const SM_INF_PHOTO = {
   }
 
   function PP_renderCampanaTable() {
-    const rows = MF_CAMPANAS.filter(c => PP_tipoFiltro === null || c[1] === PP_tipoFiltro);
-    const tr = rows.reduce((s, c) => s + c[3], 0), tc = rows.reduce((s, c) => s + c[4], 0);
+    const sel = MF_CAMPANAS.filter(c => PP_tipoFiltro === null || c[1] === PP_tipoFiltro);
+    const rows = PP_campOrden(sel).filter(c => PP_mesVer === null || PP_campVal(c) > 0);
+    // Un mes anterior a julio es consumo ejecutado; de julio en adelante, compromiso cargado.
+    const esComp = PP_mesVer !== null && PP_mesVer >= MF_CORTE;
+    const vCons = c => PP_mesVer === null ? c[3] : (esComp ? 0 : PP_campVal(c));
+    const vComp = c => PP_mesVer === null ? c[4] : (esComp ? PP_campVal(c) : 0);
+    const tr = rows.reduce((s, c) => s + vCons(c), 0), tc = rows.reduce((s, c) => s + vComp(c), 0);
     document.getElementById('ppto-campanaTable').innerHTML = `
       <thead><tr>
         <th>Campaña</th><th>Tipología</th><th>Clasificada</th><th>Área que financia</th><th class="num">Consumido</th>
@@ -8144,13 +8245,13 @@ const SM_INF_PHOTO = {
           <td><span class="ppto-dot" style="background:${PP_TIPO_COLOR[c[1]]};"></span><span style="font-size:11px;">${MF_TIPO_NOMBRE[c[1]]}</span></td>
           <td><span class="ppto-chip ${PP_REGLA_CHIP[c[8]].cls}" data-tt="${PP_REGLA_CHIP[c[8]].desc}">${PP_REGLA_CHIP[c[8]].label}</span></td>
           <td style="color:#8b8b8b;">${PP_title(MF_AREA_NOMBRE[c[2]])}</td>
-          <td class="num">${c[3] ? PP_fmtUSD(c[3]) : '—'}</td>
-          <td class="num" style="color:${c[4] ? '#8a6d1f' : '#c9c7d2'};">${c[4] ? PP_fmtUSD(c[4]) : '—'}</td>
-          <td class="num" style="font-weight:700;">${PP_fmtUSD(c[3] + c[4])}</td>
+          <td class="num">${vCons(c) ? PP_fmtUSD(vCons(c)) : '—'}</td>
+          <td class="num" style="color:${vComp(c) ? '#8a6d1f' : '#c9c7d2'};">${vComp(c) ? PP_fmtUSD(vComp(c)) : '—'}</td>
+          <td class="num" style="font-weight:700;">${PP_fmtUSD(PP_campVal(c))}</td>
           <td style="color:#8b8b8b;font-size:10.5px;">${PP_esc(PP_title(c[5]))}${c[6] > 1 ? ` <span class="ppto-chip neutral">+${c[6] - 1}</span>` : ''}</td>
         </tr>`).join('')}</tbody>
       <tfoot><tr>
-        <td colspan="4">${rows.length} campaña${rows.length === 1 ? '' : 's'}${PP_tipoFiltro !== null ? ` · ${MF_TIPO_NOMBRE[PP_tipoFiltro]}` : ''}</td>
+        <td colspan="4">${rows.length} campaña${rows.length === 1 ? '' : 's'}${PP_tipoFiltro !== null ? ` · ${MF_TIPO_NOMBRE[PP_tipoFiltro]}` : ''}${PP_mesVer === null ? '' : ` · ${MF_MESES[PP_mesVer]} 2026`}</td>
         <td class="num">${PP_fmtUSD(tr)}</td><td class="num">${PP_fmtUSD(tc)}</td>
         <td class="num">${PP_fmtUSD(tr + tc)}</td><td></td>
       </tr></tfoot>`;
@@ -8194,7 +8295,8 @@ const SM_INF_PHOTO = {
       const cx = padL + gap * i + gap / 2;
       const y = padT + plotH - (v / max) * plotH, h = (v / max) * plotH;
       const comprometido = i >= MF_CORTE;
-      out += `<rect x="${(cx - bw / 2).toFixed(1)}" y="${y.toFixed(1)}" width="${bw.toFixed(1)}" height="${Math.max(1, h).toFixed(1)}" rx="3" fill="${comprometido ? PP_C.comprometido : PP_C.consumido}" data-tt="${MF_MESES[i]} 2026" data-ttv="${PP_fmtUSD(v)}${comprometido ? ' (comprometido)' : ''}"/>`;
+      const opM = PP_mesVer !== null && i !== PP_mesVer ? 0.2 : 1;
+      out += `<rect x="${(cx - bw / 2).toFixed(1)}" y="${y.toFixed(1)}" width="${bw.toFixed(1)}" height="${Math.max(1, h).toFixed(1)}" rx="3" opacity="${opM}" fill="${comprometido ? PP_C.comprometido : PP_C.consumido}" data-tt="${MF_MESES[i]} 2026" data-ttv="${PP_fmtUSD(v)}${comprometido ? ' (comprometido)' : ''}"/>`;
       out += `<text x="${cx.toFixed(1)}" y="${(y - 6).toFixed(1)}" text-anchor="middle" font-size="9.5" font-weight="600" fill="${comprometido ? '#a0a0a0' : '#5C5C5C'}" font-family="Segoe UI, system-ui, sans-serif">${PP_fmtC(v)}</text>`;
       out += `<text x="${cx.toFixed(1)}" y="${(padT + plotH + 16).toFixed(1)}" text-anchor="middle" font-size="10.5" font-weight="${comprometido ? 400 : 600}" fill="${comprometido ? '#a0a0a0' : '#5C5C5C'}" font-family="Segoe UI, system-ui, sans-serif">${MF_MESES[i]}</text>`;
     });
@@ -8359,6 +8461,8 @@ const SM_INF_PHOTO = {
   PP_renderForecast();
   PP_renderCierre();
   PP_renderRiesgo();
+  PP_initFiltroMes();
+  PP_aplicarFiltro();
 
   })();
 </script>
