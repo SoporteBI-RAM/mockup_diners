@@ -4,8 +4,8 @@ Prototipos HTML autocontenidos (sin build, sin dependencias) del tablero de mark
 
 ## Archivos
 
-- **`diners-dashboard-completo.html`** — dashboard principal, multi-página (Portada, Marca y Comunicación, Presupuesto, Paid Media, Own Media, Social Media, RSE y Revista, Activos Digitales).
-  - **Presupuesto** es la vista de control gerencial (5 pestañas: Control ejecutivo, Mix de Medios, Portafolio de campaña, Pacing y Forecast, Presupuesto en riesgo). Se construyó sobre el Masterflow real y convive con Paid Media, que quedó sin cambios — la idea es comparar ambas y recién ahí decidir si se retira la anterior.
+- **`diners-dashboard-completo.html`** — dashboard principal, multi-página (Portada, Marca y Comunicación, Paid Media 2, Paid Media, Own Media, Social Media, RSE y Revista, Activos Digitales).
+  - **Paid Media 2** es la vista de control gerencial (5 pestañas: Control ejecutivo, Mix de Medios, Portafolio de campaña, Pacing y Forecast, Presupuesto en riesgo). Se construyó sobre el Masterflow real y convive con Paid Media, que quedó sin cambios — la idea es comparar ambas y recién ahí decidir si se retira la anterior.
 - `diners-paid-media-v2.html`, `diners-own-media-v1.html`, `diners-marca-comunicacion.html` — versiones previas/exploratorias de páginas individuales.
 - `prototipo-composicion-dumbbell.html`, `prototipo-paletas-candidatas.html` — prototipos aislados usados para iterar componentes específicos (gráfico de composición, paletas de color) antes de integrarlos al dashboard principal.
 
