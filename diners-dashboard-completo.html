@@ -816,6 +816,16 @@
   [data-page="ppto"] .ppto-cd-outlet-fill { height: 100%; border-radius: 4px; transition: width 0.5s cubic-bezier(0.16,1,0.3,1); }
   [data-page="ppto"] .ppto-cd-outlet .ppto-cd-caption { font-size: 9.5px; margin-top: 4px; }
 
+  /* Filas desplegables del forecast: el canal abre sus medios. */
+  [data-page="ppto"] tr.ppto-exp { cursor: pointer; }
+  [data-page="ppto"] tr.ppto-exp:hover { background: #F8F7FC; }
+  [data-page="ppto"] tr.ppto-exp:focus-visible { outline: 2px solid #4F52E5; outline-offset: -2px; }
+  [data-page="ppto"] .ppto-caret { display: inline-block; width: 11px; font-size: 9px; color: #8b8b8b; transition: transform 0.15s ease; }
+  [data-page="ppto"] tr.ppto-exp[data-open="true"] .ppto-caret { transform: rotate(90deg); }
+  [data-page="ppto"] tr.ppto-sub td { background: #FBFBFD; font-size: 10.5px; color: #5C5C5C; border-bottom: 1px solid #f2f1f6; }
+  [data-page="ppto"] tr.ppto-sub td.name { font-weight: 500; color: #3f3f3f; padding-left: 26px; }
+  [data-page="ppto"] tr.ppto-sub:last-of-type td { border-bottom: 1px solid #eef1f3; }
+
   /* Leyenda de graficos svg */
   [data-page="ppto"] .ppto-chart-legend { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 10px; font-size: 11px; color: #5C5C5C; }
   [data-page="ppto"] .ppto-chart-legend span { display: inline-flex; align-items: center; gap: 6px; }
@@ -1224,7 +1234,7 @@
           <div class="zone zone-pad">
             <div class="zone-label">Forecast de cierre</div>
             <div class="zone-title" style="margin-bottom:4px;">Proyección a diciembre 2026, por medio</div>
-            <div class="hero-caption" style="margin-bottom:12px;">Consumido + comprometido ya cargado. No incluye pauta futura sin cargar al Masterflow, así que es un <b>piso</b>, no una proyección estadística.</div>
+            <div class="hero-caption" style="margin-bottom:12px;">Consumido + comprometido ya cargado. No incluye pauta futura sin cargar al Masterflow, así que es un <b>piso</b>, no una proyección estadística. <b>Clic en un canal</b> para ver sus medios; ahí el share es sobre el canal, no sobre el total.</div>
             <div class="ppto-table-wrap">
               <table class="ppto-table" id="ppto-forecastTable"></table>
             </div>
@@ -7394,6 +7404,16 @@ const SM_INF_PHOTO = {
     'Radio': { real: 26201, comp: 0, fee: 0, mes: [9832, 4050, 0, 0, 0, 12319, 0, 0, 0, 0, 0, 0] },
     'Prensa': { real: 4912, comp: 0, fee: 0, mes: [0, 612, 0, 2300, 1420, 580, 0, 0, 0, 0, 0, 0] },
   };
+  /* Detalle de medios dentro de cada canal, para desplegar el forecast: [medio, consumido, comprometido].
+     Ordenado por cierre proyectado descendente. Fuente: BASE MASTERFLOW, columna MEDIO. */
+  const MF_CANAL_MEDIO = {
+    'OOH': [['Gran Comercio', 431939, 416181], ['Creamedios', 660770, 0], ['Induvallas', 326571, 191887], ['VST Ecuavallas', 50000, 70000], ['Duoprint', 99976, 14000], ['Espacio Media', 98708, 0], ['Tradeup', 31805, 63609], ['Corporación Favorita', 66500, 0], ['Provial', 57490, 0], ['Alacc', 31675, 17565], ['Bluetrust', 11917, 4550], ['Padel', 13726, 0], ['Spacex Vallas S.A.S.', 8800, 0], ['Amankaya', 4200, 4200], ['Señal X', 7051, 0], ['Redvill Cia. Ltda', 5642, 0], ['Nuled', 3000, 0], ['Innova Promoevent', 750, 0]],
+    'TV': [['Teleamazonas', 317344, 0], ['Teleamazonas M', 280000, 0], ['ESPN-VIU', 206768, 0], ['Ecuavisa Guayaquil', 88623, 0], ['Ecuavisa Quito', 74289, 0], ['TC Televisión', 60190, 0], ['VIU Pantallas', 35556, 0], ['El Canal del Futbol', 10000, 0]],
+    'Digital': [['Facebook - Cisneros', 325862, 0], ['Google Ads', 130140, 0], ['Primicias', 96217, 0], ['DV360', 47628, 0], ['Google PMax', 45855, 0], ['Primicias M', 42000, 0], ['TikTok', 27094, 0], ['YouTube', 26261, 0], ['Google Search', 13962, 0], ['Adspot-Aleph', 8060, 0], ['Revista Gestion', 7624, 0], ['Club Liga Deportiva U.', 7068, 0], ['IMS', 5010, 0], ['Prodigy', 4799, 0], ['Fundacion Teatro Sucre', 4706, 0], ['Ecuavisa Digital', 4320, 0], ['El Comercio Digital', 4223, 0], ['El Universo Digital', 3600, 0], ['Insights Digital', 3530, 0], ['America Economia Digital', 3000, 0], ['Revista Cosas Digital', 2760, 0], ['El Futbolero', 2439, 0], ['Revista Forbes Digital', 1920, 0], ['Spotify', 1334, 0], ['Diario Expreso Digital', 1188, 0], ['LinkedIn', 849, 0], ['TC Televisión Digital', 840, 0], ['Smartly', 0, 0]],
+    'Revistas': [['Revista Cosas', 22440, 2640], ['Revista Casas', 18000, 0], ['Terra Incognita', 1125, 0]],
+    'Radio': [['Radio La Red', 11788, 0], ['Radio Mach-Deportes', 2053, 0], ['Mundo Deportivo', 1300, 0], ['Radio Diblu', 982, 0], ['Romance 90.1 Fm Stereo', 874, 0], ['Platinum Fm', 848, 0], ['Radio Fm Mundo (Masbtl)', 848, 0], ['Radio J.C. Radio', 795, 0], ['Radio Fabu', 768, 0], ['Radio Centro Gye', 756, 0], ['Radio City', 702, 0], ['Radio Armonica', 689, 0], ['Blue Radio', 636, 0], ['Radio Forever Music', 636, 0], ['Radio Fuego', 636, 0], ['Radio Genial Exa Fm  Cia', 583, 0], ['Radio Rtp', 530, 0], ['Radio Sucesos', 530, 0], ['Radio Caravana', 245, 0]],
+    'Prensa': [['Diario Expreso', 4912, 0]],
+  };
   /* Brand vs Performance — derivado del campo MEDIO del Masterflow. ATL (via publica, TV, radio)
      es marca por naturaleza; en digital el producto contratado lo define (buscador/PMax = performance,
      video/programatica/editoriales = marca). Meta, TikTok y LinkedIn quedan sin definir: el objetivo de
@@ -8318,20 +8338,45 @@ const SM_INF_PHOTO = {
     document.getElementById('ppto-mensualChart').innerHTML = out;
   }
 
+  // Forecast con canales desplegables: cada fila abre sus medios. Anual por naturaleza (proyeccion a
+  // diciembre), asi que no responde al filtro de mes.
+  const PP_forecastAbierto = new Set();
   function PP_renderForecast() {
     const rows = Object.keys(MF_CANAL).map(k => ({ canal: k, ...MF_CANAL[k] })).sort((a, b) => (b.real + b.comp) - (a.real + a.comp));
     const tot = rows.reduce((s, r) => s + r.real + r.comp, 0);
-    document.getElementById('ppto-forecastTable').innerHTML = `
-      <thead><tr><th>Canal</th><th class="num">Consumido</th><th class="num">Comprometido</th><th class="num">Cierre proyectado</th><th class="num">Share</th></tr></thead>
-      <tbody>${rows.map((r, i) => `
-        <tr>
-          <td class="name"><span class="ppto-dot" style="background:${PP_canalColor(r.canal, i)};"></span>${r.canal}</td>
+    const cuerpo = rows.map((r, i) => {
+      const col = PP_canalColor(r.canal, i);
+      const medios = MF_CANAL_MEDIO[r.canal] || [];
+      const abierto = PP_forecastAbierto.has(r.canal);
+      const fila = `<tr class="ppto-exp" data-canal="${r.canal}" data-open="${abierto}" tabindex="0" role="button" aria-expanded="${abierto}">
+          <td class="name"><span class="ppto-caret">▶</span><span class="ppto-dot" style="background:${col};"></span>${r.canal}<span style="color:#a0a0a0;font-weight:400;font-size:10px;"> · ${medios.length} medio${medios.length === 1 ? '' : 's'}</span></td>
           <td class="num">${PP_fmtUSD(r.real)}</td>
           <td class="num" style="color:${r.comp ? '#8a6d1f' : '#c9c7d2'};">${r.comp ? PP_fmtUSD(r.comp) : '—'}</td>
           <td class="num" style="font-weight:700;">${PP_fmtUSD(r.real + r.comp)}</td>
           <td class="num" style="color:#8b8b8b;">${PP_pct1(r.real + r.comp, tot)}</td>
-        </tr>`).join('')}</tbody>
+        </tr>`;
+      if (!abierto) return fila;
+      const subs = medios.map(([medio, real, comp]) => `<tr class="ppto-sub">
+          <td class="name">${PP_esc(medio)}</td>
+          <td class="num">${real ? PP_fmtUSD(real) : '—'}</td>
+          <td class="num" style="color:${comp ? '#8a6d1f' : '#c9c7d2'};">${comp ? PP_fmtUSD(comp) : '—'}</td>
+          <td class="num" style="font-weight:600;color:#262626;">${PP_fmtUSD(real + comp)}</td>
+          <td class="num" style="color:#a0a0a0;">${PP_pct1(real + comp, r.real + r.comp)}</td>
+        </tr>`).join('');
+      return fila + subs;
+    }).join('');
+    document.getElementById('ppto-forecastTable').innerHTML = `
+      <thead><tr><th>Canal</th><th class="num">Consumido</th><th class="num">Comprometido</th><th class="num">Cierre proyectado</th><th class="num">Share</th></tr></thead>
+      <tbody>${cuerpo}</tbody>
       <tfoot><tr><td>Total</td><td class="num">${PP_fmtUSD(PP_CONSUMIDO)}</td><td class="num">${PP_fmtUSD(PP_COMPROMETIDO)}</td><td class="num">${PP_fmtUSD(tot)}</td><td class="num">100%</td></tr></tfoot>`;
+    // El % de cada medio es sobre su canal, no sobre el total: por eso la columna Share cambia de
+    // referencia al desplegar, y se aclara en el pie de la tarjeta.
+    PAGE_ROOT.querySelectorAll('#ppto-forecastTable tr.ppto-exp').forEach(tr => {
+      const k = tr.getAttribute('data-canal');
+      const toggle = () => { PP_forecastAbierto.has(k) ? PP_forecastAbierto.delete(k) : PP_forecastAbierto.add(k); PP_renderForecast(); };
+      tr.addEventListener('click', toggle);
+      tr.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
+    });
   }
 
   function PP_renderCierre() {
