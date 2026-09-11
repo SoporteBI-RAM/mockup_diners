@@ -1154,8 +1154,8 @@
           </div>
           <div class="zone zone-pad">
             <div class="zone-label">Concentración</div>
-            <div class="zone-title" style="margin-bottom:4px;">Las 10 campañas más grandes</div>
-            <div class="hero-caption" style="margin-bottom:12px;">Cada barra es una campaña, coloreada por su tipología.</div>
+            <div class="zone-title" style="margin-bottom:4px;" id="ppto-topTitulo">Las 10 campañas más grandes</div>
+            <div class="hero-caption" style="margin-bottom:12px;"><b>Pasa el mouse (o da clic) sobre una tipología</b> del pastel o de la leyenda para ver aquí solo sus campañas.</div>
             <div id="ppto-topCampanas"></div>
           </div>
         </div>
@@ -8051,23 +8051,42 @@ const SM_INF_PHOTO = {
     });
     document.getElementById('ppto-tipoPie').innerHTML = paths;
     document.getElementById('ppto-tipoPieLegend').innerHTML = rows;
-    // Clic en una porcion o fila filtra la tabla de abajo, igual que las tarjetas de tipologia.
+    // Pasar el mouse o dar clic acciona el panel de la derecha, sin mover la pagina. Para bajar a la
+    // tabla estan las tarjetas de tipologia y los botones de filtro, que si hacen scroll.
     PAGE_ROOT.querySelectorAll('#ppto-tipoPie [data-tipo], #ppto-tipoPieLegend [data-tipo]').forEach(el => {
       const i = Number(el.getAttribute('data-tipo'));
-      const ir = () => { PP_setFiltro(i); document.getElementById('ppto-campanaTable').scrollIntoView({ behavior: 'smooth', block: 'center' }); };
-      el.addEventListener('click', ir);
-      el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); ir(); } });
+      el.addEventListener('mouseenter', () => PP_setTipoDetalle(i));
+      el.addEventListener('click', () => PP_setTipoDetalle(i));
+      el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); PP_setTipoDetalle(i); } });
     });
   }
 
-  // Ranking de las campañas mas grandes: barras horizontales coloreadas por tipologia. Deja ver de
-  // un golpe que tan concentrado esta el portafolio, que el pastel por si solo no muestra.
+  /* Ranking de campanas. Por defecto muestra el top 10 del portafolio completo; al pasar por una
+     tipologia del pastel muestra solo las de esa tipologia, igual que el panel de canal del Mix de
+     Medios. Se muestran hasta 12 y se dice cuantas quedan fuera, para no cortar en silencio. */
+  let PP_tipoDetalle = null;
+  function PP_setTipoDetalle(i) {
+    PP_tipoDetalle = i;
+    PAGE_ROOT.querySelectorAll('#ppto-tipoPieLegend .ppto-ch-row').forEach(r => {
+      r.classList.toggle('is-active', i !== null && Number(r.getAttribute('data-tipo')) === i);
+    });
+    PP_renderTopCampanas();
+  }
   function PP_renderTopCampanas() {
-    const top = MF_CAMPANAS.slice(0, 10);
-    const max = Math.max(...top.map(c => c[3] + c[4]), 1);
+    const i = PP_tipoDetalle;
+    const todas = i === null ? MF_CAMPANAS : MF_CAMPANAS.filter(c => c[1] === i);
+    const LIM = 12;
+    const lista = todas.slice(0, i === null ? 10 : LIM);
+    const max = Math.max(...lista.map(c => c[3] + c[4]), 1);
     const totalAll = MF_CAMPANAS.reduce((s, c) => s + c[3] + c[4], 0);
-    const sumTop = top.reduce((s, c) => s + c[3] + c[4], 0);
-    document.getElementById('ppto-topCampanas').innerHTML = top.map(c => {
+    const totalGrupo = todas.reduce((s, c) => s + c[3] + c[4], 0);
+    const sumLista = lista.reduce((s, c) => s + c[3] + c[4], 0);
+
+    document.getElementById('ppto-topTitulo').innerHTML = i === null
+      ? 'Las 10 campañas más grandes'
+      : `${MF_TIPO_NOMBRE[i]} — ${todas.length} campaña${todas.length === 1 ? '' : 's'}`;
+
+    const filas = lista.map(c => {
       const v = c[3] + c[4];
       return `<div style="padding:7px 0;border-top:1px dashed #e6e5ea;">
         <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:4px;">
@@ -8079,7 +8098,15 @@ const SM_INF_PHOTO = {
           <div class="ppto-minibar-fill" style="width:${(v / max * 100).toFixed(1)}%;background:${PP_TIPO_COLOR[c[1]]};"></div>
         </div>
       </div>`;
-    }).join('') + `<div class="ppto-source">Estas 10 concentran ${PP_pct1(sumTop, totalAll)} de la inversión del año.</div>`;
+    }).join('');
+
+    const pie = i === null
+      ? `<div class="ppto-source">Estas 10 concentran ${PP_pct1(sumLista, totalAll)} de la inversión del año.</div>`
+      : `<div class="ppto-source">${todas.length > LIM ? `Se muestran las ${LIM} más grandes de ${todas.length}; las ${todas.length - LIM} restantes suman ${PP_fmtC(totalGrupo - sumLista)}. ` : ''}La tipología completa suma <b>${PP_fmtC(totalGrupo)}</b> (${PP_pct1(totalGrupo, totalAll)} del año). <span class="bitacora-teaser-link" id="ppto-verTodas" style="cursor:pointer;">← ver todo el portafolio</span></div>`;
+
+    document.getElementById('ppto-topCampanas').innerHTML = filas + pie;
+    const vt = document.getElementById('ppto-verTodas');
+    if (vt) vt.addEventListener('click', () => PP_setTipoDetalle(null));
   }
 
   function PP_renderTipoMes() {
