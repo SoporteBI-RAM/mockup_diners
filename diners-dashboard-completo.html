@@ -2998,8 +2998,18 @@
       if (dot && PM_PLATFORM_ICON[platform]) dot.outerHTML = PM_platformIcon(platform, PM_PLATFORM_COLOR[platform]);
     });
   }
-  /* ================= CONSUMO REAL POR MEDIO — hoja RESUMEN CONSUMO del Masterflow, transcrita tal
-     cual, corte cerrado a junio 2026. Fuente única para el Tab 1 (presupuesto/mix/pacing, más abajo)
+  /* ================= CONSUMO REAL POR MEDIO — hoja RESUMEN CONSUMO del Masterflow, corte cerrado a
+     junio 2026.
+
+     CORREGIDO respecto del Excel: la tabla de medios de esa hoja se arma con referencias escritas a
+     mano a la tabla dinamica de al lado, y dos filas de detalle no las referencia ninguna formula,
+     asi que el total quedaba $81.748 por debajo de la propia dinamica (y de la BASE):
+       · L17 TC TELEVISION  $15.548 — Marketing no tiene fila para TC; la unica "TC" de la tabla es
+         la de Refuerzo OOH. Se agrega aqui con presupuesto 0, porque nunca se le asigno uno.
+       · L31 PRIMICIAS      $66.200 — la fila "Primicias" apunta solo a L32 (PRIMICIAS M) y se salta
+         L31. Se suma al mismo medio.
+     Con eso Marketing pasa de 3.048.034,61 a 3.129.782,61 y, sumado a Refuerzo OOH, cuadra exacto
+     con el total de la dinamica: 3.362.173,10. Hay que reportarlo para que lo corrijan en el Excel. Fuente única para el Tab 1 (presupuesto/mix/pacing, más abajo)
      y para la pestaña Consumo Real por Medio (Tab 5) — movida aquí, antes de usarse, para que ambos
      la lean del mismo lugar. Estático, no reactivo al mes. */
   const PM_CONSUMO = {
@@ -3010,13 +3020,14 @@
         { medio: 'Lonas', presupuesto: 300000, consumo: 200480.52002800006, saldo: 99519.47997199994 },
         { medio: 'Teleamazonas', presupuesto: 220000, consumo: 317344.130006, saldo: -97344.13000599999 },
         { medio: 'Ecuavisa', presupuesto: 110000, consumo: 71368.32199999999, saldo: 38631.678000000014 },
+        { medio: 'TC Televisión', presupuesto: 0, consumo: 15548, saldo: -15548 },
         { medio: 'Mundial', presupuesto: 400000, consumo: 280000.000003, saldo: 119999.99999699998 },
         { medio: 'Multicines', presupuesto: 110000, consumo: 0, saldo: 110000 },
         { medio: 'Meta', presupuesto: 226056, consumo: 124955.0052, saldo: 101100.9948 },
         { medio: 'Google', presupuesto: 95000, consumo: 50575.26399999999, saldo: 44424.73600000001 },
         { medio: 'Tik Tok', presupuesto: 90000, consumo: 12745.176, saldo: 77254.824 },
         { medio: 'Programática', presupuesto: 150000, consumo: 41543.76, saldo: 108456.23999999999 },
-        { medio: 'Primicias', presupuesto: 40000, consumo: 42000.00000000001, saldo: -2000.0000000000073 },
+        { medio: 'Primicias', presupuesto: 40000, consumo: 108200.00400000002, saldo: -68200.00400000002 },
         { medio: 'Cosas', presupuesto: 73320, consumo: 40440, saldo: 32880 },
         { medio: 'Canal del fútbol', presupuesto: 10000, consumo: 10000, saldo: 0 },
         { medio: 'VIU', presupuesto: 150000, consumo: 137947.850001, saldo: 12052.149998999987 },
@@ -3028,7 +3039,7 @@
         { medio: 'Radios', presupuesto: 22412, consumo: 26200.719998, saldo: -3788.7199980000005 },
         { medio: 'Externos', presupuesto: 20000, consumo: 34296.024000000005, saldo: -14296.024000000005 },
       ],
-      total: { presupuesto: 5067006.57, consumo: 3048034.6075693346, saldo: 2018971.9624306657 },
+      total: { presupuesto: 5067006.57, consumo: 3129782.6115693348, saldo: 1937223.9584306655 },
     },
     refuerzoOOH: {
       label: 'DCE Refuerzo OOH',
@@ -3073,7 +3084,7 @@
       OOH: 'OOH', Lonas: 'OOH', Teleamazonas: 'TV', Ecuavisa: 'TV', Mundial: 'Eventos', Multicines: 'Eventos',
       Meta: 'Digital', Google: 'Digital', 'Tik Tok': 'Digital', Programática: 'Digital', VIU: 'Digital', 'VIU Pantallas': 'Digital',
       Primicias: 'Revistas', Cosas: 'Revistas', 'Mundo Diners': 'Revistas', Gestión: 'Revistas', 'Terra incognita': 'Revistas',
-      'Canal del fútbol': 'Eventos', Radios: 'Radio', DK: 'Otros', Externos: 'Otros',
+      'Canal del fútbol': 'Eventos', Radios: 'Radio', DK: 'Otros', Externos: 'Otros', 'TC Televisión': 'TV',
     },
     refuerzoOOH: { OOH: 'OOH', Ecuavisa: 'TV', TC: 'TV' },
     negocios: { 'ESPN Negocios': 'TV', 'Programática Negocios': 'Digital', Digital: 'Digital' },
