@@ -1107,6 +1107,22 @@
           </div>
         </div>
 
+        <div class="zone zone-pad" style="margin-bottom:14px;">
+          <div class="zone-label">Brand vs Performance</div>
+          <div class="zone-title" style="margin-bottom:4px;">¿Cuánto pesa construir marca y cuánto generar conversión?</div>
+          <div class="hero-caption" style="margin-bottom:14px;">Derivado del <b>medio contratado</b>, que ya está en el Masterflow: vía pública, TV y radio son marca por naturaleza; en digital lo define el producto (buscador y PMax son performance, video, programática y editoriales son marca).</div>
+          <div class="ppto-exec-bar" id="ppto-bpBar"></div>
+          <div class="ppto-exec-legend" id="ppto-bpLegend" style="margin-bottom:16px;"></div>
+          <div class="ppto-2col">
+            <div id="ppto-bpRows"></div>
+            <div id="ppto-bpResumen"></div>
+          </div>
+          <div class="caveat-box" style="margin-top:14px;">
+            <span>⚠️</span>
+            <span id="ppto-bpCaveat"></span>
+          </div>
+        </div>
+
         <div class="zone zone-pad">
           <div class="zone-label">Canal por mes</div>
           <div class="zone-title" style="margin-bottom:4px;">Cómo se movió el peso de cada canal mes a mes</div>
@@ -7367,6 +7383,17 @@ const SM_INF_PHOTO = {
     'Radio': { real: 26201, comp: 0, fee: 0, mes: [9832, 4050, 0, 0, 0, 12319, 0, 0, 0, 0, 0, 0] },
     'Prensa': { real: 4912, comp: 0, fee: 0, mes: [0, 612, 0, 2300, 1420, 580, 0, 0, 0, 0, 0, 0] },
   };
+  /* Brand vs Performance — derivado del campo MEDIO del Masterflow. ATL (via publica, TV, radio)
+     es marca por naturaleza; en digital el producto contratado lo define (buscador/PMax = performance,
+     video/programatica/editoriales = marca). Meta, TikTok y LinkedIn quedan sin definir: el objetivo de
+     campana no vive en el Masterflow sino en la plataforma. */
+  const MF_BP = {
+    'Brand — ATL': { real: 3055967, comp: 784632, mes: [625411, 459544, 569624, 447699, 394028, 559660, 128072, 125432, 125432, 125432, 125432, 125431], medios: ["Gran Comercio", "Creamedios", "Induvallas", "Teleamazonas", "Teleamazonas M", "ESPN-VIU"], nMedios: 49 },
+    'Brand — digital': { real: 278526, comp: 0, mes: [41490, 74449, 29032, 34736, 23060, 75760, 0, 0, 0, 0, 0, 0], medios: ["Primicias", "DV360", "Primicias M", "YouTube", "Adspot-Aleph", "Revista Gestion"], nMedios: 21 },
+    'Performance': { real: 189958, comp: 0, mes: [27188, 29819, 28405, 46791, 35454, 22301, 0, 0, 0, 0, 0, 0], medios: ["Google Ads", "Google PMax", "Google Search", "Smartly"], nMedios: 4 },
+    'Sin definir': { real: 353805, comp: 0, mes: [29237, 36928, 68486, 102275, 57683, 59197, 0, 0, 0, 0, 0, 0], medios: ["Facebook - Cisneros", "TikTok", "LinkedIn"], nMedios: 3 },
+  };
+  const MF_BP_NOMBRE = ["Brand — ATL", "Brand — digital", "Performance", "Sin definir"];
   /* [campaña, tipología, área, consumido, comprometido, medioTop, #medios, mes[12], regla]
      regla: 0 = clasificada por su nombre · 1 = por la regla de prefijo EST (establecimientos)
             2 = cayó en Movilización por defecto, sin match positivo · 3 = pendiente de definir */
@@ -7861,6 +7888,58 @@ const SM_INF_PHOTO = {
     if (legendId) document.getElementById(legendId).innerHTML = series.map(r => `<span><span class="ppto-dot" style="background:${r.color};"></span>${r.name}</span>`).join('');
   }
 
+  /* ================= BRAND VS PERFORMANCE ================= */
+  // Marca en tonos oscuros, performance en el indigo de marca: se leen como dos familias y no como
+  // cuatro categorias sueltas. Lo sin definir queda en gris claro, deliberadamente apagado.
+  const PP_BP_COLOR = { 'Brand — ATL': '#141414', 'Brand — digital': '#55637A', 'Performance': '#4F52E5', 'Sin definir': '#b9b8c4' };
+
+  function PP_renderBrandPerformance() {
+    const total = MF_BP_NOMBRE.reduce((s, k) => s + MF_BP[k].real + MF_BP[k].comp, 0);
+    const val = k => MF_BP[k].real + MF_BP[k].comp;
+    const brand = val('Brand — ATL') + val('Brand — digital');
+    const perf = val('Performance');
+    const nd = val('Sin definir');
+
+    document.getElementById('ppto-bpBar').innerHTML = MF_BP_NOMBRE.map(k => {
+      const v = val(k), pc = PP_pct(v, total);
+      return `<div class="ppto-exec-seg" style="flex:${v} 0 0;background:${PP_BP_COLOR[k]};${k === 'Sin definir' ? 'color:#5C5C5C;' : ''}" data-tt="${k}" data-ttv="${PP_fmtUSD(v)} · ${pc.toFixed(1)}%">${pc > 6 ? pc.toFixed(1) + '%' : ''}</div>`;
+    }).join('');
+    document.getElementById('ppto-bpLegend').innerHTML = MF_BP_NOMBRE.map(k =>
+      `<span class="ppto-exec-legend-item"><span class="ppto-exec-legend-dot" style="background:${PP_BP_COLOR[k]};"></span>${k}: <b>${PP_fmtC(val(k))}</b></span>`).join('');
+
+    // Desglose por categoria, con los medios que la componen: es lo que hace auditable el criterio.
+    document.getElementById('ppto-bpRows').innerHTML = MF_BP_NOMBRE.map(k => {
+      const d = MF_BP[k];
+      const nota = `${d.nMedios} medio${d.nMedios === 1 ? '' : 's'} · ${d.medios.slice(0, 3).join(' · ')}${d.nMedios > 3 ? '…' : ''}`;
+      return PP_shareRow(k, val(k), total, PP_BP_COLOR[k], nota);
+    }).join('');
+
+    // Consolidado: la lectura que le interesa a gerencia, con y sin la porcion sin definir.
+    const base = brand + perf;
+    document.getElementById('ppto-bpResumen').innerHTML = `
+      <div style="background:#F8F7FC;border-radius:10px;padding:16px 18px;">
+        <div style="font-size:10.5px;font-weight:700;color:#4F52E5;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:14px;">Consolidado sobre lo ya clasificado</div>
+        <div style="display:flex;gap:14px;margin-bottom:14px;">
+          <div style="flex:1;">
+            <div style="font-size:10px;font-weight:700;color:#8b8b8b;text-transform:uppercase;letter-spacing:0.05em;">Brand</div>
+            <div style="font-family:var(--font-display);font-size:27px;font-weight:700;color:#141414;line-height:1.1;">${PP_pct1(brand, base)}</div>
+            <div style="font-size:10.5px;color:#8b8b8b;">${PP_fmtC(brand)}</div>
+          </div>
+          <div style="flex:1;">
+            <div style="font-size:10px;font-weight:700;color:#8b8b8b;text-transform:uppercase;letter-spacing:0.05em;">Performance</div>
+            <div style="font-family:var(--font-display);font-size:27px;font-weight:700;color:#4F52E5;line-height:1.1;">${PP_pct1(perf, base)}</div>
+            <div style="font-size:10.5px;color:#8b8b8b;">${PP_fmtC(perf)}</div>
+          </div>
+        </div>
+        <div style="font-size:11px;color:#5C5C5C;line-height:1.5;padding-top:12px;border-top:1px dashed #e6e5ea;">
+          Calculado sobre <b>${PP_fmtC(base)}</b> (${PP_pct1(base, total)} del gasto). Los <b>${PP_fmtC(nd)}</b> sin definir quedan fuera del porcentaje para no inflar ninguno de los dos lados.
+        </div>
+      </div>`;
+
+    document.getElementById('ppto-bpCaveat').innerHTML =
+      `<b>Quedan ${PP_fmtC(nd)} sin definir (${PP_pct1(nd, total)} del gasto, pero el ${PP_pct1(nd, nd + val('Brand — digital') + perf)} del digital):</b> Meta, TikTok y LinkedIn. En esas plataformas lo que define brand o performance es el <b>objetivo de la campaña</b>, y ese dato no vive en el Masterflow sino en Ads Manager. Se resuelve del lado nuestro, descargándolo de la plataforma — no hace falta pedírselo a Diners.`;
+  }
+
   function PP_renderCanalMes() {
     const series = Object.keys(MF_CANAL).map((k, i) => ({ name: k, color: PP_canalColor(k, i), mes: MF_CANAL[k].mes }));
     PP_stackedByMonth('ppto-canalMesChart', 'ppto-canalMesLegend', series, MF_CORTE);
@@ -8239,6 +8318,7 @@ const SM_INF_PHOTO = {
   PP_renderChannelPie();
   PP_setCanalActivo(PP_canalActivo); // pinta el panel y deja marcado el canal por defecto en la leyenda
   PP_renderMedioTable();
+  PP_renderBrandPerformance();
   PP_renderCanalMes();
   PP_renderTipoGrid();
   PP_renderTipoPie();
